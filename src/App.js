@@ -1,9 +1,8 @@
-import logo from './logo.svg';
 import './App.css';
 
 function App() {
   return (
-    <div className = "container" style={{height: 300, backgroundColor: 'lightgreen'}}>
+    <div className = "container pt-5" style={{height: 300, backgroundColor: 'lightgreen'}}>
       <header >
         <nav className="navbar navbar-expand-lg bg-body-tertiary">
           <div className="container-fluid">
@@ -43,7 +42,7 @@ function App() {
         </nav>
       </header>
       <br></br>
-      <div className = "container" style = {{height: 100, background:'powderblue'}}>
+      <div className = "container-fluid mt-5 p-3" style = {{height: 100, background:'powderblue'}}>
 
       </div>
     </div>

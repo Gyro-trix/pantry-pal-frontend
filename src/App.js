@@ -1,4 +1,5 @@
 import './App.css';
+const nm = "Pantry Pal";
 
 function App() {
   return (

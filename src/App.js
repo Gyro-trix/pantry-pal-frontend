@@ -3,7 +3,7 @@ import './App.css';
 
 function App() {
   return (
-    <div className = "container" style={{height: 300, backgroundColor: 'lightblue'}}>
+    <div className = "container" style={{height: 300, backgroundColor: 'lightgreen'}}>
       <header >
         <nav className="navbar navbar-expand-lg bg-body-tertiary">
           <div className="container-fluid">
@@ -43,6 +43,9 @@ function App() {
         </nav>
       </header>
       <br></br>
+      <div className = "container" style = {{height: 100, background:'powderblue'}}>
+
+      </div>
     </div>
   );
 }

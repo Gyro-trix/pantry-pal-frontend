@@ -68,3 +68,13 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+1. Play with bootstrap, no CSS at all. Copy and paste components into your APP.js = https://getbootstrap.com/docs/5.3/components/accordion/
+2. Play with Boostrap Grid, Rows, and Columns = https://getbootstrap.com/docs/5.3/layout/grid/
+3. Play with Bootstrap Margins, paddings, containers
+https://getbootstrap.com/docs/5.3/layout/containers/
+https://getbootstrap.com/docs/5.3/utilities/spacing/
+4. (optional) Play with flex - https://getbootstrap.com/docs/5.3/utilities/flex/
+5. Excalidraw - Draw your website and transitions
+6. For every change you make you have to create a new branch in Github and create a pull request when done making changes and merge

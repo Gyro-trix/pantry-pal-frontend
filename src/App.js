@@ -44,7 +44,17 @@ function App() {
       </header>
       <br></br>
       <div className = "container-fluid mt-5 p-3" style = {{height: 100, background:'powderblue'}}>
-
+      <div class="row">
+    <div className="col">
+      Column
+    </div>
+    <div className="col">
+      Column
+    </div>
+    <div className="col">
+      Column
+    </div>
+  </div>
       </div>
     </div>
   );

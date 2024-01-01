@@ -45,8 +45,8 @@ function App() {
       <br></br>
       <div className="container text-center" style={{ height: 'auto', background: 'powderblue' }}>
         <div className="container text-center">
-          <div className="row text-center">
-            <div className="col-sm-4">
+          <div className="row row-cols-2 ">
+            <div className="col">
               <div className="card" style={{ width: 'auto' }}>
                 <img src="..." className="card-img-top" alt="...">
                 </img>
@@ -57,7 +57,7 @@ function App() {
                 </div>
               </div>
             </div>
-            <div className="col-sm-4">
+            <div className="col">
               <div className="card" style={{ width: 'auto' }}>
                 <img src="..." className="card-img-top" alt="...">
                 </img>
@@ -69,10 +69,10 @@ function App() {
               </div>
             </div>
           </div>
-          <div className="row">
-            <div className="col-sm">col-sm</div>
-            <div className="col-sm">col-sm</div>
-            <div className="col-sm">col-sm</div>
+          <div className="row row-cols-1">
+            <div className="col">col-sm</div>
+            <div className="col">col-sm</div>
+            <div className="col">col-sm</div>
           </div>
         </div>
       </div>

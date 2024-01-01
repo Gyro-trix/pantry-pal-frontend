@@ -1,9 +1,9 @@
-import logo from './logo.svg';
 import './App.css';
+const nm = "Pantry Pal";
 
 function App() {
   return (
-    <div >
+    <div className = "container pt-5" style={{height: 300, backgroundColor: 'lightgreen'}}>
       <header >
         <nav className="navbar navbar-expand-lg bg-body-tertiary">
           <div className="container-fluid">
@@ -42,20 +42,10 @@ function App() {
           </div>
         </nav>
       </header>
+      <br></br>
+      <div className = "container-fluid mt-5 p-3" style = {{height: 100, background:'powderblue'}}>
 
-
-      <main className='container mt-5'>
-
-        <div className="card" style={{"width": "18rem"}}>
-          <img src="..." className="card-img-top" alt="..." />
-            <div className="card-body">
-              <h5 className="card-title">Card title</h5>
-              <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              <a href="#" className="btn btn-primary">Go somewhere</a>
-            </div>
-        </div>
-
-      </main>
+      </div>
     </div>
   );
 }

@@ -44,22 +44,25 @@ function App() {
       </header>
       <br></br>
       <div className = "container-fluid text-center mt-5 p-3" style = {{height: 100, background:'powderblue'}}>
-      <div className="row">
-    <div className="col-1">
-      1 of 2
+      <div className="row justify-content-md-center">
+    <div className="col col-lg-2">
+      1 of 3
     </div>
-    <div className="col-2">
-      2 of 2
+    <div className="col-md-auto">
+      Variable width content
+    </div>
+    <div className="col col-lg-2">
+      3 of 3
     </div>
   </div>
   <div className="row">
-    <div className="col-3">
+    <div className="col">
       1 of 3
     </div>
-    <div className="col-4">
-      2 of 3
+    <div className="col-md-auto">
+      Variable width content
     </div>
-    <div className="col-5">
+    <div className="col col-lg-2">
       3 of 3
     </div>
   </div>

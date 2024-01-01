@@ -43,16 +43,24 @@ function App() {
         </nav>
       </header>
       <br></br>
-      <div className = "container-fluid mt-5 p-3" style = {{height: 100, background:'powderblue'}}>
-      <div class="row">
+      <div className = "container-fluid text-center mt-5 p-3" style = {{height: 100, background:'powderblue'}}>
+      <div className="row">
     <div className="col">
-      Column
+      1 of 2
     </div>
     <div className="col">
-      Column
+      2 of 2
+    </div>
+  </div>
+  <div className="row">
+    <div className="col">
+      1 of 3
     </div>
     <div className="col">
-      Column
+      2 of 3
+    </div>
+    <div className="col">
+      3 of 3
     </div>
   </div>
       </div>

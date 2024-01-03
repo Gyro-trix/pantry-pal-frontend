@@ -3,7 +3,7 @@ const nm = "Pantry Pal";
 
 function App() {
   return (
-    <div className = "container pt-5" style={{height: 300, backgroundColor: 'lightgreen'}}>
+    <div className="container pt-5" style={{ height: 'auto', backgroundColor: 'lightgreen' }}>
       <header >
         <nav className="navbar navbar-expand-lg bg-body-tertiary">
           <div className="container-fluid">
@@ -43,11 +43,42 @@ function App() {
         </nav>
       </header>
       <br></br>
-      <div className = "container-fluid mt-5 p-3" style = {{height: 100, background:'powderblue'}}>
-
+      <div className="container text-center" style={{ height: 'auto', background: 'powderblue' }}>
+        <div className="container text-center">
+          <div className="row row-cols-2 ">
+            <div className="col">
+              <div className="card" style={{ width: 'auto' }}>
+                <img src="..." className="card-img-top" alt="...">
+                </img>
+                <div className="card-body">
+                  <h5 className="card-title">Kitchen Fridge</h5>
+                  <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                  <a href="#" className="btn btn-primary">Check Fridge</a>
+                </div>
+              </div>
+            </div>
+            <div className="col">
+              <div className="card" style={{ width: 'auto' }}>
+                <img src="..." className="card-img-top" alt="...">
+                </img>
+                <div className="card-body">
+                  <h5 className="card-title">Stove Cupboard</h5>
+                  <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                  <a href="#" className="btn btn-primary">Check Cupboard</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="row row-cols-1">
+            <div className="col">col-sm</div>
+            <div className="col">col-sm</div>
+            <div className="col">col-sm</div>
+          </div>
+        </div>
       </div>
     </div>
   );
 }
+
 
 export default App;

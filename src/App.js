@@ -1,9 +1,16 @@
 import './App.css';
 const nm = "Pantry Pal";
+const count = 1;
+const mcolor = 'powderblue';
+
+function Flexi() {
+  return <button className="square">{count}</button>;
+}
 
 function App() {
   return (
-    <div className="container pt-5" style={{ height: 'auto', backgroundColor: 'lightgreen' }}>
+    <div className="container pt-5" style={{ backgroundColor: 'lightgreen' }}>
+
       <header >
         <nav className="navbar navbar-expand-lg bg-body-tertiary">
           <div className="container-fluid">
@@ -43,39 +50,26 @@ function App() {
         </nav>
       </header>
       <br></br>
-      <div className="container text-center" style={{ height: 'auto', background: 'powderblue' }}>
-        <div className="container text-center">
-          <div className="row row-cols-2 ">
-            <div className="col">
-              <div className="card" style={{ width: 'auto' }}>
-                <img src="..." className="card-img-top" alt="...">
-                </img>
-                <div className="card-body">
-                  <h5 className="card-title">Kitchen Fridge</h5>
-                  <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                  <a href="#" className="btn btn-primary">Check Fridge</a>
-                </div>
-              </div>
-            </div>
-            <div className="col">
-              <div className="card" style={{ width: 'auto' }}>
-                <img src="..." className="card-img-top" alt="...">
-                </img>
-                <div className="card-body">
-                  <h5 className="card-title">Stove Cupboard</h5>
-                  <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                  <a href="#" className="btn btn-primary">Check Cupboard</a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="row row-cols-1">
-            <div className="col">col-sm</div>
-            <div className="col">col-sm</div>
-            <div className="col">col-sm</div>
-          </div>
+      <div className="container-fluid mt-5 p-3" style={{ background: {mcolor} }}>
+        <div className="d-flex flex-column mb-3">
+          <div className="p-2 justify-content-end" >Flex item 1</div>
+          <div className="p-2">Flex item 2</div>
+          <div className="p-2">Flex item 3</div>
         </div>
+        <div className="d-flex flex-column-reverse">
+          <div className="p-2">Flex item 1</div>
+          <div className="p-2">Flex item 2</div>
+          <div className="p-2">Flex item 3</div>
+        </div>
+        <div className="d-flex justify-content-start">...</div>
+        <div className="d-flex justify-content-end">...</div>
+        <div className="d-flex justify-content-center">...</div>
+        <div className="d-flex justify-content-between">...</div>
+        <div className="d-flex justify-content-around">...</div>
+        <div className="d-flex justify-content-evenly">...</div>
+
       </div>
+      <Flexi /><Flexi />
     </div>
   );
 }

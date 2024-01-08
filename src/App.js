@@ -1,9 +1,10 @@
 import './App.css';
 const nm = "Pantry Pal";
 const count = 1;
+const mcolor = 'powderblue';
 
 function Flexi() {
-  return <button className="square"></button>;
+  return <button className="square">{count}</button>;
 }
 
 function App() {
@@ -48,7 +49,7 @@ function App() {
         </nav>
       </header>
       <br></br>
-      <div className="container-fluid mt-5 p-3" style={{ background: 'powderblue' }}>
+      <div className="container-fluid mt-5 p-3" style={{ background: {mcolor} }}>
         <div className="d-flex flex-column mb-3">
           <div className="p-2 justify-content-end" >Flex item 1</div>
           <div className="p-2">Flex item 2</div>

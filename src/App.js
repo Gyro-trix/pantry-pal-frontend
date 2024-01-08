@@ -1,5 +1,10 @@
 import './App.css';
 const nm = "Pantry Pal";
+const count = 1;
+
+function Flexi() {
+  return <button className="square"></button>;
+}
 
 function App() {
   return (
@@ -61,6 +66,7 @@ function App() {
         <div className="d-flex justify-content-around">...</div>
         <div className="d-flex justify-content-evenly">...</div>
       </div>
+      <Flexi /><Flexi />
     </div>
   );
 }

@@ -3,7 +3,7 @@ const nm = "Pantry Pal";
 
 function App() {
   return (
-    <div className="container pt-5" style={{backgroundColor: 'lightgreen' }}>
+    <div className="container pt-5" style={{ backgroundColor: 'lightgreen' }}>
       <header >
         <nav className="navbar navbar-expand-lg bg-body-tertiary">
           <div className="container-fluid">
@@ -43,9 +43,9 @@ function App() {
         </nav>
       </header>
       <br></br>
-      <div className="container-fluid mt-5 p-3" style={{background: 'powderblue' }}>
+      <div className="container-fluid mt-5 p-3" style={{ background: 'powderblue' }}>
         <div className="d-flex flex-column mb-3">
-          <div className="p-2">Flex item 1</div>
+          <div className="p-2 justify-content-end" >Flex item 1</div>
           <div className="p-2">Flex item 2</div>
           <div className="p-2">Flex item 3</div>
         </div>
@@ -54,6 +54,12 @@ function App() {
           <div className="p-2">Flex item 2</div>
           <div className="p-2">Flex item 3</div>
         </div>
+        <div className="d-flex justify-content-start">...</div>
+        <div className="d-flex justify-content-end">...</div>
+        <div className="d-flex justify-content-center">...</div>
+        <div className="d-flex justify-content-between">...</div>
+        <div className="d-flex justify-content-around">...</div>
+        <div className="d-flex justify-content-evenly">...</div>
       </div>
     </div>
   );

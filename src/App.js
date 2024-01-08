@@ -10,6 +10,7 @@ function Flexi() {
 function App() {
   return (
     <div className="container pt-5" style={{ backgroundColor: 'lightgreen' }}>
+
       <header >
         <nav className="navbar navbar-expand-lg bg-body-tertiary">
           <div className="container-fluid">
@@ -66,10 +67,12 @@ function App() {
         <div className="d-flex justify-content-between">...</div>
         <div className="d-flex justify-content-around">...</div>
         <div className="d-flex justify-content-evenly">...</div>
+
       </div>
       <Flexi /><Flexi />
     </div>
   );
 }
+
 
 export default App;

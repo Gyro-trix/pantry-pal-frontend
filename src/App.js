@@ -3,7 +3,7 @@ const nm = "Pantry Pal";
 
 function App() {
   return (
-    <div className="container pt-5" style={{ height: 300, backgroundColor: 'lightgreen' }}>
+    <div className="container pt-5" style={{backgroundColor: 'lightgreen' }}>
       <header >
         <nav className="navbar navbar-expand-lg bg-body-tertiary">
           <div className="container-fluid">
@@ -43,13 +43,13 @@ function App() {
         </nav>
       </header>
       <br></br>
-      <div className="container-fluid mt-5 p-3" style={{ height: 100, background: 'powderblue' }}>
-        <div className="d-flex flex-row mb-3">
+      <div className="container-fluid mt-5 p-3" style={{background: 'powderblue' }}>
+        <div className="d-flex flex-column mb-3">
           <div className="p-2">Flex item 1</div>
           <div className="p-2">Flex item 2</div>
           <div className="p-2">Flex item 3</div>
         </div>
-        <div className="d-flex flex-row-reverse">
+        <div className="d-flex flex-column-reverse">
           <div className="p-2">Flex item 1</div>
           <div className="p-2">Flex item 2</div>
           <div className="p-2">Flex item 3</div>

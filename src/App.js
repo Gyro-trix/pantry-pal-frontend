@@ -2,15 +2,25 @@ import './App.css';
 const nm = "Pantry Pal";
 const count = 1;
 const mcolor = 'powderblue';
+const title = "Pantry Pal";
 
-function Flexi() {
-  return <button className="square">{count}</button>;
+function StorageCard() {
+  return (
+    <div className="card" style={{ width: '25%' }}>
+      <img src="..." className="card-img-top" alt="..."></img>
+      <div className="card-body">
+        <h5 className="card-title">{count}</h5>
+        <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        <a href="#" className="btn btn-primary">Go somewhere</a>
+      </div>
+    </div>
+  )
 }
 
 function App() {
   return (
     <div className="container pt-5" style={{ backgroundColor: 'lightgreen' }}>
-
+      <h1>{title}</h1>
       <header >
         <nav className="navbar navbar-expand-lg bg-body-tertiary">
           <div className="container-fluid">
@@ -50,26 +60,13 @@ function App() {
         </nav>
       </header>
       <br></br>
-      <div className="container-fluid mt-5 p-3" style={{ background: {mcolor} }}>
-        <div className="d-flex flex-column mb-3">
-          <div className="p-2 justify-content-end" >Flex item 1</div>
-          <div className="p-2">Flex item 2</div>
-          <div className="p-2">Flex item 3</div>
+      <div className="container-fluid mt-5 p-3" style={{ background: { mcolor } }}>
+        <div className = "row">
+        <StorageCard />
+        <StorageCard />
         </div>
-        <div className="d-flex flex-column-reverse">
-          <div className="p-2">Flex item 1</div>
-          <div className="p-2">Flex item 2</div>
-          <div className="p-2">Flex item 3</div>
-        </div>
-        <div className="d-flex justify-content-start">...</div>
-        <div className="d-flex justify-content-end">...</div>
-        <div className="d-flex justify-content-center">...</div>
-        <div className="d-flex justify-content-between">...</div>
-        <div className="d-flex justify-content-around">...</div>
-        <div className="d-flex justify-content-evenly">...</div>
-
       </div>
-      <Flexi /><Flexi />
+
     </div>
   );
 }

@@ -61,9 +61,10 @@ function App() {
       </header>
       <br></br>
       <div className="container-fluid mt-5 p-3" style={{ background: { mcolor } }}>
+        <div className = "row">
         <StorageCard />
-        <br></br>
         <StorageCard />
+        </div>
       </div>
 
     </div>

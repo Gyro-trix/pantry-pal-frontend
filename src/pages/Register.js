@@ -6,7 +6,8 @@ function Register() {
     const email = useRef()
     const password = useRef()
     const passwordchk = useRef()
-    //const user = {id: "id",username: "username",email: "email",password: "password"}
+    const allUserDataStr = localStorage.getItem("ALL_USERS")
+    
     const navigate = useNavigate()
 
     function addUser() {
@@ -18,7 +19,10 @@ function Register() {
                 const em = email.current.value
                 const pw = password.current.value
                 const newUser = {id:"1",username:nm,email:em,password:pw}
-                localStorage.setItem('user',JSON.stringify(newUser))
+                const allUserData = JSON.parse(allUserDataStr)
+                allUserData.push(newUser)
+
+                localStorage.setItem("ALL_USER",JSON.stringify(allUserData))
                 console.log(newUser.toString())
             }
         }
@@ -27,6 +31,11 @@ function Register() {
 
     function grabUser(){
         console.log(localStorage.getItem("user"))
+    }
+
+    function checkRegister(){
+        const allUserDataStr = localStorage.getItem("ALL_USERS")
+
     }
 
     return (

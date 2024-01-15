@@ -5,6 +5,9 @@ import Home from "./pages/Home";
 import Register from "./pages/Register";
 
 function App() {
+  const allUserData = []
+  localStorage.setItem("ALL_USERS",allUserData)
+  
   return (
     <BrowserRouter>
     <Routes>

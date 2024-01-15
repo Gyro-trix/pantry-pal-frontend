@@ -1,24 +1,21 @@
 import React, { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
-import Home from "./Home";
-
 function Login() {
     const name = useRef()
-    const email = useRef()
     const password = useRef()
 
     const navigate = useNavigate()
 
-const handleClick = () =>{
-    
-    if(name.current.value&&email.current.value&&password.current.value){
-       localStorage.setItem("name",name.current.value)
-       localStorage.setItem("email",email.current.value)
-       localStorage.setItem("password",password.current.value)
-       navigate("/home")
+    function logIn() {
+    if (name.current.value&&password.current.value){
+        //check for user in local storage
     }
-}
+       
+    }
+    function goRegister() {
+        navigate("/register")
+    }
 
     return (
         <div className="container">
@@ -26,13 +23,10 @@ const handleClick = () =>{
                 <input placeholder="Name" type="text" ref={name} />
             </div>
             <div className="input_space">
-                <input placeholder="Email" type="text" ref={email} />
-            </div>
-            <div className="input_space">
                 <input placeholder="Password" type="password" ref={password} />
             </div>
-            <button onClick = {handleClick}>Create Account</button>
-            <button onClick = {handleClick}>Log In</button>
+            <button onClick={goRegister}>Register</button>
+            <button onClick={logIn}>Log In</button>
 
         </div>
     );

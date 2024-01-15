@@ -1,7 +1,10 @@
+
+
 function Register(){
-return(
+const temp = localStorage.getItem("name")
+    return(
     <div>
-        Register
+        Register, {temp}
     </div>
 );
 }

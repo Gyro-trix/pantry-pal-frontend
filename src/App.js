@@ -3,20 +3,17 @@ import { BrowserRouter,Routes,Route } from 'react-router-dom';
 import Login from "./pages/Login";
 import Home from "./pages/Home";
 import Register from "./pages/Register";
-const nm = "Pantry Pal";
-const count = 1;
-const mcolor = 'powderblue';
-const title = "Pantry Pal";
 
 function App() {
+  const allUserData = []
+  localStorage.setItem("ALL_USERS",allUserData)
+  
   return (
     <BrowserRouter>
     <Routes>
-      <Route path = "/" element = {<Home/>}>
-        <Route index element={<Home/>}/>
-        <Route path = "Login" element={<Login/>}/>
-        <Route path = "Register" element={<Register/>}/>
-      </Route>
+      <Route exact path = "/" element = {<Login/>}/>
+      <Route path = "/home" element = {<Home/>}/>
+      <Route path = "/register" element = {<Register/>}/>
     </Routes>
     </BrowserRouter>
   );

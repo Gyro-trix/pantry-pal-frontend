@@ -31,8 +31,9 @@ function Register() {
                 let temp = allUserDataStr +","+ JSON.stringify(newUser)
                 localStorage.setItem("ALL_USERS",temp)
                 console.log(allUserDataStr)
-                let test = JSON.stringify(temp,null)
+                let test = '['+localStorage.getItem("ALL_USERS")+']'
                 console.log(test)
+                console.log(JSON.parse(test))
             }
         }
 

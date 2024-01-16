@@ -18,14 +18,21 @@ function Register() {
                 const nm = name.current.value
                 const em = email.current.value
                 const pw = password.current.value
-                const newUser = {id:"1",username:nm,email:em,password:pw}
+                const date = new Date()
+                const day = date.getUTCDate()
+                const month = date.getUTCMonth() + 1
+                const year = date.getUTCFullYear()
+                const id = "" + year + month + day + nm
                 
-                //let allUserData = JSON.parse(allUserDataStr)
-                let temp = allUserDataStr + JSON.stringify(newUser)
-                //allUserData = allUserData + newUser
+                const newUser = {id:id,username:nm,email:em,password:pw}
+                
+                
+                
+                let temp = allUserDataStr +","+ JSON.stringify(newUser)
                 localStorage.setItem("ALL_USERS",temp)
-                console.log(temp)
-                //console.log(JSON.stringify(allUserData))
+                console.log(allUserDataStr)
+                let test = JSON.stringify(temp,null)
+                console.log(test)
             }
         }
 

@@ -8,7 +8,7 @@ function Register() {
     const passwordchk = useRef()
     const allUserDataStr = localStorage.getItem("ALL_USERS")
     
-    const navigate = useNavigate()
+    //const navigate = useNavigate()
 
     function addUser() {
         //Checks if all text fields are full
@@ -19,11 +19,13 @@ function Register() {
                 const em = email.current.value
                 const pw = password.current.value
                 const newUser = {id:"1",username:nm,email:em,password:pw}
-                const allUserData = JSON.parse(allUserDataStr)
-                allUserData.push(newUser)
-
-                localStorage.setItem("ALL_USER",JSON.stringify(allUserData))
-                console.log(newUser.toString())
+                
+                //let allUserData = JSON.parse(allUserDataStr)
+                let temp = allUserDataStr + JSON.stringify(newUser)
+                //allUserData = allUserData + newUser
+                localStorage.setItem("ALL_USERS",temp)
+                console.log(temp)
+                //console.log(JSON.stringify(allUserData))
             }
         }
 
@@ -31,11 +33,6 @@ function Register() {
 
     function grabUser(){
         console.log(localStorage.getItem("user"))
-    }
-
-    function checkRegister(){
-        const allUserDataStr = localStorage.getItem("ALL_USERS")
-
     }
 
     return (

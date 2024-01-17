@@ -5,6 +5,7 @@ import Home from "./pages/Home";
 import Register from "./pages/Register";
 
 function App() {  
+  localStorage.setItem("CUR_USER"," ")
   return (
     <BrowserRouter>
     <Routes>

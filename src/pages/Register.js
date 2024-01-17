@@ -7,42 +7,53 @@ function Register() {
     const password = useRef()
     const passwordchk = useRef()
     const allUserDataStr = localStorage.getItem("ALL_USERS")
-    
-    //const navigate = useNavigate()
+    const navigate = useNavigate()
 
     function addUser() {
         //Checks if all text fields are full
-        if(name.current.value&&email.current.value&&password.current.value&&passwordchk.current.value){
+        if (name.current.value && email.current.value && password.current.value && passwordchk.current.value) {
             //Checks that both passwords and passwordchk are the same 
-            if(password.current.value === passwordchk.current.value){
+            if (password.current.value === passwordchk.current.value) {
                 const nm = name.current.value
                 const em = email.current.value
                 const pw = password.current.value
+                //Create ID from current date and username
                 const date = new Date()
                 const day = date.getUTCDate()
                 const month = date.getUTCMonth() + 1
                 const year = date.getUTCFullYear()
-                const id = "" + year + month + day + nm
-                
-                const newUser = {id:id,username:nm,email:em,password:pw}
-                
-                
-                
-                let temp = allUserDataStr +","+ JSON.stringify(newUser)
-                localStorage.setItem("ALL_USERS",temp)
-                console.log(allUserDataStr)
-                let test = '['+localStorage.getItem("ALL_USERS")+']'
-                console.log(test)
-                console.log(JSON.parse(test))
+                const id = "" + year + month + day + "-" + nm
+                //Complete entry for new user
+                const newUser = { id: id, username: nm, email: em, password: pw }
+                //Test newUser against current registered users, then adds to local storage All_USERS
+                if (UserCompare(allUserDataStr, newUser)) {
+                    UserSave(allUserDataStr,newUser)
+                    localStorage("CUR_USER",newUser)
+                    navigate(/home)
+                }
             }
         }
-
     }
-
-    function grabUser(){
-        console.log(localStorage.getItem("user"))
+    //Search for user currently already registered
+    function UserCompare(allUsers, userToAdd) {
+        let tempjson = JSON.parse('[' + allUsers + ']')
+        for (let i = 0; i < tempjson.length; i++) {
+            //Deals with null value from first run with empty local storage
+            if (tempjson[i] != null) {
+                if (tempjson[i].username === userToAdd.username) {
+                    return false
+                } else {
+                    return true
+                }
+            }
+        }
     }
-
+    //Saves user to local storage
+    function UserSave(allUsers, userToAdd) {
+        let temp = allUsers + "," + JSON.stringify(userToAdd)
+        localStorage.setItem("ALL_USERS", temp)
+    }
+    //Register form
     return (
         <div>
             <div className="container">
@@ -59,7 +70,6 @@ function Register() {
                     <input placeholder="Re-Type Password" type="password" ref={passwordchk} />
                 </div>
                 <button onClick={addUser}>Register</button>
-                <button onClick={grabUser}>Grab</button>
             </div>
         </div>
     );

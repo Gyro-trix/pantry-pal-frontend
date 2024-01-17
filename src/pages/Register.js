@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function Register() {
@@ -7,8 +7,19 @@ function Register() {
     const password = useRef()
     const passwordchk = useRef()
     const allUserDataStr = localStorage.getItem("ALL_USERS")
+    const allUserArray = JSON.parse("[" + allUserDataStr + "]")
     const navigate = useNavigate()
 
+    const [text, setText] = useState("Username Avaiable")
+    //One way to deal with ALL_USER starting with null, could also check for null later and adjust
+    const filler = { id: "TrueAdmin", username: "Admin", email: "Admin" }
+    if (allUserDataStr === null) {
+        let temp = JSON.stringify(filler)
+        localStorage.setItem("ALL_USERS", temp)
+    }
+
+
+    //Adds user with data from input fields
     function addUser() {
         //Checks if all text fields are full
         if (name.current.value && email.current.value && password.current.value && passwordchk.current.value) {
@@ -25,11 +36,11 @@ function Register() {
                 const id = "" + year + month + day + "-" + nm
                 //Complete entry for new user
                 const newUser = { id: id, username: nm, email: em, password: pw }
-                //Test newUser against current registered users, then adds to local storage All_USERS
+                //Test newUser against current registered users, then adds to local storage All_USERS               
                 if (UserCompare(allUserDataStr, newUser)) {
-                    UserSave(allUserDataStr,newUser)
-                    localStorage("CUR_USER",newUser)
-                    navigate(/home)
+                    UserSave(allUserDataStr, newUser)
+                    localStorage.setItem("CUR_USER", JSON.stringify(newUser))
+                    navigate("/home")
                 }
             }
         }
@@ -37,29 +48,39 @@ function Register() {
     //Search for user currently already registered
     function UserCompare(allUsers, userToAdd) {
         let tempjson = JSON.parse('[' + allUsers + ']')
+        let result
         for (let i = 0; i < tempjson.length; i++) {
-            //Deals with null value from first run with empty local storage
-            if (tempjson[i] != null) {
                 if (tempjson[i].username === userToAdd.username) {
-                    return false
+                    result = false
+                    return result
                 } else {
-                    return true
+                    result = true
                 }
-            }
+                
         }
+        return result
     }
     //Saves user to local storage
     function UserSave(allUsers, userToAdd) {
         let temp = allUsers + "," + JSON.stringify(userToAdd)
         localStorage.setItem("ALL_USERS", temp)
     }
+    function nameCheck() {
+        const temp = {username: name.current.value}
+        if (UserCompare(allUserDataStr, temp)) {
+            setText("Username Available")
+        } else {
+            setText("Username Taken")
+        }
+    }
     //Register form
     return (
         <div>
             <div className="container">
                 <div className="input_space">
-                    <input placeholder="Name" type="text" ref={name} />
+                    <input placeholder="Name" type="text" ref={name} onChange={nameCheck} />
                 </div>
+                {text}
                 <div className="input_space">
                     <input placeholder="Email" type="text" ref={email} />
                 </div>

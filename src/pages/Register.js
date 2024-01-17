@@ -10,6 +10,7 @@ function Register() {
     const allUserDataStr = localStorage.getItem("ALL_USERS")
     const navigate = useNavigate()
     //Used to update reminder text on registration page 
+    const [noticeStyle, setColor] = useState('green')
     const [text, setText] = useState("Username Avaiable")
     //One way to deal with ALL_USER starting with null, could also check for null later and adjust
     const filler = { id: "TrueAdmin", username: "Admin", email: "Admin" }
@@ -66,8 +67,10 @@ function Register() {
     function nameCheck() {
         const temp = {username: name.current.value}
         if (UserCompare(allUserDataStr, temp)) {
+            setColor('green')
             setText("Username Available")
         } else {
+            setColor('red')
             setText("Username Taken")
         }
     }
@@ -78,7 +81,7 @@ function Register() {
                 <div className="input_space">
                     <input placeholder="Name" type="text" ref={name} onChange={nameCheck} />
                 </div>
-                {text}
+                <p style = {{color: noticeStyle}}>{text}</p>
                 <div className="input_space">
                     <input placeholder="Email" type="text" ref={email} />
                 </div>

@@ -44,7 +44,7 @@ function Register() {
             }
         }
     }
-    //Search for user currently already registered
+    //Check if user already exists
     function UserCompare(allUsers, userToAdd) {
         let tempjson = JSON.parse('[' + allUsers + ']')
         let result

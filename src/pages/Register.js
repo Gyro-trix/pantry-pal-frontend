@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+//Used to register a new admin level user 
 function Register() {
     const name = useRef()
     const email = useRef()
@@ -9,7 +10,7 @@ function Register() {
     const allUserDataStr = localStorage.getItem("ALL_USERS")
     const allUserArray = JSON.parse("[" + allUserDataStr + "]")
     const navigate = useNavigate()
-
+    //Used to update reminder text on registration page 
     const [text, setText] = useState("Username Avaiable")
     //One way to deal with ALL_USER starting with null, could also check for null later and adjust
     const filler = { id: "TrueAdmin", username: "Admin", email: "Admin" }
@@ -17,8 +18,6 @@ function Register() {
         let temp = JSON.stringify(filler)
         localStorage.setItem("ALL_USERS", temp)
     }
-
-
     //Adds user with data from input fields
     function addUser() {
         //Checks if all text fields are full
@@ -56,7 +55,6 @@ function Register() {
                 } else {
                     result = true
                 }
-                
         }
         return result
     }
@@ -65,6 +63,7 @@ function Register() {
         let temp = allUsers + "," + JSON.stringify(userToAdd)
         localStorage.setItem("ALL_USERS", temp)
     }
+    //Check used to update page on if username is valid
     function nameCheck() {
         const temp = {username: name.current.value}
         if (UserCompare(allUserDataStr, temp)) {

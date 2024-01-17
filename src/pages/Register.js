@@ -8,7 +8,6 @@ function Register() {
     const password = useRef()
     const passwordchk = useRef()
     const allUserDataStr = localStorage.getItem("ALL_USERS")
-    const allUserArray = JSON.parse("[" + allUserDataStr + "]")
     const navigate = useNavigate()
     //Used to update reminder text on registration page 
     const [text, setText] = useState("Username Avaiable")

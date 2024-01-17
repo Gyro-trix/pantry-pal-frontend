@@ -4,7 +4,8 @@ import { useNavigate } from "react-router-dom";
 function Login() {
     const name = useRef()
     const password = useRef()
-
+    const allUserDataStr = localStorage.getItem("ALL_USERS")
+    const allUserArray = JSON.parse("[" + allUserDataStr + "]")
     const navigate = useNavigate()
 
     function logIn() {

@@ -14,7 +14,7 @@ function Register() {
     const [text, setText] = useState("Username Avaiable")
     //One way to deal with ALL_USER starting with null, could also check for null later and adjust
     const filler = { id: "TrueAdmin", username: "Admin", email: "Admin" }
-    if (allUserDataStr === null) {
+    if (allUserDataStr === "") {
         let temp = JSON.stringify(filler)
         localStorage.setItem("ALL_USERS", temp)
     }
@@ -36,7 +36,7 @@ function Register() {
                 //Complete entry for new user
                 const newUser = { id: id, username: nm, email: em, password: pw }
                 //Test newUser against current registered users, then adds to local storage All_USERS               
-                if (UserCompare(allUserDataStr, newUser)) {
+                if (!UserCompare(allUserDataStr, newUser)) {
                     UserSave(allUserDataStr, newUser)
                     localStorage.setItem("CUR_USER", JSON.stringify(newUser))
                     navigate("/home")
@@ -66,7 +66,7 @@ function Register() {
     //Check used to update page on if username is valid
     function nameCheck() {
         const temp = {username: name.current.value}
-        if (UserCompare(allUserDataStr, temp)) {
+        if (!UserCompare(allUserDataStr, temp)) {
             setColor('green')
             setText("Username Available")
         } else {

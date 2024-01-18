@@ -7,17 +7,20 @@ function Register() {
     const email = useRef()
     const password = useRef()
     const passwordchk = useRef()
-    const allUserDataStr = localStorage.getItem("ALL_USERS")
+    let allUserDataStr = localStorage.getItem("ALL_USERS")
+    
     const navigate = useNavigate()
     //Used to update reminder text on registration page 
     const [noticeStyle, setColor] = useState('green')
     const [text, setText] = useState("Username Avaiable")
-    //One way to deal with ALL_USER starting with null, could also check for null later and adjust
-    const filler = { id: "TrueAdmin", username: "Admin", email: "Admin" }
     if (allUserDataStr === null) {
-        let temp = JSON.stringify(filler)
-        localStorage.setItem("ALL_USERS", temp)
+        //One way to deal with ALL_USER starting with null, could also check for null later and adjust
+        allUserDataStr = [{ id: "TrueAdmin", username: "Admin", email: "Admin" }]
+        localStorage.setItem("ALL_USERS", JSON.stringify(allUserDataStr))
+        
     }
+    const allUserData = JSON.parse(allUserDataStr)
+
     //Adds user with data from input fields
     function addUser() {
         //Checks if all text fields are full
@@ -36,37 +39,33 @@ function Register() {
                 //Complete entry for new user
                 const newUser = { id: id, username: nm, email: em, password: pw }
                 //Test newUser against current registered users, then adds to local storage All_USERS               
-                if (UserCompare(allUserDataStr, newUser)) {
-                    UserSave(allUserDataStr, newUser)
+                if (userExists(allUserData, newUser) == false) {
+                    userSave(allUserData, newUser)
                     localStorage.setItem("CUR_USER", JSON.stringify(newUser))
-                    navigate("/home")
+                    navigate("/")
                 }
             }
         }
     }
     //Check if user already exists
-    function UserCompare(allUsers, userToAdd) {
-        let tempjson = JSON.parse('[' + allUsers + ']')
-        let result
-        for (let i = 0; i < tempjson.length; i++) {
-                if (tempjson[i].username === userToAdd.username) {
-                    result = false
-                    return result
-                } else {
-                    result = true
-                }
+    function userExists(allUsers, userToAdd) {
+        for (let user in allUsers) {
+            if (user.username === userToAdd.username) {
+                return true
+            }
         }
-        return result
+        return false
     }
     //Saves user to local storage
-    function UserSave(allUsers, userToAdd) {
-        let temp = allUsers + "," + JSON.stringify(userToAdd)
-        localStorage.setItem("ALL_USERS", temp)
+    function userSave(allUsers, userToAdd) {
+        console.log("UserSave", allUsers);
+        allUsers.push(userToAdd)
+        localStorage.setItem("ALL_USERS", JSON.stringify(allUsers))
     }
     //Check used to update page on if username is valid
     function nameCheck() {
         const temp = {username: name.current.value}
-        if (UserCompare(allUserDataStr, temp)) {
+        if (userExists(allUserDataStr, temp)) {
             setColor('green')
             setText("Username Available")
         } else {

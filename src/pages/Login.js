@@ -17,7 +17,7 @@ function Login() {
             attemptingUser.username = name.current.value
             attemptingUser.password = password.current.value
             //Check for user in local storage
-            if (ValidateUser()) {
+            if (!ValidateUser()) {
                 alert("Invalid")
             } else {
                 localStorage.setItem("CUR_USER", JSON.stringify(attemptingUser))
@@ -28,7 +28,7 @@ function Login() {
     }
 
 
-    function ValidateUser(u) {
+    function ValidateUser() {
         let result
         for (let i = 0; i < allUserArray.length; i++) {
             if (allUserArray[i].username === attemptingUser.username && allUserArray[i].password === attemptingUser.password) {

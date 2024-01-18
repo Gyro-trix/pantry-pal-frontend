@@ -50,10 +50,10 @@ function Register() {
         let result
         for (let i = 0; i < tempjson.length; i++) {
                 if (tempjson[i].username === userToAdd.username) {
-                    result = false
+                    result = true
                     return result
                 } else {
-                    result = true
+                    result = false
                 }
         }
         return result

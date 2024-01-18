@@ -12,12 +12,7 @@ function Register() {
     //Used to update reminder text on registration page 
     const [noticeStyle, setColor] = useState('green')
     const [text, setText] = useState("Username Avaiable")
-    //One way to deal with ALL_USER starting with null, could also check for null later and adjust
-    const filler = { id: "TrueAdmin", username: "Admin", email: "Admin" }
-    if (allUserDataStr === "") {
-        let temp = JSON.stringify(filler)
-        localStorage.setItem("ALL_USERS", temp)
-    }
+    
     //Adds user with data from input fields
     function addUser() {
         //Checks if all text fields are full

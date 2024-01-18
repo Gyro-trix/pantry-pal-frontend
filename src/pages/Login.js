@@ -10,6 +10,12 @@ function Login() {
     const attemptingUser = {id: " ", username: " ", email: " " ,password: " " }
     localStorage.setItem("CUR_USER"," ")
 
+    //One way to deal with ALL_USER starting with null, could also check for null later and adjust
+    const filler = { id: "TrueAdmin", username: "Admin", email: "Admin" }
+    if (allUserDataStr === null) {
+        localStorage.setItem("ALL_USERS", JSON.stringify(filler))
+    }
+
     function logIn() {
         
         //Checks if both fields have a value
@@ -17,7 +23,7 @@ function Login() {
             attemptingUser.username = name.current.value
             attemptingUser.password = password.current.value
             //Check for user in local storage
-            if (!ValidateUser()) {
+            if (ValidateUser()) {
                 alert("Invalid")
             } else {
                 localStorage.setItem("CUR_USER", JSON.stringify(attemptingUser))

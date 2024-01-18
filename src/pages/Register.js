@@ -12,7 +12,6 @@ function Register() {
     //Used to update reminder text on registration page 
     const [noticeStyle, setColor] = useState('green')
     const [text, setText] = useState("Username Avaiable")
-    
     //Adds user with data from input fields
     function addUser() {
         //Checks if all text fields are full

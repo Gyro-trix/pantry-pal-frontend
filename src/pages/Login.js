@@ -14,6 +14,7 @@ function Login() {
         localStorage.setItem("ALL_USERS", JSON.stringify([{ id: "TrueAdmin", username: "Admin", email: "Admin" }]))
     }
     const allUserData = JSON.parse(allUserDataStr)
+    console.log(allUserData)
     function logIn() {
         //Checks if both fields have a value
         if (name.current.value && password.current.value) {
@@ -31,11 +32,10 @@ function Login() {
     }
 
 
-    function validateUser(allUser,atUser) {
-        for (let user in allUser){
-            console.log(allUser)
-            console.log(user.username)
-            if (user.username === atUser.username){
+    function validateUser(allUsers,atUser) {
+        for (let i = 0; i < allUsers.length; i++){
+            console.log(allUsers[i])
+            if (allUsers[i].username === atUser.username){
                 return true
             }
         }

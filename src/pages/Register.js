@@ -41,8 +41,8 @@ function Register() {
     }
     //Check if user already exists
     function userExists(allUsers, userToAdd) {
-        for (let user in allUsers){
-            if (user.username === userToAdd.username){
+        for (let i = 0; i < allUsers.length; i++){
+            if (allUsers[i].username === userToAdd.username){
                 return true
             }
         }

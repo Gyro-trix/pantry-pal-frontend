@@ -7,7 +7,8 @@ function Register() {
     const email = useRef()
     const password = useRef()
     const passwordchk = useRef()
-    const allUserData = [localStorage.getItem("ALL_USERS")]
+    const allUserDataStr = localStorage.getItem("ALL_USERS")
+    const allUserData = JSON.parse(allUserDataStr)
     const navigate = useNavigate()
     //Used to update reminder text on registration page 
     const [noticeStyle, setColor] = useState('green')

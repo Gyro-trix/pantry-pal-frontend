@@ -4,11 +4,16 @@ import { useNavigate } from "react-router-dom";
 function Login() {
     const name = useRef()
     const password = useRef()
-    const allUserDataStr = localStorage.getItem("ALL_USERS")
-    const allUserArray = JSON.parse("[" + allUserDataStr + "]")
+    const allUserDataStr = [localStorage.getItem("ALL_USERS")]
+    const allUserArray = allUserDataStr
     const navigate = useNavigate()
     const attemptingUser = {id: " ", username: " ", email: " " ,password: " " }
-    localStorage.setItem("CUR_USER"," ")
+    //Insures current user variable is entered if the user goes back to login
+    localStorage.setItem("CUR_USER","")
+    //One way to deal with ALL_USER starting with null, could also check for null later and adjust
+    if (allUserDataStr[0] === null) {
+        localStorage.setItem("ALL_USERS", JSON.stringify([{ id: "TrueAdmin", username: "Admin", email: "Admin" }]))
+    }
 
     function logIn() {
         
@@ -17,27 +22,27 @@ function Login() {
             attemptingUser.username = name.current.value
             attemptingUser.password = password.current.value
             //Check for user in local storage
-            if (ValidateUser()) {
+            if (validateUser()) {
                 alert("Invalid")
             } else {
                 localStorage.setItem("CUR_USER", JSON.stringify(attemptingUser))
-                navigate("/home")
+                navigate("/")
             }
 
         }
     }
 
 
-    function ValidateUser(u) {
+    function validateUser() {
         let result
         for (let i = 0; i < allUserArray.length; i++) {
             if (allUserArray[i].username === attemptingUser.username && allUserArray[i].password === attemptingUser.password) {
                 attemptingUser.id = allUserArray[i].id
                 attemptingUser.email = allUserArray[i].email
-                result = false
+                result = true
                 return result
             } else {
-                result = true
+                result = false
             }
         }
         return result

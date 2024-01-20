@@ -31,32 +31,16 @@ function Login() {
         }
     }
 
-
     function validateUser(allUsers,atUser) {
         for (let i = 0; i < allUsers.length; i++){
             console.log(allUsers[i])
-            if (allUsers[i].username === atUser.username){
+            if (allUsers[i].username === atUser.username && allUsers[i].password === atUser.password){
                 return true
             }
         }
         return false
-
-
-        /*
-        let result
-        for (let i = 0; i < allUserArray.length; i++) {
-            if (allUserArray[i].username === attemptingUser.username && allUserArray[i].password === attemptingUser.password) {
-                attemptingUser.id = allUserArray[i].id
-                attemptingUser.email = allUserArray[i].email
-                result = true
-                return result
-            } else {
-                result = false
-            }
-        }
-        return result
-        */
     }
+
     function goRegister() {
         navigate("/register")
     }

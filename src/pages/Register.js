@@ -7,7 +7,8 @@ function Register() {
     const email = useRef()
     const password = useRef()
     const passwordchk = useRef()
-    const allUserData = [localStorage.getItem("ALL_USERS")]
+    const allUserDataStr = localStorage.getItem("ALL_USERS")
+    const allUserData = JSON.parse(allUserDataStr)
     const navigate = useNavigate()
     //Used to update reminder text on registration page 
     const [noticeStyle, setColor] = useState('green')
@@ -40,8 +41,8 @@ function Register() {
     }
     //Check if user already exists
     function userExists(allUsers, userToAdd) {
-        for (let user in allUsers){
-            if (user.username === userToAdd.username){
+        for (let i = 0; i < allUsers.length; i++){
+            if (allUsers[i].username === userToAdd.username){
                 return true
             }
         }

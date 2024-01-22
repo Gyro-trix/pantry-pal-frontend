@@ -5,7 +5,6 @@ function Login() {
     const name = useRef()
     const password = useRef()
     const allUserDataStr = [localStorage.getItem("ALL_USERS")]
-    const allUserArray = allUserDataStr
     const navigate = useNavigate()
     const attemptingUser = {id: " ", username: " ", email: " " ,password: " " }
     //Insures current user variable is entered if the user goes back to login
@@ -14,15 +13,15 @@ function Login() {
     if (allUserDataStr[0] === null) {
         localStorage.setItem("ALL_USERS", JSON.stringify([{ id: "TrueAdmin", username: "Admin", email: "Admin" }]))
     }
-
+    const allUserData = JSON.parse(allUserDataStr)
+    console.log(allUserData)
     function logIn() {
-        
         //Checks if both fields have a value
         if (name.current.value && password.current.value) {
             attemptingUser.username = name.current.value
             attemptingUser.password = password.current.value
             //Check for user in local storage
-            if (validateUser()) {
+            if (validateUser(allUserData,attemptingUser) === false) {
                 alert("Invalid")
             } else {
                 localStorage.setItem("CUR_USER", JSON.stringify(attemptingUser))
@@ -32,21 +31,16 @@ function Login() {
         }
     }
 
-
-    function validateUser() {
-        let result
-        for (let i = 0; i < allUserArray.length; i++) {
-            if (allUserArray[i].username === attemptingUser.username && allUserArray[i].password === attemptingUser.password) {
-                attemptingUser.id = allUserArray[i].id
-                attemptingUser.email = allUserArray[i].email
-                result = true
-                return result
-            } else {
-                result = false
+    function validateUser(allUsers,atUser) {
+        for (let i = 0; i < allUsers.length; i++){
+            console.log(allUsers[i])
+            if (allUsers[i].username === atUser.username && allUsers[i].password === atUser.password){
+                return true
             }
         }
-        return result
+        return false
     }
+
     function goRegister() {
         navigate("/register")
     }

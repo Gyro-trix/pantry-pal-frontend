@@ -10,8 +10,7 @@ function checkUserLogin(currentUser, navigate) {
 function Storage() {
     const storagename = useRef()
     const storagetype = useRef()
-    //const itementered = useRef()
-    const [item, setItem] = useState('')
+    const storagelocation = useRef()
     const [itemlist, setItemList] = useState([])
     const navigate = useNavigate();
     const currentUser = localStorage.getItem("CUR_USER")
@@ -23,16 +22,25 @@ function Storage() {
     })
 
     function addStorage() {
-        console.log(itemlist)
-        console.log(allStorageData)
-    }
+        if(storagename && storagetype && storagelocation){
+            const sname = storagename.current.value
+            const stype = storagetype.current.value
+            const sloc = storagelocation.current.name
 
-    function addItem() {
-        if (item.current.value) {
-            setItemList([...itemlist, item.current.value])
-            console.log(itemlist)
+            const newstorage = { name: sname, type: stype, location: sloc, items: [] }
         }
     }
+
+    function saveStorage(allStorage){
+
+    }
+
+    //function addItem() {
+    //    if (item.current.value) {
+    //        setItemList([...itemlist, item.current.value])
+    //        console.log(itemlist)
+    //    }
+    //}
 
     return (
         <div className="container">
@@ -44,13 +52,10 @@ function Storage() {
             </div>
             <br></br>
             <div className="input_space">
-                <input value={item} onChange ={setItem(e => e.target.value)} />
+                <input placeholder="Location" type="text" ref={storagelocation}  />
             </div>
             
-           
-
-            <button onClick={addItem}>Add Item</button>
-            <br></br>
+          
             <button onClick={addStorage}>Add Storage</button>
         </div>
     )

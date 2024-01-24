@@ -28,7 +28,7 @@ function Storage() {
         if (storagename && storagetype && storagelocation) {
             const sname = storagename.current.value
             const stype = storagetype.current.value
-            const sloc = storagelocation.current.name
+            const sloc = storagelocation.current.value
 
             const newStorage = { name: sname, type: stype, location: sloc, items: [] }
             if (allStorageDataStr === null ) {

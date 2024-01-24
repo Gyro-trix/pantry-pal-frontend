@@ -8,33 +8,46 @@ function checkUserLogin(currentUser, navigate) {
   }
 }
 
-
-
 function Home() {
   const currentUser = localStorage.getItem("CUR_USER")
+
+  const allStorageDataStr = localStorage.getItem("ALL_STORAGES")
+  const allStorageData = JSON.parse(allStorageDataStr)
+
   const navigate = useNavigate();
 
   useEffect(() => {
     checkUserLogin(currentUser, navigate)
   })
 
-  function logOut() {
-    localStorage.setItem("CUR_USER", "")
-    navigate("/login")
+  function displayStorage() {
+    console.log("Was Here")
+    if ((allStorageDataStr === null) === false){
+    return allStorageData.map((el) => {
+      return (
+        <div className="card">
+          <div className = "card-body" >
+            <h5 className = "card-title">{el.name}</h5>
+            <p className = "card-text">{el.type} & {el.location}</p>
+            </div>
+          </div>
+      );
+    });
   }
-
-  function storage() {
-    navigate("/storage")
   }
+  
 
   return (
     <div>
       <NavBar />
       
+      {displayStorage()}
     </div>
-
+    
+    
 
   )
+  
 }
 
 

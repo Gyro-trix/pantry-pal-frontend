@@ -6,9 +6,9 @@ function Login() {
     const password = useRef()
     const allUserDataStr = [localStorage.getItem("ALL_USERS")]
     const navigate = useNavigate()
-    const attemptingUser = {id: " ", username: " ", email: " " ,password: " " }
+    const attemptingUser = { id: " ", username: " ", email: " ", password: " " }
     //Insures current user variable is entered if the user goes back to login
-    localStorage.setItem("CUR_USER","")
+    localStorage.setItem("CUR_USER", "")
     //One way to deal with ALL_USER starting with null, could also check for null later and adjust
     if (allUserDataStr[0] === null) {
         localStorage.setItem("ALL_USERS", JSON.stringify([{ id: "TrueAdmin", username: "Admin", email: "Admin" }]))
@@ -21,20 +21,22 @@ function Login() {
             attemptingUser.username = name.current.value
             attemptingUser.password = password.current.value
             //Check for user in local storage
-            if (validateUser(allUserData,attemptingUser) === false) {
+            if (validateUser(allUserData, attemptingUser) === false) {
                 alert("Invalid")
             } else {
+
                 localStorage.setItem("CUR_USER", JSON.stringify(attemptingUser))
                 navigate("/")
             }
 
         }
     }
-
-    function validateUser(allUsers,atUser) {
-        for (let i = 0; i < allUsers.length; i++){
+    function validateUser(allUsers, atUser) {
+        for (let i = 0; i < allUsers.length; i++) {
             console.log(allUsers[i])
-            if (allUsers[i].username === atUser.username && allUsers[i].password === atUser.password){
+            if (allUsers[i].username === atUser.username && allUsers[i].password === atUser.password) {
+                attemptingUser.id = allUsers[i].id
+                attemptingUser.email = allUsers[i].email
                 return true
             }
         }

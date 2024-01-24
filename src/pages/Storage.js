@@ -11,10 +11,13 @@ function Storage() {
     const storagename = useRef()
     const storagetype = useRef()
     const storagelocation = useRef()
-    const [itemlist, setItemList] = useState([])
-    const navigate = useNavigate();
+
+    const navigate = useNavigate()
+
     const currentUser = localStorage.getItem("CUR_USER")
-    const allStorageData = [localStorage.getItem("ALL_STORAGES")]
+
+    const allStorageDataStr = localStorage.getItem("ALL_STORAGES")
+    const allStorageData = JSON.parse(allStorageDataStr)
 
     //Checks for User
     useEffect(() => {
@@ -22,18 +25,29 @@ function Storage() {
     })
 
     function addStorage() {
-        if(storagename && storagetype && storagelocation){
+        if (storagename && storagetype && storagelocation) {
             const sname = storagename.current.value
             const stype = storagetype.current.value
             const sloc = storagelocation.current.name
 
-            const newstorage = { name: sname, type: stype, location: sloc, items: [] }
+            const newStorage = { name: sname, type: stype, location: sloc, items: [] }
+            if (allStorageDataStr === null ) {
+                console.log(newStorage)
+                localStorage.setItem("ALL_STORAGES", JSON.stringify([newStorage]))
+            } else {
+                saveStorage(allStorageData, newStorage)
+                
+            }
+            window.location.reload(true);
         }
     }
 
-    function saveStorage(allStorage){
-
+    function saveStorage(allStorage, newStorage) {
+        let temparr = [...allStorage, newStorage]
+        allStorage = temparr
+        localStorage.setItem("ALL_STORAGES", JSON.stringify(allStorage))
     }
+
 
     //function addItem() {
     //    if (item.current.value) {
@@ -52,10 +66,10 @@ function Storage() {
             </div>
             <br></br>
             <div className="input_space">
-                <input placeholder="Location" type="text" ref={storagelocation}  />
+                <input placeholder="Location" type="text" ref={storagelocation} />
             </div>
-            
-          
+
+
             <button onClick={addStorage}>Add Storage</button>
         </div>
     )

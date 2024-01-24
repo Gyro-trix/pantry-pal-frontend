@@ -40,13 +40,13 @@ function Home() {
               <a className="nav-link active" aria-current="page" href="/#" >Home</a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="/#" onClick={storage}>Add Inventory</a>
+              <a className="nav-link"  onClick={storage}>Add Inventory</a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="/#" onClick={logOut}>Setting</a>
+              <a className="nav-link"  onClick={logOut}>Setting</a>
             </li>
             <li className="nav-item">
-              <a className="nav-link "href="/#"  onClick={logOut}>Logout</a>
+              <a className="nav-link"   onClick={logOut}>Logout</a>
             </li>
           </ul>
         </div>

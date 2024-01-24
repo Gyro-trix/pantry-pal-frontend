@@ -52,7 +52,6 @@ function Register() {
     function userSave(allUsers, userToAdd) {
         let temparr = [...allUsers,userToAdd]
         allUsers = temparr
-        //allUsers.push(userToAdd)
         localStorage.setItem("ALL_USERS", JSON.stringify(allUsers))
     }
     //Check used to update page on if username is valid

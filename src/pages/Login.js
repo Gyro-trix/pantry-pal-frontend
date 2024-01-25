@@ -24,7 +24,6 @@ function Login() {
             if (validateUser(allUserData, attemptingUser) === false) {
                 alert("Invalid")
             } else {
-
                 localStorage.setItem("CUR_USER", JSON.stringify(attemptingUser))
                 navigate("/")
             }

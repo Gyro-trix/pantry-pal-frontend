@@ -8,8 +8,8 @@ function NavBar(){
         navigate("/login")
       }
     
-      function storage(){
-        navigate("/storage")
+      function createStorage(){
+        navigate("/createStorage")
       }
     
       return (
@@ -26,7 +26,7 @@ function NavBar(){
                   <a className="nav-link active" aria-current="page" href="/#" >Home</a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link"  onClick={storage}>Add Inventory</a>
+                  <a className="nav-link"  onClick={createStorage}>Add Inventory</a>
                 </li>
                 <li className="nav-item">
                   <a className="nav-link"  onClick={logOut}>Setting</a>

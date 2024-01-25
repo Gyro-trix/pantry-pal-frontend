@@ -1,6 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import NavBar from "./NavBar";
 
 function checkUserLogin(currentUser, navigate) {
     if (currentUser === null || currentUser.trim() === "") {
@@ -8,7 +7,7 @@ function checkUserLogin(currentUser, navigate) {
     }
 }
 
-function Storage() {
+function CreateStorage() {
     const storagename = useRef()
     const storagetype = useRef()
     const storagelocation = useRef()
@@ -27,17 +26,20 @@ function Storage() {
             const stype = storagetype.current.value
             const sloc = storagelocation.current.value
             const newStorage = { name: sname, type: stype, location: sloc, items: [] }
-
+console.log(allStorageDataStr)
             if (allStorageDataStr === null) {
                 localStorage.setItem("ALL_STORAGES", JSON.stringify([newStorage]))
+                navigate("/")
             } else {
                 if (storageExists(allStorageData, newStorage) === false) {
                     saveStorage(allStorageData, newStorage)
+                    navigate("/")
                 } else {
                     alert("Name Already Used")
                 }
             }
-            window.location.reload(true);
+            
+            //window.location.reload(true);
         }
     }
     //Save 'storage' to local storage
@@ -57,6 +59,9 @@ function Storage() {
     }
 
     function currentStorages() {
+        if(allStorageDataStr === null){
+            return
+        }
         return allStorageData.map((el) => {
             console.log(el.name)
             return (
@@ -75,7 +80,6 @@ function Storage() {
 */
     return (
         <div>
-            <NavBar />
             <div className="container">
 
                 <div className="dropdown">

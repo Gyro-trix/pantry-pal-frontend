@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import NavBar from "./NavBar";
 
 function checkUserLogin(currentUser, navigate) {
     if (currentUser === null || currentUser.trim() === "") {
@@ -26,15 +27,17 @@ function Storage() {
             const stype = storagetype.current.value
             const sloc = storagelocation.current.value
             const newStorage = { name: sname, type: stype, location: sloc, items: [] }
-            if(storageExists(allStorageData,newStorage) === false){
-            if (allStorageDataStr === null ) {
-                console.log(newStorage)
+
+            if (allStorageDataStr === null) {
                 localStorage.setItem("ALL_STORAGES", JSON.stringify([newStorage]))
             } else {
-                saveStorage(allStorageData, newStorage)
+                if (storageExists(allStorageData, newStorage) === false) {
+                    saveStorage(allStorageData, newStorage)
+                } else {
+                    alert("Name Already Used")
+                }
             }
             window.location.reload(true);
-        }
         }
     }
     //Save 'storage' to local storage
@@ -44,13 +47,22 @@ function Storage() {
         localStorage.setItem("ALL_STORAGES", JSON.stringify(allStorage))
     }
 
-    function storageExists(allStorage,storageToAdd){
-        for (let i = 0; i < allStorage.length; i++){
-            if (allStorage[i].name === storageToAdd.name){
+    function storageExists(allStorage, storageToAdd) {
+        for (let i = 0; i < allStorage.length; i++) {
+            if (allStorage[i].name === storageToAdd.name) {
                 return true
             }
         }
         return false
+    }
+
+    function currentStorages() {
+        return allStorageData.map((el) => {
+            console.log(el.name)
+            return (
+                <li key={el.name}><a className="dropdown-item" href="#">{el.name}</a></li>
+            )
+        })
     }
 
     /*Old add item function, saving for possible future reference
@@ -62,20 +74,35 @@ function Storage() {
     }
 */
     return (
-        <div className="container">
-            <div className="input_space">
-                <input placeholder="Storage Name" type="text" ref={storagename} />
-            </div>
-            <div className="input_space">
-                <input placeholder="Storage Type" type="text" ref={storagetype} />
-            </div>
-            <br></br>
-            <div className="input_space">
-                <input placeholder="Location" type="text" ref={storagelocation} />
-            </div>
+        <div>
+            <NavBar />
+            <div className="container">
+
+                <div className="dropdown">
+                    <button className="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Add New Storage
+                    </button>
+                    <ul className="dropdown-menu">
+                    <li key="Create New"><a className="dropdown-item" href="#">Create New</a></li>
+                        {currentStorages()}
+                    </ul>
+                </div>
 
 
-            <button onClick={addStorage}>Add Storage</button>
+                <div className="input_space">
+                    <input placeholder="Storage Name" type="text" ref={storagename} />
+                </div>
+                <div className="input_space">
+                    <input placeholder="Storage Type" type="text" ref={storagetype} />
+                </div>
+                <br></br>
+                <div className="input_space">
+                    <input placeholder="Location" type="text" ref={storagelocation} />
+                </div>
+
+
+                <button onClick={addStorage}>Add Storage</button>
+            </div>
         </div>
     )
 }

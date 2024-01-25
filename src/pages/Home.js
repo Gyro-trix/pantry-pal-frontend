@@ -21,18 +21,19 @@ function Home() {
   })
 
   function displayStorage() {
-    console.log("Was Here")
     if ((allStorageDataStr === null) === false){
     return allStorageData.map((el) => {
       return (
-        <div className="card">
+        <div key = {el.name} className="card">
           <div className = "card-body" >
             <h5 className = "card-title">{el.name}</h5>
             <p className = "card-text">{el.type} & {el.location}</p>
+            <a href="#" className="btn btn-primary">Add Items</a>
+            <a href="#" className="btn btn-primary">Edit Details</a>
             </div>
           </div>
-      );
-    });
+      )
+    })
   }
   }
   
@@ -40,15 +41,9 @@ function Home() {
   return (
     <div>
       <NavBar />
-      
       {displayStorage()}
     </div>
-    
-    
-
   )
-  
 }
-
 
 export default Home;

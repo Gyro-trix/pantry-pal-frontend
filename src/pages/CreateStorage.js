@@ -56,7 +56,9 @@ function CreateStorage() {
         return false
     }
 
-    /* function currentStorages() {
+    /* 
+    //Populates dropdown with list of storage names
+    function currentStorages() {
          if (allStorageDataStr === null) {
              return
          }

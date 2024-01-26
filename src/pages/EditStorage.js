@@ -28,7 +28,14 @@ function EditStorage() {
         checkUserLogin(currentUser, navigate)
     })
 
+function checkStorage(nm,tp,loc){
+    const temp = {name:nm,type:tp,location:loc}
+
+
+}
+
     function editStorage(){
+        allStorageData.filter(()=>checkStorage(name,type,location))
         // Pull all Edit Storage
 
         // Use the .filter() function to get rid of the old storage item in the array of all storages
@@ -62,8 +69,6 @@ function EditStorage() {
                 <div className="input_space">
                     <input placeholder="Location" type="text" value={location} />
                 </div>
-
-
                 <button onClick={editStorage}>Edit Storage</button>
             </div>
         </div>

@@ -42,13 +42,10 @@ function openEditStoragePage(singleStorageData){
     })
   }
   }
-  
-
   return (
     <div style={{marginTop: 15, marginBottom: 15}}>
       {displayStorage()}
     </div>
   )
 }
-
 export default Home;

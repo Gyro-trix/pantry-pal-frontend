@@ -26,7 +26,7 @@ function CreateStorage() {
             const stype = storagetype.current.value
             const sloc = storagelocation.current.value
             const newStorage = { name: sname, type: stype, location: sloc, items: [] }
-console.log(allStorageDataStr)
+            console.log(allStorageDataStr)
             if (allStorageDataStr === null) {
                 localStorage.setItem("ALL_STORAGES", JSON.stringify([newStorage]))
                 navigate("/")
@@ -38,8 +38,6 @@ console.log(allStorageDataStr)
                     alert("Name Already Used")
                 }
             }
-            
-            //window.location.reload(true);
         }
     }
     //Save 'storage' to local storage
@@ -59,7 +57,7 @@ console.log(allStorageDataStr)
     }
 
     function currentStorages() {
-        if(allStorageDataStr === null){
+        if (allStorageDataStr === null) {
             return
         }
         return allStorageData.map((el) => {
@@ -87,7 +85,7 @@ console.log(allStorageDataStr)
                         Add New Storage
                     </button>
                     <ul className="dropdown-menu">
-                    <li key="Create New"><a className="dropdown-item" href="#">Create New</a></li>
+                        <li key="Create New"><a className="dropdown-item" href="#">Create New</a></li>
                         {currentStorages()}
                     </ul>
                 </div>

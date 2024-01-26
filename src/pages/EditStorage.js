@@ -22,7 +22,7 @@ function EditStorage() {
     const [name, setName] = useState(currentStorageData && currentStorageData.name? currentStorageData.name : "")
     const [type, setType] = useState(currentStorageData && currentStorageData.type? currentStorageData.type : "")
     const [location, setLocation] = useState(currentStorageData && currentStorageData.location? currentStorageData.location : "")
-    
+    const [filteredStorage, setFilteredStorage] = useState(allStorageData)
 
     //Checks for User
     useEffect(() => {
@@ -30,15 +30,20 @@ function EditStorage() {
     })
 
 function checkStorage(storage){
-    console.log(storage.name, " and ", name)
-    return storage.name != name 
+    console.log(JSON.stringify(storage))
+    console.log(JSON.stringify(currentStorageData))
+    
+    return JSON.stringify(storage) != JSON.stringify(currentStorageData)
 }
 
     function editStorage(){
+        
+        
         // Filter removes storage we wish to edit
         console.log("Before: ",allStorageData,name)
-        allStorageData.filter(checkStorage)
-        console.log("After: ",allStorageData)
+        const filtered = allStorageData.filter(storage => !storage.name.includes(name))
+        setFilteredStorage(filtered)
+        console.log("After: ",filteredStorage)
         
         setName(storagename.current.value)
         setType(storagetype.current.value)

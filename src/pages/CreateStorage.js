@@ -56,31 +56,18 @@ function CreateStorage() {
         return false
     }
 
-    function currentStorages() {
-        if (allStorageDataStr === null) {
-            return
-        }
-        return allStorageData.map((el) => {
-            console.log(el.name)
-            return (
-                <li key={el.name}><a className="dropdown-item" href="#">{el.name}</a></li>
-            )
-        })
-    }
-
-    /*Old add item function, saving for possible future reference
-    function addItem() {
-       if (item.current.value) {
-           setItemList([...itemlist, item.current.value])
-            console.log(itemlist)
-        }
-    }
-*/
-    return (
-        <div>
-            <div className="container">
-
-                <div className="dropdown">
+    /* function currentStorages() {
+         if (allStorageDataStr === null) {
+             return
+         }
+         return allStorageData.map((el) => {
+             console.log(el.name)
+             return (
+                 <li key={el.name}><a className="dropdown-item" href="#">{el.name}</a></li>
+             )
+         })
+     }
+      <div className="dropdown">
                     <button className="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Add New Storage
                     </button>
@@ -89,8 +76,19 @@ function CreateStorage() {
                         {currentStorages()}
                     </ul>
                 </div>
+     */
 
-
+    /*Old add item function, saving for possible future reference
+    function addItem() {
+       if (item.current.value) {
+           setItemList([...itemlist, item.current.value])
+            console.log(itemlist)
+        }
+    }
+    */
+    return (
+        <div>
+            <div className="container">
                 <div className="input_space">
                     <input placeholder="Storage Name" type="text" ref={storagename} />
                 </div>
@@ -101,8 +99,6 @@ function CreateStorage() {
                 <div className="input_space">
                     <input placeholder="Location" type="text" ref={storagelocation} />
                 </div>
-
-
                 <button onClick={addStorage}>Add Storage</button>
             </div>
         </div>

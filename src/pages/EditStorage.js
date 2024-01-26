@@ -29,16 +29,16 @@ function EditStorage() {
         checkUserLogin(currentUser, navigate)
     })
 
-//function checkStorage(name){
-    
-
-//}
+function checkStorage(storage){
+    console.log(storage.name, " and ", name)
+    return storage.name != name 
+}
 
     function editStorage(){
         // Filter removes storage we wish to edit
-        //allStorageData.filter(()=>checkStorage(name))
-        allStorageData.items = [1,2]
-        console.log(allStorageData.items)
+        console.log("Before: ",allStorageData,name)
+        allStorageData.filter(checkStorage)
+        console.log("After: ",allStorageData)
         
         setName(storagename.current.value)
         setType(storagetype.current.value)

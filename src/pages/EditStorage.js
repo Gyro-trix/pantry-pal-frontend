@@ -8,9 +8,9 @@ function checkUserLogin(currentUser, navigate) {
 }
 
 function EditStorage() {
-    const storagename = useRef()
-    const storagetype = useRef()
-    const storagelocation = useRef()
+    //const storagename = useRef()
+    //const storagetype = useRef()
+    //const storagelocation = useRef()
     const navigate = useNavigate()
     const currentUser = localStorage.getItem("CUR_USER")
     const allStorageDataStr = localStorage.getItem("ALL_STORAGES")

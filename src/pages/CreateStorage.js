@@ -111,4 +111,4 @@ console.log(allStorageDataStr)
     )
 }
 
-export default Storage;
+export default CreateStorage;

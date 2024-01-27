@@ -19,34 +19,44 @@ function EditStorage() {
     const [name, setName] = useState(currentStorageData && currentStorageData.name ? currentStorageData.name : "")
     const [type, setType] = useState(currentStorageData && currentStorageData.type ? currentStorageData.type : "")
     const [location, setLocation] = useState(currentStorageData && currentStorageData.location ? currentStorageData.location : "")
-    const [filteredStorage, setFilteredStorage] = useState(allStorageData)
+    const [items, setItems] = useState(currentStorageData && currentStorageData.items ? currentStorageData.items : "")
+    //filterStorage is allStorageData without currentStorageData, filter by name using a Regular Expression match the name String
+    const [filteredStorage, setFilteredStorage] = useState(allStorageData.filter(storage => !storage.name.match(new RegExp('^' + name + '$'))))
+    const [temp, setTemp] = useState({ name: name, type: type, location: location, items: items })
 
     //Checks for User
     useEffect(() => {
         checkUserLogin(currentUser, navigate)
     })
 
-    function saveStorage(allStorage, newStorage) {
-        let temparr = [...allStorage, newStorage]
-        allStorage = temparr
+    useEffect(() => {
+        setTemp({ name: name, type: type, location: location, items: items }); // This will always use latest value of count
+    }, [name]);
+
+    useEffect(() => {
+        localStorage.setItem("TEST", JSON.stringify(temp))
+    }, [temp]);
+
+    function saveStorage() {
+        
         //localStorage.setItem("ALL_STORAGES", JSON.stringify(allStorage))
     }
+    
 
     function editStorage() {
-        // Filter removes storage we wish to edit
-        const filtered = allStorageData.filter(storage => !storage.name.match("/"+ name + "/g"))
-        setFilteredStorage(filtered)
-        //Set values in form as the replacements     
+        //Filter removes storage we wish to edit using a Regular Expression of the name
+        //setFilteredStorage(allStorageData.filter(storage => !storage.name.match( new RegExp('^' + name + '$')  )))
+        //Set form values as the replacements     
         setName(storagename.current.value)
         setType(storagetype.current.value)
         setLocation(storagelocation.current.value)
-        //console.log(storagename.current.value, name)
-        //console.log(storagetype.current.value, type)
-        //console.log(storagelocation.current.value, location)
-        //console.log(currentStorageData.items)
-        //const temp ={name: name,type: type,location: location,items: currentStorageData.items}
-        //saveStorage(filteredStorage,temp)
-        console.log(filtered)
+        setItems([])
+        setTemp({ name: name, type: type, location: location, items: items })
+    
+        //setFilteredStorage([...filteredStorage, temp])
+        localStorage.setItem("TEST", JSON.stringify(temp))
+        
+        
 
         // Pull all Edit Storage
 

@@ -8,7 +8,7 @@ function CreateStorage() {
     const storagetype = useRef()
     const storagelocation = useRef()
     const navigate = useNavigate()
-    const currentUser = localStorage.getItem("CUR_USER")
+    //const currentUser = localStorage.getItem("CUR_USER")
     const allStorageDataStr = localStorage.getItem("ALL_STORAGES")
     const allStorageData = JSON.parse(allStorageDataStr)
     //Checks for User

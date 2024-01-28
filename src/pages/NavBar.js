@@ -9,10 +9,11 @@ function checkUserLogin(currentUser, navigate) {
 
 function NavBar(){
     const navigate = useNavigate()
-    
+    const currentUser = localStorage.getItem("CUR_USER")
+
     useEffect(() => {
       checkUserLogin(currentUser, navigate)
-  })
+    },[currentUser])
     function logOut(){
         //localStorage.setItem("CUR_USER", "")
         navigate("/login")

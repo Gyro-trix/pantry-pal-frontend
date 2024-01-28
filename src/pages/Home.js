@@ -2,23 +2,23 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 
-function checkUserLogin(currentUser, navigate) {
-  if (currentUser === null || currentUser.trim() === "") {
-    navigate("/login")
-  }
-}
+//function checkUserLogin(currentUser, navigate) {
+//  if (currentUser === null || currentUser.trim() === "") {
+//    navigate("/login")
+//  }
+//}
 
 function Home() {
-  const currentUser = localStorage.getItem("CUR_USER")
+  //const currentUser = localStorage.getItem("CUR_USER")
 
   const allStorageDataStr = localStorage.getItem("ALL_STORAGES")
   const allStorageData = JSON.parse(allStorageDataStr)
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    checkUserLogin(currentUser, navigate)
-  })
+ // useEffect(() => {
+ //   checkUserLogin(currentUser, navigate)
+ // })
 
 function openEditStoragePage(singleStorageData){
   localStorage.setItem("CUR_STORAGE",JSON.stringify(singleStorageData))

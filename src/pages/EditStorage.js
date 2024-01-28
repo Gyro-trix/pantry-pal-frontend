@@ -28,20 +28,23 @@ function EditStorage() {
     useEffect(() => {
         checkUserLogin(currentUser, navigate)
     })
-
     useEffect(() => {
         setTemp({ name: name, type: type, location: location, items: items }); // This will always use latest value of count
-    }, [name]);
-
+    }, [name,type,location,items])
+    //Testing purpose to show object to be added
     useEffect(() => {
         localStorage.setItem("TEST", JSON.stringify(temp))
-    }, [temp]);
+    }, [temp])
+useEffect(() => {
+    saveStorage(allStorageData,temp)
+}, [filteredStorage,temp])
 
-    function saveStorage() {
-        
-        //localStorage.setItem("ALL_STORAGES", JSON.stringify(allStorage))
-    }
-    
+function saveStorage(allStorage,newStorage){
+    let temparr = [...filteredStorage, newStorage]
+    allStorage = temparr
+    localStorage.setItem("TEST_STORAGES", JSON.stringify(allStorage))
+}
+
 
     function editStorage() {
         //Filter removes storage we wish to edit using a Regular Expression of the name
@@ -52,10 +55,9 @@ function EditStorage() {
         setLocation(storagelocation.current.value)
         setItems([])
         setTemp({ name: name, type: type, location: location, items: items })
-    
         //setFilteredStorage([...filteredStorage, temp])
         localStorage.setItem("TEST", JSON.stringify(temp))
-        
+        saveStorage(allStorageData,temp)
         
 
         // Pull all Edit Storage

@@ -1,10 +1,20 @@
 import { useNavigate } from "react-router-dom";
+import React, { useRef, useEffect, useState } from "react";
+
+function checkUserLogin(currentUser, navigate) {
+  if (currentUser === null || currentUser.trim() === "") {
+      navigate("/login")
+  }
+}
 
 function NavBar(){
     const navigate = useNavigate()
     
+    useEffect(() => {
+      checkUserLogin(currentUser, navigate)
+  })
     function logOut(){
-        localStorage.setItem("CUR_USER", "")
+        //localStorage.setItem("CUR_USER", "")
         navigate("/login")
       }
     

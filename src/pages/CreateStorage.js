@@ -1,11 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function checkUserLogin(currentUser, navigate) {
-    if (currentUser === null || currentUser.trim() === "") {
-        navigate("/login")
-    }
-}
+
 
 function CreateStorage() {
     const storagename = useRef()
@@ -16,9 +12,7 @@ function CreateStorage() {
     const allStorageDataStr = localStorage.getItem("ALL_STORAGES")
     const allStorageData = JSON.parse(allStorageDataStr)
     //Checks for User
-    useEffect(() => {
-        checkUserLogin(currentUser, navigate)
-    })
+    
     //Gets form information and checks before saving to local storage
     function addStorage() {
         if (storagename && storagetype && storagelocation) {

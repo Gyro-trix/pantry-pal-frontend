@@ -30,20 +30,20 @@ function EditStorage() {
     })
     useEffect(() => {
         setTemp({ name: name, type: type, location: location, items: items }); // This will always use latest value of count
-    }, [name,type,location,items])
+    }, [name, type, location, items])
     //Testing purpose to show object to be added
     useEffect(() => {
         localStorage.setItem("TEST", JSON.stringify(temp))
     }, [temp])
-useEffect(() => {
-    saveStorage(allStorageData,temp)
-}, [filteredStorage,temp])
+    useEffect(() => {
+        saveStorage(allStorageData, temp)
+    }, [filteredStorage, temp])
 
-function saveStorage(allStorage,newStorage){
-    let temparr = [...filteredStorage, newStorage]
-    allStorage = temparr
-    localStorage.setItem("TEST_STORAGES", JSON.stringify(allStorage))
-}
+    function saveStorage(allStorage, newStorage) {
+        let temparr = [...filteredStorage, newStorage]
+        allStorage = temparr
+        localStorage.setItem("TEST_STORAGES", JSON.stringify(allStorage))
+    }
 
 
     function editStorage() {
@@ -57,8 +57,8 @@ function saveStorage(allStorage,newStorage){
         setTemp({ name: name, type: type, location: location, items: items })
         //setFilteredStorage([...filteredStorage, temp])
         localStorage.setItem("TEST", JSON.stringify(temp))
-        saveStorage(allStorageData,temp)
-        
+        saveStorage(allStorageData, temp)
+
 
         // Pull all Edit Storage
 

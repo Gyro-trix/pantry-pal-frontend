@@ -1,12 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function checkUserLogin(currentUser, navigate) {
-    if (currentUser === null || currentUser.trim() === "") {
-        navigate("/login")
-    }
-}
-
 function EditStorage() {
     const storagename = useRef()
     const storagetype = useRef()
@@ -24,17 +18,14 @@ function EditStorage() {
     const [filteredStorage, setFilteredStorage] = useState(allStorageData.filter(storage => !storage.name.match(new RegExp('^' + name + '$'))))
     const [temp, setTemp] = useState({ name: name, type: type, location: location, items: items })
 
-    //Checks for User
-    useEffect(() => {
-        checkUserLogin(currentUser, navigate)
-    })
+   
     useEffect(() => {
         setTemp({ name: name, type: type, location: location, items: items }); // This will always use latest value of count
     }, [name, type, location, items])
     //Testing purpose to show object to be added
-    useEffect(() => {
-        localStorage.setItem("TEST", JSON.stringify(temp))
-    }, [temp])
+    //useEffect(() => {
+    //    localStorage.setItem("TEST", JSON.stringify(temp))
+    //}, [temp])
     useEffect(() => {
         saveStorage(allStorageData, temp)
     }, [filteredStorage, temp])
@@ -42,7 +33,7 @@ function EditStorage() {
     function saveStorage(allStorage, newStorage) {
         let temparr = [...filteredStorage, newStorage]
         allStorage = temparr
-        localStorage.setItem("TEST_STORAGES", JSON.stringify(allStorage))
+        localStorage.setItem("ALL_STORAGES", JSON.stringify(allStorage))
     }
 
 
@@ -56,7 +47,7 @@ function EditStorage() {
         setItems([])
         setTemp({ name: name, type: type, location: location, items: items })
         //setFilteredStorage([...filteredStorage, temp])
-        localStorage.setItem("TEST", JSON.stringify(temp))
+        //localStorage.setItem("TEST", JSON.stringify(temp))
         saveStorage(allStorageData, temp)
 
 

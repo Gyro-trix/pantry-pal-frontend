@@ -97,6 +97,9 @@ function CreateStorage() {
                 </div>
                 <button onClick={addStorage}>Add Storage</button>
             </div>
+            <div className = "container">
+                
+            </div>
         </div>
     )
 }

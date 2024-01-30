@@ -19,7 +19,7 @@ function Home() {
     localStorage.setItem("CUR_STORAGE", JSON.stringify(singleStorageData))
     navigate("/EditStorage")
   }
-  //Does delete, no comfirmation
+  //Does delete
   function deleteStorage(allStorage, singleStorageData) {
     localStorage.setItem("CUR_STORAGE", JSON.stringify(singleStorageData))
     console.log(singleStorageData.name)

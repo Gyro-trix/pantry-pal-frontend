@@ -17,13 +17,12 @@ const currentStorageData = JSON.parse(localStorage.getItem("CUR_STORAGE"))
 
 //}
 function addItem(){
-
     const newItem = {quantity: itemquantity.current.value,name: itemname.current.value,size: itemsize.current.value ,expiry: itemexpiry.current.value}
     const temparr =  [...currentStorageData.items,newItem]
     console.log(newItem)
     //saveItem(currentStorageData.items, newItem)
-    currentStorageData.item = temparr
-    console.log(currentStorageData.item)
+    currentStorageData.items = temparr
+    console.log(currentStorageData.items)
     localStorage.setItem("CUR_STORAGE",JSON.stringify(currentStorageData))
 }
     // Create Data list based in items in current storage

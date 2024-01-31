@@ -45,7 +45,7 @@ function EditStorage() {
         setName(storagename.current.value)
         setType(storagetype.current.value)
         setLocation(storagelocation.current.value)
-        setItems([])
+        setItems(currentStorageData.items)
         setTemp({ name: name, type: type, location: location, items: items })
         //setFilteredStorage([...filteredStorage, temp])
         //localStorage.setItem("TEST", JSON.stringify(temp))

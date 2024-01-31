@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Items from './Items';
 
 function EditStorage() {
     const storagename = useRef()
@@ -86,6 +87,7 @@ function EditStorage() {
                 </div>
                 <button onClick={editStorage}>Edit Storage</button>
             </div>
+            <Items />
         </div>
     )
 }

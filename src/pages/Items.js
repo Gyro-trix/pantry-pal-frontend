@@ -8,22 +8,45 @@ const itemsize = useRef()
 const itemexpiry = useRef()
 
 const currentStorageData = JSON.parse(localStorage.getItem("CUR_STORAGE"))
+const [currentItems, setCurrentItems] = useState(currentStorageData.items)
 
-//function saveItem(curStorageItems,itemToSave){
-    //const temparr = [...curStorageItems,itemToSave]
-    
-  //  curStorageItems = temparr
-    
+const [quantity, setQuantity] = useState(currentItems && currentItems.quantity ? currentItems.quantity : "")
+const [name, setName] = useState(currentItems && currentItems.name ? currentItems.name : "")
+const [size, setSize] = useState(currentItems && currentItems.size ? currentItems.size : "")
+const [expiry, setExpiry] = useState(currentItems && currentItems.expiry ? currentItems.expiry : "")
 
-//}
+const [tempitem,setTempItem] = useState({quantity: quantity,name: name,size: size ,expiry: expiry})
+
+useEffect(() => {
+    setTempItem({quantity: quantity,name: name,size: size ,expiry: expiry})
+     
+}, [name, quantity, size, expiry])
+
+
+function saveItem(curStorageItems,itemToSave){
+    const temparr = [...curStorageItems,itemToSave]
+    curStorageItems = temparr
+}
+
 function addItem(){
-    const newItem = {quantity: itemquantity.current.value,name: itemname.current.value,size: itemsize.current.value ,expiry: itemexpiry.current.value}
-    const temparr =  [...currentStorageData.items,newItem]
-    console.log(newItem)
+    setQuantity(itemquantity.current.value)
+    setName(itemname.current.value)
+    setSize(itemsize.current.value)
+    setExpiry(itemexpiry.current.value)
+    //setTempItem({quantity: quantity,name: name,size: size ,expiry: expiry})
+    console.log(tempitem)
+
+    //const newItem = {quantity: itemquantity.current.value,name: itemname.current.value,size: itemsize.current.value ,expiry: itemexpiry.current.value}
+    //setCurrentItems(newItem)
+    
+    //currentStorageData.items = currentItems
+    
+    //const temparr =  [...currentStorageData.items,newItem]
+    //console.log(newItem)
     //saveItem(currentStorageData.items, newItem)
-    currentStorageData.items = temparr
-    console.log(currentStorageData.items)
-    localStorage.setItem("CUR_STORAGE",JSON.stringify(currentStorageData))
+    //currentStorageData.items = temparr
+    //console.log(currentStorageData.items)
+    //localStorage.setItem("CUR_STORAGE",JSON.stringify(currentStorageData))
 }
     // Create Data list based in items in current storage
 

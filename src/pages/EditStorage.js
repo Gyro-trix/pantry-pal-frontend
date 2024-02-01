@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Items from './Items';
 
 function EditStorage() {
     const storagename = useRef()
@@ -20,15 +21,12 @@ function EditStorage() {
 
    
     useEffect(() => {
-        setTemp({ name: name, type: type, location: location, items: items }); // This will always use latest value of count
+        setTemp({ name: name, type: type, location: location, items: items });
     }, [name, type, location, items])
-    //Testing purpose to show object to be added
+
     //useEffect(() => {
-    //    localStorage.setItem("TEST", JSON.stringify(temp))
-    //}, [temp])
-    useEffect(() => {
-        saveStorage(allStorageData, temp)
-    }, [filteredStorage, temp])
+    //    saveStorage(allStorageData, temp)
+    // }, [filteredStorage, temp])
 
     function saveStorage(allStorage, newStorage) {
         let temparr = [...filteredStorage, newStorage]
@@ -37,20 +35,15 @@ function EditStorage() {
     }
 
 
-    function editStorage() {
-        //Filter removes storage we wish to edit using a Regular Expression of the name
-        //setFilteredStorage(allStorageData.filter(storage => !storage.name.match( new RegExp('^' + name + '$')  )))
+    function editStorage() {    
         //Set form values as the replacements     
         setName(storagename.current.value)
         setType(storagetype.current.value)
         setLocation(storagelocation.current.value)
-        setItems([])
+        setItems(currentStorageData.items)
         setTemp({ name: name, type: type, location: location, items: items })
-        //setFilteredStorage([...filteredStorage, temp])
-        //localStorage.setItem("TEST", JSON.stringify(temp))
+        localStorage.setItem("CUR_STORAGE", JSON.stringify(temp))
         saveStorage(allStorageData, temp)
-
-
         // Pull all Edit Storage
 
         // Use the .filter() function to get rid of the old storage item in the array of all storages
@@ -86,6 +79,7 @@ function EditStorage() {
                 </div>
                 <button onClick={editStorage}>Edit Storage</button>
             </div>
+            <Items />
         </div>
     )
 }

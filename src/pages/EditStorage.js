@@ -18,8 +18,9 @@ function EditStorage() {
     //filterStorage is allStorageData without currentStorageData, filter by name using a Regular Expression match the name String
     const [filteredStorage, setFilteredStorage] = useState(allStorageData.filter(storage => !storage.name.match(new RegExp('^' + name + '$'))))
     const [temp, setTemp] = useState({ name: name, type: type, location: location, items: items })
+    
 
-   
+
     useEffect(() => {
         setTemp({ name: name, type: type, location: location, items: items });
     }, [name, type, location, items])
@@ -35,7 +36,7 @@ function EditStorage() {
     }
 
 
-    function editStorage() {    
+    function editStorage() {
         //Set form values as the replacements     
         setName(storagename.current.value)
         setType(storagetype.current.value)
@@ -67,20 +68,36 @@ function EditStorage() {
     return (
         <div>
             <div className="container">
-                <div className="input_space">
-                    <input placeholder="Storage Name" type="text" defaultValue={name} ref={storagename} />
-                </div>
-                <div className="input_space">
-                    <input placeholder="Storage Type" type="text" defaultValue={type} ref={storagetype} />
-                </div>
-                <br></br>
-                <div className="input_space">
-                    <input placeholder="Location" type="text" defaultValue={location} ref={storagelocation} />
-                </div>
-                <button onClick={editStorage}>Edit Storage</button>
+                <form className="flex">
+                    <input
+                        type="text"
+                        onChange={handleChange}
+                        name="quantity"
+                        placeholder="Quantity"
+                    ></input>
+                    <input
+                        type="text"
+                        onChange={handleChange}
+                        name="name"
+                        placeholder="Name"
+                    ></input>
+                    <input
+                        type="text"
+                        onChange={handleChange}
+                        name="size"
+                        placeholder="Size"
+                    ></input>
+                    <input
+                        type="text"
+                        onChange={handleChange}
+                        name="expiry"
+                        placeholder="Expiry"
+                    ></input>
+                </form>
+                <button onClick={addItem}>Add Item</button>
             </div>
             <Items />
-        </div>
+        </div >
     )
 }
 

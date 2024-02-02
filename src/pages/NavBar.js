@@ -37,7 +37,7 @@ function NavBar(){
                   <a className="nav-link active" aria-current="page" href="/#" >Home</a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link"  onClick={createStorage}>Add Inventory</a>
+                  <a className="nav-link"  onClick={createStorage}>Add Storage</a>
                 </li>
                 <li className="nav-item">
                   <a className="nav-link"  onClick={logOut}>Setting</a>

@@ -1,5 +1,4 @@
 import React, { useRef, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 function Items() {
     const [item, setItem] = useState({
@@ -8,6 +7,12 @@ function Items() {
         size: "",
         expiry: "",
     })
+    const [itemlist,setItemList] = useState([])
+   
+    useEffect(() => {
+        localStorage.setItem("CUR_ITEM_LIST",JSON.stringify(itemlist))
+    }, [itemlist])
+ 
 
     const handleChange = e => {
         setItem((prev) => ({
@@ -17,7 +22,14 @@ function Items() {
     }
 
     function addItem() {
-        console.log(item)
+        if(item.quantity&&item.name&&item.size&&item.expiry){
+            setItemList([...itemlist,item])
+            console.log(item)
+            console.log(itemlist)
+        } else {
+            window.alert("Missing Info")
+        }
+        
     }
 
     return (

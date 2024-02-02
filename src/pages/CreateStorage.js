@@ -8,10 +8,8 @@ function CreateStorage() {
     const storagetype = useRef()
     const storagelocation = useRef()
     const navigate = useNavigate()
-    //const currentUser = localStorage.getItem("CUR_USER")
     const allStorageDataStr = localStorage.getItem("ALL_STORAGES")
     const allStorageData = JSON.parse(allStorageDataStr)
-    //Checks for User
     
     //Gets form information and checks before saving to local storage
     function addStorage() {
@@ -20,7 +18,7 @@ function CreateStorage() {
             const stype = storagetype.current.value
             const sloc = storagelocation.current.value
             const newStorage = { name: sname, type: stype, location: sloc, items: [] }
-            console.log(allStorageDataStr)
+            
             if (allStorageDataStr === null) {
                 localStorage.setItem("ALL_STORAGES", JSON.stringify([newStorage]))
                 navigate("/")
@@ -49,39 +47,6 @@ function CreateStorage() {
         }
         return false
     }
-
-    /* 
-    //Populates dropdown with list of storage names
-    function currentStorages() {
-         if (allStorageDataStr === null) {
-             return
-         }
-         return allStorageData.map((el) => {
-             console.log(el.name)
-             return (
-                 <li key={el.name}><a className="dropdown-item" href="#">{el.name}</a></li>
-             )
-         })
-     }
-      <div className="dropdown">
-                    <button className="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Add New Storage
-                    </button>
-                    <ul className="dropdown-menu">
-                        <li key="Create New"><a className="dropdown-item" href="#">Create New</a></li>
-                        {currentStorages()}
-                    </ul>
-                </div>
-     */
-
-    /*Old add item function, saving for possible future reference
-    function addItem() {
-       if (item.current.value) {
-           setItemList([...itemlist, item.current.value])
-            console.log(itemlist)
-        }
-    }
-    */
     return (
         <div>
             <div className="container">

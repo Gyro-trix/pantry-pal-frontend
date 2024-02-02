@@ -24,8 +24,6 @@ function Items() {
     function addItem() {
         if(item.quantity&&item.name&&item.size&&item.expiry){
             setItemList([...itemlist,item])
-            console.log(item)
-            console.log(itemlist)
         } else {
             window.alert("Missing Info")
         }

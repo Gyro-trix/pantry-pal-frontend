@@ -30,9 +30,26 @@ function AddItems() {
         
     }
 
+    function displayItems(){
+        let count = 0
+        if ((itemlist === null) === false) {
+            return itemlist.map((item) => {
+            count = count++
+              return (
+                <div key={item.name+count} className="card" style={{ marginTop: 10 }}>
+                  <div className="card-body">
+                    <p className="card-text">Item Name: {item.name} Quantity:{item.quantity} Size:{item.size} Expiry:{item.expiry}</p>
+                  </div>
+                </div>
+              )
+            })
+          }
+    }
+
     return (
         <div>
             <div className="container">
+                {displayItems()}
                 <form className="flex">
                     <input
                         type="text"

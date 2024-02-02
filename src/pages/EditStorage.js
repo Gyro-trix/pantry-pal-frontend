@@ -40,11 +40,6 @@ function EditStorage() {
     //Adds modified storage to local storage ALL_STORAGES
     function saveStorage() {
         setItemList(JSON.parse(localStorage.getItem("CUR_ITEM_LIST")))
-        setCurrentStorage((prev) => ({
-            ...prev,
-            items: itemlist,
-        }))
-        console.log("filtered",filteredStorages)
         //CURRENTLY LAGGING BEHIND, state issue???
         setAllStorageData([...filteredStorages, currentStorage])
         localStorage.setItem("ALL_STORAGES", JSON.stringify(allStorageData))

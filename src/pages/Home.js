@@ -12,7 +12,7 @@ function Home() {
 
   const allStorageDataStr = localStorage.getItem("ALL_STORAGES")
   const allStorageData = JSON.parse(allStorageDataStr)
-
+localStorage.setItem("CUR_ITEM_LIST",JSON.stringify([]))
   const navigate = useNavigate();
 
   function openEditStoragePage(singleStorageData) {

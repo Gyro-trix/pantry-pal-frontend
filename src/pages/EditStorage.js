@@ -4,16 +4,18 @@ import AddItems from './AddItems';
 
 function EditStorage() {
     const navigate = useNavigate()
-    const allStorageDataStr = localStorage.getItem("ALL_STORAGES")
-    const [allStorageData, setAllStorageData] = useState(JSON.parse(allStorageDataStr))
+    //const allStorageDataStr = localStorage.getItem("ALL_STORAGES")
+    const [allStorageData, setAllStorageData] = useState(JSON.parse(localStorage.getItem("ALL_STORAGES")))
     const [currentStorage, setCurrentStorage] = useState(
         JSON.parse(localStorage.getItem("CUR_STORAGE"))
     )
     //Useed to handle item list array for current storage
-    const [itemlist,setItemList] = useState(currentStorage.items ? currentStorage.items : " ")
-    localStorage.setItem("CUR_ITEM_LIST",JSON.stringify(itemlist))
+    const [itemlist, setItemList] = useState(currentStorage.items ? currentStorage.items : " ")
+    localStorage.setItem("CUR_ITEM_LIST", JSON.stringify(itemlist))
     //Filters out current storage from all storages
     const [filteredStorages, setFilteredStorages] = useState(allStorageData.filter(store => !store.name.match(new RegExp('^' + currentStorage.name + '$'))))
+
+
 
     const handleChange = e => {
         setCurrentStorage((prev) => ({
@@ -21,22 +23,33 @@ function EditStorage() {
             [e.target.name]: e.target.value,
         }))
     }
-    //Whenever allStorageData changes, load it back to local storage
+
     useEffect(() => {
-        localStorage.setItem("ALL_STORAGES",JSON.stringify(allStorageData))
-    }, [allStorageData])
-   
+        setCurrentStorage((prev) => ({
+            ...prev,
+            items: itemlist,
+        }))
+    }, [itemlist])
+
+
+
+    useEffect(() => {
+        localStorage.setItem("CUR_STORAGE", JSON.stringify(currentStorage))
+        console.log("current", currentStorage)
+    }, [JSON.stringify(currentStorage)])
+
+    useEffect(() => {
+        localStorage.setItem("ALL_STORAGES", JSON.stringify(allStorageData))
+        console.log("all", allStorageData)
+    }, [JSON.stringify(allStorageData)])
     //Adds 
     function saveStorage() {
         setItemList(JSON.parse(localStorage.getItem("CUR_ITEM_LIST")))
-        setCurrentStorage((prev)=> ({
-            ...prev,
-            items:itemlist,
-        }))
-        setAllStorageData([...filteredStorages, currentStorage])
+        setAllStorageData([...filteredStorage, currentStorage])
+        //navigate("/")
     }
     //Check if current storage in editing has a shared name with other storages
-    function storageExists(){
+    function storageExists() {
         for (let i = 0; i < filteredStorages.length; i++) {
             if (filteredStorages[i].name === currentStorage.name) {
                 return true
@@ -46,9 +59,10 @@ function EditStorage() {
     }
     //Edits storage based on form and saves if the new name does not conflict with other storages
     function editStorage() {
-        if(storageExists() === false){
+        if (storageExists() === false) {
             localStorage.setItem("CUR_STORAGE", JSON.stringify(currentStorage))
             saveStorage()
+
         } else {
             window.alert("Already exists")
         }

@@ -15,7 +15,7 @@ function NavBar(){
       checkUserLogin(currentUser, navigate)
     },[currentUser])
     function logOut(){
-        //localStorage.setItem("CUR_USER", "")
+        
         navigate("/login")
       }
     

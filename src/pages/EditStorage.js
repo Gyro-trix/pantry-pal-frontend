@@ -3,48 +3,48 @@ import { useNavigate } from "react-router-dom";
 import Items from './Items';
 
 function EditStorage() {
-    const storagename = useRef()
-    const storagetype = useRef()
-    const storagelocation = useRef()
     const navigate = useNavigate()
-    const currentUser = localStorage.getItem("CUR_USER")
     const allStorageDataStr = localStorage.getItem("ALL_STORAGES")
-    const allStorageData = JSON.parse(allStorageDataStr)
-    const currentStorageData = JSON.parse(localStorage.getItem("CUR_STORAGE"))
-    const [name, setName] = useState(currentStorageData && currentStorageData.name ? currentStorageData.name : "")
-    const [type, setType] = useState(currentStorageData && currentStorageData.type ? currentStorageData.type : "")
-    const [location, setLocation] = useState(currentStorageData && currentStorageData.location ? currentStorageData.location : "")
-    const [items, setItems] = useState(currentStorageData && currentStorageData.items ? currentStorageData.items : "")
-    //filterStorage is allStorageData without currentStorageData, filter by name using a Regular Expression match the name String
-    const [filteredStorage, setFilteredStorage] = useState(allStorageData.filter(storage => !storage.name.match(new RegExp('^' + name + '$'))))
-    const [temp, setTemp] = useState({ name: name, type: type, location: location, items: items })
-    
+    const [allStorageData, setAllStorageData] = useState(JSON.parse(allStorageDataStr))
+    const [currentStorage, setCurrentStorage] = useState(
+        JSON.parse(localStorage.getItem("CUR_STORAGE"))
+    )
+    //Filters out current storage from all storages
+    const [filteredStorages, setFilteredStorages] = useState(allStorageData.filter(store => !store.name.match(new RegExp('^' + currentStorage.name + '$'))))
 
-
-    useEffect(() => {
-        setTemp({ name: name, type: type, location: location, items: items });
-    }, [name, type, location, items])
-
-    //useEffect(() => {
-    //    saveStorage(allStorageData, temp)
-    // }, [filteredStorage, temp])
-
-    function saveStorage(allStorage, newStorage) {
-        let temparr = [...filteredStorage, newStorage]
-        allStorage = temparr
-        localStorage.setItem("ALL_STORAGES", JSON.stringify(allStorage))
+    const handleChange = e => {
+        setCurrentStorage((prev) => ({
+            ...prev,
+            [e.target.name]: e.target.value,
+        }))
     }
-
-
+    //Whenever allStorageData changes, load it back to local storage
+    useEffect(() => {
+        localStorage.setItem("ALL_STORAGES",JSON.stringify(allStorageData))
+    }, [allStorageData])
+    //Adds 
+    function saveStorage() {
+        setAllStorageData([...filteredStorages, currentStorage])
+    }
+    //Check if current storage in editing has a shared name with other storages
+    function storageExists(){
+        for (let i = 0; i < filteredStorages.length; i++) {
+            console.log(filteredStorages[i].name, currentStorage.name)
+            if (filteredStorages[i].name === currentStorage.name) {
+                return true
+            }
+        }
+        return false
+    }
+    //Edits storage based on form and saves if the new name does not conflict with other storages
     function editStorage() {
-        //Set form values as the replacements     
-        setName(storagename.current.value)
-        setType(storagetype.current.value)
-        setLocation(storagelocation.current.value)
-        setItems(currentStorageData.items)
-        setTemp({ name: name, type: type, location: location, items: items })
-        localStorage.setItem("CUR_STORAGE", JSON.stringify(temp))
-        saveStorage(allStorageData, temp)
+        if(storageExists() === false){
+            localStorage.setItem("CUR_STORAGE", JSON.stringify(currentStorage))
+            saveStorage()
+        } else {
+            window.alert("Already exists")
+        }
+
         // Pull all Edit Storage
 
         // Use the .filter() function to get rid of the old storage item in the array of all storages
@@ -65,6 +65,7 @@ function EditStorage() {
         }
         */
     }
+    //Form to edit storages that shows current storage information
     return (
         <div>
             <div className="container">
@@ -72,29 +73,23 @@ function EditStorage() {
                     <input
                         type="text"
                         onChange={handleChange}
-                        name="quantity"
-                        placeholder="Quantity"
-                    ></input>
-                    <input
-                        type="text"
-                        onChange={handleChange}
                         name="name"
-                        placeholder="Name"
+                        defaultValue={currentStorage.name}
                     ></input>
                     <input
                         type="text"
                         onChange={handleChange}
-                        name="size"
-                        placeholder="Size"
+                        name="type"
+                        defaultValue={currentStorage.type}
                     ></input>
                     <input
                         type="text"
                         onChange={handleChange}
-                        name="expiry"
-                        placeholder="Expiry"
+                        name="location"
+                        defaultValue={currentStorage.location}
                     ></input>
                 </form>
-                <button onClick={addItem}>Add Item</button>
+                <button onClick={editStorage}>Edit Storage</button>
             </div>
             <Items />
         </div >

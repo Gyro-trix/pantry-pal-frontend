@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Items from './Items';
+import AddItems from './AddItems';
 
 function EditStorage() {
     const navigate = useNavigate()
@@ -99,7 +99,7 @@ function EditStorage() {
                 </form>
                 <button onClick={editStorage}>Edit Storage</button>
             </div>
-            <Items />
+            <AddItems />
         </div >
     )
 }

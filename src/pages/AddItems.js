@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 
-function Items() {
+function AddItems() {
     const [item, setItem] = useState({
         quantity: "",
         name: "",
@@ -65,4 +65,4 @@ function Items() {
     )
 
 }
-export default Items;
+export default AddItems;

@@ -27,22 +27,24 @@ function EditStorage() {
             ...prev,
             items: itemlist,
         }))
-    }, [itemlist])
+    }, [itemlist.length])
 
     useEffect(() => {
         localStorage.setItem("CUR_STORAGE", JSON.stringify(currentStorage))
-    }, [JSON.stringify(currentStorage)])
+    }, [JSON.stringify(currentStorage.items.length)])
 
     
     useEffect(() => {
         localStorage.setItem("ALL_STORAGES", JSON.stringify(allStorageData))
-    }, [JSON.stringify(allStorageData)])
+    }, [JSON.stringify(allStorageData)]) 
     
-
     //Adds modified storage to local storage ALL_STORAGES
     function saveStorage() {
         setItemList(JSON.parse(localStorage.getItem("CUR_ITEM_LIST")))
-        console.log("All",allStorageData)
+        setCurrentStorage((prev) => ({
+            ...prev,
+            items: itemlist,
+        }))
         console.log("filtered",filteredStorages)
         setAllStorageData([...filteredStorages, currentStorage])
         localStorage.setItem("ALL_STORAGES", JSON.stringify(allStorageData))

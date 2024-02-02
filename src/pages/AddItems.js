@@ -11,7 +11,7 @@ function AddItems() {
    
     useEffect(() => {
         localStorage.setItem("CUR_ITEM_LIST",JSON.stringify(itemlist))
-    }, [itemlist])
+    }, [itemlist.length])
  
 
     const handleChange = e => {
@@ -24,7 +24,6 @@ function AddItems() {
     function addItem() {
         if(item.quantity&&item.name&&item.size&&item.expiry){
             setItemList([...itemlist,item])
-            localStorage.setItem("CUR_ITEM_LIST",JSON.stringify(itemlist))
         } else {
             window.alert("Missing Info")
         }

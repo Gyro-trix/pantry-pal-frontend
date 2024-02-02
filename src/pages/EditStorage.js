@@ -33,11 +33,11 @@ function EditStorage() {
         localStorage.setItem("CUR_STORAGE", JSON.stringify(currentStorage))
     }, [JSON.stringify(currentStorage)])
 
-    /*
+    
     useEffect(() => {
         localStorage.setItem("ALL_STORAGES", JSON.stringify(allStorageData))
     }, [JSON.stringify(allStorageData)])
-    */
+    
 
     //Adds modified storage to local storage ALL_STORAGES
     function saveStorage() {
@@ -45,8 +45,7 @@ function EditStorage() {
         console.log("All",allStorageData)
         console.log("filtered",filteredStorages)
         setAllStorageData([...filteredStorages, currentStorage])
-        console.log("All",allStorageData)
-        //localStorage.setItem("ALL_STORAGES", JSON.stringify(allStorageData))
+        localStorage.setItem("ALL_STORAGES", JSON.stringify(allStorageData))
         //navigate("/")
     }
     //Check if current storage in editing has a shared name with other storages

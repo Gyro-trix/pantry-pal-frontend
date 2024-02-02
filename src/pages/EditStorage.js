@@ -45,7 +45,7 @@ function EditStorage() {
     //Adds 
     function saveStorage() {
         setItemList(JSON.parse(localStorage.getItem("CUR_ITEM_LIST")))
-        setAllStorageData([...filteredStorage, currentStorage])
+        setAllStorageData([...filteredStorages, currentStorage])
         //navigate("/")
     }
     //Check if current storage in editing has a shared name with other storages

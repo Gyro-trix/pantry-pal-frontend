@@ -15,8 +15,6 @@ function EditStorage() {
     //Filters out current storage from all storages
     const [filteredStorages, setFilteredStorages] = useState(allStorageData.filter(store => !store.name.match(new RegExp('^' + currentStorage.name + '$'))))
 
-
-
     const handleChange = e => {
         setCurrentStorage((prev) => ({
             ...prev,
@@ -31,21 +29,24 @@ function EditStorage() {
         }))
     }, [itemlist])
 
-
-
     useEffect(() => {
         localStorage.setItem("CUR_STORAGE", JSON.stringify(currentStorage))
-        console.log("current", currentStorage)
     }, [JSON.stringify(currentStorage)])
 
+    /*
     useEffect(() => {
         localStorage.setItem("ALL_STORAGES", JSON.stringify(allStorageData))
-        console.log("all", allStorageData)
     }, [JSON.stringify(allStorageData)])
-    //Adds 
+    */
+
+    //Adds modified storage to local storage ALL_STORAGES
     function saveStorage() {
         setItemList(JSON.parse(localStorage.getItem("CUR_ITEM_LIST")))
+        console.log("All",allStorageData)
+        console.log("filtered",filteredStorages)
         setAllStorageData([...filteredStorages, currentStorage])
+        console.log("All",allStorageData)
+        //localStorage.setItem("ALL_STORAGES", JSON.stringify(allStorageData))
         //navigate("/")
     }
     //Check if current storage in editing has a shared name with other storages

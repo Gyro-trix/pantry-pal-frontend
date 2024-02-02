@@ -45,6 +45,7 @@ function EditStorage() {
             items: itemlist,
         }))
         console.log("filtered",filteredStorages)
+        //CURRENTLY LAGGING BEHIND, state issue???
         setAllStorageData([...filteredStorages, currentStorage])
         localStorage.setItem("ALL_STORAGES", JSON.stringify(allStorageData))
         //navigate("/")

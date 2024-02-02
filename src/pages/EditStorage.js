@@ -27,12 +27,11 @@ function EditStorage() {
             ...prev,
             items: itemlist,
         }))
-    }, [itemlist.length])
+    }, [itemlist])
 
     useEffect(() => {
         localStorage.setItem("CUR_STORAGE", JSON.stringify(currentStorage))
     }, [JSON.stringify(currentStorage.items.length)])
-
     
     useEffect(() => {
         localStorage.setItem("ALL_STORAGES", JSON.stringify(allStorageData))

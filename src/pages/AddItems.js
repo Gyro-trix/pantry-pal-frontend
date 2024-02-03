@@ -32,7 +32,7 @@ function AddItems() {
     //Delete item based on index in itemlist
     function deleteItem(indextodelete) {
         setItemList(oldItemList => {
-            return oldItemList.filter((_,i) => i !== indextodelete)
+            return oldItemList.filter((_, i) => i !== indextodelete)
         })
 
     }
@@ -40,7 +40,7 @@ function AddItems() {
     function displayItems() {
         let count = 0
         if ((itemlist === null) === false) {
-            return itemlist.map((item,index) => {
+            return itemlist.map((item, index) => {
                 return (
                     <div key={item.name} className="card" style={{ marginTop: 10 }}>
                         <div className="card-body">
@@ -57,33 +57,37 @@ function AddItems() {
         <div>
             <div className="container">
                 {displayItems()}
-                <form className="flex">
+                <form className="col" style = {{marginTop: 10  }}>
                     <input
+                        style={{ width: 75}}
                         type="text"
                         onChange={handleChange}
                         name="quantity"
                         placeholder="Quantity"
                     ></input>
                     <input
+                        style = {{marginLeft: 5  }}
                         type="text"
                         onChange={handleChange}
                         name="name"
                         placeholder="Name"
                     ></input>
                     <input
+                        style={{ width: 100 ,marginLeft: 5  }}
                         type="text"
                         onChange={handleChange}
                         name="size"
                         placeholder="Size"
                     ></input>
                     <input
+                        style = {{marginLeft: 5  }}
                         type="text"
                         onChange={handleChange}
                         name="expiry"
                         placeholder="Expiry"
                     ></input>
                 </form>
-                <button onClick={addItem}>Add Item</button>
+                <button style = {{marginTop: 10  }} onClick={addItem}>Add Item</button>
             </div>
         </div>
     )

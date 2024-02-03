@@ -87,8 +87,8 @@ function EditStorage() {
     //Form to edit storages that shows current storage information
     return (
         <div>
-            <div className="container">
-                <form className="flex">
+            <div className="container col">
+                <form className="flex row-auto" style ={{width: 50}} >
                     <input
                         type="text"
                         onChange={handleChange}

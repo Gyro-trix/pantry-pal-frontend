@@ -7,12 +7,12 @@ function AddItems() {
         size: "",
         expiry: "",
     })
-    const [itemlist,setItemList] = useState(JSON.parse(localStorage.getItem("CUR_ITEM_LIST")))
-   
+    const [itemlist, setItemList] = useState(JSON.parse(localStorage.getItem("CUR_ITEM_LIST")))
+
     useEffect(() => {
-        localStorage.setItem("CUR_ITEM_LIST",JSON.stringify(itemlist))
+        localStorage.setItem("CUR_ITEM_LIST", JSON.stringify(itemlist))
     }, [itemlist.length])
- 
+
 
     const handleChange = e => {
         setItem((prev) => ({
@@ -22,28 +22,35 @@ function AddItems() {
     }
 
     function addItem() {
-        if(item.quantity&&item.name&&item.size&&item.expiry){
-            setItemList([...itemlist,item])
+        if (item.quantity && item.name && item.size && item.expiry) {
+            setItemList([...itemlist, item])
         } else {
             window.alert("Missing Info")
         }
-        
+
+    }
+    //Delete item based on index in itemlist
+    function deleteItem(indextodelete) {
+        setItemList(oldItemList => {
+            return oldItemList.filter((_,i) => i !== indextodelete)
+        })
+
     }
 
-    function displayItems(){
+    function displayItems() {
         let count = 0
         if ((itemlist === null) === false) {
-            return itemlist.map((item) => {
-            count = count++
-              return (
-                <div key={item.name+count} className="card" style={{ marginTop: 10 }}>
-                  <div className="card-body">
-                    <p className="card-text">Item Name: {item.name} Quantity:{item.quantity} Size:{item.size} Expiry:{item.expiry}</p>
-                  </div>
-                </div>
-              )
+            return itemlist.map((item,index) => {
+                return (
+                    <div key={item.name} className="card" style={{ marginTop: 10 }}>
+                        <div className="card-body">
+                            <p className="card-text">Item Name: {item.name} Quantity:{item.quantity} Size:{item.size} Expiry:{item.expiry}</p>
+                            <button onClick={() => deleteItem(index)}>Delete Item</button>
+                        </div>
+                    </div>
+                )
             })
-          }
+        }
     }
 
     return (

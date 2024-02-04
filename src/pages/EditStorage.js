@@ -16,6 +16,8 @@ function EditStorage() {
     //Filters out current storage from all storages
     let [filteredStorages,setFilteredStorages] = useState("")
 
+
+    
     const storage = useMemo(() => ({
         name: currentStorage.name,
         type: currentStorage.type,
@@ -39,19 +41,19 @@ function EditStorage() {
 
     useEffect(() => {
         localStorage.setItem("CUR_STORAGE", JSON.stringify(storage))
-    }, [storage])
+        setFilteredStorages(allStorageData.filter(store => !store.name.match(new RegExp('^' + storage.name + '$'))))
+    }, [storage,allStorageData])
 
-    //useEffect(() => {
-   //     localStorage.setItem("ALL_STORAGES", JSON.stringify(allStorageData))
-    //}, [JSON.stringify(allStorageData)])
-//
+    useEffect(() => {
+        localStorage.setItem("ALL_STORAGES", JSON.stringify(allStorageData))
+    }, [allStorageData])
+
     //Adds modified storage to local storage ALL_STORAGES
     function saveStorage() {
         setItemList(JSON.parse(localStorage.getItem("CUR_ITEM_LIST")))
-        console.log(allStorageData)
-        setFilteredStorages(allStorageData.filter(store => !store.name.match(new RegExp('^' + currentStorage.name + '$'))))
-        filteredStorages.concat([currentStorage])
-        console.log(filteredStorages)
+        console.log("filtered storages",filteredStorages)
+        setAllStorageData([...filteredStorages,storage])
+        console.log("all Storages",allStorageData)
         //setAllStorageData(filteredStorages)
         //navigate("/")
     }
@@ -67,7 +69,6 @@ function EditStorage() {
     //Edits storage based on form and saves if the new name does not conflict with other storages
     function editStorage() {
         if (storageExists() === false) {
-            console.log("all Storage",filteredStorages)
             localStorage.setItem("CUR_STORAGE", JSON.stringify(currentStorage))
             saveStorage()
 
@@ -76,7 +77,7 @@ function EditStorage() {
         }
 
         // Pull all Edit Storage
-
+        //allStorageData.filter(store => !store.name.match(new RegExp('^' + currentStorage.name + '$')))
         // Use the .filter() function to get rid of the old storage item in the array of all storages
 
         // Append the new modified one

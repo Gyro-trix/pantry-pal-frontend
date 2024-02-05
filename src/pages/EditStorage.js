@@ -11,13 +11,9 @@ function EditStorage() {
     //Filters based on current storage name
     const [filteredStorages, setFilteredStorages] = useState(allStorageData.filter(store => !store.name.match(new RegExp('^' + currentStorage.name + '$'))))
     // individual item
+    const [notifyText, setNotifyText] = useState("Edit in progress")
+    const [notifyColor, setNotifyColor] = useState("black")
     const [item, setItem] = useState({
-        quantity: "",
-        name: "",
-        size: "",
-        expiry: "",
-    })
-    const [itemtoedit, setItemToEdit] = useState({
         quantity: "",
         name: "",
         size: "",
@@ -60,10 +56,12 @@ function EditStorage() {
     function editStorage() {
         if (storageExists() === false) {
             setAllStorageData([...filteredStorages, currentStorage])
-
-            navigate("/")
-
+            setNotifyText("Save Complete")
+            setNotifyColor("green")
+           // navigate("/")
         } else {
+            setNotifyText("Unable to save, storage name already exists")
+            setNotifyColor("red")
             window.alert("Already exists")
         }
 
@@ -97,6 +95,8 @@ function EditStorage() {
     function addItem() {
         if (item.quantity && item.name && item.size && item.expiry) {
             setItemList([...itemlist, item])
+            setNotifyText("Item added, please do not forget to save")
+            setNotifyColor("green")
         } else {
             window.alert("Missing Information")
         }
@@ -197,6 +197,7 @@ function EditStorage() {
                         ></input>
                         <button style={{ marginLeft: 10 }} onClick={addItem}>Add Item</button>
                     </form>
+                    <p style = {{color: notifyColor}}>{notifyText}</p>
                     <button style={{ marginTop: 5 }} onClick={editStorage}>Save Storage</button>
                 </div>
             </div>

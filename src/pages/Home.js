@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+//import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 function Home() {
@@ -26,7 +26,7 @@ function Home() {
     if ((allStorageDataStr === null) === false) {
       return allStorageData.map((singleStorageData) => {
       console.log(singleStorageData.items)
-      let arr = singleStorageData.items
+      
         return (
           <div key={singleStorageData.name} className="card" style={{ marginTop: 10 }}>
             <div className="card-body">

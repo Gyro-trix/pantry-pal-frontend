@@ -1,4 +1,4 @@
-import React, {  useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 //import AddItems from './AddItems';
 
@@ -7,11 +7,17 @@ function EditStorage() {
     const [allStorageData, setAllStorageData] = useState(JSON.parse(localStorage.getItem("ALL_STORAGES")))
     const [currentStorage, setCurrentStorage] = useState(JSON.parse(localStorage.getItem("CUR_STORAGE")))
     //Makes itemlist based on array
-    const [itemlist, setItemList] = useState(JSON.parse(localStorage.getItem("CUR_ITEM_LIST")))   
+    const [itemlist, setItemList] = useState(JSON.parse(localStorage.getItem("CUR_ITEM_LIST")))
     //Filters based on current storage name
     const [filteredStorages, setFilteredStorages] = useState(allStorageData.filter(store => !store.name.match(new RegExp('^' + currentStorage.name + '$'))))
-    //
+    // individual item
     const [item, setItem] = useState({
+        quantity: "",
+        name: "",
+        size: "",
+        expiry: "",
+    })
+    const [itemtoedit, setItemToEdit] = useState({
         quantity: "",
         name: "",
         size: "",
@@ -53,16 +59,16 @@ function EditStorage() {
     //Edits storage based on form and saves if the new name does not conflict with other storages
     function editStorage() {
         if (storageExists() === false) {
-            setAllStorageData([...filteredStorages,currentStorage])
-                 
-            //saveStorage()
+            setAllStorageData([...filteredStorages, currentStorage])
+
+            //navigate("/")
 
         } else {
             window.alert("Already exists")
         }
 
         // Pull all Edit Storage
-       
+
         // Use the .filter() function to get rid of the old storage item in the array of all storages
 
         // Append the new modified one
@@ -103,16 +109,20 @@ function EditStorage() {
         })
 
     }
+
     //displays items in current storage
     function displayItems() {
         if ((itemlist === null) === false) {
             return itemlist.map((item, index) => {
                 return (
-                    <div key={item.name+index} className="card" style={{ marginTop: 10 }}>
-                        <div className="card-body">
-                            <p className="card-text">Item Name: {item.name} Quantity:{item.quantity} Size:{item.size} Expiry:{item.expiry}</p>
-                            <button onClick={() => deleteItem(index)}>Delete Item</button>
-                        </div>
+                    <div key={item.name + index} className="card" style={{ marginTop: 10, flex: 1 }}>
+                        <form className="flex row-auto" style={{ marginTop: 10, marginBottom: 10 }}>
+                            <input type="text" defaultValue={item.quantity} style={{ width: 75 }}></input>
+                            <input type="text" defaultValue={item.name} style={{ marginLeft: 5 }}></input>
+                            <input type="text" defaultValue={item.size} style={{ width: 100, marginLeft: 5 }}></input>
+                            <input type="text" defaultValue={item.expiry} style={{ marginLeft: 5 }}></input>
+                            <button style={{ marginLeft: 10 }} onClick={() => deleteItem(index)}>X</button>
+                        </form>
                     </div>
                 )
             })
@@ -121,65 +131,74 @@ function EditStorage() {
     //Form to edit storages that shows current storage information
     return (
         <div>
+            {/*Edit Storage Form */}
             <div className="container col">
-                <form className="flex row-auto" style={{ width: 50 }} >
-                    <input
-                        type="text"
-                        onChange={handleChange}
-                        name="name"
-                        defaultValue={currentStorage.name}
-                    ></input>
-                    <input
-                        type="text"
-                        onChange={handleChange}
-                        name="type"
-                        defaultValue={currentStorage.type}
-                    ></input>
-                    <input
-                        type="text"
-                        onChange={handleChange}
-                        name="location"
-                        defaultValue={currentStorage.location}
-                    ></input>
+                <form className="flex row-auto" style={{ width: 100 }} >
+                    <label>Storage Name:
+                        <input
+                            type="text"
+                            onChange={handleChange}
+                            name="name"
+                            defaultValue={currentStorage.name}
+                        ></input>
+                    </label>
+                    <label>Storage Type:
+                        <input
+                            type="text"
+                            onChange={handleChange}
+                            name="type"
+                            defaultValue={currentStorage.type}
+                        ></input>
+                    </label>
+                    <label>Storage Location:
+                        <input
+                            type="text"
+                            onChange={handleChange}
+                            name="location"
+                            defaultValue={currentStorage.location}
+                        ></input>
+                    </label>
                 </form>
-                <button onClick={editStorage}>Edit Storage</button>
+
             </div>
+            {/*Form for Adding Items*/}
             <div>
-            <div className="container">
-                {displayItems()}
-                <form className="col" style = {{marginTop: 10  }}>
-                    <input
-                        style={{ width: 75}}
-                        type="text"
-                        onChange={handleItem}
-                        name="quantity"
-                        placeholder="Quantity"
-                    ></input>
-                    <input
-                        style = {{marginLeft: 5  }}
-                        type="text"
-                        onChange={handleItem}
-                        name="name"
-                        placeholder="Name"
-                    ></input>
-                    <input
-                        style={{ width: 100 ,marginLeft: 5  }}
-                        type="text"
-                        onChange={handleItem}
-                        name="size"
-                        placeholder="Size"
-                    ></input>
-                    <input
-                        style = {{marginLeft: 5  }}
-                        type="text"
-                        onChange={handleItem}
-                        name="expiry"
-                        placeholder="Expiry"
-                    ></input>
-                </form>
-                <button style = {{marginTop: 10  }} onClick={addItem}>Add Item</button>
+                <div className="container">
+                    {displayItems()}
+                    <form className="col" style={{ marginTop: 10 }}>
+                        <input
+                            style={{ width: 75 }}
+                            type="text"
+                            onChange={handleItem}
+                            name="quantity"
+                            placeholder="Quantity"
+                        ></input>
+                        <input
+                            style={{ marginLeft: 5 }}
+                            type="text"
+                            onChange={handleItem}
+                            name="name"
+                            placeholder="Name"
+                        ></input>
+                        <input
+                            style={{ width: 100, marginLeft: 5 }}
+                            type="text"
+                            onChange={handleItem}
+                            name="size"
+                            placeholder="Size"
+                        ></input>
+                        <input
+                            style={{ marginLeft: 5 }}
+                            type="text"
+                            onChange={handleItem}
+                            name="expiry"
+                            placeholder="Expiry"
+                        ></input>
+                        <button style={{ marginLeft: 10 }} onClick={addItem}>Add Item</button>
+                    </form>
+                    <button style={{ marginTop: 5 }} onClick={editStorage}>Save Storage</button>
+                </div>
             </div>
-        </div>
         </div >
     )
 }

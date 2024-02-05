@@ -40,19 +40,6 @@ function EditStorage() {
     useEffect(() => {
         localStorage.setItem("CUR_ITEM_LIST", JSON.stringify(itemlist))
     }, [itemlist])
-    
-    /*
-    function saveStorage() {
-        //Does not update on time
-            //setItemList(JSON.parse(localStorage.getItem("CUR_ITEM_LIST")))
-            
-            //Does not update on time
-            //setAllStorageData([...filteredStorages, currentStorage])
-            
-        //setAllStorageData(filteredStorages)
-        //navigate("/")
-    }
-    */
 
     //Check if current storage in editing has a shared name with other storages
     function storageExists() {

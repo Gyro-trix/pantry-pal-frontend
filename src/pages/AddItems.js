@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 
-function AddItems() {
+function AddItems(props) {
     const [item, setItem] = useState({
         quantity: "",
         name: "",
         size: "",
         expiry: "",
     })
-    const [itemlist, setItemList] = useState(JSON.parse(localStorage.getItem("CUR_ITEM_LIST")))
+    const {itemlist, setItemList} = props;
 
     useEffect(() => {
         localStorage.setItem("CUR_ITEM_LIST", JSON.stringify(itemlist))

@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-//import AddItems from './AddItems';
+import AddItems from './AddItems';
 
 function EditStorage() {
     const navigate = useNavigate()
-    const [allStorageData, setAllStorageData] = useState(JSON.parse(localStorage.getItem("ALL_STORAGES")))
-    const [currentStorage, setCurrentStorage] = useState(JSON.parse(localStorage.getItem("CUR_STORAGE")))
+    const [allStorageData, setAllStorageData] = useState(JSON.parse(localStorage.getItem("ALL_STORAGES")));
+    const [currentStorage, setCurrentStorage] = useState(JSON.parse(localStorage.getItem("CUR_STORAGE")));
+    const [itemlist, setItemList] = useState(JSON.parse(localStorage.getItem("CUR_ITEM_LIST")));
+
     //Makes itemlist based on array
-    const [itemlist, setItemList] = useState(JSON.parse(localStorage.getItem("CUR_ITEM_LIST")))
     //Filters based on current storage name
     const [filteredStorages, setFilteredStorages] = useState(allStorageData.filter(store => !store.name.match(new RegExp('^' + currentStorage.name + '$'))))
     // individual item
@@ -52,82 +53,56 @@ function EditStorage() {
         }
         return false
     }
+    function saveStorageToLocalStorage(){
+        console.log("saveStorageToLocalStorage");
+        let filteredStorage = allStorageData.filter(store => !store.id.match(new RegExp('^' + currentStorage.id + '$')));
+        console.log("filtered",filteredStorage)
+        let itemList = JSON.parse(localStorage.getItem("CUR_ITEM_LIST"))
+        let modifiedCurrentStorage = {
+            ...currentStorage,
+            items: itemlist,
+        };
+        let newStorageData = [...filteredStorage, modifiedCurrentStorage];
+        setCurrentStorage(modifiedCurrentStorage);
+        setAllStorageData(newStorageData);
+    }
     //Edits storage based on form and saves if the new name does not conflict with other storages
     function editStorage() {
         if (storageExists() === false) {
-            setAllStorageData([...filteredStorages, currentStorage])
+            
+            saveStorageToLocalStorage()
             setNotifyText("Save Complete")
             setNotifyColor("green")
-           // navigate("/")
+            // navigate("/")
         } else {
             setNotifyText("Unable to save, storage name already exists")
             setNotifyColor("red")
             window.alert("Already exists")
         }
-
-        // Pull all Edit Storage
-
-        // Use the .filter() function to get rid of the old storage item in the array of all storages
-
-        // Append the new modified one
-
-        // push again the updated array to the local storage
-
-        // Add logic so you can add new items to the local storage
-        /*
-        {
-            name: "", type: "", location: "", 
-            items: [
-                {"name": "1"},
-                {"name": ""},
-                {"name": ""},
-            ]
-        }
-        */
     }
-    const handleItem = e => {
-        setItem((prev) => ({
-            ...prev,
-            [e.target.name]: e.target.value,
-        }))
-    }
+    // Pull all Edit Storage
 
-    function addItem() {
-        if (item.quantity && item.name && item.size && item.expiry) {
-            setItemList([...itemlist, item])
-            setNotifyText("Item added, please do not forget to save")
-            setNotifyColor("green")
-        } else {
-            window.alert("Missing Information")
-        }
+    // Use the .filter() function to get rid of the old storage item in the array of all storages
 
-    }
-    //Delete item based on index in itemlist
-    function deleteItem(indextodelete) {
-        setItemList(oldItemList => {
-            return oldItemList.filter((_, i) => i !== indextodelete)
-        })
+    // Append the new modified one
 
-    }
+    // push again the updated array to the local storage
 
-    //displays items in current storage
-    function displayItems() {
-        if ((itemlist === null) === false) {
-            return itemlist.map((item, index) => {
-                return (
-                    <div key={item.name + index} style={{ marginTop: 10, flex: 1 }}>
-                        <form className="flex row-auto" style={{ marginTop: 10, marginBottom: 10 }}>
-                            <input type="text" defaultValue={item.quantity} style={{ width: 75 }}></input>
-                            <input type="text" defaultValue={item.name} style={{ marginLeft: 5 }}></input>
-                            <input type="text" defaultValue={item.size} style={{ width: 100, marginLeft: 5 }}></input>
-                            <input type="text" defaultValue={item.expiry} style={{ marginLeft: 5 }}></input>
-                            <button style={{ marginLeft: 10 }} onClick={() => deleteItem(index)}>X</button>
-                        </form>
-                    </div>
-                )
-            })
-        }
+    // Add logic so you can add new items to the local storage
+    /*
+    {
+        name: "", type: "", location: "", 
+        items: [
+            {"name": "1"},
+            {"name": ""},
+            {"name": ""},
+        ]
     }
+    */
+
+
+
+
     //Form to edit storages that shows current storage information
     return (
         <div>
@@ -159,48 +134,11 @@ function EditStorage() {
                         ></input>
                     </label>
                 </form>
-
+                
             </div>
             {/*Form for Adding Items*/}
-            <div>
-                <div className="container">
-                    
-                    {displayItems()}
-                    <form className="col" style={{ marginTop: 10 }}>
-                        <input
-                            style={{ width: 75 }}
-                            type="text"
-                            onChange={handleItem}
-                            name="quantity"
-                            placeholder="Quantity"
-                        ></input>
-                        <input
-                            style={{ marginLeft: 5 }}
-                            type="text"
-                            onChange={handleItem}
-                            name="name"
-                            placeholder="Name"
-                        ></input>
-                        <input
-                            style={{ width: 100, marginLeft: 5 }}
-                            type="text"
-                            onChange={handleItem}
-                            name="size"
-                            placeholder="Size"
-                        ></input>
-                        <input
-                            style={{ marginLeft: 5 }}
-                            type="text"
-                            onChange={handleItem}
-                            name="expiry"
-                            placeholder="Expiry"
-                        ></input>
-                        <button style={{ marginLeft: 10 }} onClick={addItem}>Add Item</button>
-                    </form>
-                    <p style = {{color: notifyColor}}>{notifyText}</p>
-                    <button style={{ marginTop: 5 }} onClick={editStorage}>Save Storage</button>
-                </div>
-            </div>
+            <AddItems itemlist={itemlist} setItemList={setItemList} />
+            <button onClick={editStorage}>Edit Storage</button>
         </div >
     )
 }

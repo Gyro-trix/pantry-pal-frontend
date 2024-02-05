@@ -17,7 +17,7 @@ function CreateStorage() {
             const sname = storagename.current.value
             const stype = storagetype.current.value
             const sloc = storagelocation.current.value
-            const newStorage = { name: sname, type: stype, location: sloc, items: [] }
+            const newStorage = { id: sname.toLowerCase()+"-"+new Date().getTime(), name: sname, type: stype, location: sloc, items: [] }
             
             if (allStorageDataStr === null) {
                 localStorage.setItem("ALL_STORAGES", JSON.stringify([newStorage]))

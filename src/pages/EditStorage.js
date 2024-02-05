@@ -1,60 +1,59 @@
-import React, { useMemo, useEffect, useState } from "react";
+import React, {  useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import AddItems from './AddItems';
+//import AddItems from './AddItems';
 
 function EditStorage() {
     const navigate = useNavigate()
-    //const allStorageDataStr = localStorage.getItem("ALL_STORAGES")
     const [allStorageData, setAllStorageData] = useState(JSON.parse(localStorage.getItem("ALL_STORAGES")))
-
-    const [currentStorage, setCurrentStorage] = useState(
-        JSON.parse(localStorage.getItem("CUR_STORAGE"))
-    )
-    //Useed to handle item list array for current storage
-    const [itemlist, setItemList] = useState(currentStorage.items ? currentStorage.items : " ")
-    localStorage.setItem("CUR_ITEM_LIST", JSON.stringify(itemlist))
-    //Filters out current storage from all storages
-    let [filteredStorages, setFilteredStorages] = useState(allStorageData.filter(store => !store.name.match(new RegExp('^' + currentStorage.name + '$'))))
-    /*
-    const storage = useMemo(() => ({
-        name: currentStorage.name,
-        type: currentStorage.type,
-        location: currentStorage.location,
-        items: currentStorage.items,
-    }), [currentStorage.name, currentStorage.type, currentStorage.location, currentStorage.items])
-*/
+    const [currentStorage, setCurrentStorage] = useState(JSON.parse(localStorage.getItem("CUR_STORAGE")))
+    //Makes itemlist based on array
+    const [itemlist, setItemList] = useState(JSON.parse(localStorage.getItem("CUR_ITEM_LIST")))   
+    //Filters based on current storage name
+    const [filteredStorages, setFilteredStorages] = useState(allStorageData.filter(store => !store.name.match(new RegExp('^' + currentStorage.name + '$'))))
+    //
+    const [item, setItem] = useState({
+        quantity: "",
+        name: "",
+        size: "",
+        expiry: "",
+    })
+    //updates currentStorage as the form changes. Applies to name, type and location
     const handleChange = e => {
         setCurrentStorage((prev) => ({
             ...prev,
             [e.target.name]: e.target.value,
         }))
+        console.log("test")
     }
-
     useEffect(() => {
         setCurrentStorage((prev) => ({
             ...prev,
             items: itemlist,
         }))
     }, [itemlist])
-
     useEffect(() => {
         localStorage.setItem("CUR_STORAGE", JSON.stringify(currentStorage))
     }, [currentStorage])
-
     useEffect(() => {
         localStorage.setItem("ALL_STORAGES", JSON.stringify(allStorageData))
     }, [allStorageData])
-
-    //Adds modified storage to local storage ALL_STORAGES
+    useEffect(() => {
+        localStorage.setItem("CUR_ITEM_LIST", JSON.stringify(itemlist))
+    }, [itemlist])
+    
+    /*
     function saveStorage() {
-        setItemList(JSON.parse(localStorage.getItem("CUR_ITEM_LIST")))
-        setCurrentStorage(JSON.parse(localStorage.getItem("CUR_STORAGE")))
-        console.log("filtered storages", filteredStorages, "and", currentStorage)
-        setAllStorageData([...filteredStorages, currentStorage])
-        console.log("all Storages", allStorageData)
+        //Does not update on time
+            //setItemList(JSON.parse(localStorage.getItem("CUR_ITEM_LIST")))
+            
+            //Does not update on time
+            //setAllStorageData([...filteredStorages, currentStorage])
+            
         //setAllStorageData(filteredStorages)
         //navigate("/")
     }
+    */
+
     //Check if current storage in editing has a shared name with other storages
     function storageExists() {
         for (let i = 0; i < filteredStorages.length; i++) {
@@ -67,15 +66,16 @@ function EditStorage() {
     //Edits storage based on form and saves if the new name does not conflict with other storages
     function editStorage() {
         if (storageExists() === false) {
-            localStorage.setItem("CUR_STORAGE", JSON.stringify(currentStorage))
-            saveStorage()
+            setAllStorageData([...filteredStorages,currentStorage])
+                 
+            //saveStorage()
 
         } else {
             window.alert("Already exists")
         }
 
         // Pull all Edit Storage
-        //allStorageData.filter(store => !store.name.match(new RegExp('^' + currentStorage.name + '$')))
+       
         // Use the .filter() function to get rid of the old storage item in the array of all storages
 
         // Append the new modified one
@@ -93,6 +93,43 @@ function EditStorage() {
             ]
         }
         */
+    }
+    const handleItem = e => {
+        setItem((prev) => ({
+            ...prev,
+            [e.target.name]: e.target.value,
+        }))
+    }
+
+    function addItem() {
+        if (item.quantity && item.name && item.size && item.expiry) {
+            setItemList([...itemlist, item])
+        } else {
+            window.alert("Missing Information")
+        }
+
+    }
+    //Delete item based on index in itemlist
+    function deleteItem(indextodelete) {
+        setItemList(oldItemList => {
+            return oldItemList.filter((_, i) => i !== indextodelete)
+        })
+
+    }
+    //displays items in current storage
+    function displayItems() {
+        if ((itemlist === null) === false) {
+            return itemlist.map((item, index) => {
+                return (
+                    <div key={item.name+index} className="card" style={{ marginTop: 10 }}>
+                        <div className="card-body">
+                            <p className="card-text">Item Name: {item.name} Quantity:{item.quantity} Size:{item.size} Expiry:{item.expiry}</p>
+                            <button onClick={() => deleteItem(index)}>Delete Item</button>
+                        </div>
+                    </div>
+                )
+            })
+        }
     }
     //Form to edit storages that shows current storage information
     return (
@@ -120,7 +157,42 @@ function EditStorage() {
                 </form>
                 <button onClick={editStorage}>Edit Storage</button>
             </div>
-            <AddItems />
+            <div>
+            <div className="container">
+                {displayItems()}
+                <form className="col" style = {{marginTop: 10  }}>
+                    <input
+                        style={{ width: 75}}
+                        type="text"
+                        onChange={handleItem}
+                        name="quantity"
+                        placeholder="Quantity"
+                    ></input>
+                    <input
+                        style = {{marginLeft: 5  }}
+                        type="text"
+                        onChange={handleItem}
+                        name="name"
+                        placeholder="Name"
+                    ></input>
+                    <input
+                        style={{ width: 100 ,marginLeft: 5  }}
+                        type="text"
+                        onChange={handleItem}
+                        name="size"
+                        placeholder="Size"
+                    ></input>
+                    <input
+                        style = {{marginLeft: 5  }}
+                        type="text"
+                        onChange={handleItem}
+                        name="expiry"
+                        placeholder="Expiry"
+                    ></input>
+                </form>
+                <button style = {{marginTop: 10  }} onClick={addItem}>Add Item</button>
+            </div>
+        </div>
         </div >
     )
 }

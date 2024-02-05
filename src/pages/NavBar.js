@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import React, { useRef, useEffect, useState } from "react";
+import React, {useEffect } from "react";
 
 function checkUserLogin(currentUser, navigate) {
   if (currentUser === null || currentUser.trim() === "") {

@@ -1,25 +1,19 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-
-//function checkUserLogin(currentUser, navigate) {
-//  if (currentUser === null || currentUser.trim() === "") {
-//    navigate("/login")
-//  }
-//}
-
 function Home() {
 
   const allStorageDataStr = localStorage.getItem("ALL_STORAGES")
   const allStorageData = JSON.parse(allStorageDataStr)
-localStorage.setItem("CUR_ITEM_LIST",JSON.stringify([]))
+  localStorage.setItem("CUR_ITEM_LIST",JSON.stringify([]))
   const navigate = useNavigate();
 
   function openEditStoragePage(singleStorageData) {
     localStorage.setItem("CUR_STORAGE", JSON.stringify(singleStorageData))
+    localStorage.setItem("CUR_ITEM_LIST", JSON.stringify(singleStorageData.items))
     navigate("/EditStorage")
   }
-  //Does delete
+  //Delete Storage
   function deleteStorage(allStorage, singleStorageData) {
     localStorage.setItem("CUR_STORAGE", JSON.stringify(singleStorageData))
     console.log(singleStorageData.name)
@@ -31,7 +25,8 @@ localStorage.setItem("CUR_ITEM_LIST",JSON.stringify([]))
   function displayStorage() {
     if ((allStorageDataStr === null) === false) {
       return allStorageData.map((singleStorageData) => {
-
+      console.log(singleStorageData.items)
+      let arr = singleStorageData.items
         return (
           <div key={singleStorageData.name} className="card" style={{ marginTop: 10 }}>
             <div className="card-body">

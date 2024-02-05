@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 function AddItems() {
     const [item, setItem] = useState({
@@ -11,7 +11,7 @@ function AddItems() {
 
     useEffect(() => {
         localStorage.setItem("CUR_ITEM_LIST", JSON.stringify(itemlist))
-    }, [itemlist.length])
+    }, [itemlist])
 
 
     const handleChange = e => {
@@ -36,7 +36,7 @@ function AddItems() {
         })
 
     }
-
+//displays items in current storage
     function displayItems() {
         if ((itemlist === null) === false) {
             return itemlist.map((item, index) => {

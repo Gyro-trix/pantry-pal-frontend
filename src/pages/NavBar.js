@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import React, { useRef, useEffect, useState } from "react";
+import React, {useEffect } from "react";
 
 function checkUserLogin(currentUser, navigate) {
   if (currentUser === null || currentUser.trim() === "") {
@@ -15,7 +15,7 @@ function NavBar(){
       checkUserLogin(currentUser, navigate)
     },[currentUser])
     function logOut(){
-        //localStorage.setItem("CUR_USER", "")
+        
         navigate("/login")
       }
     
@@ -37,7 +37,7 @@ function NavBar(){
                   <a className="nav-link active" aria-current="page" href="/#" >Home</a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link"  onClick={createStorage}>Add Inventory</a>
+                  <a className="nav-link"  onClick={createStorage}>Add Storage</a>
                 </li>
                 <li className="nav-item">
                   <a className="nav-link"  onClick={logOut}>Setting</a>

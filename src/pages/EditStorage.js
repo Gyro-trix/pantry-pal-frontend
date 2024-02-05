@@ -6,7 +6,7 @@ function EditStorage() {
     const navigate = useNavigate()
     //const allStorageDataStr = localStorage.getItem("ALL_STORAGES")
     const [allStorageData, setAllStorageData] = useState(JSON.parse(localStorage.getItem("ALL_STORAGES")))
-    
+
     const [currentStorage, setCurrentStorage] = useState(
         JSON.parse(localStorage.getItem("CUR_STORAGE"))
     )
@@ -14,17 +14,15 @@ function EditStorage() {
     const [itemlist, setItemList] = useState(currentStorage.items ? currentStorage.items : " ")
     localStorage.setItem("CUR_ITEM_LIST", JSON.stringify(itemlist))
     //Filters out current storage from all storages
-    let [filteredStorages,setFilteredStorages] = useState("")
-
-
-    
+    let [filteredStorages, setFilteredStorages] = useState(allStorageData.filter(store => !store.name.match(new RegExp('^' + currentStorage.name + '$'))))
+    /*
     const storage = useMemo(() => ({
         name: currentStorage.name,
         type: currentStorage.type,
         location: currentStorage.location,
         items: currentStorage.items,
     }), [currentStorage.name, currentStorage.type, currentStorage.location, currentStorage.items])
-
+*/
     const handleChange = e => {
         setCurrentStorage((prev) => ({
             ...prev,
@@ -40,9 +38,8 @@ function EditStorage() {
     }, [itemlist])
 
     useEffect(() => {
-        localStorage.setItem("CUR_STORAGE", JSON.stringify(storage))
-        setFilteredStorages(allStorageData.filter(store => !store.name.match(new RegExp('^' + storage.name + '$'))))
-    }, [storage,allStorageData])
+        localStorage.setItem("CUR_STORAGE", JSON.stringify(currentStorage))
+    }, [currentStorage])
 
     useEffect(() => {
         localStorage.setItem("ALL_STORAGES", JSON.stringify(allStorageData))
@@ -51,9 +48,10 @@ function EditStorage() {
     //Adds modified storage to local storage ALL_STORAGES
     function saveStorage() {
         setItemList(JSON.parse(localStorage.getItem("CUR_ITEM_LIST")))
-        console.log("filtered storages",filteredStorages)
-        setAllStorageData([...filteredStorages,storage])
-        console.log("all Storages",allStorageData)
+        setCurrentStorage(JSON.parse(localStorage.getItem("CUR_STORAGE")))
+        console.log("filtered storages", filteredStorages, "and", currentStorage)
+        setAllStorageData([...filteredStorages, currentStorage])
+        console.log("all Storages", allStorageData)
         //setAllStorageData(filteredStorages)
         //navigate("/")
     }

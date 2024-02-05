@@ -61,7 +61,7 @@ function EditStorage() {
         if (storageExists() === false) {
             setAllStorageData([...filteredStorages, currentStorage])
 
-            //navigate("/")
+            navigate("/")
 
         } else {
             window.alert("Already exists")
@@ -115,7 +115,7 @@ function EditStorage() {
         if ((itemlist === null) === false) {
             return itemlist.map((item, index) => {
                 return (
-                    <div key={item.name + index} className="card" style={{ marginTop: 10, flex: 1 }}>
+                    <div key={item.name + index} style={{ marginTop: 10, flex: 1 }}>
                         <form className="flex row-auto" style={{ marginTop: 10, marginBottom: 10 }}>
                             <input type="text" defaultValue={item.quantity} style={{ width: 75 }}></input>
                             <input type="text" defaultValue={item.name} style={{ marginLeft: 5 }}></input>
@@ -132,7 +132,7 @@ function EditStorage() {
     return (
         <div>
             {/*Edit Storage Form */}
-            <div className="container col">
+            <div className="container flex row">
                 <form className="flex row-auto" style={{ width: 100 }} >
                     <label>Storage Name:
                         <input
@@ -164,6 +164,7 @@ function EditStorage() {
             {/*Form for Adding Items*/}
             <div>
                 <div className="container">
+                    
                     {displayItems()}
                     <form className="col" style={{ marginTop: 10 }}>
                         <input

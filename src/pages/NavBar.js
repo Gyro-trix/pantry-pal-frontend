@@ -13,7 +13,7 @@ function NavBar(){
 
     useEffect(() => {
       checkUserLogin(currentUser, navigate)
-    },[currentUser])
+    },[currentUser,navigate])
     function logOut(){
         
         navigate("/login")

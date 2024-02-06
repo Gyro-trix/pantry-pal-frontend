@@ -32,8 +32,8 @@ function Home() {
             <div className="card-body">
               <h5 className="card-title">{singleStorageData.name}</h5>
               <p className="card-text">{singleStorageData.type} & {singleStorageData.location}</p>
-              <a href="#" className="btn btn-primary" style={{ marginRight: 15 }} onClick={() => openEditStoragePage(singleStorageData)}>Edit Storage</a>
-              <a href="#" className="btn btn-primary" onClick={() => {if(window.confirm('Delete the item?')){deleteStorage(allStorageData, singleStorageData)}}} >Delete Storage</a>
+              <button className="btn btn-primary" style={{ marginRight: 15 }} onClick={() => openEditStoragePage(singleStorageData)}>Edit Storage</button>
+              <button className="btn btn-primary" onClick={() => {if(window.confirm('Delete the item?')){deleteStorage(allStorageData, singleStorageData)}}} >Delete Storage</button>
             </div>
           </div>
         )

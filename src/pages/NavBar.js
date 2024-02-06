@@ -40,7 +40,7 @@ function NavBar(){
                   <a className="nav-link"  onClick={createStorage}>Add Storage</a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link"  onClick={logOut}>Setting</a>
+                  <a className="nav-link"  onClick={logOut}>Settings</a>
                 </li>
                 <li className="nav-item">
                   <a className="nav-link"   onClick={logOut}>Logout</a>

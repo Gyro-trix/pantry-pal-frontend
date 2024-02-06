@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+//import { useNavigate } from "react-router-dom";
 import AddItems from './AddItems';
 
 function EditStorage() {
-    const navigate = useNavigate()
+    //const navigate = useNavigate()
     const [allStorageData, setAllStorageData] = useState(JSON.parse(localStorage.getItem("ALL_STORAGES")));
     const [currentStorage, setCurrentStorage] = useState(JSON.parse(localStorage.getItem("CUR_STORAGE")));
     const [itemlist, setItemList] = useState(JSON.parse(localStorage.getItem("CUR_ITEM_LIST")));
@@ -14,12 +14,14 @@ function EditStorage() {
     // individual item
     const [notifyText, setNotifyText] = useState("Edit in progress")
     const [notifyColor, setNotifyColor] = useState("black")
+    /*
     const [item, setItem] = useState({
         quantity: "",
         name: "",
         size: "",
         expiry: "",
     })
+    */
     //updates currentStorage as the form changes. Applies to name, type and location
     const handleChange = e => {
         setCurrentStorage((prev) => ({

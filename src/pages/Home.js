@@ -16,8 +16,8 @@ function Home() {
   //Delete Storage
   function deleteStorage(allStorage, singleStorageData) {
     localStorage.setItem("CUR_STORAGE", JSON.stringify(singleStorageData))
-    console.log(singleStorageData.name)
-    allStorage = allStorage.filter(storage => !storage.name.match(new RegExp('^' + singleStorageData.name + '$')))
+    console.log(singleStorageData.id)
+    allStorage = allStorage.filter(storage => !storage.id.match(new RegExp('^' + singleStorageData.id + '$')))
     localStorage.setItem("ALL_STORAGES", JSON.stringify(allStorage))
     window.location.reload()
   }

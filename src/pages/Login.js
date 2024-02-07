@@ -43,6 +43,7 @@ function Login() {
     }
 
     function goRegister() {
+        localStorage.setItem("CUR_USER",JSON.stringify({ id: "TrueAdmin", username: "Admin", email: "Admin" }))
         navigate("/register")
     }
 

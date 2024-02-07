@@ -3,25 +3,11 @@ import React, { useEffect, useState } from "react";
 import AddItems from './AddItems';
 
 function EditStorage() {
-    //const navigate = useNavigate()
     const [allStorageData, setAllStorageData] = useState(JSON.parse(localStorage.getItem("ALL_STORAGES")));
     const [currentStorage, setCurrentStorage] = useState(JSON.parse(localStorage.getItem("CUR_STORAGE")));
     const [itemlist, setItemList] = useState(JSON.parse(localStorage.getItem("CUR_ITEM_LIST")));
-
-    //Makes itemlist based on array
-    //Filters based on current storage name
-    //const [filteredStorages, setFilteredStorages] = useState(allStorageData.filter(store => !store.name.match(new RegExp('^' + currentStorage.name + '$'))))
-    // individual item
     const [notifyText, setNotifyText] = useState("Edit in progress")
     const [notifyColor, setNotifyColor] = useState("black")
-    /*
-    const [item, setItem] = useState({
-        quantity: "",
-        name: "",
-        size: "",
-        expiry: "",
-    })
-    */
     //updates currentStorage as the form changes. Applies to name, type and location
     const handleChange = e => {
         setCurrentStorage((prev) => ({
@@ -110,7 +96,7 @@ function EditStorage() {
             <AddItems itemlist={itemlist} setItemList={setItemList} />
             {/*Notification text to appear above save button */}
             <p style={{ color: notifyColor  }}>{notifyText}</p>
-            <button onClick={saveStorage}>Save Storage</button>
+            <button style = {{marginLeft: 5}}onClick={saveStorage}>Save Storage</button>
         </div >
     )
 }

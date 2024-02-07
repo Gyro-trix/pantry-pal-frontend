@@ -16,7 +16,6 @@ function Home() {
   //Delete Storage
   function deleteStorage(allStorage, singleStorageData) {
     localStorage.setItem("CUR_STORAGE", JSON.stringify(singleStorageData))
-    console.log(singleStorageData.id)
     allStorage = allStorage.filter(storage => !storage.id.match(new RegExp('^' + singleStorageData.id + '$')))
     localStorage.setItem("ALL_STORAGES", JSON.stringify(allStorage))
     window.location.reload()
@@ -25,8 +24,6 @@ function Home() {
   function displayStorage() {
     if ((allStorageDataStr === null) === false) {
       return allStorageData.map((singleStorageData) => {
-      console.log(singleStorageData.items)
-      
         return (
           <div key={singleStorageData.name} className="card" style={{ marginTop: 10 }}>
             <div className="card-body">

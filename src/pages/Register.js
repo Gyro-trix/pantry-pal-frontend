@@ -28,8 +28,9 @@ function Register() {
                 const month = date.getUTCMonth() + 1
                 const year = date.getUTCFullYear()
                 const id = "" + year + month + day + "-" + nm
+                const notify = "false"
                 //Complete entry for new user
-                const newUser = { id: id, username: nm, email: em, password: pw }
+                const newUser = { id: id, username: nm, email: em, password: pw, notify: notify }
                 //Test newUser against current registered users, then adds to local storage All_USERS               
                 if (userExists(allUserData, newUser)=== false) {
                     userSave(allUserData, newUser)

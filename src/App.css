@@ -1,0 +1,10 @@
+input {
+    border-radius: 25px;
+    border: 2px solid #1e55b9;
+}
+
+button {
+    border-radius: 25px;
+    border: 0px solid #1e55b9;
+    background-color: aquamarine;
+}

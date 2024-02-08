@@ -6,7 +6,7 @@ function Login() {
     const password = useRef()
     const allUserDataStr = [localStorage.getItem("ALL_USERS")]
     const navigate = useNavigate()
-    const attemptingUser = { id: " ", username: " ", email: " ", password: " " }
+    const attemptingUser = { id: " ", username: " ", email: " ", password: " ", notify: " ", itemlimit: " " }
     //Insures current user variable is entered if the user goes back to login
     localStorage.setItem("CUR_USER", "")
     //One way to deal with ALL_USER starting with null, could also check for null later and adjust
@@ -36,6 +36,8 @@ function Login() {
             if (allUsers[i].username === atUser.username && allUsers[i].password === atUser.password) {
                 attemptingUser.id = allUsers[i].id
                 attemptingUser.email = allUsers[i].email
+                attemptingUser.notify = allUsers[i].notify
+                attemptingUser.itemlimit = allUsers[i].itemlimit
                 return true
             }
         }

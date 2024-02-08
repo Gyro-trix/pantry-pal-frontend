@@ -26,7 +26,7 @@ function Home() {
       return allStorageData.map((singleStorageData) => {
         return (
 
-          <div key={singleStorageData.name} className="card col" style={{marginLeft: 5,marginTop: 10}}>
+          <div key={singleStorageData.name} className="card col" style={{width: "48%", height: 250, marginLeft: 10,marginTop: 10}}>
             <div className="card-body" >
               <h5 className="card-title">{singleStorageData.name}</h5>
               <p className="card-text">{singleStorageData.type} & {singleStorageData.location}</p>

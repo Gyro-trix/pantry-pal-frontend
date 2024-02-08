@@ -17,12 +17,12 @@ function UserSettings() {
     }
 
     const handleCheck = e => {
-        setNotify(!notify)
+        
         setCurrentUser((prev) => ({
             ...prev,
-            notify: notify,
+            notify: !notify,
         }))
-        console.log(notify)
+        setNotify(!notify)
     }
 
     function saveToUsers() {
@@ -36,11 +36,20 @@ function UserSettings() {
             <h5>Welcome: {currentUser.username}</h5>
             <br></br>
             <form></form>
-            <input type="checkbox" name ="notify" checked = {!notify} onChange={handleCheck}/>
+            <input type="checkbox" name ="notify"  checked = {notify} onChange={handleCheck}/>
             <label style={{ marginLeft: 5 }}>
                 Enable Notifications
             </label>
             <br></br>
+            <label> Low Stock Threshold:
+                <input
+                    style={{ width: 200, marginLeft: 10 }}
+                    type="text"
+                    onChange={handleChange}
+                    name="itemlimit"
+                    placeholder={currentUser.itemlimit}
+                ></input>
+            </label>
             <br></br>
             <label> Email:
                 <input
@@ -50,8 +59,8 @@ function UserSettings() {
                     name="email"
                     placeholder={currentUser.email}
                 ></input>
-                <button style={{ marginLeft: 10 }} onClick={saveToUsers}>Update User</button>
             </label>
+            <button style={{ marginLeft: 10 }} onClick={saveToUsers}>Update User</button>
         </div>
     )
 }

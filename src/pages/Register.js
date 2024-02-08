@@ -29,10 +29,11 @@ function Register() {
                 const year = date.getUTCFullYear()
                 const id = "" + year + month + day + "-" + nm
                 const notify = "false"
+                const itemlimit = 10
                 //Complete entry for new user
-                const newUser = { id: id, username: nm, email: em, password: pw, notify: notify }
+                const newUser = { id: id, username: nm, email: em, password: pw, notify: notify, itemlimit: itemlimit}
                 //Test newUser against current registered users, then adds to local storage All_USERS               
-                if (userExists(allUserData, newUser)=== false) {
+                if ( userExists(allUserData, newUser) === false) {
                     userSave(allUserData, newUser)
                     localStorage.setItem("CUR_USER", JSON.stringify(newUser))
                     navigate("/")

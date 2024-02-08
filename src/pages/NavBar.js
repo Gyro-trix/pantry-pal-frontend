@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 
 function checkUserLogin(currentUser, navigate) {
   if (currentUser === null || currentUser.trim() === "") {
+    console.log("Nav")
     navigate("/login")
   }
 }

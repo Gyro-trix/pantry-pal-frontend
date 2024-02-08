@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 
 function CreateStorage() {
+    console.log("Create Storage")
     const storagename = useRef()
     const storagetype = useRef()
     const storagelocation = useRef()

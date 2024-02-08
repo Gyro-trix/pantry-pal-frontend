@@ -2,7 +2,7 @@
 import { useNavigate } from "react-router-dom";
 
 function Home() {
-
+  console.log("Home")
   const allStorageDataStr = localStorage.getItem("ALL_STORAGES")
   const allStorageData = JSON.parse(allStorageDataStr)
   localStorage.setItem("CUR_ITEM_LIST", JSON.stringify([]))

@@ -15,7 +15,7 @@ function App() {
     <div className="container">
       
       <BrowserRouter>
-      <NavBar />
+      <NavBar />  
       <div className="flex">
       <Routes>
         <Route exact path="/" element={<Home/>} />

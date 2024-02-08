@@ -1,10 +1,17 @@
 import React, { useState, useEffect } from "react";
 
+
 function UserSettings() {
-    const allUsers = JSON.parse(localStorage.getItem("ALL_USERS"))
-    const [currentUser, setCurrentUser] = useState(JSON.parse(localStorage.getItem("CUR_USER")))
+    
+    const allUserDataStr = localStorage.getItem("ALL_USERS")
+    const allUserData = JSON.parse(allUserDataStr)
+    const currentUserStr = localStorage.getItem("CUR_USER")
+    console.log("Settings")
+    const [currentUser, setCurrentUser] = useState(JSON.parse(currentUserStr))
     const [notify,setNotify] = useState(currentUser.notify)
     
+
+
     useEffect(() => {
         localStorage.setItem("CUR_USER", JSON.stringify(currentUser))
     }, [currentUser])
@@ -26,7 +33,7 @@ function UserSettings() {
     }
 
     function saveToUsers() {
-        const filteredUsers = allUsers.filter(users => !users.id.match(new RegExp('^' + currentUser.id + '$')))
+        const filteredUsers = allUserData.filter(users => !users.id.match(new RegExp('^' + currentUser.id + '$')))
         const newAllUsers = [...filteredUsers, currentUser]
         localStorage.setItem("ALL_USERS", JSON.stringify(newAllUsers))
     }

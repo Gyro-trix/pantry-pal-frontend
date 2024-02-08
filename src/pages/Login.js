@@ -7,10 +7,9 @@ function Login() {
     const name = useRef()
     const password = useRef()
     const allUserDataStr = [localStorage.getItem("ALL_USERS")]
+    console.log(allUserDataStr)
     const navigate = useNavigate()
     const attemptingUser = { id: " ", username: " ", email: " ", password: " ", notify: " ", itemlimit: " " }
-    
-    
     //One way to deal with ALL_USER starting with null, could also check for null later and adjust
     if (allUserDataStr[0] === null) {
         localStorage.setItem("ALL_USERS", JSON.stringify([{ id: "TrueAdmin", username: "Admin", email: "Admin" }]))

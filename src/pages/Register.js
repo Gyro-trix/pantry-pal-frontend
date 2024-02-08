@@ -28,7 +28,7 @@ function Register() {
                 const month = date.getUTCMonth() + 1
                 const year = date.getUTCFullYear()
                 const id = "" + year + month + day + "-" + nm
-                const notify = "false"
+                const notify = false
                 const itemlimit = 10
                 //Complete entry for new user
                 const newUser = { id: id, username: nm, email: em, password: pw, notify: notify, itemlimit: itemlimit}

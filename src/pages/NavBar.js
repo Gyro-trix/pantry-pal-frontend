@@ -42,13 +42,13 @@ function NavBar() {
               <a className="nav-link active" aria-current="page" href="/#" >Home</a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" aria-current="page" href="/#"onClick={createStorage}>Add Storage</a>
+              <a className="nav-link" aria-current="page" href="/createStorage#"onClick={createStorage}>Add Storage</a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" aria-current="page" href="/#"onClick={userSettings}>Settings</a>
+              <a className="nav-link" aria-current="page" href="/userSettings#"onClick={userSettings}>Settings</a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" aria-current="page" href="/#" onClick={logOut}>Logout</a>
+              <a className="nav-link" aria-current="page" href="/logOut#" onClick={logOut}>Logout</a>
             </li>
           </ul>
         </div>

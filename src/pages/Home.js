@@ -40,7 +40,7 @@ function Home() {
     }
   }
   return (
-    <div class="container text-center">
+    <div className="container text-center">
       <div className = "row row-cols-2" style={{ marginTop: 15, marginBottom: 15 }}>
         {displayStorage()}
       </div>

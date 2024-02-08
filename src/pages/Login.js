@@ -2,13 +2,15 @@ import React, { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 function Login() {
+    //Insures current user variable is entered if the user goes back to login
+    localStorage.setItem("CUR_USER", "")
     const name = useRef()
     const password = useRef()
     const allUserDataStr = [localStorage.getItem("ALL_USERS")]
     const navigate = useNavigate()
     const attemptingUser = { id: " ", username: " ", email: " ", password: " ", notify: " ", itemlimit: " " }
-    //Insures current user variable is entered if the user goes back to login
-    localStorage.setItem("CUR_USER", "")
+    
+    
     //One way to deal with ALL_USER starting with null, could also check for null later and adjust
     if (allUserDataStr[0] === null) {
         localStorage.setItem("ALL_USERS", JSON.stringify([{ id: "TrueAdmin", username: "Admin", email: "Admin" }]))

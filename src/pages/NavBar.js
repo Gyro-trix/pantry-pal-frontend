@@ -48,7 +48,7 @@ function NavBar() {
               <a className="nav-link" aria-current="page" href="/userSettings#"onClick={userSettings}>Settings</a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" aria-current="page" href="/logOut#" onClick={logOut}>Logout</a>
+              <a className="nav-link" aria-current="page" href="/login#" onClick={logOut}>Logout</a>
             </li>
           </ul>
         </div>

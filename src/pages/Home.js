@@ -5,7 +5,7 @@ function Home() {
 
   const allStorageDataStr = localStorage.getItem("ALL_STORAGES")
   const allStorageData = JSON.parse(allStorageDataStr)
-  localStorage.setItem("CUR_ITEM_LIST",JSON.stringify([]))
+  localStorage.setItem("CUR_ITEM_LIST", JSON.stringify([]))
   const navigate = useNavigate();
 
   function openEditStoragePage(singleStorageData) {
@@ -25,21 +25,25 @@ function Home() {
     if ((allStorageDataStr === null) === false) {
       return allStorageData.map((singleStorageData) => {
         return (
-          <div key={singleStorageData.name} className="card" style={{ marginTop: 10 }}>
-            <div className="card-body">
+
+          <div key={singleStorageData.name} className="card col" style={{marginLeft: 5,marginTop: 10}}>
+            <div className="card-body" >
               <h5 className="card-title">{singleStorageData.name}</h5>
               <p className="card-text">{singleStorageData.type} & {singleStorageData.location}</p>
-              <button className="btn btn-primary" style={{ marginRight: 15 }} onClick={() => openEditStoragePage(singleStorageData)}>Edit Storage</button>
-              <button className="btn btn-primary" onClick={() => {if(window.confirm('Delete the item?')){deleteStorage(allStorageData, singleStorageData)}}} >Delete Storage</button>
+              <button className="btn btn-primary" style={{ marginRight: 10 }} onClick={() => openEditStoragePage(singleStorageData)}>Edit Storage</button>
+              <button className="btn btn-primary" onClick={() => { if (window.confirm('Delete the item?')) { deleteStorage(allStorageData, singleStorageData) } }} >Delete Storage</button>
             </div>
           </div>
+
         )
       })
     }
   }
   return (
-    <div style={{ marginTop: 15, marginBottom: 15 }}>
-      {displayStorage()}
+    <div class="container text-center">
+      <div className = "row row-cols-2" style={{ marginTop: 15, marginBottom: 15 }}>
+        {displayStorage()}
+      </div>
     </div>
   )
 }

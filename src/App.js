@@ -12,11 +12,11 @@ function App() {
 
   
   return (
-    <div className="d-flex flex-column mb-3 ">
+    <div className="container">
       
       <BrowserRouter>
       <NavBar />
-      <div className="justify-content-center p-2">
+      <div className="flex">
       <Routes>
         <Route exact path="/" element={<Home/>} />
         <Route path="/login" element={<Login />} />

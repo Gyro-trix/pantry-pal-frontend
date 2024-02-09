@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from "react";
-
+import {checkUserLogin} from "../utils/users"
+import { useNavigate } from "react-router-dom";
 
 function UserSettings() {
-    
+    const navigate = useNavigate()
     const allUserDataStr = localStorage.getItem("ALL_USERS")
     const allUserData = JSON.parse(allUserDataStr)
     const currentUserStr = localStorage.getItem("CUR_USER")
     console.log("Settings")
-    const [currentUser, setCurrentUser] = useState(JSON.parse(currentUserStr))
-    const [notify,setNotify] = useState(currentUser.notify)
+   
+    const [currentUser, setCurrentUser] = useState(currentUserStr ? JSON.parse(currentUserStr) : null)
+    const [notify,setNotify] = useState(currentUser ? currentUser.notify : null)
     
-
+    useEffect(() => {
+        checkUserLogin(currentUserStr, navigate)
+      }, [currentUserStr, navigate])
 
     useEffect(() => {
         localStorage.setItem("CUR_USER", JSON.stringify(currentUser))
@@ -37,6 +41,8 @@ function UserSettings() {
         const newAllUsers = [...filteredUsers, currentUser]
         localStorage.setItem("ALL_USERS", JSON.stringify(newAllUsers))
     }
+
+    if(!currentUser) return <div> Loading </div>
 
     return (
         <div>

@@ -1,6 +1,6 @@
 module.exports = {
     ALL_USERS : "ALL_USERS",
-    CURR_USER : "CUR_USER",
+    CUR_USER : "CUR_USER",
     ALL_STORAGES : "ALL_STORAGES",
     CUR_STORAGE : "CUR_STORAGE",
     CUR_ITEM_LIST : "CUR_ITEM_LIST",

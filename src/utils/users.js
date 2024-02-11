@@ -1,5 +1,4 @@
-import { useNavigate } from "react-router-dom";
-import React, { useEffect } from "react";
+import { ALL_USERS, CUR_USER } from "../config/localStorage"
 
 export function checkUserLogin(currentUser, navigate) {
   if (currentUser === null || currentUser.trim() === "") {
@@ -17,7 +16,7 @@ export function logIn(attemptingUser, name, password) {
       if (validateUser(allUserData, attemptingUser) === false) {
           alert("Invalid")
       } else {
-          localStorage.setItem("CUR_USER", JSON.stringify(attemptingUser))
+          localStorage.setItem(CUR_USER, JSON.stringify(attemptingUser))
           navigate("/")
       }
 
@@ -58,7 +57,7 @@ export function addUser(allUserData, name, email, password) {
           //Test newUser against current registered users, then adds to local storage All_USERS               
           if ( userExists(allUserData, newUser) === false) {
               userSave(allUserData, newUser)
-              localStorage.setItem("CUR_USER", JSON.stringify(newUser))
+              localStorage.setItem(CUR_USER, JSON.stringify(newUser))
               navigate("/")
           }
       }
@@ -78,7 +77,7 @@ export function userExists(allUsers, userToAdd) {
 export function userSave(allUsers, userToAdd) {
   let temparr = [...allUsers,userToAdd]
   allUsers = temparr
-  localStorage.setItem("ALL_USERS", JSON.stringify(allUsers))
+  localStorage.setItem(ALL_USERS, JSON.stringify(allUsers))
 }
 
 //Check used to update page on if username is valid

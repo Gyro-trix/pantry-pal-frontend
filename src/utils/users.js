@@ -81,7 +81,7 @@ export function userSave(allUsers, userToAdd) {
   localStorage.setItem("ALL_USERS", JSON.stringify(allUsers))
 }
 //Check used to update page on if username is valid
-export function nameCheck() {
+export function nameCheck(allUserData, ) {
   const temp = {username: name.current.value}
   if (!userExists(allUserData, temp)) {
       setColor('green')

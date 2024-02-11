@@ -8,7 +8,7 @@ export function checkUserLogin(currentUser, navigate) {
   }
 }
 
-export function logIn() {
+export function logIn(attemptingUser, name, password) {
   //Checks if both fields have a value
   if (name.current.value && password.current.value) {
       attemptingUser.username = name.current.value
@@ -37,7 +37,7 @@ export function validateUser(allUsers, atUser) {
   return false
 }
 
-export function addUser() {
+export function addUser(allUserData, name, email, password) {
   //Checks if all text fields are full
   if (name.current.value && email.current.value && password.current.value && passwordchk.current.value) {
       //Checks that both passwords and passwordchk are the same 
@@ -74,20 +74,21 @@ export function userExists(allUsers, userToAdd) {
   return false
 }
 
-//Saves user to local storage
+//Saves user to local storage, should work without modification
 export function userSave(allUsers, userToAdd) {
   let temparr = [...allUsers,userToAdd]
   allUsers = temparr
   localStorage.setItem("ALL_USERS", JSON.stringify(allUsers))
 }
+
 //Check used to update page on if username is valid
-export function nameCheck(allUserData, ) {
+export function nameCheck(allUserData, name) {
   const temp = {username: name.current.value}
   if (!userExists(allUserData, temp)) {
-      setColor('green')
-      setText("Username Available")
+      //setColor('green')
+      //setText("Username Available")
   } else {
-      setColor('red')
-      setText("Username Taken")
+      //setColor('red')
+      //setText("Username Taken")
   }
 }

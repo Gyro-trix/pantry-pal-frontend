@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { addUser, userExists } from "../utils/users"
+import { CUR_USER } from "../config/localStorage"
 
 //Used to register a new admin level user 
 function Register() {
@@ -9,8 +10,8 @@ function Register() {
     //Used to update reminder text on registration page 
     const [noticeStyle, setColor] = useState('green')
     const [text, setText] = useState("Username Available")
-
-    localStorage.setItem("CUR_USER", "")
+    //Clears current User
+    localStorage.setItem(CUR_USER, "")
     //Adds user with data from input fields
     const handleChange = e => {
         setNewUser((prev) => ({

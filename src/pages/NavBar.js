@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import React, { useEffect } from "react";
-import { CURR_USER } from "../config/localStorage";
+import { CUR_USER } from "../config/localStorage";
 import { SIGN_IN } from "../config/routes";
 
 function checkUserLogin(currentUser, navigate) {
@@ -12,7 +12,7 @@ function checkUserLogin(currentUser, navigate) {
 
 function NavBar() {
   const navigate = useNavigate()
-  const currentUser = localStorage.getItem(CURR_USER)
+  const currentUser = localStorage.getItem(CUR_USER)
  
 
   useEffect(() => {

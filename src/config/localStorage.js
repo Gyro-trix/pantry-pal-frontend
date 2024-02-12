@@ -5,5 +5,4 @@ module.exports = {
     CUR_STORAGE : "CUR_STORAGE",
     CUR_ITEM_LIST : "CUR_ITEM_LIST",
     NOTIFICATIONS: "NOTIFICATIONS"
-
 }

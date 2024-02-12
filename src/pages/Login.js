@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import {REGISTER} from "../config/routes"
 
 function Login() {
     //Insures current user variable is entered if the user goes back to login
@@ -46,7 +47,7 @@ function Login() {
 
     function goRegister() {
         localStorage.setItem("CUR_USER",JSON.stringify({ id: "TrueAdmin", username: "Admin", email: "Admin" }))
-        navigate("/register")
+        navigate(REGISTER)
     }
 
     return (

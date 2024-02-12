@@ -1,4 +1,8 @@
 import { ALL_USERS, CUR_USER } from "../config/localStorage"
+import { SIGN_IN, HOME } from "../config/routes"
+
+
+const allUserData = JSON.parse(localStorage.getItem(ALL_USERS))
 
 export function checkUserLogin(currentUser, navigate) {
   if (currentUser === null || currentUser.trim() === "") {
@@ -7,11 +11,10 @@ export function checkUserLogin(currentUser, navigate) {
   }
 }
 
-export function logIn(attemptingUser, name, password) {
+export function logIn(attemptingUser,navigate) {
+  //const allUserData = JSON.parse(localStorage.getItem(ALL_USERS))
   //Checks if both fields have a value
-  if (name.current.value && password.current.value) {
-      attemptingUser.username = name.current.value
-      attemptingUser.password = password.current.value
+  if (attemptingUser.username && attemptingUser.password) {
       //Check for user in local storage
       if (validateUser(allUserData, attemptingUser) === false) {
           alert("Invalid")
@@ -22,43 +25,44 @@ export function logIn(attemptingUser, name, password) {
 
   }
 }
-export function validateUser(allUsers, atUser) {
-  for (let i = 0; i < allUsers.length; i++) {
+export function validateUser(attemptingUser) {
+  
+  for (let i = 0; i < allUserData.length; i++) {
       //console.log(allUsers[i])
-      if (allUsers[i].username === atUser.username && allUsers[i].password === atUser.password) {
-          attemptingUser.id = allUsers[i].id
-          attemptingUser.email = allUsers[i].email
-          attemptingUser.notify = allUsers[i].notify
-          attemptingUser.itemlimit = allUsers[i].itemlimit
+      if (allUserData[i].username === attemptingUser.username && allUserData[i].password === attemptingUser.password) {
+          attemptingUser.id = allUserData[i].id
+          attemptingUser.email = allUserData[i].email
+          attemptingUser.notify = allUserData[i].notify
+          attemptingUser.itemlimit = allUserData[i].itemlimit
           return true
       }
   }
   return false
 }
-
-export function addUser(allUserData, name, email, password) {
-  //Checks if all text fields are full
-  if (name.current.value && email.current.value && password.current.value && passwordchk.current.value) {
+//Add a new user
+export function addUser(userToRegister,navigate) {
+  //const allUserData = JSON.parse(localStorage.getItem(ALL_USERS))
+  //Checks for null values
+  if (userToRegister.username && userToRegister.email && userToRegister.password && userToRegister.passwordchk) {
+    console.log("Check 1")
       //Checks that both passwords and passwordchk are the same 
-      if (password.current.value === passwordchk.current.value) {
-          const nm = name.current.value
-          const em = email.current.value
-          const pw = password.current.value
+      if (userToRegister.password === userToRegister.passwordchk) {
           //Create ID from current date and username
-          const date = new Date()
-          const day = date.getUTCDate()
-          const month = date.getUTCMonth() + 1
-          const year = date.getUTCFullYear()
-          const id = "" + year + month + day + "-" + nm
+          const date = new Date().getTime()
+          const id = "" + date + "-" + userToRegister.username
+          //Set if want notifications to false
           const notify = false
+          //Set item limit threshold to 10
           const itemlimit = 10
+          //Set expiry threshold to 7 days
+          const expirylimit = 7
           //Complete entry for new user
-          const newUser = { id: id, username: nm, email: em, password: pw, notify: notify, itemlimit: itemlimit}
+          const newUser = { id: id, username: userToRegister.username, email: userToRegister.email, password: userToRegister.password, notify: notify, itemlimit: itemlimit, expirylimit:expirylimit}
           //Test newUser against current registered users, then adds to local storage All_USERS               
           if ( userExists(allUserData, newUser) === false) {
               userSave(allUserData, newUser)
               localStorage.setItem(CUR_USER, JSON.stringify(newUser))
-              navigate("/")
+              navigate(HOME)
           }
       }
   }
@@ -67,7 +71,8 @@ export function addUser(allUserData, name, email, password) {
 export function userExists(allUsers, userToAdd) {
   for (let i = 0; i < allUsers.length; i++){
       if (allUsers[i].username === userToAdd.username){
-          return true
+        console.log("User Exists")  
+        return true
       }
   }
   return false
@@ -84,9 +89,11 @@ export function userSave(allUsers, userToAdd) {
 export function nameCheck(allUserData, name) {
   const temp = {username: name.current.value}
   if (!userExists(allUserData, temp)) {
-      //setColor('green')
+    return true  
+    //setColor('green')
       //setText("Username Available")
   } else {
+    return false
       //setColor('red')
       //setText("Username Taken")
   }

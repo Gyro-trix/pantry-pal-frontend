@@ -4,6 +4,6 @@ module.exports = {
     SETTINGS : " ",
     EDIT_STORAGE : " ",
     CREATE_STORAGE : "",
-    HOME: "",
-    REGISTER: "",
+    HOME: "/",
+    REGISTER: "/register",
 }

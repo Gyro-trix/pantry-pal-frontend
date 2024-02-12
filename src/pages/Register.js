@@ -6,7 +6,7 @@ import { CUR_USER } from "../config/localStorage"
 //Used to register a new admin level user 
 function Register() {
     const [newUser, setNewUser] = useState()
-    const navigate = useNavigate({username:""})
+    const navigate = useNavigate()
     //Used to update reminder text on registration page 
     const [noticeStyle, setColor] = useState('green')
     const [text, setText] = useState("Username Available")

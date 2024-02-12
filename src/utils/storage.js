@@ -1,4 +1,4 @@
-import { ALL_STORAGES } from "../config/localStorage"
+import { ALL_STORAGES,CUR_ITEM_LIST,CUR_STORAGE } from "../config/localStorage"
 import { HOME } from "../config/routes"
 
 const allStorageDataStr = localStorage.getItem(ALL_STORAGES)
@@ -23,7 +23,7 @@ export function createStorage(storageToAdd, navigate) {
 export function saveStorage(allStorage, newStorage) {
     let temparr = [...allStorage, newStorage]
     allStorage = temparr
-    localStorage.setItem("ALL_STORAGES", JSON.stringify(allStorage))
+    localStorage.setItem(ALL_STORAGES, JSON.stringify(allStorage))
 }
 
 export function storageExists(allStorage, storageToAdd) {
@@ -33,4 +33,16 @@ export function storageExists(allStorage, storageToAdd) {
         }
     }
     return false
+}
+
+export function saveStorageToLocalStorage(currentStorage) {
+    let filteredStorage = allStorageData.filter(store => !store.id.match(new RegExp('^' + currentStorage.id + '$')))
+    let itemList = JSON.parse(localStorage.getItem(CUR_ITEM_LIST))
+    let modifiedCurrentStorage = {
+        ...currentStorage,
+        items: itemList,
+    };
+    let newStorageData = [...filteredStorage, modifiedCurrentStorage];
+    localStorage.setItem(CUR_STORAGE,JSON.stringify(modifiedCurrentStorage))
+    localStorage.setItem(ALL_STORAGES,JSON.stringify(newStorageData))
 }

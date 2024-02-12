@@ -57,7 +57,7 @@ export function addUser(userToRegister, navigate) {
       const newUser = { id: id, username: userToRegister.username, email: userToRegister.email, password: userToRegister.password, notify: notify, itemlimit: itemlimit, expirylimit: expirylimit }
       //Test newUser against current registered users, then adds to local storage All_USERS               
       if (userExists(newUser) === false) {
-        userSave(allUserData, newUser)
+        userSave(newUser)
         localStorage.setItem(CUR_USER, JSON.stringify(newUser))
         navigate(HOME)
       }
@@ -66,6 +66,9 @@ export function addUser(userToRegister, navigate) {
 }
 //Checks if the User already exists
 export function userExists(userToCheck) {
+  if(allUserData === null || allUserData === ""){
+    return false
+  }
   for (let i = 0; i < allUserData.length; i++) {
     if (allUserData[i].username === userToCheck.username) {
       return true
@@ -74,10 +77,11 @@ export function userExists(userToCheck) {
   return false
 }
 //Saves user to local storage, should work without modification
-export function userSave(allUsers, userToAdd) {
-  let temparr = [...allUsers, userToAdd]
-  allUsers = temparr
-  localStorage.setItem(ALL_USERS, JSON.stringify(allUsers))
+export function userSave(userToAdd) {
+  console.log(allUserData)
+  let tempdata = allUserData
+  let temparr = [...tempdata, userToAdd]
+  localStorage.setItem(ALL_USERS, JSON.stringify(temparr))
 }
 
 export function saveUserSettings(currentUser) {

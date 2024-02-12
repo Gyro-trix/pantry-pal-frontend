@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-//import { useNavigate } from "react-router-dom";
 import AddItems from './AddItems';
+import { CUR_STORAGE, ALL_STORAGES, CUR_ITEM_LIST } from "../config/localStorage"
+import {saveStorageToLocalStorage} from "../utils/storage"
 
 function EditStorage() {
-    const [allStorageData, setAllStorageData] = useState(JSON.parse(localStorage.getItem("ALL_STORAGES")));
-    const [currentStorage, setCurrentStorage] = useState(JSON.parse(localStorage.getItem("CUR_STORAGE")));
-    const [itemlist, setItemList] = useState(JSON.parse(localStorage.getItem("CUR_ITEM_LIST")));
+    const [allStorageData, setAllStorageData] = useState(JSON.parse(localStorage.getItem(ALL_STORAGES)));
+    const [currentStorage, setCurrentStorage] = useState(JSON.parse(localStorage.getItem(CUR_STORAGE)));
+    const [itemlist, setItemList] = useState(JSON.parse(localStorage.getItem(CUR_ITEM_LIST)));
     const [notifyText, setNotifyText] = useState("Edit in progress")
     const [notifyColor, setNotifyColor] = useState("black")
     //updates currentStorage as the form changes. Applies to name, type and location
@@ -22,30 +23,23 @@ function EditStorage() {
         }))
     }, [itemlist])
     useEffect(() => {
-        localStorage.setItem("CUR_STORAGE", JSON.stringify(currentStorage))
+        localStorage.setItem(CUR_STORAGE, JSON.stringify(currentStorage))
     }, [currentStorage])
+
     useEffect(() => {
-        localStorage.setItem("ALL_STORAGES", JSON.stringify(allStorageData))
+        localStorage.setItem(ALL_STORAGES, JSON.stringify(allStorageData))
     }, [allStorageData])
+
     useEffect(() => {
-        localStorage.setItem("CUR_ITEM_LIST", JSON.stringify(itemlist))
+        localStorage.setItem(CUR_ITEM_LIST, JSON.stringify(itemlist))
         setNotifyColor("red")
         setNotifyText("Please Save")
     }, [itemlist])
 
-    /*
-    function storageExists() {
-        for (let i = 0; i < filteredStorages.length; i++) {
-            if (filteredStorages[i].name === currentStorage.name) {
-                return true
-            }
-        }
-        return false
-    }
-    */
-    function saveStorageToLocalStorage() {
+
+    /*function saveStorageToLocalStorage(currentStorage) {
         let filteredStorage = allStorageData.filter(store => !store.id.match(new RegExp('^' + currentStorage.id + '$')))
-        let itemList = JSON.parse(localStorage.getItem("CUR_ITEM_LIST"))
+        let itemList = JSON.parse(localStorage.getItem(CUR_ITEM_LIST))
         let modifiedCurrentStorage = {
             ...currentStorage,
             items: itemList,
@@ -54,9 +48,10 @@ function EditStorage() {
         setCurrentStorage(modifiedCurrentStorage);
         setAllStorageData(newStorageData);
     }
+    */
     //Edits storage based on form and saves if the new name does not conflict with other storages
     function saveStorage() {
-        saveStorageToLocalStorage()
+        saveStorageToLocalStorage(currentStorage)
         setNotifyColor("green")
         setNotifyText("Save Complete")
         // navigate("/")

@@ -1,19 +1,24 @@
-import React, { useRef } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { createStorage } from "../utils/storage"
 
 
 
 function CreateStorage() {
     
-    const storagename = useRef()
-    const storagetype = useRef()
-    const storagelocation = useRef()
+    
     const navigate = useNavigate()
-    const allStorageDataStr = localStorage.getItem("ALL_STORAGES")
-    const allStorageData = JSON.parse(allStorageDataStr)
+    const [newStorage, setNewStorage] = useState()
+
+    const handleChange = e => {
+        setNewStorage((prev) => ({
+            ...prev,
+            [e.target.name]: e.target.value,
+        }))      
+    }
     //Gets form information and checks before saving to local storage
-    function addStorage() {
-        if (storagename && storagetype && storagelocation) {
+    /*
+    if (storagename && storagetype && storagelocation) {
             const sname = storagename.current.value
             const stype = storagetype.current.value
             const sloc = storagelocation.current.value
@@ -32,6 +37,7 @@ function CreateStorage() {
             }
         }
     }
+   
     //Save 'storage' to local storage
     function saveStorage(allStorage, newStorage) {
         let temparr = [...allStorage, newStorage]
@@ -47,6 +53,7 @@ function CreateStorage() {
         }
         return false
     }
+     */
     return (
         <div>
             <div className="container ">
@@ -54,17 +61,20 @@ function CreateStorage() {
                     <input
                         placeholder="Storage Name"
                         type="text"
-                        ref={storagename} />
+                        name = "name" 
+                        onChange = {handleChange} />
                     <input
                         placeholder="Storage Type"
                         type="text"
-                        ref={storagetype} />
+                        name = "type"
+                        onChange = {handleChange} />
                     <input
                         placeholder="Location"
                         type="text"
-                        ref={storagelocation} />
+                        name = "location" 
+                        onChange = {handleChange}/>
                 </form>
-                <button onClick={addStorage}>Add Storage</button>
+                <button onClick={() => createStorage(newStorage,navigate)}>Add Storage</button>
             </div>
             <div className="container">
 

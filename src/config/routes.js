@@ -1,9 +1,9 @@
 module.exports = {
     SIGN_IN : "/login",
     NOTIFICATION : " ",
-    SETTINGS : " ",
+    USER_SETTINGS : "/userSettings",
     EDIT_STORAGE : " ",
-    CREATE_STORAGE : "",
+    CREATE_STORAGE : "/createStorage",
     HOME: "/",
     REGISTER: "/register",
 }

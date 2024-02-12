@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
+import DatePicker from "react-datepicker";
+
+import "react-datepicker/dist/react-datepicker.css";
 
 function AddItems(props) {
+    const [startDate,setStartDate] = useState(new Date())
+
     const [item, setItem] = useState({
         quantity: "",
         name: "",
@@ -19,6 +24,15 @@ function AddItems(props) {
             ...prev,
             [e.target.name]: e.target.value,
         }))
+    }
+
+    function addExpiryDate(date){
+        setStartDate(date)
+        console.log(date)
+        const day = date.getUTCDate()
+        const month = date.getUTCMonth() + 1
+        const year = date.getUTCFullYear()
+        item.expiry = "" + month +"/"+day+"/"+year+""
     }
 
     function addItem() {
@@ -78,15 +92,20 @@ function AddItems(props) {
                         name="size"
                         placeholder="Size"
                     ></input>
-                    <input
+                    {/*<input
                         style = {{marginLeft: 5  }}
                         type="text"
                         onChange={handleChange}
                         name="expiry"
                         placeholder="Expiry"
-                    ></input>
+    ></input>*/}
+                    <DatePicker 
+                    selected={startDate}
+                    name = "expiry" 
+                    onChange={(date) => addExpiryDate(date)} 
+                    />
                 </form>
-                <button style = {{marginTop: 10  }} onClick={addItem}>Add Item</button>
+                <button style = {{marginTop: 10}} onClick={addItem}>Add Item</button>
             </div>
         </div>
     )

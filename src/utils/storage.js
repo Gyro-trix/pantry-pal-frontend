@@ -5,7 +5,7 @@ const allStorageDataStr = localStorage.getItem(ALL_STORAGES)
 const allStorageData = JSON.parse(allStorageDataStr)
 
 export function createStorage(storageToAdd, navigate) {       
-        const newStorage = { id: storageToAdd.name.toLowerCase() + "-" + new Date().getTime(), name: storageToAdd.name, type: storageToAdd.type, location: storageToAdd.loc, items: [] }
+        const newStorage = { id: storageToAdd.name.toLowerCase() + "-" + new Date().getTime(), name: storageToAdd.name, type: storageToAdd.type, location: storageToAdd.location, items: [] }
         if (allStorageDataStr === null) {
             localStorage.setItem(ALL_STORAGES, JSON.stringify([newStorage]))
             navigate(HOME)
@@ -46,3 +46,4 @@ export function saveStorageToLocalStorage(currentStorage) {
     localStorage.setItem(CUR_STORAGE,JSON.stringify(modifiedCurrentStorage))
     localStorage.setItem(ALL_STORAGES,JSON.stringify(newStorageData))
 }
+

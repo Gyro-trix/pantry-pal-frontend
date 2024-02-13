@@ -5,8 +5,6 @@ import { createStorage } from "../utils/storage"
 
 
 function CreateStorage() {
-
-
     const navigate = useNavigate()
     const [newStorage, setNewStorage] = useState()
 
@@ -14,7 +12,7 @@ function CreateStorage() {
         setNewStorage((prev) => ({
             ...prev,
             [e.target.name]: e.target.value,
-        }))
+        })) 
     }
     return (
         <div>

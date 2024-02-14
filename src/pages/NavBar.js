@@ -1,14 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import React, { useEffect } from "react";
 import { CUR_USER } from "../config/localStorage";
-import { SIGN_IN } from "../config/routes";
-
-function checkUserLogin(currentUser, navigate) {
-  if (currentUser === null || currentUser.trim() === "") {
-    console.log("Nav")
-    navigate(SIGN_IN)
-  }
-}
+import { SIGN_IN, CREATE_STORAGE,USER_SETTINGS } from "../config/routes";
+import { checkUserLogin} from "../utils/users"
 
 function NavBar() {
   const navigate = useNavigate()
@@ -24,11 +18,11 @@ function NavBar() {
   }
 
   function createStorage() {
-    navigate("/createStorage")
+    navigate(CREATE_STORAGE)
   }
 
   function userSettings(){
-    navigate("/userSettings")
+    navigate(USER_SETTINGS)
   }
 
   return (

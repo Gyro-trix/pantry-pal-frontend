@@ -7,6 +7,7 @@ import CreateStorage from "./pages/CreateStorage";
 import EditStorage from "./pages/EditStorage";
 import UserSettings from "./pages/UserSettings";
 import NavBar from './pages/NavBar';
+import Notifications from './pages/Notifications';
 
 function App() {
 
@@ -24,6 +25,7 @@ function App() {
         <Route path="/createStorage" element={<CreateStorage />} />
         <Route path="/editStorage" element={<EditStorage />} />
         <Route path="/userSettings" element={<UserSettings />} />
+        <Route path="/notifications" element={<Notifications />} />
 
       </Routes>
       </div>

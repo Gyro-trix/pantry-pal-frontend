@@ -1,12 +1,11 @@
 import { ALL_USERS, CUR_USER } from "../config/localStorage"
-import { HOME } from "../config/routes"
+import { HOME,SIGN_IN } from "../config/routes"
 
 const allUserData = JSON.parse(localStorage.getItem(ALL_USERS))
 
 export function checkUserLogin(currentUser, navigate) {
   if (currentUser === null || currentUser.trim() === "") {
-    console.log("Nav")
-    navigate("/login")
+    navigate(SIGN_IN)
   }
 }
 

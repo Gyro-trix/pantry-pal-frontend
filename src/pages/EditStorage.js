@@ -4,7 +4,7 @@ import { CUR_STORAGE, ALL_STORAGES, CUR_ITEM_LIST } from "../config/localStorage
 import {saveStorageToLocalStorage} from "../utils/storage"
 
 function EditStorage() {
-    const [allStorageData, setAllStorageData] = useState(JSON.parse(localStorage.getItem(ALL_STORAGES)));
+    const allStorageData = JSON.parse(localStorage.getItem(ALL_STORAGES));
     const [currentStorage, setCurrentStorage] = useState(JSON.parse(localStorage.getItem(CUR_STORAGE)));
     const [itemlist, setItemList] = useState(JSON.parse(localStorage.getItem(CUR_ITEM_LIST)));
     const [notifyText, setNotifyText] = useState("Edit in progress")
@@ -33,17 +33,9 @@ function EditStorage() {
     useEffect(() => {
         localStorage.setItem(CUR_ITEM_LIST, JSON.stringify(itemlist))
         setNotifyColor("red")
-        setNotifyText("Please Save")
+        setNotifyText("   Please Save")
     }, [itemlist])
-/*
-    //Edits storage based on form and saves if the new name does not conflict with other storages
-    function saveStorage() {
-        saveStorageToLocalStorage(currentStorage)
-        setNotifyColor("green")
-        setNotifyText("Save Complete")
-        
-    }
-    */
+
     return (
         <div>
             {/*Edit Storage Form */}
@@ -79,7 +71,10 @@ function EditStorage() {
             <AddItems itemlist={itemlist} setItemList={setItemList} />
             {/*Notification text to appear above save button */}
             <p style={{ color: notifyColor  }}>{notifyText}</p>
-            <button style = {{marginLeft: 5}}onClick={() => saveStorageToLocalStorage(currentStorage) }>Save Storage</button>
+            <button style = {{marginLeft: 5}}onClick={() => {saveStorageToLocalStorage(currentStorage)
+            setNotifyColor("green")
+            setNotifyText("   Save Completed")
+            } }>Save Storage</button>
         </div >
     )
 }

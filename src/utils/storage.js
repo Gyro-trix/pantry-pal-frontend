@@ -55,7 +55,7 @@ export function displayItems() {
             return (
                 <div key={item.name + index} className="card" style={{ marginTop: 10 }}>
                     <div className="card-body">
-                        <p className="card-text">Item Name: {item.name} Quantity:{item.quantity} Size:{item.size} Expiry:{item.expiry}</p>
+                        <p className="card-text">Item Name: {item.name} Quantity:{item.quantity} Size:{item.size} Expiry:{displayDate(item.expiry)}</p>
                         <button onClick={() => deleteItem(index)}>Delete Item</button>
                     </div>
                 </div>
@@ -84,11 +84,17 @@ export function addItem(item) {
 }
 
 export function addExpiryDate(date) {
-    const day = date.getUTCDate()
-    const month = date.getUTCMonth() + 1
-    const year = date.getUTCFullYear()
-    const expiry = "" + month + "/" + day + "/" + year + ""
+    const expiry = date
     return expiry
+}
+
+export function displayDate(date){
+    const tempdate = new Date(date)
+    const day = tempdate.getUTCDate()
+    const month = tempdate.getUTCMonth() + 1
+    const year = tempdate.getUTCFullYear()
+    const dateStr = month +"/"+ day +"/"+year
+    return dateStr
 }
 //Working on below
 export function displayStorage(storageDataStr, storageData, navigate) {
@@ -123,20 +129,37 @@ export function deleteStorage(allStorage, singleStorageData) {
     window.location.reload()
 }
 
-export function createNotifications() {
+export function gatherNotifications() {
     const currentUser = JSON.parse(localStorage.getItem(CUR_USER))
     const storages = JSON.parse(localStorage.getItem(ALL_STORAGES))
     let notifications = []
     if (storages.length !== 0) {
         if (currentUser.notify === true) {
-            for(let i = 0; i < storages.length; i++){
-                let templist = storages[i].items
-                console.log(storages[i].name,"",templist)
-            }
+            storages.forEach((storage) => {
+                let tempitems = storage.items
+                let tempname = storage.name
+                tempitems.forEach((item) => {
+                    let notification = {
+                        owner: " ",
+                        storage: " ",
+                        item: " ",
+                        trigger: " "
+                    }
+                    if (item.quantity <= currentUser.itemlimit) {
+                        notification.owner = currentUser.id
+                        notification.storage = tempname
+                        notification.item = item.name
+                        console.log(notification.item)
+                        notification.trigger = "Number of Items"
+                        notifications.push(notification)
+                    }
+                })
+            })
+            localStorage.setItem(NOTIFICATIONS,JSON.stringify(notifications))
         }
     }
 }
 
-export function expiryCompare(){
+export function expiryCompare() {
 
 }

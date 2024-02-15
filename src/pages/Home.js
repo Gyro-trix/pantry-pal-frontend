@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { displayStorage,createNotifications } from "../utils/storage";
+import { displayStorage,gatherNotifications } from "../utils/storage";
 import { ALL_STORAGES,CUR_ITEM_LIST } from "../config/localStorage"
 
 function Home() {
@@ -8,7 +8,7 @@ function Home() {
   const allStorageData = JSON.parse(allStorageDataStr)
   localStorage.setItem(CUR_ITEM_LIST, JSON.stringify([]))
   const navigate = useNavigate();
-  createNotifications()
+  gatherNotifications()
 
   return (
     <div className="container text-center">

@@ -13,7 +13,7 @@ function App() {
 
   
   return (
-    <div className="container">
+    <div>
       
       <BrowserRouter>
       <NavBar />  

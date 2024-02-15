@@ -4,6 +4,7 @@ import {logIn} from "../utils/users"
 import {REGISTER} from "../config/routes"
 import {ALL_USERS, CUR_USER} from "../config/localStorage"
 
+
 function Login() {
     //Insures current user variable is entered if the user goes back to login
     localStorage.setItem(CUR_USER, "")

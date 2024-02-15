@@ -88,12 +88,12 @@ export function addExpiryDate(date) {
     return expiry
 }
 
-export function displayDate(date){
+export function displayDate(date) {
     const tempdate = new Date(date)
     const day = tempdate.getUTCDate()
     const month = tempdate.getUTCMonth() + 1
     const year = tempdate.getUTCFullYear()
-    const dateStr = month +"/"+ day +"/"+year
+    const dateStr = month + "/" + day + "/" + year
     return dateStr
 }
 //Working on below
@@ -139,27 +139,49 @@ export function gatherNotifications() {
                 let tempitems = storage.items
                 let tempname = storage.name
                 tempitems.forEach((item) => {
-                    let notification = {
-                        owner: " ",
-                        storage: " ",
-                        item: " ",
-                        trigger: " "
-                    }
+                    
                     if (item.quantity <= currentUser.itemlimit) {
-                        notification.owner = currentUser.id
-                        notification.storage = tempname
-                        notification.item = item.name
-                        console.log(notification.item)
-                        notification.trigger = "Number of Items"
-                        notifications.push(notification)
+                        let itemnotif = {
+                            owner: " ",
+                            storage: " ",
+                            item: " ",
+                            trigger: " "
+                        }
+                            itemnotif.owner = currentUser.id
+                            itemnotif.storage = tempname
+                            itemnotif.item = item.name
+                        itemnotif.trigger = "Number of Items"
+                        notifications.push(itemnotif)
                     }
+                    if (expiryCompare(item.expiry) <= currentUser.expirylimit){
+                        let expirynotif = {
+                            owner: " ",
+                            storage: " ",
+                            item: " ",
+                            trigger: " "
+                        }
+                        expirynotif.owner = currentUser.id
+                        expirynotif.storage = tempname
+                        expirynotif.item = item.name
+                        expirynotif.trigger = "Expired"
+                        notifications.push(expirynotif)
+                    }
+                    
                 })
             })
-            localStorage.setItem(NOTIFICATIONS,JSON.stringify(notifications))
+            localStorage.setItem(NOTIFICATIONS, JSON.stringify(notifications))
         }
     }
 }
 
-export function expiryCompare() {
-
+export function expiryCompare(date) {
+    const expirydate = new Date(date)
+    const currentdate = new Date()
+    const datediff = expirydate.getTime() - currentdate.getTime()
+    const daydiff = (datediff / (1000 * 60 * 60 * 24)).toFixed(0)
+    if (daydiff < 0) {
+        console.log("expired")
+    } else {
+        return daydiff
+    }
 }

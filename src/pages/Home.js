@@ -8,7 +8,7 @@ function Home() {
   const allStorageData = JSON.parse(allStorageDataStr)
   localStorage.setItem(CUR_ITEM_LIST, JSON.stringify([]))
   const navigate = useNavigate();
-  gatherNotifications()
+  
 
   return (
     <div className="card w-90" style={{ background: "lightblue", padding: 32}}>

@@ -1,6 +1,6 @@
 import { ALL_USERS, CUR_USER } from "../config/localStorage"
 import { HOME, SIGN_IN } from "../config/routes"
-
+import { gatherNotifications } from "./storage"
 const allUserData = JSON.parse(localStorage.getItem(ALL_USERS))
 
 export function checkUserLogin(currentUser, navigate) {
@@ -17,6 +17,7 @@ export function logIn(attemptingUser, navigate) {
       alert("Invalid Username or Password")
     } else {
       localStorage.setItem(CUR_USER, JSON.stringify(attemptingUser))
+      gatherNotifications()
       navigate(HOME)
     }
 

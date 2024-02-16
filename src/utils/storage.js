@@ -138,49 +138,59 @@ export function deleteStorage(allStorage, singleStorageData) {
 export function gatherNotifications() {
     const allStoragesStr = localStorage.getItem(ALL_STORAGES)
     const currentUserStr = localStorage.getItem(CUR_USER)
-    if (!(currentUserStr === null || currentUserStr.trim() === "" || allStoragesStr === null || allStoragesStr.trim() === "")) {
+    const allNotificationsStr = localStorage.getItem(NOTIFICATIONS)
+    if (!(currentUserStr === null || currentUserStr.trim() === "")) {
         const currentUser = JSON.parse(currentUserStr)
-        const storages = JSON.parse(allStoragesStr)
-        let notifications = []
+        const storages = allStoragesStr ? JSON.parse(allStoragesStr) : []
+        const allNotifications = allNotificationsStr ? JSON.parse(allNotificationsStr) : []
+        let allModifiedNotifications = [...allNotifications];
         console.log(storages)
         if (!(storages === null)) {
 
             if (currentUser.notify === true) {
 
                 storages.forEach((storage) => {
-                    console.log(storage)
-                    let tempitems = storage.items
-                    let tempname = storage.name
-                    tempitems.forEach((item) => {
+                    storage.items.forEach((item) => {
+                        let itemnotif = null;
                         if (item.quantity <= currentUser.itemlimit) {
-                            let itemnotif = {
-                                owner: " ",
-                                storage: " ",
-                                item: " ",
-                                type: " "
+                            itemnotif = {
+                                owner: currentUser.id,
+                                storage: storage.name,
+                                item: item.name,
+                                type: "Low",
+                                id: `${currentUser.id}-${storage.name}-${item.name}`,
+                                dismissed: false
                             }
-                            itemnotif.owner = currentUser.id
-                            itemnotif.storage = tempname
-                            itemnotif.item = item.name
-                            itemnotif.type = "Low"
-                            notifications.push(itemnotif)
                         }
                         if (expiryCompare(item.expiry) <= currentUser.expirylimit) {
-                            let expirynotif = {
-                                owner: " ",
-                                storage: " ",
-                                item: " ",
-                                type: " "
+                            itemnotif = {
+                                owner: currentUser.id,
+                                storage: storage.name,
+                                item: item.name,
+                                type: "Expired",
+                                id: `${currentUser.id}-${storage.name}-${item.name}`,
+                                dismissed: false
                             }
-                            expirynotif.owner = currentUser.id
-                            expirynotif.storage = tempname
-                            expirynotif.item = item.name
-                            expirynotif.type = "Expired"
-                            notifications.push(expirynotif)
+                        }
+                        if (itemnotif) {
+                            let exists = false;
+                            console.log("All Notifs", allNotifications, "Item Notifs", itemnotif)
+                            if (allNotifications) {
+                                allNotifications.forEach(n => {
+                                    if (n["id"] === itemnotif["id"]) {
+                                        exists = true;
+                                        console.log(`Notification: ${itemnotif["id"]} found, skipping it`)
+                                    }
+                                });
+                            }
+                            if (exists === false) {
+                                allModifiedNotifications.push(itemnotif)
+                            }
+
                         }
                     })
                 })
-                localStorage.setItem(NOTIFICATIONS, JSON.stringify(notifications))
+                localStorage.setItem(NOTIFICATIONS, JSON.stringify(allModifiedNotifications))
             }
         }
     }

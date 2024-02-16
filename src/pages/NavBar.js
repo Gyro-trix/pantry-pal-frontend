@@ -22,7 +22,7 @@ function NavBar() {
   }, [currentUser, navigate])
   
   function logOut() {
-    localStorage.setItem(NOTIFICATIONS, "")
+    //localStorage.setItem(NOTIFICATIONS, "")
     navigate(SIGN_IN)
   }
 

@@ -105,14 +105,14 @@ export function displayStorage(storageDataStr, storageData, navigate) {
         return storageData.map((singleStorageData) => {
             return (
                 <div className="col w-25" key={singleStorageData.name} >
-                    <div  className="card" style={{marginLeft: 10, marginTop: 10 }}>
+                    <div className="card" style={{ marginLeft: 10, marginTop: 10 }}>
                         <div className="card-body" >
                             <h4 className="card-title">{singleStorageData.name}</h4>
                             <p className="card-text">{singleStorageData.type} at {singleStorageData.location}</p>
-                            <div className = "col d-flex justify-content-between">
-                            <button className="btn btn-primary" style={{ marginRight: 10 }} onClick={() => openEditStoragePage(singleStorageData, navigate)}>Edit Storage</button>
-                            <button className="btn btn-primary" onClick={() => { if (window.confirm('Delete the item?')) { deleteStorage(allStorageData, singleStorageData) } }} >Delete Storage</button>
-                        </div>
+                            <div className="col d-flex justify-content-between">
+                                <button className="btn btn-primary" style={{ marginRight: 10 }} onClick={() => openEditStoragePage(singleStorageData, navigate)}>Edit Storage</button>
+                                <button className="btn btn-primary" onClick={() => { if (window.confirm('Delete the item?')) { deleteStorage(allStorageData, singleStorageData) } }} >Delete Storage</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -136,17 +136,19 @@ export function deleteStorage(allStorage, singleStorageData) {
 }
 
 export function gatherNotifications() {
-
+    const allStoragesStr = localStorage.getItem(ALL_STORAGES)
     const currentUserStr = localStorage.getItem(CUR_USER)
-    if (currentUserStr === null || currentUserStr.trim() === "") {
-        console.log("Error")
-    } else {
+    if (!(currentUserStr === null || currentUserStr.trim() === "" || allStoragesStr === null || allStoragesStr.trim() === "")) {
         const currentUser = JSON.parse(currentUserStr)
-        const storages = JSON.parse(localStorage.getItem(ALL_STORAGES))
+        const storages = JSON.parse(allStoragesStr)
         let notifications = []
-        if (storages.length !== 0) {
+        console.log(storages)
+        if (!(storages === null)) {
+
             if (currentUser.notify === true) {
+
                 storages.forEach((storage) => {
+                    console.log(storage)
                     let tempitems = storage.items
                     let tempname = storage.name
                     tempitems.forEach((item) => {
@@ -199,20 +201,24 @@ export function expiryCompare(date) {
 }
 
 export function displayNotifications(type) {
-    const notifications = JSON.parse(localStorage.getItem(NOTIFICATIONS))
-    let count = 0
-    return notifications.map((notification) => {
-        if (notification.type === type) {
-            count++
-            return (
-                <div key={count} className="card-body">
-                    {notification.item} in {notification.storage} is {notification.type}
-                </div>
-            )
-        } else {
-            return ""
-        }
-    })
+    const notificationsStr = localStorage.getItem(NOTIFICATIONS)
+    if (!(notificationsStr === null || notificationsStr.trim() === "")) {
+        const notifications = JSON.parse(notificationsStr)
+        console.log(notifications)
+        let count = 0
+        return notifications.map((notification) => {
+            if (notification.type === type) {
+                count++
+                return (
+                    <div key={count} className="card-body">
+                        {notification.item} in {notification.storage} is {notification.type}
+                    </div>
+                )
+            } else {
+                return ""
+            }
+        })
+    }
 }
 
 export function numberOfNotifications() {

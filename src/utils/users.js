@@ -77,6 +77,7 @@ export function userExists(userToCheck) {
 }
 //Saves user to local storage, should work without modification
 export function userSave(userToAdd) {
+  const allUserData = JSON.parse(localStorage.getItem(ALL_USERS))
   console.log(allUserData)
   let tempdata = allUserData
   let temparr = [...tempdata, userToAdd]

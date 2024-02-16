@@ -11,8 +11,8 @@ function Home() {
   gatherNotifications()
 
   return (
-    <div className="container text-center">
-      <div className = "row row-cols-2" style={{ marginTop: 15, marginBottom: 15 }}>
+    <div className="card w-90" style={{ background: "lightblue", padding: 32}}>
+      <div className = "row row-cols-auto" >
         {displayStorage(allStorageDataStr,allStorageData,navigate)}
       </div>
     </div>

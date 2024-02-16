@@ -3,7 +3,7 @@ import { EDIT_STORAGE, HOME } from "../config/routes"
 
 const allStorageDataStr = localStorage.getItem(ALL_STORAGES)
 const allStorageData = JSON.parse(allStorageDataStr)
-let itemlist = JSON.parse(localStorage.getItem(CUR_ITEM_LIST))
+
 
 export function createStorage(storageToAdd, navigate) {
     const newStorage = { id: storageToAdd.name.toLowerCase() + "-" + new Date().getTime(), name: storageToAdd.name, type: storageToAdd.type, location: storageToAdd.location, items: [] }
@@ -50,6 +50,7 @@ export function saveStorageToLocalStorage(currentStorage) {
 }
 
 export function displayItems() {
+    const itemlist = JSON.parse(localStorage.getItem(CUR_ITEM_LIST))
     if ((itemlist === null) === false) {
         return itemlist.map((item, index) => {
             return (
@@ -66,6 +67,7 @@ export function displayItems() {
 }
 
 export function deleteItem(indextodelete) {
+    let itemlist = JSON.parse(localStorage.getItem(CUR_ITEM_LIST))
     itemlist = itemlist.filter((_, i) => i !== indextodelete)
     localStorage.setItem(CUR_ITEM_LIST, JSON.stringify(itemlist))
     window.location.reload()
@@ -73,6 +75,7 @@ export function deleteItem(indextodelete) {
 }
 
 export function addItem(item) {
+    let itemlist = JSON.parse(localStorage.getItem(CUR_ITEM_LIST))
     if (item.quantity && item.name && item.size && item.expiry) {
         itemlist = [...itemlist, item]
         localStorage.setItem(CUR_ITEM_LIST, JSON.stringify(itemlist))
@@ -101,15 +104,18 @@ export function displayStorage(storageDataStr, storageData, navigate) {
     if ((storageDataStr === null) === false) {
         return storageData.map((singleStorageData) => {
             return (
-                <div key={singleStorageData.name} className="card col" style={{ width: "48%", height: 250, marginLeft: 10, marginTop: 10 }}>
-                    <div className="card-body" >
-                        <h5 className="card-title">{singleStorageData.name}</h5>
-                        <p className="card-text">{singleStorageData.type} & {singleStorageData.location}</p>
-                        <button className="btn btn-primary" style={{ marginRight: 10 }} onClick={() => openEditStoragePage(singleStorageData, navigate)}>Edit Storage</button>
-                        <button className="btn btn-primary" onClick={() => { if (window.confirm('Delete the item?')) { deleteStorage(allStorageData, singleStorageData) } }} >Delete Storage</button>
+                <div className="col w-25">
+                    <div key={singleStorageData.name} className="card" style={{marginLeft: 10, marginTop: 10 }}>
+                        <div className="card-body" >
+                            <h4 className="card-title">{singleStorageData.name}</h4>
+                            <p className="card-text">{singleStorageData.type} at {singleStorageData.location}</p>
+                            <div className = "col d-flex justify-content-between">
+                            <button className="btn btn-primary" style={{ marginRight: 10 }} onClick={() => openEditStoragePage(singleStorageData, navigate)}>Edit Storage</button>
+                            <button className="btn btn-primary" onClick={() => { if (window.confirm('Delete the item?')) { deleteStorage(allStorageData, singleStorageData) } }} >Delete Storage</button>
+                        </div>
+                        </div>
                     </div>
                 </div>
-
             )
         })
     }

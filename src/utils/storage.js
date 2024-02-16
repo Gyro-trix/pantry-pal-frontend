@@ -1,5 +1,5 @@
 import { ALL_STORAGES, CUR_ITEM_LIST, CUR_STORAGE, CUR_USER, NOTIFICATIONS } from "../config/localStorage"
-import { EDIT_STORAGE, HOME, } from "../config/routes"
+import { EDIT_STORAGE, HOME } from "../config/routes"
 
 const allStorageDataStr = localStorage.getItem(ALL_STORAGES)
 const allStorageData = JSON.parse(allStorageDataStr)
@@ -130,46 +130,54 @@ export function deleteStorage(allStorage, singleStorageData) {
 }
 
 export function gatherNotifications() {
-    const currentUser = JSON.parse(localStorage.getItem(CUR_USER))
-    const storages = JSON.parse(localStorage.getItem(ALL_STORAGES))
-    let notifications = []
-    if (storages.length !== 0) {
-        if (currentUser.notify === true) {
-            storages.forEach((storage) => {
-                let tempitems = storage.items
-                let tempname = storage.name
-                tempitems.forEach((item) => {
-                    if (item.quantity <= currentUser.itemlimit) {
-                        let itemnotif = {
-                            owner: " ",
-                            storage: " ",
-                            item: " ",
-                            type: " "
+
+    const currentUserStr = localStorage.getItem(CUR_USER)
+    if (currentUserStr === null || currentUserStr.trim() === "") {
+        console.log("Error")
+    } else {
+        const currentUser = JSON.parse(currentUserStr)
+        const storages = JSON.parse(localStorage.getItem(ALL_STORAGES))
+        let notifications = []
+        if (storages.length !== 0) {
+            if (currentUser.notify === true) {
+                storages.forEach((storage) => {
+                    let tempitems = storage.items
+                    let tempname = storage.name
+                    tempitems.forEach((item) => {
+                        if (item.quantity <= currentUser.itemlimit) {
+                            let itemnotif = {
+                                owner: " ",
+                                storage: " ",
+                                item: " ",
+                                type: " "
+                            }
+                            itemnotif.owner = currentUser.id
+                            itemnotif.storage = tempname
+                            itemnotif.item = item.name
+                            itemnotif.type = "Low"
+                            notifications.push(itemnotif)
                         }
-                        itemnotif.owner = currentUser.id
-                        itemnotif.storage = tempname
-                        itemnotif.item = item.name
-                        itemnotif.type = "Low"
-                        notifications.push(itemnotif)
-                    }
-                    if (expiryCompare(item.expiry) <= currentUser.expirylimit) {
-                        let expirynotif = {
-                            owner: " ",
-                            storage: " ",
-                            item: " ",
-                            type: " "
+                        if (expiryCompare(item.expiry) <= currentUser.expirylimit) {
+                            let expirynotif = {
+                                owner: " ",
+                                storage: " ",
+                                item: " ",
+                                type: " "
+                            }
+                            expirynotif.owner = currentUser.id
+                            expirynotif.storage = tempname
+                            expirynotif.item = item.name
+                            expirynotif.type = "Expired"
+                            notifications.push(expirynotif)
                         }
-                        expirynotif.owner = currentUser.id
-                        expirynotif.storage = tempname
-                        expirynotif.item = item.name
-                        expirynotif.type = "Expired"
-                        notifications.push(expirynotif)
-                    }
+                    })
                 })
-            })
-            localStorage.setItem(NOTIFICATIONS, JSON.stringify(notifications))
+                localStorage.setItem(NOTIFICATIONS, JSON.stringify(notifications))
+            }
         }
     }
+
+
 }
 
 export function expiryCompare(date) {
@@ -202,7 +210,14 @@ export function displayNotifications(type) {
 }
 
 export function numberOfNotifications() {
-    const notifications = JSON.parse(localStorage.getItem(NOTIFICATIONS))
-    const count = notifications.length
-    return count
+    const notificationStr = localStorage.getItem(NOTIFICATIONS)
+    if (!(notificationStr === null || notificationStr.trim() === "")) {
+        const notifications = JSON.parse(notificationStr)
+        const count = notifications.length
+        console.log("Getting Number")
+        return count
+    } else {
+        return ""
+    }
+
 }

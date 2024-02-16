@@ -29,7 +29,7 @@ function Login() {
 
     return (
         <div>
-            <div className="card w-25 mb-3" style={{ background: "lightblue", padding: 32, margin:"auto", marginTop:64 }}>
+            <div className="card w-50 mb-3" style={{ background: "lightblue", padding: 32, margin:"auto", marginTop:64 }}>
                 <div className="input_group mb-3" >
                     <input className="form-control"
                         placeholder="Username"
@@ -46,8 +46,8 @@ function Login() {
                         onChange={handleChange} />
                 </div>
                 <div className = "col d-flex justify-content-between">
-                    <button type="button" className="btn btn-primary" style={{ width: 96 }} onClick={goRegister}>Register</button>
-                    <button type="button" className="btn btn-primary" style={{ width: 96 }} onClick={() => logIn(attemptingUser, navigate)}>Log In</button>
+                    <button type="button" className="btn btn-primary" style={{ width: 96, marginRight: 32 }} onClick={goRegister}>Register</button>
+                    <button type="button" className="btn btn-primary" style={{ width: 96, whiteSpace: "nowrap" }} onClick={() => logIn(attemptingUser, navigate)}>Log In</button>
                 </div>
             </div>
         </div>

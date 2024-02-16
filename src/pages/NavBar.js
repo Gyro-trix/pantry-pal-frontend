@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import React, { useEffect } from "react";
-import { CUR_USER } from "../config/localStorage";
+import React, { useEffect,useState } from "react";
+import { CUR_USER, NOTIFICATIONS } from "../config/localStorage";
 import { SIGN_IN, CREATE_STORAGE, USER_SETTINGS,NOTIFICATION } from "../config/routes";
 import { checkUserLogin } from "../utils/users"
 import { numberOfNotifications } from "../utils/storage";
@@ -8,13 +8,15 @@ import { numberOfNotifications } from "../utils/storage";
 function NavBar() {
   const navigate = useNavigate()
   const currentUser = localStorage.getItem(CUR_USER)
-  const notificationCount = numberOfNotifications()
-
+  const [notificationCount, setNotificationCount] = useState(numberOfNotifications())
+  
   useEffect(() => {
     checkUserLogin(currentUser, navigate)
+    setNotificationCount(numberOfNotifications())
   }, [currentUser, navigate])
-
+  
   function logOut() {
+    localStorage.setItem(NOTIFICATIONS, "")
     navigate(SIGN_IN)
   }
 
@@ -51,13 +53,13 @@ function NavBar() {
             </li>
           </ul>
         </div>
-        <div className="dropdown" style ={{marginRight: 32}}>
-              <button className="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+        <div className="dropdown justify-content-left" style ={{width:160}}>
+              <button className="btn dropdown-toggle" style = {{ width:160}}data-bs-toggle="dropdown" aria-expanded="false">
                 Current User
               </button>
-              <ul className="dropdown-menu">
-                <li><a className="nav-link" aria-current="page" href="/userSettings#" onClick={userSettings}>Settings</a></li>
-                <li><a className="nav-link" aria-current="page" href="/login#" onClick={logOut}>Logout</a></li>
+              <ul className="dropdown-menu" style = {{padding: 8}}>
+                <li><a className="dropdown-item" aria-current="page" href="/userSettings#"  onClick={userSettings}>Settings</a></li>
+                <li><a className="dropdown-item" aria-current="page" href="/login#" style = {{marginTop: 8}} onClick={logOut}>Logout</a></li>
               </ul>
         </div>    
       </div>

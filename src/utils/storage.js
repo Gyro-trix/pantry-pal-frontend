@@ -139,34 +139,32 @@ export function gatherNotifications() {
                 let tempitems = storage.items
                 let tempname = storage.name
                 tempitems.forEach((item) => {
-                    
                     if (item.quantity <= currentUser.itemlimit) {
                         let itemnotif = {
                             owner: " ",
                             storage: " ",
                             item: " ",
-                            trigger: " "
+                            type: " "
                         }
-                            itemnotif.owner = currentUser.id
-                            itemnotif.storage = tempname
-                            itemnotif.item = item.name
-                        itemnotif.trigger = "Number of Items"
+                        itemnotif.owner = currentUser.id
+                        itemnotif.storage = tempname
+                        itemnotif.item = item.name
+                        itemnotif.type = "Low"
                         notifications.push(itemnotif)
                     }
-                    if (expiryCompare(item.expiry) <= currentUser.expirylimit){
+                    if (expiryCompare(item.expiry) <= currentUser.expirylimit) {
                         let expirynotif = {
                             owner: " ",
                             storage: " ",
                             item: " ",
-                            trigger: " "
+                            type: " "
                         }
                         expirynotif.owner = currentUser.id
                         expirynotif.storage = tempname
                         expirynotif.item = item.name
-                        expirynotif.trigger = "Expired"
+                        expirynotif.type = "Expired"
                         notifications.push(expirynotif)
                     }
-                    
                 })
             })
             localStorage.setItem(NOTIFICATIONS, JSON.stringify(notifications))
@@ -184,4 +182,27 @@ export function expiryCompare(date) {
     } else {
         return daydiff
     }
+}
+
+export function displayNotifications(type) {
+    const notifications = JSON.parse(localStorage.getItem(NOTIFICATIONS))
+    let count = 0
+    return notifications.map((notification) => {
+        if (notification.type === type) {
+            count++
+            return (
+                <div key={count} className="card-body">
+                    {notification.item} in {notification.storage} is {notification.type}
+                </div>
+            )
+        } else {
+            return ""
+        }
+    })
+}
+
+export function numberOfNotifications() {
+    const notifications = JSON.parse(localStorage.getItem(NOTIFICATIONS))
+    const count = notifications.length
+    return count
 }

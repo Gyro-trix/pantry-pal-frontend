@@ -26,19 +26,10 @@ function AddItems(props) {
             [e.target.name]: e.target.value,
         }))
     }
-/*
-    function addExpiryDate(date){
-        setStartDate(date)
-        const day = date.getUTCDate()
-        const month = date.getUTCMonth() + 1
-        const year = date.getUTCFullYear()
-        item.expiry = "" + month +"/"+ day +"/"+ year +""
-    }
-*/
     return (
         <div>
             <div className="container">
-                {displayItems(itemlist)}
+                {displayItems()}
                 <form className="col" style = {{marginTop: 10  }}>
                     <input
                         style={{ width: 75}}

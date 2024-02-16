@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import AddItems from './AddItems';
 import { CUR_STORAGE, ALL_STORAGES, CUR_ITEM_LIST } from "../config/localStorage"
-import {saveStorageToLocalStorage} from "../utils/storage"
+import { saveStorageToLocalStorage } from "../utils/storage"
 
 function EditStorage() {
     const allStorageData = JSON.parse(localStorage.getItem(ALL_STORAGES));
@@ -66,15 +66,15 @@ function EditStorage() {
                         ></input>
                     </label>
                 </form>
-
+                <AddItems itemlist={itemlist} setItemList={setItemList} />
             </div>
-            <AddItems itemlist={itemlist} setItemList={setItemList} />
             {/*Notification text to appear above save button */}
-            <p style={{ color: notifyColor  }}>{notifyText}</p>
-            <button style = {{marginLeft: 5}}onClick={() => {saveStorageToLocalStorage(currentStorage)
-            setNotifyColor("green")
-            setNotifyText("   Save Completed")
-            } }>Save Storage</button>
+            <p style={{ color: notifyColor }}>{notifyText}</p>
+            <button style={{ marginLeft: 5 }} onClick={() => {
+                saveStorageToLocalStorage(currentStorage)
+                setNotifyColor("green")
+                setNotifyText("   Save Completed")
+            }}>Save Storage</button>
         </div >
     )
 }

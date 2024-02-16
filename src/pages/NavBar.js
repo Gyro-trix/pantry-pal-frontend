@@ -1,13 +1,14 @@
 import { useNavigate } from "react-router-dom";
 import React, { useEffect } from "react";
 import { CUR_USER } from "../config/localStorage";
-import { SIGN_IN, CREATE_STORAGE,USER_SETTINGS } from "../config/routes";
-import { checkUserLogin} from "../utils/users"
+import { SIGN_IN, CREATE_STORAGE, USER_SETTINGS,NOTIFICATION } from "../config/routes";
+import { checkUserLogin } from "../utils/users"
+import { numberOfNotifications } from "../utils/storage";
 
 function NavBar() {
   const navigate = useNavigate()
   const currentUser = localStorage.getItem(CUR_USER)
- 
+  const notificationCount = numberOfNotifications()
 
   useEffect(() => {
     checkUserLogin(currentUser, navigate)
@@ -21,8 +22,12 @@ function NavBar() {
     navigate(CREATE_STORAGE)
   }
 
-  function userSettings(){
+  function userSettings() {
     navigate(USER_SETTINGS)
+  }
+
+  function notifications() {
+    navigate(NOTIFICATION)
   }
 
   return (
@@ -35,20 +40,26 @@ function NavBar() {
         </button>
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav">
-            <li className="nav-item">
+            <li className="nav-item p-2">
               <a className="nav-link active" aria-current="page" href="/#" >Home</a>
             </li>
-            <li className="nav-item">
-              <a className="nav-link" aria-current="page" href="/createStorage#"onClick={createStorage}>Add Storage</a>
+            <li className="nav-item p-2">
+              <a className="nav-link" aria-current="page" href="/createStorage#" onClick={createStorage}>Add Storage</a>
             </li>
-            <li className="nav-item">
-              <a className="nav-link" aria-current="page" href="/userSettings#"onClick={userSettings}>Settings</a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" aria-current="page" href="/login#" onClick={logOut}>Logout</a>
+            <li className="nav-item p-2">
+              <a className="nav-link" aria-current="page" href="/notifications#" onClick={notifications}>Notifications<sup style = {{color: "red"}}>{notificationCount}</sup></a>
             </li>
           </ul>
         </div>
+        <div className="dropdown" style ={{marginRight: 32}}>
+              <button className="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                Current User
+              </button>
+              <ul className="dropdown-menu">
+                <li><a className="nav-link" aria-current="page" href="/userSettings#" onClick={userSettings}>Settings</a></li>
+                <li><a className="nav-link" aria-current="page" href="/login#" onClick={logOut}>Logout</a></li>
+              </ul>
+        </div>    
       </div>
     </nav>
   )

@@ -1,5 +1,5 @@
 import { ALL_USERS, CUR_USER } from "../config/localStorage"
-import { HOME,SIGN_IN } from "../config/routes"
+import { HOME, SIGN_IN } from "../config/routes"
 
 const allUserData = JSON.parse(localStorage.getItem(ALL_USERS))
 
@@ -65,7 +65,7 @@ export function addUser(userToRegister, navigate) {
 }
 //Checks if the User already exists
 export function userExists(userToCheck) {
-  if(allUserData === null || allUserData === ""){
+  if (allUserData === null || allUserData === "") {
     return false
   }
   for (let i = 0; i < allUserData.length; i++) {
@@ -87,4 +87,16 @@ export function saveUserSettings(currentUser) {
   const filteredUsers = allUserData.filter(users => !users.id.match(new RegExp('^' + currentUser.id + '$')))
   const newAllUsers = [...filteredUsers, currentUser]
   localStorage.setItem(ALL_USERS, JSON.stringify(newAllUsers))
+}
+
+export function getCurrentUsername() {
+  const currentUserStr = localStorage.getItem(CUR_USER)
+  if (!(currentUserStr === null || currentUserStr.trim() === "")) {
+    const currentUser = JSON.parse(currentUserStr)
+    console.log("Username:", currentUser.username)
+    const username = currentUser.username
+    return username
+  } else {
+    return "No User"
+  }
 }

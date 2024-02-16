@@ -37,40 +37,51 @@ function EditStorage() {
     }, [itemlist])
 
     return (
-        <div>
+        <div className="card w-50 mb-3" style={{ background: "lightblue", padding: 16, margin: "auto", marginTop: 64 }}>
             {/*Edit Storage Form */}
             <div className="container flex row">
-                <form className="flex row-auto" style={{ width: 100 }} >
-                    <label>Storage Name:
-                        <input
-                            type="text"
-                            onChange={handleChange}
-                            name="name"
-                            defaultValue={currentStorage.name}
-                        ></input>
-                    </label>
-                    <label>Storage Type:
-                        <input
-                            type="text"
-                            onChange={handleChange}
-                            name="type"
-                            defaultValue={currentStorage.type}
-                        ></input>
-                    </label>
-                    <label>Storage Location:
-                        <input
-                            type="text"
-                            onChange={handleChange}
-                            name="location"
-                            defaultValue={currentStorage.location}
-                        ></input>
-                    </label>
+                <form className="flex row-auto"  >
+                    <div className="input_group mb-3">
+                        <label>Storage Name:
+                            <input
+                                className="form-control"
+                                type="text"
+                                onChange={handleChange}
+                                name="name"
+                                defaultValue={currentStorage.name}
+                            ></input>
+                        </label>
+                    </div>
+                    <div className="input_group mb-3">
+                        <label>Storage Type:
+                            <input
+                                className="form-control"
+                                type="text"
+                                onChange={handleChange}
+                                name="type"
+                                defaultValue={currentStorage.type}
+                            ></input>
+                        </label>
+                    </div>
+                    <div className="input_group mb-3">
+                        <label>Storage Location:
+                            <input
+                                className="form-control"
+                                type="text"
+                                onChange={handleChange}
+                                name="location"
+                                defaultValue={currentStorage.location}
+                            ></input>
+                        </label>
+                    </div>
                 </form>
                 <AddItems itemlist={itemlist} setItemList={setItemList} />
             </div>
             {/*Notification text to appear above save button */}
-            <p style={{ color: notifyColor }}>{notifyText}</p>
-            <button style={{ marginLeft: 5 }} onClick={() => {
+            <div>
+            <p style={{ color: notifyColor, marginTop: 16 }}>{notifyText}</p>
+            </div>
+            <button type="button" className="btn btn-primary" style={{ whiteSpace: "nowrap", marginTop: 16 }} onClick={() => {
                 saveStorageToLocalStorage(currentStorage)
                 setNotifyColor("green")
                 setNotifyText("   Save Completed")

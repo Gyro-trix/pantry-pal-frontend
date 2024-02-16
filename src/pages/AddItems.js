@@ -63,7 +63,7 @@ function AddItems(props) {
                     } 
                     />
                 </form>
-                <button style = {{marginTop: 10}} onClick={() => addItem(item)}>Add Item</button>
+                <button type="button" className="btn btn-primary" style={{ whiteSpace: "nowrap", marginTop: 16 }} onClick={() => addItem(item)}>Add Item</button>
             </div>
         </div>
     )

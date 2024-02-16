@@ -2,13 +2,19 @@ import { useNavigate } from "react-router-dom";
 import React, { useEffect,useState } from "react";
 import { CUR_USER, NOTIFICATIONS } from "../config/localStorage";
 import { SIGN_IN, CREATE_STORAGE, USER_SETTINGS,NOTIFICATION } from "../config/routes";
-import { checkUserLogin } from "../utils/users"
+import { checkUserLogin,getCurrentUsername } from "../utils/users"
 import { numberOfNotifications } from "../utils/storage";
 
 function NavBar() {
   const navigate = useNavigate()
   const currentUser = localStorage.getItem(CUR_USER)
   const [notificationCount, setNotificationCount] = useState(numberOfNotifications())
+  let dropdown = "btn dropdown-toggle"
+  const currentUsername = getCurrentUsername();
+  
+  if (currentUsername === "No User"){
+    dropdown = "btn dropdown-toggle disabled"
+  }
   
   useEffect(() => {
     checkUserLogin(currentUser, navigate)
@@ -53,9 +59,9 @@ function NavBar() {
             </li>
           </ul>
         </div>
-        <div className="dropdown justify-content-left" style ={{width:160}}>
-              <button className="btn dropdown-toggle" style = {{ width:160}}data-bs-toggle="dropdown" aria-expanded="false">
-                Current User
+        <div className={"dropdown justify-content-left "} style ={{width:160}}>
+              <button className={dropdown} style = {{ width:160}}data-bs-toggle="dropdown" aria-expanded="false">
+                {currentUsername}
               </button>
               <ul className="dropdown-menu" style = {{padding: 8}}>
                 <li><a className="dropdown-item" aria-current="page" href="/userSettings#"  onClick={userSettings}>Settings</a></li>

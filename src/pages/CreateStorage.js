@@ -12,33 +12,39 @@ function CreateStorage() {
         setNewStorage((prev) => ({
             ...prev,
             [e.target.name]: e.target.value,
-        })) 
+        }))
     }
     return (
-        <div>
-            <div className="container ">
-                <form className="flex row-auto" style={{ width: 200 }} >
+        <div className="card w-25 mb-3" style={{ background: "lightblue", padding: 32, margin: "auto", marginTop: 64 }}>
+            <form className="flex row-auto"  >
+                <div className="input_group mb-3">
                     <input
+                        className="form-control"
                         placeholder="Storage Name"
                         type="text"
                         name="name"
                         onChange={handleChange} />
+                </div>
+                <div className="input_group mb-3">
                     <input
+                        className="form-control"
                         placeholder="Storage Type"
                         type="text"
                         name="type"
                         onChange={handleChange} />
+                </div>
+                <div className="input_group mb-3">
                     <input
+                        className="form-control"
                         placeholder="Location"
                         type="text"
                         name="location"
                         onChange={handleChange} />
-                </form>
-                <button onClick={() => createStorage(newStorage, navigate)}>Add Storage</button>
-            </div>
-            <div className="container">
+                </div>
 
-            </div>
+            </form>
+            <button type="button" className="btn btn-primary" style={{ whiteSpace: "nowrap", marginTop: 16 }} onClick={() => createStorage(newStorage, navigate)}>Add Storage</button>
+
         </div>
     )
 }

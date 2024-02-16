@@ -104,8 +104,8 @@ export function displayStorage(storageDataStr, storageData, navigate) {
     if ((storageDataStr === null) === false) {
         return storageData.map((singleStorageData) => {
             return (
-                <div className="col w-25">
-                    <div key={singleStorageData.name} className="card" style={{marginLeft: 10, marginTop: 10 }}>
+                <div className="col w-25" key={singleStorageData.name} >
+                    <div  className="card" style={{marginLeft: 10, marginTop: 10 }}>
                         <div className="card-body" >
                             <h4 className="card-title">{singleStorageData.name}</h4>
                             <p className="card-text">{singleStorageData.type} at {singleStorageData.location}</p>

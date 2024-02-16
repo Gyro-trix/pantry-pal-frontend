@@ -13,11 +13,11 @@ function App() {
 
   
   return (
-    <div>
+    <div >
       
       <BrowserRouter>
       <NavBar />  
-      <div className="flex">
+      <div>
       <Routes>
         <Route exact path="/" element={<Home/>} />
         <Route path="/login" element={<Login />} />

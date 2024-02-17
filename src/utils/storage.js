@@ -57,7 +57,7 @@ export function displayItems() {
                 <div key={item.name + index} className="card" style={{ marginTop: 10 }}>
                     <div className="card-body">
                         <p className="card-text">Item Name: {item.name} Quantity:{item.quantity} Size:{item.size} Expiry:{displayDate(item.expiry)}</p>
-                        <button onClick={() => deleteItem(index)}>Delete Item</button>
+                        <button type="button" className="btn btn-primary" onClick={() => deleteItem(index)}>Delete Item</button>
                     </div>
                 </div>
 

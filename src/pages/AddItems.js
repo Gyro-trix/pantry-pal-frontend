@@ -29,7 +29,9 @@ function AddItems(props) {
     return (
         <div>
             <div className="container">
+                <div className = "container overflow-y-auto" style ={{maxHeight: 200}} >
                 {displayItems()}
+                </div>
                 <form className="col" style = {{marginTop: 10  }}>
                     <input
                         style={{ width: 75}}

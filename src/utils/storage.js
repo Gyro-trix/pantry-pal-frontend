@@ -240,9 +240,14 @@ export function displayNotifications(type) {
 
 export function numberOfNotifications() {
     const notificationStr = localStorage.getItem(NOTIFICATIONS)
+    let count = 0
     if (!(notificationStr === null || notificationStr.trim() === "")) {
         const notifications = JSON.parse(notificationStr)
-        const count = notifications.length
+        notifications.forEach((notification)=>{
+            if(notification.dismissed === false){
+                count++
+            }
+        })
         return count
     } else {
         return ""

@@ -143,12 +143,9 @@ export function gatherNotifications() {
         const currentUser = JSON.parse(currentUserStr)
         const storages = allStoragesStr ? JSON.parse(allStoragesStr) : []
         const allNotifications = allNotificationsStr ? JSON.parse(allNotificationsStr) : []
-        let allModifiedNotifications = [...allNotifications];
-        console.log(storages)
+        let allModifiedNotifications = [...allNotifications]
         if (!(storages === null)) {
-
             if (currentUser.notify === true) {
-
                 storages.forEach((storage) => {
                     storage.items.forEach((item) => {
                         let itemnotif = null;
@@ -194,8 +191,6 @@ export function gatherNotifications() {
             }
         }
     }
-
-
 }
 
 export function expiryCompare(date) {
@@ -210,18 +205,30 @@ export function expiryCompare(date) {
     }
 }
 
+export function dismissNotification(notificationID){
+    const notificationsStr = localStorage.getItem(NOTIFICATIONS)
+    const notifications = JSON.parse(notificationsStr)
+    notifications.forEach((notification) => {
+        if(notificationID === notification.id){
+            notification.dismissed = true
+            console.log(notification.dismissed)
+            localStorage.setItem(NOTIFICATIONS, JSON.stringify(notifications))
+        }
+    })
+    
+    
+}
+
 export function displayNotifications(type) {
     const notificationsStr = localStorage.getItem(NOTIFICATIONS)
     if (!(notificationsStr === null || notificationsStr.trim() === "")) {
         const notifications = JSON.parse(notificationsStr)
-        console.log(notifications)
-        let count = 0
         return notifications.map((notification) => {
-            if (notification.type === type) {
-                count++
+            if (notification.type === type && notification.dismissed === false) {
                 return (
-                    <div key={count} className="card-body">
-                        {notification.item} in {notification.storage} is {notification.type}
+                    <div key={notification.id} className="card-body">
+                        {notification.item} in {notification.storage} is {notification.type} of {notification.id}
+                        <button  type="button" className="btn btn-primary" onClick = {() => dismissNotification(notification.id)}>Dismiss</button>
                     </div>
                 )
             } else {

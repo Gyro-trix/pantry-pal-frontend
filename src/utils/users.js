@@ -27,7 +27,6 @@ export function logIn(attemptingUser, navigate) {
 export function validateUser(attemptingUser) {
   for (let i = 0; i < allUserData.length; i++) {
     if (allUserData[i].username === attemptingUser.username && allUserData[i].password === attemptingUser.password) {
-      //console.log(allUserData[i].username, "vs", attemptingUser.username, "and", allUserData[i].password, "vs", attemptingUser.password )
       attemptingUser.id = allUserData[i].id
       attemptingUser.email = allUserData[i].email
       attemptingUser.notify = allUserData[i].notify
@@ -79,7 +78,6 @@ export function userExists(userToCheck) {
 //Saves user to local storage, should work without modification
 export function userSave(userToAdd) {
   const allUserData = JSON.parse(localStorage.getItem(ALL_USERS))
-  console.log(allUserData)
   let tempdata = allUserData
   let temparr = [...tempdata, userToAdd]
   localStorage.setItem(ALL_USERS, JSON.stringify(temparr))
@@ -95,7 +93,7 @@ export function getCurrentUsername() {
   const currentUserStr = localStorage.getItem(CUR_USER)
   if (!(currentUserStr === null || currentUserStr.trim() === "")) {
     const currentUser = JSON.parse(currentUserStr)
-    console.log("Username:", currentUser.username)
+
     const username = currentUser.username
     return username
   } else {

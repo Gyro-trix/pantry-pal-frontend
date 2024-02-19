@@ -171,12 +171,10 @@ export function gatherNotifications() {
                         }
                         if (itemnotif) {
                             let exists = false;
-                            console.log("All Notifs", allNotifications, "Item Notifs", itemnotif)
                             if (allNotifications) {
                                 allNotifications.forEach(n => {
                                     if (n["id"] === itemnotif["id"]) {
                                         exists = true;
-                                        console.log(`Notification: ${itemnotif["id"]} found, skipping it`)
                                     }
                                 });
                             }
@@ -211,12 +209,14 @@ export function dismissNotification(notificationID){
     notifications.forEach((notification) => {
         if(notificationID === notification.id){
             notification.dismissed = true
-            console.log(notification.dismissed)
             localStorage.setItem(NOTIFICATIONS, JSON.stringify(notifications))
         }
     })
-    
-    
+}
+
+export function deleteNotification(notificationID){
+    const notificationsStr = localStorage.getItem(NOTIFICATIONS)
+    const notifications = JSON.parse(notificationsStr)
 }
 
 export function displayNotifications(type) {
@@ -243,7 +243,6 @@ export function numberOfNotifications() {
     if (!(notificationStr === null || notificationStr.trim() === "")) {
         const notifications = JSON.parse(notificationStr)
         const count = notifications.length
-        console.log("Getting Number")
         return count
     } else {
         return ""

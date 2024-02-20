@@ -77,6 +77,7 @@ export function deleteItem(indextodelete) {
 export function addItem(item) {
     let itemlist = JSON.parse(localStorage.getItem(CUR_ITEM_LIST))
     if (item.quantity && item.name && item.size && item.expiry) {
+        item.id = new Date().getTime() + "-" + item.name
         itemlist = [...itemlist, item]
         localStorage.setItem(CUR_ITEM_LIST, JSON.stringify(itemlist))
         window.location.reload()
@@ -155,7 +156,7 @@ export function gatherNotifications() {
                                 storage: storage.name,
                                 item: item.name,
                                 type: "Low",
-                                id: `${currentUser.id}-${storage.name}-${item.name}`,
+                                id: item.id,
                                 dismissed: false
                             }
                         }
@@ -165,7 +166,7 @@ export function gatherNotifications() {
                                 storage: storage.name,
                                 item: item.name,
                                 type: "Expired",
-                                id: `${currentUser.id}-${storage.name}-${item.name}`,
+                                id: item.id,
                                 dismissed: false
                             }
                         }

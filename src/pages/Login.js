@@ -13,7 +13,7 @@ function Login() {
     const [attemptingUser, setAttemptingUser] = useState({ id: " ", username: " ", email: " ", password: " ", notify: " ", itemlimit: " ", expirylimit: " " })
     //One way to deal with ALL_USER starting with null, could also check for null later and adjust
     if (allUserDataStr[0] === null) {
-        localStorage.setItem(ALL_USERS, JSON.stringify([{ id: "TrueAdmin", username: "Admin", email: "Admin", password: "admin" }]))
+        localStorage.setItem(ALL_USERS, JSON.stringify([{ id: "TrueAdmin", username: "Admin", email: "Admin" }]))
     }
     const handleChange = e => {
         setAttemptingUser((prev) => ({

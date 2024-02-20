@@ -12,6 +12,7 @@ function AddItems(props) {
         name: "",
         size: "",
         expiry: "",
+        id: ""
     })
     const {itemlist} = props;
 

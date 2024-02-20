@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AddItems from './AddItems';
 import { CUR_STORAGE, ALL_STORAGES, CUR_ITEM_LIST,CUR_USER } from "../config/localStorage"
-import { saveStorageToLocalStorage } from "../utils/storage"
+import { saveStorageToLocalStorage,notificationCleanUp } from "../utils/storage"
 import { checkUserLogin} from "../utils/users"
 
 function EditStorage() {
@@ -31,6 +31,7 @@ function EditStorage() {
             items: itemlist,
         }))
     }, [itemlist])
+    
     useEffect(() => {
         localStorage.setItem(CUR_STORAGE, JSON.stringify(currentStorage))
     }, [currentStorage])
@@ -92,8 +93,9 @@ function EditStorage() {
             </div>
             <button type="button" className="btn btn-primary" style={{ whiteSpace: "nowrap", marginTop: 16 }} onClick={() => {
                 saveStorageToLocalStorage(currentStorage)
+                notificationCleanUp()
                 setNotifyColor("green")
-                setNotifyText("   Save Completed")
+                setNotifyText("Save Completed")
             }}>Save Storage</button>
         </div >
     )

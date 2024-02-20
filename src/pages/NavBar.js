@@ -1,13 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import React, { useEffect,useState } from "react";
-import { CUR_USER, NOTIFICATIONS } from "../config/localStorage";
+//import { CUR_USER, NOTIFICATIONS } from "../config/localStorage";
 import { SIGN_IN, CREATE_STORAGE, USER_SETTINGS,NOTIFICATION } from "../config/routes";
-import { checkUserLogin,getCurrentUsername } from "../utils/users"
+import { getCurrentUsername } from "../utils/users"
 import { numberOfNotifications } from "../utils/storage";
 
 function NavBar() {
   const navigate = useNavigate()
-  const currentUser = localStorage.getItem(CUR_USER)
   const [notificationCount, setNotificationCount] = useState(numberOfNotifications())
   let dropdown = "btn dropdown-toggle"
   const currentUsername = getCurrentUsername();

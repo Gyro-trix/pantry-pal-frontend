@@ -27,6 +27,7 @@ function AddItems(props) {
             [e.target.name]: e.target.value,
         }))
     }
+
     return (
         <div>
             <div className="container">

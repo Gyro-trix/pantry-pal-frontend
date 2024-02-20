@@ -17,7 +17,7 @@ function Notifications() {
             <h3>Low Inventory</h3>
             {displayNotifications("Low")}
             <h3>About to Expire</h3>
-            {displayNotifications("Expired")}
+            {displayNotifications("Expiring")}
         </div>
     )
 }

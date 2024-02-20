@@ -54,7 +54,7 @@ export function displayItems() {
     if ((itemlist === null) === false) {
         return itemlist.map((item, index) => {
             return (
-                <div key={item.name + index} className="card" style={{ marginTop: 10 }}>
+                <div key={item.id} className="card" style={{ marginTop: 10 }}>
                     <div className="card-body">
                         <p className="card-text">Item Name: {item.name} Quantity:{item.quantity} Size:{item.size} Expiry:{displayDate(item.expiry)}</p>
                         <button type="button" className="btn btn-primary" onClick={() => deleteItem(index)}>Delete Item</button>
@@ -82,7 +82,7 @@ export function addItem(item) {
         localStorage.setItem(CUR_ITEM_LIST, JSON.stringify(itemlist))
         window.location.reload()
     } else {
-        window.alert("Missing Info")
+        window.alert("Missing Information")
     }
 
 }
@@ -165,7 +165,7 @@ export function gatherNotifications() {
                                 owner: currentUser.id,
                                 storage: storage.name,
                                 item: item.name,
-                                type: "Expired",
+                                type: "Expiring",
                                 id: item.id,
                                 dismissed: false
                             }
@@ -182,7 +182,6 @@ export function gatherNotifications() {
                             if (exists === false) {
                                 allModifiedNotifications.push(itemnotif)
                             }
-
                         }
                     })
                 })
@@ -191,7 +190,7 @@ export function gatherNotifications() {
         }
     }
 }
-
+//Compares dates to see the difference
 export function expiryCompare(date) {
     const expirydate = new Date(date)
     const currentdate = new Date()
@@ -203,25 +202,19 @@ export function expiryCompare(date) {
         return daydiff
     }
 }
-
-export function dismissNotification(notificationID){
+//Sets dismiss notification to true
+export function dismissNotification(notificationID) {
     const notificationsStr = localStorage.getItem(NOTIFICATIONS)
     const notifications = JSON.parse(notificationsStr)
     notifications.forEach((notification) => {
-        if(notificationID === notification.id){
+        if (notificationID === notification.id) {
             notification.dismissed = true
             localStorage.setItem(NOTIFICATIONS, JSON.stringify(notifications))
+            window.location.reload()
         }
     })
 }
-
-export function deleteNotification(notificationID){
-    const notificationsStr = localStorage.getItem(NOTIFICATIONS)
-    const notifications = JSON.parse(notificationsStr)
-    const newNotifications = notifications.filter(notification => !(notification.id === notificationID))
-    console.log(newNotifications)
-}
-
+//Display notifications on page, needs formatting updated
 export function displayNotifications(type) {
     const notificationsStr = localStorage.getItem(NOTIFICATIONS)
     if (!(notificationsStr === null || notificationsStr.trim() === "")) {
@@ -231,7 +224,7 @@ export function displayNotifications(type) {
                 return (
                     <div key={notification.id} className="card-body">
                         {notification.item} in {notification.storage} is {notification.type} of {notification.id}
-                        <button  type="button" className="btn btn-primary" onClick = {() => dismissNotification(notification.id)}>Dismiss</button>
+                        <button type="button" className="btn btn-primary" onClick={() => dismissNotification(notification.id)}>Dismiss</button>
                     </div>
                 )
             } else {
@@ -240,14 +233,14 @@ export function displayNotifications(type) {
         })
     }
 }
-
+// Counts number of notifications not yet dismissed, needs to take into effect is a user is signed in
 export function numberOfNotifications() {
     const notificationStr = localStorage.getItem(NOTIFICATIONS)
     let count = 0
     if (!(notificationStr === null || notificationStr.trim() === "")) {
         const notifications = JSON.parse(notificationStr)
-        notifications.forEach((notification)=>{
-            if(notification.dismissed === false){
+        notifications.forEach((notification) => {
+            if (notification.dismissed === false) {
                 count++
             }
         })
@@ -255,5 +248,26 @@ export function numberOfNotifications() {
     } else {
         return ""
     }
+
+}
+// Delete a notification, to be used when an item is deleted to remove any coresponding notifications
+export function notificationCleanUp() {
+    const notificationsStr = localStorage.getItem(NOTIFICATIONS)
+    const notifications = JSON.parse(notificationsStr)
+    const allStorages = JSON.parse(localStorage.getItem(ALL_STORAGES))
+    let tempNotifications = []
+    allStorages.forEach((storage) => {
+        let tempItemList = storage.items ? storage.items : []
+            tempItemList.forEach((item) => {            
+                notifications.forEach((notification) => {
+                    if (notification.id === item.id) {
+                        tempNotifications = [...tempNotifications, notification]
+                    }
+                })
+            })
+    })
+    console.log(tempNotifications)
+    numberOfNotifications()
+    localStorage.setItem(NOTIFICATIONS,JSON.stringify(tempNotifications))
 
 }

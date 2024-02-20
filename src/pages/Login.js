@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { logIn } from "../utils/users"
 import { REGISTER } from "../config/routes"
-import { ALL_USERS, CUR_USER } from "../config/localStorage"
+import { CUR_USER } from "../config/localStorage"
 
 
 function Login() {

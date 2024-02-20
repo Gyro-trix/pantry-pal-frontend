@@ -17,12 +17,10 @@ function NavBar() {
   }
   
   useEffect(() => {
-    checkUserLogin(currentUser, navigate)
     setNotificationCount(numberOfNotifications())
-  }, [currentUser, navigate])
+  }, [])
   
   function logOut() {
-    //localStorage.setItem(NOTIFICATIONS, "")
     navigate(SIGN_IN)
   }
 

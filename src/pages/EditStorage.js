@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import AddItems from './AddItems';
-import { CUR_STORAGE, ALL_STORAGES, CUR_ITEM_LIST } from "../config/localStorage"
+import { CUR_STORAGE, ALL_STORAGES, CUR_ITEM_LIST,CUR_USER } from "../config/localStorage"
 import { saveStorageToLocalStorage } from "../utils/storage"
+import { checkUserLogin} from "../utils/users"
 
 function EditStorage() {
     const allStorageData = JSON.parse(localStorage.getItem(ALL_STORAGES));
+    const currentUserStr = localStorage.getItem(CUR_USER)
     const [currentStorage, setCurrentStorage] = useState(JSON.parse(localStorage.getItem(CUR_STORAGE)));
     const [itemlist, setItemList] = useState(JSON.parse(localStorage.getItem(CUR_ITEM_LIST)));
     const [notifyText, setNotifyText] = useState("Edit in progress")
     const [notifyColor, setNotifyColor] = useState("black")
+    const navigate = useNavigate()
     //updates currentStorage as the form changes. Applies to name, type and location
     const handleChange = e => {
         setCurrentStorage((prev) => ({
@@ -16,6 +20,11 @@ function EditStorage() {
             [e.target.name]: e.target.value,
         }))
     }
+
+    useEffect(() => {
+        checkUserLogin(currentUserStr, navigate)
+    }, [currentUserStr, navigate])
+
     useEffect(() => {
         setCurrentStorage((prev) => ({
             ...prev,

@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createStorage } from "../utils/storage"
-
-
+import { checkUserLogin} from "../utils/users"
+import { CUR_USER } from "../config/localStorage"
 
 function CreateStorage() {
     const navigate = useNavigate()
     const [newStorage, setNewStorage] = useState()
+    const currentUserStr = localStorage.getItem(CUR_USER)
 
     const handleChange = e => {
         setNewStorage((prev) => ({
@@ -14,6 +15,10 @@ function CreateStorage() {
             [e.target.name]: e.target.value,
         }))
     }
+    useEffect(() => {
+        checkUserLogin(currentUserStr, navigate)
+    }, [currentUserStr, navigate])
+
     return (
         <div className="card w-25 mb-3" style={{ background: "lightblue", padding: 32, margin: "auto", marginTop: 64 }}>
             <form className="flex row-auto"  >

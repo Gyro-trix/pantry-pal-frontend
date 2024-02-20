@@ -217,6 +217,8 @@ export function dismissNotification(notificationID){
 export function deleteNotification(notificationID){
     const notificationsStr = localStorage.getItem(NOTIFICATIONS)
     const notifications = JSON.parse(notificationsStr)
+    const newNotifications = notifications.filter(notification => !(notification.id === notificationID))
+    console.log(newNotifications)
 }
 
 export function displayNotifications(type) {

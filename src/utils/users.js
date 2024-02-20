@@ -32,6 +32,7 @@ export function validateUser(attemptingUser) {
       attemptingUser.notify = allUserData[i].notify
       attemptingUser.itemlimit = allUserData[i].itemlimit
       attemptingUser.expirylimit = allUserData[i].expirylimit
+      attemptingUser.adminlevel = allUserData[i].adminlevel
       return true
     }
   }
@@ -44,16 +45,16 @@ export function addUser(userToRegister, navigate) {
     //Checks that both passwords and passwordchk are the same 
     if (userToRegister.password === userToRegister.passwordchk) {
       //Create ID from current date and username
-      const date = new Date().getTime()
-      const id = "" + date + "-" + userToRegister.username
-      //Set if want notifications to false
-      const notify = false
-      //Set item limit threshold to 10
-      const itemlimit = 10
-      //Set expiry threshold to 7 days
-      const expirylimit = 7
-      //Complete entry for new user
-      const newUser = { id: id, username: userToRegister.username, email: userToRegister.email, password: userToRegister.password, notify: notify, itemlimit: itemlimit, expirylimit: expirylimit }
+      const newUser = {
+        id: "" + new Date().getTime() + "-" + userToRegister.username,
+        username: userToRegister.username,
+        email: userToRegister.email,
+        password: userToRegister.password,
+        notify: false,
+        itemlimit: 10,
+        expirylimit: 7,
+        adminlevel: 2
+      }
       //Test newUser against current registered users, then adds to local storage All_USERS               
       if (userExists(newUser) === false) {
         userSave(newUser)

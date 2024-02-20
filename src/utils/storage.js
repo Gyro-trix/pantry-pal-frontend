@@ -150,7 +150,10 @@ export function gatherNotifications() {
                 storages.forEach((storage) => {
                     storage.items.forEach((item) => {
                         let itemnotif = null;
-                        if (item.quantity <= currentUser.itemlimit) {
+                        if (Number(item.quantity) <= Number(currentUser.itemlimit)) {
+                            console.log(typeof item.quantity)
+                            console.log(typeof Number(currentUser.itemlimit))
+                            console.log(item.name,item.quantity, "<=", currentUser.itemlimit)
                             itemnotif = {
                                 owner: currentUser.id,
                                 storage: storage.name,
@@ -160,7 +163,8 @@ export function gatherNotifications() {
                                 dismissed: false
                             }
                         }
-                        if (expiryCompare(item.expiry) <= currentUser.expirylimit) {
+                        if (Number(expiryCompare(item.expiry)) <= Number(currentUser.expirylimit)) {
+                            console.log(item.name,expiryCompare(item.expiry), "<=", currentUser.expirylimit)
                             itemnotif = {
                                 owner: currentUser.id,
                                 storage: storage.name,
@@ -253,7 +257,7 @@ export function numberOfNotifications() {
 // Delete a notification, to be used when an item is deleted to remove any coresponding notifications
 export function notificationCleanUp() {
     const notificationsStr = localStorage.getItem(NOTIFICATIONS)
-    const notifications = JSON.parse(notificationsStr)
+    const notifications = notificationsStr ? JSON.parse(notificationsStr) :[]
     const allStorages = JSON.parse(localStorage.getItem(ALL_STORAGES))
     let tempNotifications = []
     allStorages.forEach((storage) => {
@@ -267,7 +271,7 @@ export function notificationCleanUp() {
             })
     })
     console.log(tempNotifications)
-    numberOfNotifications()
     localStorage.setItem(NOTIFICATIONS,JSON.stringify(tempNotifications))
+    numberOfNotifications()
 
 }

@@ -8,7 +8,7 @@ function AddItems(props) {
     const [startDate,setStartDate] = useState(new Date())
 
     const [item, setItem] = useState({
-        quantity: "",
+        quantity: 0,
         name: "",
         size: "",
         expiry: "",

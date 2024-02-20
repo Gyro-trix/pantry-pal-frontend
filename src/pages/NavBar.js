@@ -25,6 +25,7 @@ function NavBar() {
   if (currentUsername === "No User") {
     dropdown = "btn dropdown-toggle disabled"
   }
+  //Controls what is displayed based on admin level
   let recipeLink
   if (currentAdminLevel === 3) {
     recipeLink = <li className="nav-item p-2">
@@ -33,9 +34,6 @@ function NavBar() {
   } else if (currentAdminLevel <= 2) {
     recipeLink = ""
   }
-
-
-
 
   useEffect(() => {
     setNotificationCount(numberOfNotifications())

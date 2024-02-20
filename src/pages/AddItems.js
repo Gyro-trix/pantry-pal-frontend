@@ -12,6 +12,7 @@ function AddItems(props) {
         name: "",
         size: "",
         expiry: "",
+        id: ""
     })
     const {itemlist} = props;
 
@@ -26,10 +27,13 @@ function AddItems(props) {
             [e.target.name]: e.target.value,
         }))
     }
+
     return (
         <div>
             <div className="container">
+                <div className = "container overflow-y-auto" style ={{background: "lightgrey",maxHeight: 200}} >
                 {displayItems()}
+                </div>
                 <form className="col" style = {{marginTop: 10  }}>
                     <input
                         style={{ width: 75}}
@@ -63,7 +67,7 @@ function AddItems(props) {
                     } 
                     />
                 </form>
-                <button style = {{marginTop: 10}} onClick={() => addItem(item)}>Add Item</button>
+                <button type="button" className="btn btn-primary" style={{ whiteSpace: "nowrap", marginTop: 16 }} onClick={() => addItem(item)}>Add Item</button>
             </div>
         </div>
     )

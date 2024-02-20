@@ -1,6 +1,6 @@
 import { ALL_USERS, CUR_USER } from "../config/localStorage"
-import { HOME,SIGN_IN } from "../config/routes"
-
+import { HOME, SIGN_IN } from "../config/routes"
+import { gatherNotifications } from "./storage"
 const allUserData = JSON.parse(localStorage.getItem(ALL_USERS))
 
 export function checkUserLogin(currentUser, navigate) {
@@ -17,6 +17,7 @@ export function logIn(attemptingUser, navigate) {
       alert("Invalid Username or Password")
     } else {
       localStorage.setItem(CUR_USER, JSON.stringify(attemptingUser))
+      gatherNotifications()
       navigate(HOME)
     }
 
@@ -26,7 +27,6 @@ export function logIn(attemptingUser, navigate) {
 export function validateUser(attemptingUser) {
   for (let i = 0; i < allUserData.length; i++) {
     if (allUserData[i].username === attemptingUser.username && allUserData[i].password === attemptingUser.password) {
-      //console.log(allUserData[i].username, "vs", attemptingUser.username, "and", allUserData[i].password, "vs", attemptingUser.password )
       attemptingUser.id = allUserData[i].id
       attemptingUser.email = allUserData[i].email
       attemptingUser.notify = allUserData[i].notify
@@ -65,7 +65,7 @@ export function addUser(userToRegister, navigate) {
 }
 //Checks if the User already exists
 export function userExists(userToCheck) {
-  if(allUserData === null || allUserData === ""){
+  if (allUserData === null || allUserData === "") {
     return false
   }
   for (let i = 0; i < allUserData.length; i++) {
@@ -77,9 +77,14 @@ export function userExists(userToCheck) {
 }
 //Saves user to local storage, should work without modification
 export function userSave(userToAdd) {
-  console.log(allUserData)
-  let tempdata = allUserData
-  let temparr = [...tempdata, userToAdd]
+  const allUserDataStr = localStorage.getItem(ALL_USERS)
+  let temparr
+  if (!(allUserDataStr === null || allUserDataStr.trim() === "")) {
+    const allUserData = JSON.parse(allUserDataStr)
+    temparr = [...allUserData, userToAdd]
+  } else {
+    temparr = [userToAdd]
+  }
   localStorage.setItem(ALL_USERS, JSON.stringify(temparr))
 }
 
@@ -87,4 +92,16 @@ export function saveUserSettings(currentUser) {
   const filteredUsers = allUserData.filter(users => !users.id.match(new RegExp('^' + currentUser.id + '$')))
   const newAllUsers = [...filteredUsers, currentUser]
   localStorage.setItem(ALL_USERS, JSON.stringify(newAllUsers))
+}
+
+export function getCurrentUsername() {
+  const currentUserStr = localStorage.getItem(CUR_USER)
+  if (!(currentUserStr === null || currentUserStr.trim() === "")) {
+    const currentUser = JSON.parse(currentUserStr)
+
+    const username = currentUser.username
+    return username
+  } else {
+    return "No User"
+  }
 }

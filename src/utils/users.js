@@ -6,6 +6,8 @@ const allUserData = JSON.parse(localStorage.getItem(ALL_USERS))
 export function checkUserLogin(currentUser, navigate) {
   if (currentUser === null || currentUser.trim() === "") {
     navigate(SIGN_IN)
+  } else{
+    gatherNotifications()
   }
 }
 
@@ -17,7 +19,7 @@ export function logIn(attemptingUser, navigate) {
       alert("Invalid Username or Password")
     } else {
       localStorage.setItem(CUR_USER, JSON.stringify(attemptingUser))
-      gatherNotifications()
+      
       navigate(HOME)
     }
 
@@ -25,6 +27,7 @@ export function logIn(attemptingUser, navigate) {
 }
 //Compares all users to the attempting user 
 export function validateUser(attemptingUser) {
+  const allUserData = JSON.parse(localStorage.getItem(ALL_USERS))
   for (let i = 0; i < allUserData.length; i++) {
     if (allUserData[i].username === attemptingUser.username && allUserData[i].password === attemptingUser.password) {
       attemptingUser.id = allUserData[i].id
@@ -93,6 +96,21 @@ export function saveUserSettings(currentUser) {
   const filteredUsers = allUserData.filter(users => !users.id.match(new RegExp('^' + currentUser.id + '$')))
   const newAllUsers = [...filteredUsers, currentUser]
   localStorage.setItem(ALL_USERS, JSON.stringify(newAllUsers))
+}
+
+export function changeUserPassword(passwords) {
+  const currentUser = JSON.parse(localStorage.getItem(CUR_USER))
+  if (currentUser.password === passwords.currentpassword){
+    if(passwords.newpassword === passwords.newpasswordcheck){
+      currentUser.password = passwords.newpassword
+      localStorage.setItem(CUR_USER,JSON.stringify(currentUser))
+      saveUserSettings(currentUser)
+      return true
+    } else {
+      return false
+    }
+
+  }
 }
 
 export function getCurrentUsername() {

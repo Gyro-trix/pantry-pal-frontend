@@ -7,6 +7,8 @@ import { CUR_USER } from "../config/localStorage";
 function NavBar() {
   const navigate = useNavigate()
   const currentUserStr = localStorage.getItem(CUR_USER)
+  const [notificationCount, setNotificationCount] = useState(numberOfNotifications())
+  let navBarContent = ""
   let currentUsername
   let currentAdminLevel
   if (!(currentUserStr === null || currentUserStr.trim() === "")) {
@@ -18,22 +20,35 @@ function NavBar() {
     currentAdminLevel = 0
   }
 
-  const [notificationCount, setNotificationCount] = useState(numberOfNotifications())
+
 
   //Disable dropdown if no user
   let dropdown = "btn dropdown-toggle"
   if (currentUsername === "No User") {
     dropdown = "btn dropdown-toggle disabled"
   }
-  //Controls what is displayed based on admin level
-  let recipeLink
-  if (currentAdminLevel === 3) {
-    recipeLink = <li className="nav-item p-2">
-      <a className="nav-link" aria-current="page" href="/recipes#" onClick={recipes}>Add A Recipe</a>
-    </li>
-  } else if (currentAdminLevel <= 2) {
-    recipeLink = ""
+
+  switch (currentAdminLevel) {
+    case 0:
+      navBarContent = ""
+      break;
+    case 1:
+      navBarContent = ""
+      break;
+    case 2:
+      navBarContent = ""
+      break;
+    case 3:
+      navBarContent = 
+        <li className="nav-item p-2">
+          <a className="nav-link" aria-current="page" href="/recipes#" onClick={recipes}>Add A Recipe</a>
+        </li>
+      break;
+    default:
+      navBarContent = ""
   }
+
+
 
   useEffect(() => {
     setNotificationCount(numberOfNotifications())
@@ -79,7 +94,7 @@ function NavBar() {
             <li className="nav-item p-2">
               <a className="nav-link" aria-current="page" href="/notifications#" onClick={notifications}>Notifications<sup style={{ color: "red" }}>{notificationCount}</sup></a>
             </li>
-            {recipeLink}
+            {navBarContent}
           </ul>
         </div>
         <div className={"dropdown justify-content-left "} style={{ width: 160 }}>

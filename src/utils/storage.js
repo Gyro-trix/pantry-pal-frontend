@@ -151,9 +151,6 @@ export function gatherNotifications() {
                     storage.items.forEach((item) => {
                         let itemnotif = null;
                         if (Number(item.quantity) <= Number(currentUser.itemlimit)) {
-                            console.log(typeof item.quantity)
-                            console.log(typeof Number(currentUser.itemlimit))
-                            console.log(item.name,item.quantity, "<=", currentUser.itemlimit)
                             itemnotif = {
                                 owner: currentUser.id,
                                 storage: storage.name,
@@ -164,7 +161,6 @@ export function gatherNotifications() {
                             }
                         }
                         if (Number(expiryCompare(item.expiry)) <= Number(currentUser.expirylimit)) {
-                            console.log(item.name,expiryCompare(item.expiry), "<=", currentUser.expirylimit)
                             itemnotif = {
                                 owner: currentUser.id,
                                 storage: storage.name,
@@ -248,7 +244,12 @@ export function numberOfNotifications() {
                 count++
             }
         })
-        return count
+        if ( count <= 0){
+            return ""
+        } else {
+            return count
+        }
+        
     } else {
         return ""
     }
@@ -273,5 +274,4 @@ export function notificationCleanUp() {
     console.log(tempNotifications)
     localStorage.setItem(NOTIFICATIONS,JSON.stringify(tempNotifications))
     numberOfNotifications()
-
 }

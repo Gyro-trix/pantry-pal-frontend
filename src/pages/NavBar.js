@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
-import { SIGN_IN, CREATE_STORAGE, USER_SETTINGS, NOTIFICATION, RECIPES } from "../config/routes";
+import { SIGN_IN, CREATE_STORAGE, USER_SETTINGS, NOTIFICATION, CREATERECIPES } from "../config/routes";
 import { numberOfNotifications } from "../utils/storage";
 import { CUR_USER } from "../config/localStorage";
 
@@ -41,7 +41,7 @@ function NavBar() {
     case 3:
       navBarContent = 
         <li className="nav-item p-2">
-          <a className="nav-link" aria-current="page" href="/recipes#" onClick={recipes}>Add A Recipe</a>
+          <a className="nav-link" aria-current="page" href="/createrecipes#" onClick={recipes}>Add A Recipe</a>
         </li>
       break;
     default:
@@ -71,7 +71,7 @@ function NavBar() {
   }
 
   function recipes() {
-    navigate(RECIPES)
+    navigate(CREATERECIPES)
   }
 
 

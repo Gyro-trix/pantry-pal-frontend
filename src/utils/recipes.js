@@ -1,5 +1,5 @@
 import { RECIPES, INGREDIENTS } from "../config/localStorage"
-import { RECIPESPAGE } from "../config/routes";
+import { CREATERECIPES } from "../config/routes";
 
 export function saveRecipe(recipe,navigate) {
     const recipeDataStr = localStorage.getItem(RECIPES)
@@ -11,7 +11,7 @@ export function saveRecipe(recipe,navigate) {
         let temparray = [...recipeData, recipe]
         localStorage.setItem(RECIPES, JSON.stringify(temparray))
         localStorage.setItem(INGREDIENTS, [])
-        navigate(RECIPESPAGE)
+        navigate(CREATERECIPES)
     }
 
 }

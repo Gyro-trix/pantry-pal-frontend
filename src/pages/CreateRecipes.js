@@ -5,7 +5,7 @@ import AddIngredient from "./AddIngredient";
 import { useNavigate } from "react-router-dom";
 
 
-function Recipes() {
+function CreateRecipes() {
     const [recipe, setRecipe] = useState({ name: "", ingredients: [], instructions: "" })
     const [recipeIndex, setRecipeIndex] = useState(0)
     const navigate = useNavigate()
@@ -58,4 +58,4 @@ function Recipes() {
 
 }
 
-export default Recipes
+export default CreateRecipes

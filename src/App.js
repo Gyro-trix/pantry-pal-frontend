@@ -8,7 +8,7 @@ import EditStorage from "./pages/EditStorage";
 import UserSettings from "./pages/UserSettings";
 import NavBar from './pages/NavBar';
 import Notifications from './pages/Notifications';
-import Recipes from './pages/Recipes';
+import CreateRecipes from './pages/CreateRecipes';
 
 function App() {
 
@@ -27,7 +27,7 @@ function App() {
         <Route path="/editStorage" element={<EditStorage />} />
         <Route path="/userSettings" element={<UserSettings />} />
         <Route path="/notifications" element={<Notifications />} />
-        <Route path="/recipes" element={<Recipes />} />
+        <Route path="/createrecipes" element={<CreateRecipes />} />
 
       </Routes>
       </div>

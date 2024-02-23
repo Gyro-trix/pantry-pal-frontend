@@ -1,20 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, } from "react";
 import { addIngredient,displayIngredients } from "../utils/recipes";
 
 
 function AddIngredient() {
-    
 
     const [ingredient, setIngredient] = useState({
         amount: 0,
         name: ""
     })
     
-/*
-    useEffect(() => {
-        localStorage.setItem("CUR_ITEM_LIST", JSON.stringify(ingredients))
-    }, [ingredients])
-*/
+
+
 
     const handleChange = e => {
         setIngredient((prev) => ({

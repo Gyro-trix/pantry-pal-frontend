@@ -1,9 +1,18 @@
 import { useNavigate } from "react-router-dom";
-import React, { useEffect } from "react";
+import React, { useEffect,useState } from "react";
 import { displayStorage} from "../utils/storage";
-import { ALL_STORAGES, CUR_ITEM_LIST, CUR_USER } from "../config/localStorage"
+import { ALL_STORAGES, CUR_ITEM_LIST, CUR_USER, RECIPES } from "../config/localStorage"
 import { checkUserLogin } from "../utils/users"
 import { } from "../config/localStorage"
+import { cleanup } from "@testing-library/react";
+
+function getWindowDimensions() {
+  const { innerWidth: width, innerHeight: height } = window;
+  return {
+    width,
+    height
+  };
+}
 
 function Home() {
 
@@ -13,12 +22,24 @@ function Home() {
   const currentUserStr = localStorage.getItem(CUR_USER)
   const navigate = useNavigate();
 
+  const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
+  const {width, height} = windowDimensions;
+
+  useEffect(() => {
+    function handleResize() {
+      setWindowDimensions(getWindowDimensions());
+    }
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   useEffect(() => {
     checkUserLogin(currentUserStr, navigate)
   }, [currentUserStr, navigate])
 
   return (
-    <div className="card w-90" style={{ background: "lightblue", padding: 32 }}>
+    <div className="card w-90" style={{ background: "lightblue", padding: 32, height: height-70 }}>
       <div className="row row-cols-auto" >
         {displayStorage(allStorageDataStr, allStorageData, navigate)}
       </div>

@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { logIn } from "../utils/users"
 import { REGISTER } from "../config/routes"
-import { CUR_USER } from "../config/localStorage"
+import { CUR_USER,ALL_USERS } from "../config/localStorage"
 
 
 function Login() {
@@ -10,12 +10,12 @@ function Login() {
     localStorage.setItem(CUR_USER, "")
     const navigate = useNavigate()
 
-    //const allUserDataStr = [localStorage.getItem(ALL_USERS)]
+    const allUserDataStr = [localStorage.getItem(ALL_USERS)]
     const [attemptingUser, setAttemptingUser] = useState({ id: " ", username: " ", email: " ", password: " ", notify: " ", itemlimit: " ", expirylimit: " " })
-    //One way to deal with ALL_USER starting with null, could also check for null later and adjust
-    /*if (allUserDataStr[0] === null) {
-        localStorage.setItem(ALL_USERS, JSON.stringify([{ id: "TrueAdmin", username: "Admin", email: "Admin" }]))
-    }*/
+    //Creates default admin account on first run
+    if (allUserDataStr[0] === null) {
+        localStorage.setItem(ALL_USERS, JSON.stringify([{ id: "TrueAdmin", username: "Admin", email: "Admin",password: "Admin", notify: true, expirylimit: 99, itemlimit: 99 ,adminlevel: 3 }]))
+    }
     const handleChange = e => {
         setAttemptingUser((prev) => ({
             ...prev,
@@ -24,7 +24,6 @@ function Login() {
     }
 
     function goRegister() {
-       // localStorage.setItem(CUR_USER, JSON.stringify({ id: "TrueAdmin", username: "Admin", email: "Admin", password: "admin" }))
         navigate(REGISTER)
     }
 

@@ -8,7 +8,7 @@ function AddItems(props) {
     const [startDate,setStartDate] = useState(new Date())
 
     const [item, setItem] = useState({
-        quantity: "",
+        quantity: 0,
         name: "",
         size: "",
         expiry: "",
@@ -37,7 +37,7 @@ function AddItems(props) {
                 <form className="col" style = {{marginTop: 10  }}>
                     <input
                         style={{ width: 75}}
-                        type="text"
+                        type="number"
                         onChange={handleChange}
                         name="quantity"
                         placeholder="Quantity"

@@ -6,4 +6,6 @@ module.exports = {
     CREATE_STORAGE : "/createStorage",
     HOME: "/",
     REGISTER: "/register",
+    CREATERECIPES: "/createrecipes",
+    DISPLAYRECIPES: "/recipes"
 }

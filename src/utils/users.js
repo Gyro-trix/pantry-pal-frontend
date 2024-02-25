@@ -1,6 +1,6 @@
 import { ALL_USERS, CUR_USER } from "../config/localStorage"
 import { HOME, SIGN_IN } from "../config/routes"
-import { gatherNotifications } from "./storage"
+import { gatherNotifications } from "./notifications"
 
 export function checkUserLogin(currentUser, navigate) {
   if (currentUser === null || currentUser.trim() === "") {

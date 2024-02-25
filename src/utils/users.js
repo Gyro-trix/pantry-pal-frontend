@@ -1,7 +1,6 @@
 import { ALL_USERS, CUR_USER } from "../config/localStorage"
 import { HOME, SIGN_IN } from "../config/routes"
 import { gatherNotifications } from "./storage"
-const allUserData = JSON.parse(localStorage.getItem(ALL_USERS))
 
 export function checkUserLogin(currentUser, navigate) {
   if (currentUser === null || currentUser.trim() === "") {
@@ -19,7 +18,6 @@ export function logIn(attemptingUser, navigate) {
       alert("Invalid Username or Password")
     } else {
       localStorage.setItem(CUR_USER, JSON.stringify(attemptingUser))
-      
       navigate(HOME)
     }
 
@@ -69,6 +67,7 @@ export function addUser(userToRegister, navigate) {
 }
 //Checks if the User already exists
 export function userExists(userToCheck) {
+  const allUserData = JSON.parse(localStorage.getItem(ALL_USERS))
   if (allUserData === null || allUserData === "") {
     return false
   }
@@ -123,4 +122,17 @@ export function getCurrentUsername() {
   } else {
     return "No User"
   }
+}
+
+export function displayUsers(){
+  const allUserData = JSON.parse(localStorage.getItem(ALL_USERS))
+  return allUserData.map((user,index) =>{
+    if (user.adminlevel <= 2){
+      return (
+        <div key = {index}>
+          <span>{user.username}</span>
+        </div>
+      )
+    }
+  })
 }

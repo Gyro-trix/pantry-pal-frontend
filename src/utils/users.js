@@ -125,7 +125,8 @@ export function getCurrentUsername() {
 }
 
 export function displayUsers(){
-  const allUserData = JSON.parse(localStorage.getItem(ALL_USERS))
+  const allUserDataStr = localStorage.getItem(ALL_USERS)
+  const allUserData = allUserDataStr ? JSON.parse(allUserDataStr) : []
   return allUserData.map((user,index) =>{
     if (user.adminlevel <= 2){
       return (
@@ -135,4 +136,17 @@ export function displayUsers(){
       )
     }
   })
+}
+
+export function deleteUser(userToDelete){
+  const allUserDataStr = localStorage.getItem(ALL_USERS)
+  const allUserData = allUserDataStr ? JSON.parse(allUserDataStr) : []
+  const filteredUsers = allUserData.filter(users => !users.id.match(new RegExp('^' + userToDelete.id + '$')))
+  localStorage.setItem(ALL_USERS, JSON.stringify(filteredUsers))
+}
+
+export function editUser(userToEdit){
+  const allUserDataStr = localStorage.getItem(ALL_USERS)
+  const allUserData = allUserDataStr ? JSON.parse(allUserDataStr) : []
+
 }

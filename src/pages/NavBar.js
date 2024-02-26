@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { SIGN_IN, CREATE_STORAGE, USER_SETTINGS, NOTIFICATION, CREATERECIPES, DISPLAYRECIPES } from "../config/routes";
-import { numberOfNotifications } from "../utils/storage";
+import { numberOfNotifications } from "../utils/notifications";
 import { CUR_USER } from "../config/localStorage";
 
 function NavBar() {

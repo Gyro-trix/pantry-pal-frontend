@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { displayNotifications } from "../utils/storage"
+import { displayNotifications } from "../utils/notifications"
 import { checkUserLogin} from "../utils/users"
 import { CUR_USER } from "../config/localStorage"
 import { useNavigate } from "react-router-dom";

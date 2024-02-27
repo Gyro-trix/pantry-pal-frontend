@@ -1,4 +1,4 @@
-import { RECIPES, INGREDIENTS } from "../config/localStorage"
+import { RECIPES, INGREDIENTS, RECIPETOADD } from "../config/localStorage"
 import { CREATERECIPES } from "../config/routes";
 
 export function saveRecipe(recipe,navigate) {
@@ -8,9 +8,11 @@ export function saveRecipe(recipe,navigate) {
     const ingredientsData = ingredientsDataStr ? JSON.parse(ingredientsDataStr) : []
     recipe.ingredients = ingredientsData
     if (recipe.name && recipe.instructions && (recipe.ingredients.length > 0)) {
+        recipe.id = recipe.name + "-" + new Date().getTime()
         let temparray = [...recipeData, recipe]
         localStorage.setItem(RECIPES, JSON.stringify(temparray))
         localStorage.setItem(INGREDIENTS, [])
+        localStorage.setItem(RECIPETOADD, "")
         navigate(CREATERECIPES)
     }
 
@@ -46,7 +48,7 @@ export function displayIngredients() {
     }
 }
 
-export function displayRecipe(index) {
+export function displayRecipe(index,navigate) {
     const recipeDataStr = localStorage.getItem(RECIPES)
     const recipeData = recipeDataStr ? JSON.parse(recipeDataStr) : []
     if (index < recipeData.length) {
@@ -60,6 +62,9 @@ export function displayRecipe(index) {
                     </div>)
                 )}
                 <p>{recipe.instructions}</p>
+                <button>Edit Recipe</button>
+                <button onClick = {()=> deleteRecipe(recipe,navigate)}>Delete Recipe</button>
+                
             </div>
         )
     } else {
@@ -69,5 +74,12 @@ export function displayRecipe(index) {
             </div>
         )
     }
+}
 
+export function deleteRecipe(recipeToDelete,navigate){
+    const recipeDataStr = localStorage.getItem(RECIPES)
+    let recipeData = recipeDataStr ? JSON.parse(recipeDataStr) : []
+    recipeData = recipeData.filter(recipe => !recipe.id.match(new RegExp('^' + recipeToDelete.id + '$')))
+    localStorage.setItem(RECIPES,JSON.stringify(recipeData))
+    navigate(CREATERECIPES)
 }

@@ -26,11 +26,9 @@ export function addIngredient(ingredient) {
     } else {
         window.alert("Missing Information")
     }
-    
 }
 
 export function displayIngredients() {
-    
     const ingredientsDataStr = localStorage.getItem(INGREDIENTS)
     const ingredients = ingredientsDataStr ? JSON.parse(ingredientsDataStr) : []
     if ((ingredients === null) === false) {

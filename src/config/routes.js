@@ -7,5 +7,7 @@ module.exports = {
     HOME: "/",
     REGISTER: "/register",
     CREATERECIPES: "/createrecipes",
-    DISPLAYRECIPES: "/recipes"
+    DISPLAYRECIPES: "/recipes",
+    MANAGEUSERS: "/manageusers",
+    EDITUSER: "/edituser"
 }

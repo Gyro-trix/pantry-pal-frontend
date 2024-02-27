@@ -81,6 +81,10 @@ function UserSettings() {
                     <p style={{ color: passwordNoticeColor }}>{passwordNotice}</p>
                     <button style={{ marginLeft: 10 }} onClick={() => {
                         if (changeUserPassword(passwords) === true) {
+                            setCurrentUser((prev) => ({
+                                ...prev,
+                                password: passwords.newpassword
+                            }))
                             setPasswordNotice("Password Changed Sucessful")
                             setPasswordNoticeColor("green")
                         } else {

@@ -28,13 +28,11 @@ function UserSettings() {
             [e.target.name]: e.target.value,
         }))
     }
-    //Sets reminder to save text if anything has changed
-    const handleCheck = e => {
+    const onRadioChange = e => {
         setUserToEdit((prev) => ({
             ...prev,
-            notify: !notify,
+            adminlevel:Number(e.target.value),
         }))
-        setNotify(!notify)
     }
     //Collects passwords to attempt password change
     const handlePasswordChange = e => {
@@ -48,9 +46,9 @@ function UserSettings() {
 
     return (
         <div className="container">
+            <h5>Account For: {userToEdit.username}</h5>
             <div className="row">
                 <div className="col">
-                    <h5>Welcome: {userToEdit.username}</h5>
                     <form>
                         <label> Current Password:
                             <input
@@ -85,6 +83,10 @@ function UserSettings() {
                     <p style={{ color: passwordNoticeColor }}>{passwordNotice}</p>
                     <button style={{ marginLeft: 10 }} onClick={() => {
                         if (adminPasswordChange(passwords) === true) {
+                            setUserToEdit((prev) => ({
+                                ...prev,
+                                password: passwords.newpassword
+                            }))
                             setPasswordNotice("Password Changed Sucessful")
                             setPasswordNoticeColor("green")
                         } else {
@@ -95,9 +97,31 @@ function UserSettings() {
                 </div>
                 {/* Settings column */}
                 <div className="col">
+                    <form>
+                        <div className="form-check form-check-inline">
+                            <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" checked={userToEdit.adminlevel === 3} value={3} disabled />
+                            <label className="form-check-label" htmlFor="inlineRadio1">3</label>
+                        </div>
+                        <div className="form-check form-check-inline">
+                            <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" checked={userToEdit.adminlevel === 2} onChange = {onRadioChange}value={2} />
+                            <label className="form-check-label" htmlFor="inlineRadio2">2</label>
+                        </div>
+                        <div className="form-check form-check-inline">
+                            <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" checked={userToEdit.adminlevel === 1} onChange = {onRadioChange}value={1} />
+                            <label className="form-check-label" htmlFor="inlineRadio3">1</label>
+                        </div>
+                    </form>
+
                     <br></br>
-                    <form></form>
-                    <input type="checkbox" name="notify" checked={notify} onChange={handleCheck} />
+
+                    <input type="checkbox" name="notify" checked={notify} onChange={(e) => {
+                        setUserToEdit((prev) => ({
+                            ...prev,
+                            notify: !notify,
+                        }))
+                        setNotify(!notify)
+                        console.log(notify)
+                    }} />
                     <label style={{ marginLeft: 5 }}>
                         Enable Notifications
                     </label>
@@ -134,7 +158,7 @@ function UserSettings() {
                     <br></br>
 
                     <br></br>
-                    <button style={{ marginLeft: 10 }} onClick={() => saveUserSettings(userToEdit)}>Update Settings</button>
+                    <button style={{ marginLeft: 10 }} onClick={() => { saveUserSettings(userToEdit) }}>Update Settings</button>
                 </div>
             </div>
         </div>

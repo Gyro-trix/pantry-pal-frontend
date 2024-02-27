@@ -8,6 +8,8 @@ module.exports = {
     REGISTER: "/register",
     CREATERECIPES: "/createrecipes",
     DISPLAYRECIPES: "/recipes",
+    EDIT_RECIPE: "/editrecipe",
+    CREATE_USER: "/createuser",
     MANAGEUSERS: "/manageusers",
     EDITUSER: "/edituser"
 }

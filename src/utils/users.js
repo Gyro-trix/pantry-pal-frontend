@@ -1,7 +1,7 @@
 import { ALL_USERS, CUR_USER, USER_TO_EDIT } from "../config/localStorage"
 import { HOME, SIGN_IN, MANAGEUSERS, EDITUSER } from "../config/routes"
 import { gatherNotifications } from "./notifications"
-
+//Checks if a user is checked in
 export function checkUserLogin(currentUser, navigate) {
   if (currentUser === null || currentUser.trim() === "") {
     navigate(SIGN_IN)
@@ -9,7 +9,7 @@ export function checkUserLogin(currentUser, navigate) {
     gatherNotifications()
   }
 }
-
+//Basic login function
 export function logIn(attemptingUser, navigate) {
   //Checks if both fields have a value
   if (attemptingUser.username && attemptingUser.password) {

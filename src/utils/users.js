@@ -1,15 +1,15 @@
-import { ALL_USERS, CUR_USER } from "../config/localStorage"
-import { HOME, SIGN_IN } from "../config/routes"
+import { ALL_USERS, CUR_USER, USER_TO_EDIT } from "../config/localStorage"
+import { HOME, SIGN_IN, MANAGEUSERS, EDITUSER } from "../config/routes"
 import { gatherNotifications } from "./notifications"
-
+//Checks if a user is checked in
 export function checkUserLogin(currentUser, navigate) {
   if (currentUser === null || currentUser.trim() === "") {
     navigate(SIGN_IN)
-  } else{
+  } else {
     gatherNotifications()
   }
 }
-
+//Basic login function
 export function logIn(attemptingUser, navigate) {
   //Checks if both fields have a value
   if (attemptingUser.username && attemptingUser.password) {
@@ -47,7 +47,7 @@ export function addUser(userToRegister, navigate) {
     if (userToRegister.password === userToRegister.passwordchk) {
       //Create ID from current date and username
       const newUser = {
-        id: "" + new Date().getTime() + "-" + userToRegister.username,
+        id: "",
         username: userToRegister.username,
         email: userToRegister.email,
         password: userToRegister.password,
@@ -81,6 +81,7 @@ export function userExists(userToCheck) {
 //Saves user to local storage, should work without modification
 export function userSave(userToSave) {
   const allUserDataStr = localStorage.getItem(ALL_USERS)
+  userToSave.id ="" + new Date().getTime() + "-" + userToSave.username
   let temparr
   if (!(allUserDataStr === null || allUserDataStr.trim() === "")) {
     const allUserData = JSON.parse(allUserDataStr)
@@ -90,19 +91,21 @@ export function userSave(userToSave) {
   }
   localStorage.setItem(ALL_USERS, JSON.stringify(temparr))
 }
-
+//Save current user to all users in local storage
 export function saveUserSettings(currentUser) {
+  const allUserDataStr = localStorage.getItem(ALL_USERS)
+  const allUserData = allUserDataStr ? JSON.parse(allUserDataStr) : []
   const filteredUsers = allUserData.filter(users => !users.id.match(new RegExp('^' + currentUser.id + '$')))
   const newAllUsers = [...filteredUsers, currentUser]
   localStorage.setItem(ALL_USERS, JSON.stringify(newAllUsers))
 }
-
+//Changes current users passwords
 export function changeUserPassword(passwords) {
   const currentUser = JSON.parse(localStorage.getItem(CUR_USER))
-  if (currentUser.password === passwords.currentpassword){
-    if(passwords.newpassword === passwords.newpasswordcheck){
+  if (currentUser.password === passwords.currentpassword) {
+    if (passwords.newpassword === passwords.newpasswordcheck) {
       currentUser.password = passwords.newpassword
-      localStorage.setItem(CUR_USER,JSON.stringify(currentUser))
+      localStorage.setItem(CUR_USER, JSON.stringify(currentUser))
       saveUserSettings(currentUser)
       return true
     } else {
@@ -111,7 +114,22 @@ export function changeUserPassword(passwords) {
 
   }
 }
+//Admin change password
+export function adminPasswordChange(passwords) {
+  const userToEdit = JSON.parse(localStorage.getItem(USER_TO_EDIT))
+  if (userToEdit.password === passwords.currentpassword) {
+    if (passwords.newpassword === passwords.newpasswordcheck) {
+      userToEdit.password = passwords.newpassword
+      localStorage.setItem(USER_TO_EDIT, JSON.stringify(userToEdit))
+      saveUserSettings(userToEdit)
+      return true
+    } else {
+      return false
+    }
 
+  }
+}
+//Returns the current users username
 export function getCurrentUsername() {
   const currentUserStr = localStorage.getItem(CUR_USER)
   if (!(currentUserStr === null || currentUserStr.trim() === "")) {
@@ -123,30 +141,52 @@ export function getCurrentUsername() {
     return "No User"
   }
 }
-
-export function displayUsers(){
+//Display each user admin level 2 or less and provides edit and delete options
+export function displayUsers(navigate) {
   const allUserDataStr = localStorage.getItem(ALL_USERS)
   const allUserData = allUserDataStr ? JSON.parse(allUserDataStr) : []
-  return allUserData.map((user,index) =>{
-    if (user.adminlevel <= 2){
-      return (
-        <div key = {index}>
-          <span>{user.username}</span>
-        </div>
-      )
-    }
-  })
+  return (
+    <table className="table table-info table-striped">
+      <tbody>
+        <tr key="header">
+          <th scope="col">Username</th>
+          <th scope="col">Admin Level</th>
+          <th scope="col">Options</th>
+        </tr>
+        {allUserData.map(user => {
+          if (user.adminlevel <= 2) {
+            return (
+              <tr key={user.id}>
+                <td>
+                  {user.username}
+                </td>
+                <td>
+                  {user.adminlevel}
+                </td>
+                <td>
+                  <button onClick={() => editUser(user, navigate)}>Edit User</button>
+                  <button onClick={() => deleteUser(user, navigate)}>Delete User</button>
+                </td>
+              </tr>
+            )
+          } else {
+            return ("")
+          }
+        })}
+      </tbody>
+    </table>
+  )
 }
-
-export function deleteUser(userToDelete){
+//Filters out userToDelete and restores in local storage
+export function deleteUser(userToDelete, navigate) {
   const allUserDataStr = localStorage.getItem(ALL_USERS)
   const allUserData = allUserDataStr ? JSON.parse(allUserDataStr) : []
   const filteredUsers = allUserData.filter(users => !users.id.match(new RegExp('^' + userToDelete.id + '$')))
   localStorage.setItem(ALL_USERS, JSON.stringify(filteredUsers))
+  navigate(MANAGEUSERS)
 }
-
-export function editUser(userToEdit){
-  const allUserDataStr = localStorage.getItem(ALL_USERS)
-  const allUserData = allUserDataStr ? JSON.parse(allUserDataStr) : []
-
+//Open user edit page
+export function editUser(userToEdit, navigate) {
+  localStorage.setItem(USER_TO_EDIT, JSON.stringify(userToEdit))
+  navigate(EDITUSER)
 }

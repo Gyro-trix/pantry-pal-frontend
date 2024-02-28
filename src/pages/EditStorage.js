@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AddItems from './AddItems';
 import { CUR_STORAGE, ALL_STORAGES, CUR_ITEM_LIST,CUR_USER } from "../config/localStorage"
-import { saveStorageToLocalStorage,notificationCleanUp } from "../utils/storage"
+import { saveStorageToLocalStorage } from "../utils/storage"
+import { notificationCleanUp } from "../utils/notifications";
 import { checkUserLogin} from "../utils/users"
 
 function EditStorage() {

@@ -10,16 +10,20 @@ import NavBar from './pages/NavBar';
 import Notifications from './pages/Notifications';
 import CreateRecipes from './pages/CreateRecipes';
 import Recipes from './pages/Recipes';
+import ManageUsers from './pages/ManageUsers';
+import EditUser from './pages/EditUser'
+import CreateUser from './pages/CreateUser'
+import EditRecipe from './pages/EditRecipe'
 
 function App() {
 
   
   return (
-    <div >
+    <div>
       
       <BrowserRouter>
       <NavBar />  
-      <div>
+      <div >
       <Routes>
         <Route exact path="/" element={<Home/>} />
         <Route path="/login" element={<Login />} />
@@ -30,6 +34,10 @@ function App() {
         <Route path="/notifications" element={<Notifications />} />
         <Route path="/createrecipes" element={<CreateRecipes />} />
         <Route path="/recipes" element={<Recipes />} />
+        <Route path="/manageusers" element={<ManageUsers />} />
+        <Route path="/edituser" element={<EditUser />} />
+        <Route path="/createuser" element={<CreateUser />} />
+        <Route path="/editrecipe" element={<EditRecipe />} />
 
       </Routes>
       </div>

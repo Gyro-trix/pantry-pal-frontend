@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
-import { SIGN_IN, CREATE_STORAGE, USER_SETTINGS, NOTIFICATION, CREATERECIPES, DISPLAYRECIPES } from "../config/routes";
-import { numberOfNotifications } from "../utils/storage";
+import { SIGN_IN, CREATE_STORAGE, USER_SETTINGS, NOTIFICATION, CREATERECIPES, DISPLAYRECIPES, MANAGEUSERS, CREATE_USER } from "../config/routes";
+import { numberOfNotifications } from "../utils/notifications";
 import { CUR_USER } from "../config/localStorage";
 
 function NavBar() {
@@ -37,14 +37,22 @@ function NavBar() {
       break;
     case 2:
       navBarContent = <li className="nav-item p-2">
-      <a className="nav-link" aria-current="page" href="/recipes#" onClick={displayRecipes}>Recipes</a>
-    </li>
+        <a className="nav-link" aria-current="page" href="/recipes#" onClick={displayRecipes}>Recipes</a>
+      </li>
       break;
     case 3:
-      navBarContent = 
-        <li className="nav-item p-2">
-          <a className="nav-link" aria-current="page" href="/createrecipes#" onClick={createRecipes}>Add A Recipe</a>
-        </li>
+      navBarContent =
+        <ul className="navbar-nav">
+          <li className="nav-item p-2">
+            <a className="nav-link" aria-current="page" href="/createrecipes#" onClick={createRecipes}>Add A Recipe</a>
+          </li>
+          <li className="nav-item p-2">
+            <a className="nav-link" aria-current="page" href="/manageusers#" onClick={manageUsers}>Manage Users</a>
+          </li>
+          <li className="nav-item p-2">
+            <a className="nav-link" aria-current="page" href="/createuser#" onClick={createuser}>Create User</a>
+          </li>
+        </ul>
       break;
     default:
       navBarContent = ""
@@ -76,10 +84,17 @@ function NavBar() {
     navigate(CREATERECIPES)
   }
 
-  function displayRecipes(){
+  function displayRecipes() {
     navigate(DISPLAYRECIPES)
   }
 
+  function manageUsers() {
+    navigate(MANAGEUSERS)
+  }
+
+  function createuser() {
+    navigate(CREATE_USER)
+  }
 
   return (
 

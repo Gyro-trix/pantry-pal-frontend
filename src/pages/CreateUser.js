@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { addUser, userExists } from "../utils/users"
+import { addUser, userExists,userSave } from "../utils/users"
 import { CUR_USER } from "../config/localStorage"
 
 function CreateUser(){
 
-    const [newUser, setNewUser] = useState()
+    const [newUser, setNewUser] = useState({id:"",name:"",password:"",email:"",adminlevel:2,notify:false, itemlimit:99,expirylimit:99})
     const navigate = useNavigate()
     //Used to update reminder text on registration page 
     const [noticeStyle, setColor] = useState('green')
@@ -66,7 +66,7 @@ function CreateUser(){
                         />
                     </div>
                 </form>
-                <button onClick={() => addUser(newUser, navigate)}>Register</button>
+                <button onClick={() => userSave(newUser)}>Save User</button>
             </div>
         </div>
     );

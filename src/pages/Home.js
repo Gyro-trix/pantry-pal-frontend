@@ -3,16 +3,10 @@ import React, { useEffect,useState } from "react";
 import { displayStorage} from "../utils/storage";
 import { ALL_STORAGES, CUR_ITEM_LIST, CUR_USER } from "../config/localStorage"
 import { checkUserLogin } from "../utils/users"
-import { } from "../config/localStorage"
+import { getWindowDimensions } from "../utils/display";
 //import { cleanup } from "@testing-library/react";
 
-function getWindowDimensions() {
-  const { innerWidth: width, innerHeight: height } = window;
-  return {
-    width,
-    height
-  };
-}
+
 
 function Home() {
 
@@ -22,7 +16,7 @@ function Home() {
   const currentUserStr = localStorage.getItem(CUR_USER)
   const navigate = useNavigate();
 
-  const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
+  const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions);
   const {width, height} = windowDimensions;
 
   useEffect(() => {

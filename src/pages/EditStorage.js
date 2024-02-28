@@ -44,7 +44,7 @@ function EditStorage() {
     useEffect(() => {
         localStorage.setItem(CUR_ITEM_LIST, JSON.stringify(itemlist))
         setNotifyColor("red")
-        setNotifyText("   Please Save")
+        setNotifyText("Please Save")
     }, [itemlist])
 
     return (

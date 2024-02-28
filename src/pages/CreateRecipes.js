@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { saveRecipe, displayRecipe } from "../utils/recipes";
 import AddIngredient from "./AddIngredient";
 import { useNavigate } from "react-router-dom";
-import { RECIPETOADD,CUR_USER } from "../config/localStorage";
+import { RECIPETOADD,CUR_USER, INGREDIENTS } from "../config/localStorage";
 import { checkAdminLogin } from "../utils/users";
 
 
@@ -13,6 +13,8 @@ function CreateRecipes() {
     const recipeToAddData = recipeToAddStr ? JSON.parse(recipeToAddStr) : ""
     const [recipe, setRecipe] = useState({ name: recipeToAddData.name, ingredients: recipeToAddData.ingredients, instructions: recipeToAddData.instructions })
     const [recipeIndex, setRecipeIndex] = useState(0)
+    const ingredientsStr = localStorage.getItem(INGREDIENTS)
+    const [ingredients,setIngredients] = useState(ingredientsStr ? JSON.parse(ingredientsStr) :[])
     const currentUserStr = localStorage.getItem(CUR_USER)
     const navigate = useNavigate()
     useEffect(() => {
@@ -22,6 +24,17 @@ function CreateRecipes() {
     useEffect(() => {
         localStorage.setItem(RECIPETOADD, JSON.stringify(recipe))
     }, [recipe])
+
+    useEffect(() => {
+        localStorage.setItem(INGREDIENTS, JSON.stringify(ingredients))
+    }, [ingredients])
+
+    useEffect(() => {
+        setRecipe((prev) => ({
+            ...prev,
+            ingredients: ingredients,
+        }))
+    }, [ingredients])
     
     const handleChange = e => {
         setRecipe((prev) => ({
@@ -32,17 +45,23 @@ function CreateRecipes() {
 
 
     return (
-        <div>
+        <div className = "container" style = {{padding:16}}>
             <div>
                 {displayRecipe(recipeIndex,navigate)}
-                <button onClick={() => {
+                <button 
+                type="button" 
+                className="btn btn-primary"
+                onClick={() => {
                     if (recipeIndex <= 0){
                         setRecipeIndex(0)
                     } else {
                         setRecipeIndex(recipeIndex - 1)
                     }
                 }}>Previous</button>
-                <button onClick={() => {
+                <button 
+                type="button" 
+                className="btn btn-primary"
+                onClick={() => {
                     setRecipeIndex(recipeIndex + 1)
                 }}>Next</button>
             </div>
@@ -57,7 +76,7 @@ function CreateRecipes() {
                     onChange={handleChange} />
             </div>
             <div className="input_group mb-3">
-                <AddIngredient />
+                <AddIngredient ingredients = {ingredients} />
             </div>
             <div className="input_group mb-3">
                 <input
@@ -68,7 +87,7 @@ function CreateRecipes() {
                     defaultValue = {recipe.instructions}
                     onChange={handleChange} />
             </div>
-            <button onClick={() => saveRecipe(recipe,navigate)}>Save Recipe</button>
+            <button type="button" className="btn btn-primary" onClick={() => saveRecipe(recipe,navigate)}>Save Recipe</button>
 
         </div>
     )

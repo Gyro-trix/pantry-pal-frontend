@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import { displayItems,addItem,addExpiryDate} from "../utils/storage"
-
 import "react-datepicker/dist/react-datepicker.css";
+import { CUR_ITEM_LIST } from "../config/localStorage";
 
 function AddItems(props) {
     const [startDate,setStartDate] = useState(new Date())
@@ -17,7 +17,7 @@ function AddItems(props) {
     const {itemlist} = props;
 
     useEffect(() => {
-        localStorage.setItem("CUR_ITEM_LIST", JSON.stringify(itemlist))
+        localStorage.setItem(CUR_ITEM_LIST, JSON.stringify(itemlist))
     }, [itemlist])
 
 

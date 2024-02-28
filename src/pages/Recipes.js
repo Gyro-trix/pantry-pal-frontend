@@ -15,14 +15,20 @@ function Recipes(){
     return(
         <div>
                 {displayRecipe(recipeIndex)}
-                <button onClick={() => {
+                <button 
+                type="button" 
+                className="btn btn-primary"
+                onClick={() => {
                     if (recipeIndex <= 0){
                         setRecipeIndex(0)
                     } else {
                         setRecipeIndex(recipeIndex - 1)
                     }
                 }}>Previous</button>
-                <button onClick={() => {
+                <button 
+                type="button" 
+                className="btn btn-primary"
+                onClick={() => {
                     setRecipeIndex(recipeIndex + 1)
                 }}>Next</button>
             </div>

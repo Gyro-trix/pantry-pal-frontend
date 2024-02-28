@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { checkUserLogin, saveUserSettings, adminPasswordChange } from "../utils/users"
+import { saveUserSettings, adminPasswordChange, checkAdminLogin } from "../utils/users"
 import { CUR_USER, USER_TO_EDIT } from "../config/localStorage"
 
 
@@ -15,7 +15,7 @@ function UserSettings() {
     const [passwordNoticeColor, setPasswordNoticeColor] = useState("red")
 
     useEffect(() => {
-        checkUserLogin(currentUserStr, navigate)
+        checkAdminLogin(currentUserStr, navigate)
     }, [currentUserStr, navigate])
 
     useEffect(() => {

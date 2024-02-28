@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { addUser, userExists, userSave } from "../utils/users"
+import { userExists, userSave } from "../utils/users"
 import { CUR_USER } from "../config/localStorage"
+import { checkAdminLogin } from "../utils/users";
 
 function CreateUser() {
 
@@ -10,6 +11,12 @@ function CreateUser() {
     //Used to update reminder text on registration page 
     const [noticeStyle, setColor] = useState('green')
     const [text, setText] = useState("Username Available")
+    const currentUserStr = localStorage.getItem(CUR_USER)
+    
+    useEffect(() => {
+        checkAdminLogin(currentUserStr, navigate)
+    }, [currentUserStr, navigate])
+        
     //Adds user with data from input fields
     const handleChange = e => {
         setNewUser((prev) => ({
@@ -84,7 +91,7 @@ function CreateUser() {
                         />
                     </div>
                 </form>
-                <button onClick={userSave(newUser)}>Save User</button>
+                <button onClick={()=>userSave(newUser)}>Save User</button>
             </div>
         </div>
     );

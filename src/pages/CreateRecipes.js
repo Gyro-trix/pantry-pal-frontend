@@ -3,16 +3,22 @@ import React, { useState, useEffect } from "react";
 import { saveRecipe, displayRecipe } from "../utils/recipes";
 import AddIngredient from "./AddIngredient";
 import { useNavigate } from "react-router-dom";
-import { RECIPETOADD } from "../config/localStorage";
+import { RECIPETOADD,CUR_USER } from "../config/localStorage";
+import { checkAdminLogin } from "../utils/users";
 
 
 function CreateRecipes() { 
+    
     const recipeToAddStr = localStorage.getItem(RECIPETOADD)
     const recipeToAddData = recipeToAddStr ? JSON.parse(recipeToAddStr) : ""
     const [recipe, setRecipe] = useState({ name: recipeToAddData.name, ingredients: recipeToAddData.ingredients, instructions: recipeToAddData.instructions })
     const [recipeIndex, setRecipeIndex] = useState(0)
+    const currentUserStr = localStorage.getItem(CUR_USER)
     const navigate = useNavigate()
-    
+    useEffect(() => {
+        checkAdminLogin(currentUserStr, navigate)
+    }, [currentUserStr, navigate])
+
     useEffect(() => {
         localStorage.setItem(RECIPETOADD, JSON.stringify(recipe))
     }, [recipe])

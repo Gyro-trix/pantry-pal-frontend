@@ -20,8 +20,6 @@ function NavBar() {
     currentAdminLevel = 0
   }
 
-
-
   //Disable dropdown if no user
   let dropdown = "btn dropdown-toggle"
   if (currentUsername === "No User") {

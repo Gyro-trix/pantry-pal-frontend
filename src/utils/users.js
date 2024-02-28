@@ -1,12 +1,21 @@
 import { ALL_USERS, CUR_USER, USER_TO_EDIT } from "../config/localStorage"
 import { HOME, SIGN_IN, MANAGEUSERS, EDITUSER } from "../config/routes"
 import { gatherNotifications } from "./notifications"
-//Checks if a user is checked in
+//Checks if a user is logged in
 export function checkUserLogin(currentUser, navigate) {
   if (currentUser === null || currentUser.trim() === "") {
     navigate(SIGN_IN)
   } else {
     gatherNotifications()
+  }
+}
+//Checks is a user is logged in and if it is an admin
+export function checkAdminLogin(currentUser, navigate){
+  const userData = JSON.parse(currentUser)
+  if(userData.adminlevel === 3){
+    checkUserLogin(currentUser, navigate)
+  } else {
+    navigate(HOME)
   }
 }
 //Basic login function

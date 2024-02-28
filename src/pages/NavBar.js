@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
-import { SIGN_IN, CREATE_STORAGE, USER_SETTINGS, NOTIFICATION, CREATERECIPES, DISPLAYRECIPES, MANAGEUSERS } from "../config/routes";
+import { SIGN_IN, CREATE_STORAGE, USER_SETTINGS, NOTIFICATION, CREATERECIPES, DISPLAYRECIPES, MANAGEUSERS, CREATE_USER } from "../config/routes";
 import { numberOfNotifications } from "../utils/notifications";
 import { CUR_USER } from "../config/localStorage";
 
@@ -49,6 +49,9 @@ function NavBar() {
           <li className="nav-item p-2">
             <a className="nav-link" aria-current="page" href="/manageusers#" onClick={manageUsers}>Manage Users</a>
           </li>
+          <li className="nav-item p-2">
+            <a className="nav-link" aria-current="page" href="/createuser#" onClick={createuser}>Create User</a>
+          </li>
         </ul>
       break;
     default:
@@ -89,6 +92,9 @@ function NavBar() {
     navigate(MANAGEUSERS)
   }
 
+  function createuser() {
+    navigate(CREATE_USER)
+  }
 
   return (
 

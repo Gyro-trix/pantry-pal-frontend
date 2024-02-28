@@ -47,7 +47,7 @@ export function addUser(userToRegister, navigate) {
     if (userToRegister.password === userToRegister.passwordchk) {
       //Create ID from current date and username
       const newUser = {
-        id: "" + new Date().getTime() + "-" + userToRegister.username,
+        id: "",
         username: userToRegister.username,
         email: userToRegister.email,
         password: userToRegister.password,
@@ -81,6 +81,7 @@ export function userExists(userToCheck) {
 //Saves user to local storage, should work without modification
 export function userSave(userToSave) {
   const allUserDataStr = localStorage.getItem(ALL_USERS)
+  userToSave.id ="" + new Date().getTime() + "-" + userToSave.username
   let temparr
   if (!(allUserDataStr === null || allUserDataStr.trim() === "")) {
     const allUserData = JSON.parse(allUserDataStr)

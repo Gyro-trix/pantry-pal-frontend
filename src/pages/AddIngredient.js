@@ -1,9 +1,10 @@
 import React, { useState, } from "react";
+import { useNavigate } from "react-router-dom";
 import { addIngredient,displayIngredients } from "../utils/recipes";
 
 
 function AddIngredient() {
-
+const navigate = useNavigate()
     const [ingredient, setIngredient] = useState({
         amount: 0,
         name: ""
@@ -24,7 +25,7 @@ function AddIngredient() {
             
             <div className="container">
                 <div className = "container overflow-y-auto" style ={{background: "lightgrey",maxHeight: 200}} >
-                {displayIngredients()}
+                {displayIngredients(navigate)}
                 </div>
                 <form className="col" style = {{marginTop: 10  }}>
                     <input
@@ -43,7 +44,7 @@ function AddIngredient() {
                     ></input>
                    
                 </form>
-                <button type="button" className="btn btn-primary" style={{ whiteSpace: "nowrap", marginTop: 16 }} onClick = {()=> {addIngredient(ingredient)}} >Add Item</button>
+                <button type="button" className="btn btn-primary" style={{ whiteSpace: "nowrap", marginTop: 16 }} onClick = {()=> {addIngredient(ingredient)}} >Add Ingredient</button>
             </div>
         </div>
     )

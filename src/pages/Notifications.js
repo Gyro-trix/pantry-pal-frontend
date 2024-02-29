@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { displayNotifications } from "../utils/notifications"
-import { checkUserLogin} from "../utils/users"
+import { checkUserLogin } from "../utils/users"
 import { CUR_USER } from "../config/localStorage"
 import { useNavigate } from "react-router-dom";
 
@@ -13,11 +13,17 @@ function Notifications() {
     }, [currentUserStr, navigate])
 
     return (
-        <div className="card w-90" style={{ background: "lightblue", padding: 32}}>
-            <h3>Low Inventory</h3>
-            {displayNotifications("Low")}
-            <h3>About to Expire</h3>
-            {displayNotifications("Expiring")}
+        <div className="row row-cols" style={{ padding: 32 }}>
+            <div className="card" style={{ padding: 32 }}>
+                <div className="card-body">
+                    <h3 className="card-title">Low Inventory</h3>
+                    {displayNotifications("Low")}
+                </div>
+                <div className="card-body">
+                    <h3 className="card-title">About to Expire</h3>
+                    {displayNotifications("Expiring")}
+                </div>
+            </div>
         </div>
     )
 }

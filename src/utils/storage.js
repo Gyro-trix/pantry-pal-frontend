@@ -106,12 +106,12 @@ export function displayStorage(storageDataStr, storageData, navigate) {
         return storageData.map((singleStorageData) => {
             return (
                 <div className="col w-25" key={singleStorageData.name} >
-                    <div className="card" style={{ marginLeft: 10, marginTop: 10 }}>
+                    <div className="card" style={{ marginLeft: 16, marginTop: 16 }}>
                         <div className="card-body" >
                             <h4 className="card-title">{singleStorageData.name}</h4>
                             <p className="card-text">{singleStorageData.type} at {singleStorageData.location}</p>
                             <div className="col d-flex justify-content-between">
-                                <button className="btn btn-primary" style={{ marginRight: 10 }} onClick={() => openEditStoragePage(singleStorageData, navigate)}>Edit Storage</button>
+                                <button className="btn btn-primary" style={{ marginRight: 16 }} onClick={() => openEditStoragePage(singleStorageData, navigate)}>Edit Storage</button>
                                 <button className="btn btn-primary" onClick={() => { if (window.confirm('Delete the item?')) { deleteStorage(allStorageData, singleStorageData) } }} >Delete Storage</button>
                             </div>
                         </div>

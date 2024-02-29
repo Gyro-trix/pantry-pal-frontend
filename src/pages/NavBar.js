@@ -12,8 +12,8 @@ function NavBar() {
   const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions);
   const { width, height } = windowDimensions;
 
-
-
+  let navBarContent = ""
+  let navBar
   let currentUsername
   let currentAdminLevel
   if (!(currentUserStr === null || currentUserStr.trim() === "")) {
@@ -28,8 +28,7 @@ function NavBar() {
   let dropDown
   let dropDownContent = <ul></ul>
   let allToDropDown = <ul></ul>
-  let navBarContent = <ul></ul>
-  let navBar = <ul></ul>
+
   useEffect(() => {
     setNotificationCount(numberOfNotifications())
   }, [])
@@ -46,11 +45,11 @@ function NavBar() {
   switch (currentAdminLevel) {
     case 0:
       navBarContent = ""
-
+      
       break;
     case 1:
       navBarContent = ""
-
+      
       break;
     case 2:
       navBarContent = <ul className="navbar-nav">
@@ -73,14 +72,15 @@ function NavBar() {
       </ul>
       break;
     case 3:
-      navBarContent = <ul className="navbar-nav">
-        <li className="nav-item p-2"><a className="nav-link active" aria-current="page" href="/#" >Home</a></li>
-        <li className="nav-item p-2"><a className="nav-link" aria-current="page" href="/createStorage#" onClick={createStorage}>Add Storage</a></li>
-        <li className="nav-item p-2"><a className="nav-link" aria-current="page" href="/notifications#" onClick={notifications}>Notifications<sup style={{ color: "red" }}>{notificationCount}</sup></a></li>
-        <li className="nav-item p-2"><a className="nav-link" aria-current="page" href="/createrecipes#" onClick={createRecipes}>Add A Recipe</a></li>
-        <li className="nav-item p-2"><a className="nav-link" aria-current="page" href="/manageusers#" onClick={manageUsers}>Manage Users</a></li>
-        <li className="nav-item p-2"><a className="nav-link" aria-current="page" href="/createuser#" onClick={createUser}>Create User</a></li>
-      </ul>
+      navBarContent =
+        <ul className="navbar-nav">
+          <li className="nav-item p-2"><a className="nav-link active" aria-current="page" href="/#" >Home</a></li>
+          <li className="nav-item p-2"><a className="nav-link" aria-current="page" href="/createStorage#" onClick={createStorage}>Add Storage</a></li>
+          <li className="nav-item p-2"><a className="nav-link" aria-current="page" href="/notifications#" onClick={notifications}>Notifications<sup style={{ color: "red" }}>{notificationCount}</sup></a></li>
+          <li className="nav-item p-2"><a className="nav-link" aria-current="page" href="/createrecipes#" onClick={createRecipes}>Add A Recipe</a></li>
+          <li className="nav-item p-2"><a className="nav-link" aria-current="page" href="/manageusers#" onClick={manageUsers}>Manage Users</a></li>
+          <li className="nav-item p-2"><a className="nav-link" aria-current="page" href="/createuser#" onClick={createUser}>Create User</a></li>
+        </ul>
       dropDownContent = <ul className="dropdown-menu" style={{ padding: 8 }}>
         <li><a className="dropdown-item" aria-current="page" href="/userSettings#" onClick={userSettings}>Settings</a></li>
         <li><a className="dropdown-item" aria-current="page" href="/login#" style={{ marginTop: 8 }} onClick={logOut}>Logout</a></li>
@@ -98,7 +98,7 @@ function NavBar() {
       break;
     default:
       navBarContent = ""
-
+      
   }
 
   //Disable dropdown if no user
@@ -106,7 +106,7 @@ function NavBar() {
   if (currentUsername === "No User") {
     drop = "btn dropdown-toggle disabled"
   }
-
+  
   if (width < 1000) {
     navBar = <ul></ul>
     dropDown = allToDropDown
@@ -114,6 +114,8 @@ function NavBar() {
     navBar = navBarContent
     dropDown = dropDownContent
   }
+
+
 
   function logOut() {
     navigate(SIGN_IN)
@@ -159,7 +161,7 @@ function NavBar() {
           {navBar}
         </div>
         <div className={"dropdown justify-content-left "} style={{ width: 160 }}>
-          <button className={drop} style={{ width: 160, marginTop: 16 }} data-bs-toggle="dropdown" aria-expanded="false">
+          <button className={drop} style={{ width: 160, marginTop:16 }} data-bs-toggle="dropdown" aria-expanded="false">
             {currentUsername}
           </button>
           <ul>

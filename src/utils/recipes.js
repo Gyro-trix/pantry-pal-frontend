@@ -118,8 +118,3 @@ export function editRecipe(recipeToEdit, navigate) {
     localStorage.setItem(RECIPETOEDIT, JSON.stringify(recipeToEdit))
     navigate(EDIT_RECIPE)
 }
-export function getNumberOfRecipes(){
-    const recipeDataStr = localStorage.getItem(RECIPES)
-    let recipeData = recipeDataStr ? JSON.parse(recipeDataStr) : []
-    return recipeData.length
-}

@@ -113,13 +113,30 @@ export function deleteRecipe(recipeToDelete, navigate) {
     recipeData = recipeData.filter(recipe => !recipe.id.match(new RegExp('^' + recipeToDelete.id + '$')))
     localStorage.setItem(RECIPES, JSON.stringify(recipeData))
     navigate(CREATERECIPES)
+
 }
 export function editRecipe(recipeToEdit, navigate) {
     localStorage.setItem(RECIPETOEDIT, JSON.stringify(recipeToEdit))
+    localStorage.setItem(INGREDIENTS, JSON.stringify(recipeToEdit.ingredients))
     navigate(EDIT_RECIPE)
 }
-export function getNumberOfRecipes(){
+export function getNumberOfRecipes() {
     const recipeDataStr = localStorage.getItem(RECIPES)
     let recipeData = recipeDataStr ? JSON.parse(recipeDataStr) : []
     return recipeData.length
+}
+
+export function saveOverRecipe(recipeToReplace, navigate) {
+    const recipeDataStr = localStorage.getItem(RECIPES)
+    const ingredients = JSON.parse(localStorage.getItem(INGREDIENTS))
+    let recipeData = recipeDataStr ? JSON.parse(recipeDataStr) : []
+    recipeData = recipeData.filter(recipe => !recipe.id.match(new RegExp('^' + recipeToReplace.id + '$')))
+    recipeToReplace.ingredients = ingredients
+    recipeData = [...recipeData,recipeToReplace]
+    localStorage.setItem(RECIPES,JSON.stringify(recipeData))
+    localStorage.setItem(INGREDIENTS, [])
+    localStorage.setItem(RECIPETOADD, "")
+    navigate(CREATERECIPES)
+
+
 }

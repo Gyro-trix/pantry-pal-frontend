@@ -44,8 +44,8 @@ function CreateUser() {
 
     //Register form
     return (
-        <div>
-            <div className="container">
+        <div className = "card">
+            <div className="card-body">
                 <form className="flex row-auto"  >
                     <div className="input_space">
                         <input placeholder="Username"
@@ -91,7 +91,7 @@ function CreateUser() {
                         />
                     </div>
                 </form>
-                <button onClick={()=>userSave(newUser)}>Save User</button>
+                <button type="button" className="btn btn-primary"onClick={()=>userSave(newUser)}>Save User</button>
             </div>
         </div>
     );

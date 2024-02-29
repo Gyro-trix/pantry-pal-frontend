@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from "react";
-import { saveRecipe, displayRecipe } from "../utils/recipes";
+import { saveRecipe, displayRecipe, getNumberOfRecipes } from "../utils/recipes";
 import AddIngredient from "./AddIngredient";
 import { useNavigate } from "react-router-dom";
 import { RECIPETOADD,CUR_USER, INGREDIENTS } from "../config/localStorage";
@@ -16,6 +16,7 @@ function CreateRecipes() {
     const ingredientsStr = localStorage.getItem(INGREDIENTS)
     const [ingredients,setIngredients] = useState(ingredientsStr ? JSON.parse(ingredientsStr) :[])
     const currentUserStr = localStorage.getItem(CUR_USER)
+    const numberOfRecipes = getNumberOfRecipes()
     const navigate = useNavigate()
     useEffect(() => {
         checkAdminLogin(currentUserStr, navigate)
@@ -45,9 +46,10 @@ function CreateRecipes() {
 
 
     return (
-        <div className = "container" style = {{padding:16}}>
-            <div>
-                {displayRecipe(recipeIndex,navigate)}
+        <div className = "container" style = {{background:"lightblue",padding:16}}>
+            <div className = "card">
+                <div className = "card-body">{displayRecipe(recipeIndex,navigate)}</div>
+                
                 <button 
                 type="button" 
                 className="btn btn-primary"
@@ -65,8 +67,7 @@ function CreateRecipes() {
                     setRecipeIndex(recipeIndex + 1)
                 }}>Next</button>
             </div>
-            <div className="input_group mb-3">
-
+            <div className="input_group mb-3" style = {{marginTop:16}}>
                 <input
                     className="form-control"
                     placeholder="Recipe Name"

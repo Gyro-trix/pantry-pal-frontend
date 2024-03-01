@@ -48,7 +48,7 @@ function EditStorage() {
     }, [itemlist])
 
     return (
-        <div className="card w-50 mb-3" style={{ padding: 16, margin: "auto", marginTop: 64 }}>
+        <div className="card w-50 mb-3" style={{ padding: 16, margin: "auto", marginTop: 64, minWidth:600 }}>
             {/*Edit Storage Form */}
             <div className="container flex row">
                 <form className="flex row-auto"  >
@@ -86,8 +86,9 @@ function EditStorage() {
                         </label>
                     </div>
                 </form>
-                <AddItems itemlist={itemlist} setItemList={setItemList} />
+                
             </div>
+            <AddItems itemlist={itemlist} setItemList={setItemList} />
             {/*Notification text to appear above save button */}
             <div>
             <p style={{ color: notifyColor, marginTop: 16 }}>{notifyText}</p>

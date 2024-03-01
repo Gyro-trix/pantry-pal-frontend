@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
-import { displayItems,addItem,addExpiryDate} from "../utils/storage"
+import { displayItems, addItem, addExpiryDate } from "../utils/storage"
 import "react-datepicker/dist/react-datepicker.css";
 import { CUR_ITEM_LIST } from "../config/localStorage";
 
 function AddItems(props) {
-    const [startDate,setStartDate] = useState(new Date())
+    const [startDate, setStartDate] = useState(new Date())
 
     const [item, setItem] = useState({
         quantity: 0,
@@ -14,7 +14,7 @@ function AddItems(props) {
         expiry: "",
         id: ""
     })
-    const {itemlist} = props;
+    const { itemlist } = props;
 
     useEffect(() => {
         localStorage.setItem(CUR_ITEM_LIST, JSON.stringify(itemlist))
@@ -31,43 +31,46 @@ function AddItems(props) {
     return (
         <div>
             <div className="container">
-                <div className = "container overflow-y-auto" style ={{background: "lightgrey",maxHeight: 200}} >
-                {displayItems()}
+                <div className="container" style={{marginTop:16 }} >
+                    {displayItems()}
                 </div>
-                <form className="col" style = {{marginTop: 10  }}>
-                    <input
-                        style={{ width: 75}}
+                <div className="input-group" style={{ marginTop: 10 }}>
+                    <input className="form-control"
+                        style={{ }}
                         type="number"
                         onChange={handleChange}
                         name="quantity"
                         placeholder="Quantity"
                     ></input>
-                    <input
-                        style = {{marginLeft: 5  }}
+                    <input className="form-control"
+                        style={{  }}
                         type="text"
                         onChange={handleChange}
                         name="name"
                         placeholder="Name"
                     ></input>
-                    <input
-                        style={{ width: 100 ,marginLeft: 5  }}
+                    <input className="form-control"
+                        style={{  }}
                         type="text"
                         onChange={handleChange}
                         name="size"
                         placeholder="Size"
                     ></input>
-                    <DatePicker 
-                    selected={startDate}
-                    name = "expiry" 
-                    onChange={(date) => {
-                        let expiry = addExpiryDate(date)
-                        setStartDate(expiry)
-                        item.expiry = expiry
+                    <DatePicker
+                        className="form-control"
+                        style = {{borderRadius: 0.0}}
+                        selected={startDate}
+                        name="expiry"
+                        onChange={(date) => {
+                            let expiry = addExpiryDate(date)
+                            setStartDate(expiry)
+                            item.expiry = expiry
                         }
-                    } 
+                        }
                     />
-                </form>
-                <button type="button" className="btn btn-primary" style={{ whiteSpace: "nowrap", marginTop: 16 }} onClick={() => addItem(item)}>Add Item</button>
+                    <button type="button" className="btn btn-primary" style={{ whiteSpace: "nowrap"}} onClick={() => addItem(item)}>Add Item</button>
+
+                </div>
             </div>
         </div>
     )

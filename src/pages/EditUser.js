@@ -46,17 +46,14 @@ function UserSettings() {
 
     return (
         <div className="container" style = {{padding:32}}>
-            
-            
             <div className="row">
-                <div className="col">
-                    
+                <div className="col"> 
                     <div className = "card" style = {{padding:16}}>
                     <h5 >Account For: {userToEdit.username}</h5>
                     <form>
                         <label style = {{marginTop:16}} > Current Password:
                             <input
-                                style={{ width: 200, marginLeft: 10 }}
+                                style={{ width: 200, marginLeft: 8 }}
                                 type="password"
                                 onChange={handlePasswordChange}
                                 name="currentpassword"
@@ -66,7 +63,7 @@ function UserSettings() {
                         
                         <label style = {{marginTop:16}}> New Password:
                             <input
-                                style={{ width: 200, marginLeft: 10 }}
+                                style={{ width: 200, marginLeft: 8 }}
                                 type="password"
                                 onChange={handlePasswordChange}
                                 name="newpassword"
@@ -76,7 +73,7 @@ function UserSettings() {
                         
                         <label style = {{marginTop:16}}> Re-Type New Password:
                             <input
-                                style={{ width: 200, marginLeft: 10 }}
+                                style={{ width: 200, marginLeft: 8 }}
                                 type="password"
                                 onChange={handlePasswordChange}
                                 name="newpasswordcheck"

@@ -48,7 +48,7 @@ function EditStorage() {
     }, [itemlist])
 
     return (
-        <div className="card w-50 mb-3" style={{ background: "lightblue", padding: 16, margin: "auto", marginTop: 64 }}>
+        <div className="card w-50 mb-3" style={{ padding: 16, margin: "auto", marginTop: 64 }}>
             {/*Edit Storage Form */}
             <div className="container flex row">
                 <form className="flex row-auto"  >

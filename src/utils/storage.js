@@ -52,17 +52,49 @@ export function saveStorageToLocalStorage(currentStorage) {
 export function displayItems() {
     const itemlist = JSON.parse(localStorage.getItem(CUR_ITEM_LIST))
     if ((itemlist === null) === false) {
-        return itemlist.map((item, index) => {
-            return (
-                <div key={item.id} className="card" style={{ marginTop: 10 }}>
-                    <div className="card-body">
-                        <p className="card-text">Item Name: {item.name} Quantity:{item.quantity} Size:{item.size} Expiry:{displayDate(item.expiry)}</p>
-                        <button type="button" className="btn btn-primary" onClick={() => deleteItem(index)}>Delete Item</button>
-                    </div>
-                </div>
+        return (
+            <table className="table table-info table-striped" style={{ background: "white" }}>
+                <tbody>
+                    <tr key="header">
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Item Name</th>
+                        <th scope="col">Size</th>
+                        <th scope="col">Expiry</th>
+                        <th scope="col">Delete</th>
+                    </tr>
+                    {itemlist.map((item, index) => {
+                        return (
+                            <tr key={item.id}>
+                                <td>
+                                    {item.quantity}
+                                </td>
+                                <td>
+                                    {item.name}
+                                </td>
+                                <td>
+                                    {item.size}
+                                </td>
+                                <td>
+                                    {displayDate(item.expiry)}
+                                </td>
+                                <td>
+                                    <button type="button" className="btn btn-primary" onClick={() => deleteItem(index)}>Delete Ingredient</button>
+                                </td>
+                            </tr>
+                        )
+                    })}
+                </tbody>
+            </table>
 
-            )
-        })
+            /*<div key={item.id} className="card" style={{ marginTop: 10 }}>
+                <div className="card-body">
+                    <p className="card-text">Item Name: {item.name} Quantity:{item.quantity} Size:{item.size} Expiry:{displayDate(item.expiry)}</p>
+                    <button type="button" className="btn btn-primary" onClick={() => deleteItem(index)}>Delete Item</button>
+                </div>
+            </div>*/
+
+        )
+
     }
 }
 
@@ -106,7 +138,7 @@ export function displayStorage(storageDataStr, storageData, navigate) {
         return storageData.map((singleStorageData) => {
             return (
                 <div className="col w-25" key={singleStorageData.name} >
-                    <div className="card" style={{ marginLeft: 16, marginTop: 16, minWidth:320 }}>
+                    <div className="card" style={{ marginLeft: 16, marginTop: 16, minWidth: 320 }}>
                         <div className="card-body" >
                             <h4 className="card-title">{singleStorageData.name}</h4>
                             <p className="card-text">{singleStorageData.type} at {singleStorageData.location}</p>

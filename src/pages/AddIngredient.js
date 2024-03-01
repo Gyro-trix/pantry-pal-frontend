@@ -27,7 +27,7 @@ const navigate = useNavigate()
     return (
         <div>
             <div className="container">
-                <div className = "container overflow-y-auto" style ={{background: "lightgrey",maxHeight: 200}} >
+                <div className = "container overflow-y-auto" style ={{maxHeight: 200}} >
                 {displayIngredients(navigate)}
                 </div>
                 <div className = "input-group">

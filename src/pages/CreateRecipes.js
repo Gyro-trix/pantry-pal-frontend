@@ -48,7 +48,9 @@ function CreateRecipes() {
     return (
         <div className = "container" style = {{background:"lightblue",padding:16}}>
             <div className = "card">
-                <div className = "card-body">{displayRecipe(recipeIndex,navigate)}</div>
+                <div className = "card-body">
+                    {displayRecipe(recipeIndex,navigate)}
+                    </div>
                 
                 <button 
                 type="button" 
@@ -67,6 +69,7 @@ function CreateRecipes() {
                     setRecipeIndex(recipeIndex + 1)
                 }}>Next</button>
             </div>
+            <div className = "card" style = {{marginTop:32}}>
             <div className="input_group mb-3" style = {{marginTop:16}}>
                 <input
                     className="form-control"
@@ -89,7 +92,7 @@ function CreateRecipes() {
                     onChange={handleChange} />
             </div>
             <button type="button" className="btn btn-primary" onClick={() => saveRecipe(recipe,navigate)}>Save Recipe</button>
-
+</div>
         </div>
     )
 

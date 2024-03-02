@@ -86,7 +86,7 @@ export function displayNotifications(type) {
         return notifications.map((notification) => {
             if (notification.type === type && notification.dismissed === false) {
                 return (
-                    <div key={notification.id} className="card-body">
+                    <div key={notification.id} className="card-text">
                         {notification.item} in {notification.storage} is {notification.type} of {notification.id}
                         <button type="button" className="btn btn-primary" onClick={() => dismissNotification(notification.id)}>Dismiss</button>
                     </div>

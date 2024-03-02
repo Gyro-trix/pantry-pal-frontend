@@ -20,7 +20,7 @@ function CreateStorage() {
     }, [currentUserStr, navigate])
 
     return (
-        <div className="card w-25 mb-3" style={{ background: "lightblue", padding: 32, margin: "auto", marginTop: 64 }}>
+        <div className="card w-25 mb-3" style={{padding: 32, margin: "auto", marginTop: 64, minWidth: 400 }}>
             <form className="flex row-auto"  >
                 <div className="input_group mb-3">
                     <input

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { checkUserLogin, saveUserSettings, adminPasswordChange } from "../utils/users"
+import { saveUserSettings, adminPasswordChange, checkAdminLogin } from "../utils/users"
 import { CUR_USER, USER_TO_EDIT } from "../config/localStorage"
 
 
@@ -15,7 +15,7 @@ function UserSettings() {
     const [passwordNoticeColor, setPasswordNoticeColor] = useState("red")
 
     useEffect(() => {
-        checkUserLogin(currentUserStr, navigate)
+        checkAdminLogin(currentUserStr, navigate)
     }, [currentUserStr, navigate])
 
     useEffect(() => {
@@ -45,34 +45,35 @@ function UserSettings() {
     if (!userToEdit) return <div> Loading </div>
 
     return (
-        <div className="container">
-            <h5>Account For: {userToEdit.username}</h5>
+        <div className="container" style = {{padding:32}}>
             <div className="row">
-                <div className="col">
+                <div className="col"> 
+                    <div className = "card" style = {{padding:16}}>
+                    <h5 >Account For: {userToEdit.username}</h5>
                     <form>
-                        <label> Current Password:
+                        <label style = {{marginTop:16}} > Current Password:
                             <input
-                                style={{ width: 200, marginLeft: 10 }}
+                                style={{ width: 200, marginLeft: 8 }}
                                 type="password"
                                 onChange={handlePasswordChange}
                                 name="currentpassword"
                                 autoComplete="current-password"
                             ></input>
                         </label>
-                        <br></br>
-                        <label> New Password:
+                        
+                        <label style = {{marginTop:16}}> New Password:
                             <input
-                                style={{ width: 200, marginLeft: 10 }}
+                                style={{ width: 200, marginLeft: 8 }}
                                 type="password"
                                 onChange={handlePasswordChange}
                                 name="newpassword"
                                 autoComplete="new-password"
                             ></input>
                         </label>
-                        <br></br>
-                        <label> Re-Type New Password:
+                        
+                        <label style = {{marginTop:16}}> Re-Type New Password:
                             <input
-                                style={{ width: 200, marginLeft: 10 }}
+                                style={{ width: 200, marginLeft: 8 }}
                                 type="password"
                                 onChange={handlePasswordChange}
                                 name="newpasswordcheck"
@@ -80,8 +81,8 @@ function UserSettings() {
                             ></input>
                         </label>
                     </form>
-                    <p style={{ color: passwordNoticeColor }}>{passwordNotice}</p>
-                    <button style={{ marginLeft: 10 }} onClick={() => {
+                    <p style={{ color: passwordNoticeColor, marginTop:16 }}>{passwordNotice}</p>
+                    <button type="button" className="btn btn-primary" style={{ marginTop: 16 }} onClick={() => {
                         if (adminPasswordChange(passwords) === true) {
                             setUserToEdit((prev) => ({
                                 ...prev,
@@ -95,25 +96,27 @@ function UserSettings() {
                         }
                     }}>Update Password</button>
                 </div>
+                </div>
                 {/* Settings column */}
                 <div className="col">
+                <div className = "card" style = {{padding:16}}>
+                    
                     <form>
-                        <div className="form-check form-check-inline">
+                        <label>Admin Level</label>
+                        <div className="form-check form-check-inline" style = {{marginLeft:16}}>
                             <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" checked={userToEdit.adminlevel === 3} value={3} disabled />
                             <label className="form-check-label" htmlFor="inlineRadio1">3</label>
                         </div>
-                        <div className="form-check form-check-inline">
+                        <div className="form-check form-check-inline" style = {{marginLeft:16}}>
                             <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" checked={userToEdit.adminlevel === 2} onChange = {onRadioChange}value={2} />
                             <label className="form-check-label" htmlFor="inlineRadio2">2</label>
                         </div>
-                        <div className="form-check form-check-inline">
+                        <div className="form-check form-check-inline" style = {{marginLeft:16}}>
                             <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" checked={userToEdit.adminlevel === 1} onChange = {onRadioChange}value={1} />
                             <label className="form-check-label" htmlFor="inlineRadio3">1</label>
                         </div>
                     </form>
-
-                    <br></br>
-
+                    <form style = {{marginTop:16}}>
                     <input type="checkbox" name="notify" checked={notify} onChange={(e) => {
                         setUserToEdit((prev) => ({
                             ...prev,
@@ -122,43 +125,43 @@ function UserSettings() {
                         setNotify(!notify)
                         console.log(notify)
                     }} />
-                    <label style={{ marginLeft: 5 }}>
+                    <label style={{ marginLeft: 16 }}>
                         Enable Notifications
                     </label>
-                    <br></br>
-                    <label> Low Stock Threshold:
+                    </form>
+                    <form>
+                    <label style = {{marginTop:16}}> Low Stock Threshold:
                         <input
-                            style={{ width: 200, marginLeft: 10 }}
+                            style={{ width: 200, marginLeft: 16 }}
                             type="text"
                             onChange={handleChange}
                             name="itemlimit"
                             placeholder={userToEdit.itemlimit}
                         ></input>
                     </label>
-                    <br></br>
-                    <label> Expiry Threshold:
+                    
+                    <label style = {{marginTop:16}}> Expiry Threshold:
                         <input
-                            style={{ width: 200, marginLeft: 10 }}
+                            style={{ width: 200, marginLeft: 16 }}
                             type="text"
                             onChange={handleChange}
                             name="expirylimit"
                             placeholder={userToEdit.expirylimit}
                         ></input> Days
                     </label>
-                    <br></br>
-                    <label> Email:
+                    
+                    <label style = {{marginTop:16}}> Email:
                         <input
-                            style={{ width: 200, marginLeft: 10 }}
+                            style={{  marginLeft: 16 }}
                             type="text"
                             onChange={handleChange}
                             name="email"
                             placeholder={userToEdit.email}
                         ></input>
                     </label>
-                    <br></br>
-
-                    <br></br>
-                    <button style={{ marginLeft: 10 }} onClick={() => { saveUserSettings(userToEdit) }}>Update Settings</button>
+                    </form>
+                    <button type="button" className="btn btn-primary" style={{ marginTop: 16 }} onClick={() => { saveUserSettings(userToEdit) }}>Update Settings</button>
+                    </div>
                 </div>
             </div>
         </div>

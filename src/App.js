@@ -15,11 +15,12 @@ import EditUser from './pages/EditUser'
 import CreateUser from './pages/CreateUser'
 import EditRecipe from './pages/EditRecipe'
 
+
 function App() {
 
   
   return (
-    <div>
+    <div style = {{background:"lightblue", height:850, minWidth:600}}>
       
       <BrowserRouter>
       <NavBar />  

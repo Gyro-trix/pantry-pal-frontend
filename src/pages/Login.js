@@ -29,17 +29,18 @@ function Login() {
 
     return (
         <div>
-            <div className="card w-50 mb-3" style={{padding: 32, margin:"auto", marginTop:64, minWidth:400, maxWidth:400 }}>
+            <div className="card w-50 mb-3" style={{padding: 32, margin:"auto", marginTop:64, minWidth:400, maxWidth:400,animation:"fadeIn 3s" }}>
                 <form>
-                <div className="input_group mb-3" >
+                <div className="input_group mb-3" style = {{animation:"fadeIn2 2s",animationDelay: "2s"}}>
                     <input className="form-control"
+                    
                         placeholder="Username"
                         type="text"
                         name="username"
                         autoComplete="username"
                         onChange={handleChange} />
                 </div>
-                <div className="input_group mb-3 ">
+                <div className="input_group mb-3 " style = {{animation:"fadeIn2 2s",animationDelay: "4s"}}>
                     <input className="form-control"
                         placeholder="Password"
                         type="password"

@@ -18,3 +18,12 @@
         opacity: 100;
     } 
   }
+
+  @keyframes move {
+    from {
+transform: translateX(-100%)
+    }
+    to {
+        transform: translateX(0%)
+    }
+  }

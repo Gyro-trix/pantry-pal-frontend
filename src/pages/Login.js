@@ -29,7 +29,7 @@ function Login() {
 
     return (
         <div>
-            <div className="card w-50 mb-3" style={{padding: 32, margin:"auto", marginTop:64, minWidth:400, maxWidth:400,animation:"fadeIn 3s" }}>
+            <div className="card w-50 mb-3" style={{padding: 32, margin:"auto", marginTop:64, minWidth:400, maxWidth:400,animation:"fadeIn 1s" }}>
                 <form>
                 <div className="input_group mb-3" style = {{animation:"fadeIn2 2s"}}>
                     <input className="form-control"

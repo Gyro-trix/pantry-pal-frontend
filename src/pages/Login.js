@@ -31,7 +31,7 @@ function Login() {
         <div>
             <div className="card w-50 mb-3" style={{padding: 32, margin:"auto", marginTop:64, minWidth:400, maxWidth:400,animation:"fadeIn 3s" }}>
                 <form>
-                <div className="input_group mb-3" style = {{animation:"fadeIn2 2s",animationDelay: "2s"}}>
+                <div className="input_group mb-3" style = {{animation:"fadeIn2 2s"}}>
                     <input className="form-control"
                     
                         placeholder="Username"
@@ -40,7 +40,7 @@ function Login() {
                         autoComplete="username"
                         onChange={handleChange} />
                 </div>
-                <div className="input_group mb-3 " style = {{animation:"fadeIn2 2s",animationDelay: "4s"}}>
+                <div className="input_group mb-3 " style = {{animation:"fadeIn2 2s"}}>
                     <input className="form-control"
                         placeholder="Password"
                         type="password"
@@ -49,7 +49,7 @@ function Login() {
                         onChange={handleChange} />
                 </div>
                 </form>
-                <div className = "col d-flex justify-content-between">
+                <div style = {{animation:"fadeIn2 2s"}} className = "col d-flex justify-content-between">
                     <button type="button" className="btn btn-primary" style={{ width: 96, marginRight: 32 }} onClick={goRegister}>Register</button>
                     <button type="button" className="btn btn-primary" style={{ width: 96, whiteSpace: "nowrap" }} onClick={() => logIn(attemptingUser, navigate)}>Log In</button>
                 </div>

@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
-import { SIGN_IN, CREATE_STORAGE, USER_SETTINGS, NOTIFICATION, CREATERECIPES, DISPLAYRECIPES, MANAGEUSERS, CREATE_USER } from "../config/routes";
+import { SIGN_IN, CREATE_STORAGE, USER_SETTINGS, NOTIFICATION, CREATERECIPES, DISPLAYRECIPES, MANAGEUSERS, CREATE_USER, RTRECIPES } from "../config/routes";
 import { numberOfNotifications } from "../utils/notifications";
 import { CUR_USER } from "../config/localStorage";
 import { getWindowDimensions } from "../utils/display";
@@ -147,11 +147,15 @@ function NavBar() {
     navigate(CREATE_USER)
   }
 
+  function recipeTest(){
+    navigate(RTRECIPES)
+  }
+
   return (
 
     <nav style = {{minWidth:600}} className="navbar navbar-expand bg-body-tertiary">
       <div className="container-fluid">
-        <a className="navbar-brand" href="/#">Pantry Pal</a>
+        <a className="navbar-brand" href="/rtrecipetest#">Pantry Pal</a>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
         </button>

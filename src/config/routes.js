@@ -11,5 +11,6 @@ module.exports = {
     EDIT_RECIPE: "/editrecipe",
     CREATE_USER: "/createuser",
     MANAGEUSERS: "/manageusers",
-    EDITUSER: "/edituser"
+    EDITUSER: "/edituser",
+    RTRECIPES:"/rtrecipetest"
 }

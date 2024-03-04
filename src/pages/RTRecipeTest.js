@@ -1,23 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
-function RTRecipeTest() {
-  const [editorValue, setEditorValue] = useState('');
-  const [recipe, setRecipe] = useState("")
+import Quill from 'quill';
+import "quill/dist/quill.core.css";
 
-  function saveRTRecipe() {
-    setRecipe(editorValue)
-    localStorage.setItem("RTRECIPE", JSON.stringify(editorValue))
+
+
+function RTRecipeTest() {
+  const container = document.getElementById('editor')
+  const options = {
+    debug: 'info',
+    placeholder: 'Compose an epic...',
+    theme: 'snow'
   }
+  const [quill,setQuill] = useState("")
+useEffect(()=>{
+setQuill(new Quill(container, options))
+},[container])
+
   return (
-    <div style = {{background:"white"}}>
-      <ReactQuill
-        value={editorValue}
-        onChange={(value) => setEditorValue(value)}
-      />
-      <button onClick={saveRTRecipe}>Save Recipe</button>
+    <div id="no" style={{ background: "white" }}>
+      <div id='editor'></div>
+      <button >Save Recipe</button>
+
     </div>
   )
+
 }
+
 export default RTRecipeTest

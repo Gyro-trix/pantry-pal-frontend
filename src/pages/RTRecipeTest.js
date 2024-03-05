@@ -3,7 +3,15 @@ import Quill from 'quill';
 import "quill/dist/quill.snow.css"
 
 function RTRecipeTest() {
-  let quill
+  return(
+    <div>
+      
+    </div>
+  )
+}
+
+/*Quill JS
+let quill
   const toolbarOptions = [
     ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
     ['blockquote', 'code-block'],
@@ -51,6 +59,6 @@ function loadRecipe(){
     </div>
 
   )
-}
+*/
 
 export default RTRecipeTest

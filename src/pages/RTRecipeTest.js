@@ -10,9 +10,13 @@ function RTRecipeTest() {
 		({uploader: { "insertImageAsBase64URI": true }}),
 		[]
 	);
+  function saveRecipe(){
+    localStorage.setItem("EDITOR_TEST",JSON.stringify(content))
+  }
 
 	return (
-		<JoditEditor
+		<div className = "card" style = {{width:500, height:700}}>
+    <JoditEditor
 			ref={editor}
 			value={content}
 			config={config}
@@ -20,6 +24,8 @@ function RTRecipeTest() {
 			onBlur={newContent => setContent(newContent)} // preferred to use only this option to update the content for performance reasons
 			onChange={newContent => {}}
 		/>
+    <button onClick ={saveRecipe}>Save Recipe</button>
+    </div>
 	)
 }
 

@@ -4,12 +4,13 @@ import { CREATERECIPES, EDIT_RECIPE } from "../config/routes";
 export function saveRecipe(recipe, navigate) {
     const recipeDataStr = localStorage.getItem(RECIPES)
     const recipeData = recipeDataStr ? JSON.parse(recipeDataStr) : []
-    recipe.id = new Date().getTime()
+    const currentUser = JSON.parse(localStorage.getItem(CUR_USER))
+    recipe.id = currentUser.username + "" + new Date().getTime()
     let temparray = [...recipeData, recipe]
     localStorage.setItem(RECIPES, JSON.stringify(temparray))
     navigate(CREATERECIPES)
 }
-
+/*
 export function addIngredient(ingredient) {
     const ingredientsDataStr = localStorage.getItem(INGREDIENTS)
     const ingredientsData = ingredientsDataStr ? JSON.parse(ingredientsDataStr) : []
@@ -61,16 +62,20 @@ export function displayIngredients(navigate) {
         </table>
     )
 }
-
+*/
 export function displayRecipe(index) {
     const recipeDataStr = localStorage.getItem(RECIPES)
     const recipeData = recipeDataStr ? JSON.parse(recipeDataStr) : []
-    if (recipeData.length > 0) {
-        return (recipeData[index].content)
+    if (index < 0) {
+        return ""
     } else {
-        return "<h3>No Recipes Stored<h3>"
-    }
+        if (recipeData.length > 0) {
+            return (recipeData[index].content)
+        } else {
+            return "<h3>No Recipes Stored<h3>"
+        }
 
+    }
 
 }
 
@@ -84,7 +89,6 @@ export function deleteRecipe(recipeToDelete, navigate) {
 }
 export function editRecipe(recipeToEdit, navigate) {
     localStorage.setItem(RECIPETOEDIT, JSON.stringify(recipeToEdit))
-    localStorage.setItem(INGREDIENTS, JSON.stringify(recipeToEdit.ingredients))
     navigate(EDIT_RECIPE)
 }
 export function getNumberOfRecipes() {

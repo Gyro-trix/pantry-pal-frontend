@@ -4,18 +4,10 @@ import { CREATERECIPES, EDIT_RECIPE } from "../config/routes";
 export function saveRecipe(recipe, navigate) {
     const recipeDataStr = localStorage.getItem(RECIPES)
     const recipeData = recipeDataStr ? JSON.parse(recipeDataStr) : []
-    const ingredientsDataStr = localStorage.getItem(INGREDIENTS)
-    const ingredientsData = ingredientsDataStr ? JSON.parse(ingredientsDataStr) : []
-    recipe.ingredients = ingredientsData
-    if (recipe.name && recipe.instructions && (recipe.ingredients.length > 0)) {
-        recipe.id = recipe.name + "-" + new Date().getTime()
-        let temparray = [...recipeData, recipe]
-        localStorage.setItem(RECIPES, JSON.stringify(temparray))
-        localStorage.setItem(INGREDIENTS, [])
-        localStorage.setItem(RECIPETOADD, "")
-        navigate(CREATERECIPES)
-    }
-
+    recipe.id = new Date().getTime()
+    let temparray = [...recipeData, recipe]
+    localStorage.setItem(RECIPES, JSON.stringify(temparray))
+    navigate(CREATERECIPES)
 }
 
 export function addIngredient(ingredient) {
@@ -70,41 +62,16 @@ export function displayIngredients(navigate) {
     )
 }
 
-export function displayRecipe(index, navigate) {
+export function displayRecipe(index) {
     const recipeDataStr = localStorage.getItem(RECIPES)
     const recipeData = recipeDataStr ? JSON.parse(recipeDataStr) : []
-    const currentUser = JSON.parse(localStorage.getItem(CUR_USER))
-    let editButtons
-    if (index < recipeData.length) {
-        const recipe = recipeData[index]
-        if (currentUser.adminlevel === 3) {
-            editButtons = <div>
-                <button type="button" className="btn btn-primary" onClick={() => editRecipe(recipe, navigate)}>Edit Recipe</button>
-                <button type="button" className="btn btn-primary" onClick={() => deleteRecipe(recipe, navigate)}>Delete Recipe</button>
-            </div>
-        } else {
-            editButtons = ""
-        }
-        return (
-            <div key={index}>
-                <h3>{recipe.name}</h3>
-                {recipe.ingredients.map((ingredient, ind) =>
-                (<div key={ind}>
-                    <p>{ingredient.amount} of {ingredient.name}</p>
-                </div>)
-                )}
-                <p>{recipe.instructions}</p>
-                {editButtons}
-
-            </div>
-        )
+    if (recipeData.length > 0) {
+        return (recipeData[index].content)
     } else {
-        return (
-            <div>
-                <h3> No recipe at Index {index}</h3>
-            </div>
-        )
+        return "<h3>No Recipes Stored<h3>"
     }
+
+
 }
 
 export function deleteRecipe(recipeToDelete, navigate) {
@@ -132,8 +99,8 @@ export function saveOverRecipe(recipeToReplace, navigate) {
     let recipeData = recipeDataStr ? JSON.parse(recipeDataStr) : []
     recipeData = recipeData.filter(recipe => !recipe.id.match(new RegExp('^' + recipeToReplace.id + '$')))
     recipeToReplace.ingredients = ingredients
-    recipeData = [...recipeData,recipeToReplace]
-    localStorage.setItem(RECIPES,JSON.stringify(recipeData))
+    recipeData = [...recipeData, recipeToReplace]
+    localStorage.setItem(RECIPES, JSON.stringify(recipeData))
     localStorage.setItem(INGREDIENTS, [])
     localStorage.setItem(RECIPETOADD, "")
     navigate(CREATERECIPES)

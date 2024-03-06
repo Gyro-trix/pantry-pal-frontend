@@ -3,7 +3,7 @@ import { saveOverRecipe } from "../utils/recipes";
 import { RECIPETOEDIT,CUR_USER, INGREDIENTS } from "../config/localStorage"
 import { checkAdminLogin } from "../utils/users";
 import { useNavigate } from "react-router-dom";
-import AddIngredient from "./AddIngredient";
+
 
 function EditRecipe() {
     const recipeDataStr = localStorage.getItem(RECIPETOEDIT)
@@ -51,7 +51,7 @@ function EditRecipe() {
                     onChange={handleChange} />
             </div>
             <div className="input_group mb-3">
-                <AddIngredient ingredients = {ingredients} />
+                
             </div>
             <div className="input_group mb-3">
                 <input

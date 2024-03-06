@@ -1,9 +1,8 @@
 
 import React, { useState, useEffect, useMemo, useRef } from "react";
 import { saveRecipe, displayRecipe, getNumberOfRecipes } from "../utils/recipes";
-import AddIngredient from "./AddIngredient";
 import { useNavigate } from "react-router-dom";
-import { RECIPETOADD, CUR_USER, INGREDIENTS } from "../config/localStorage";
+import { CUR_USER } from "../config/localStorage";
 import { checkAdminLogin } from "../utils/users";
 import JoditEditor from 'jodit-react';
 
@@ -11,18 +10,25 @@ import JoditEditor from 'jodit-react';
 function CreateRecipes() {
     const editor = useRef(null);
     const [content, setContent] = useState('');
-
+    const [recipe,setRecipe] = useState({id:"",content:""})
     const config = useMemo(() =>
         ({ uploader: { "insertImageAsBase64URI": true } }),
         []
     );
 
     const currentUserStr = localStorage.getItem(CUR_USER)
-   
     const navigate = useNavigate()
     useEffect(() => {
         checkAdminLogin(currentUserStr, navigate)
     }, [currentUserStr, navigate])
+
+    useEffect(() => {
+        setRecipe((prev) => ({
+            ...prev,
+            content: content,
+        })) 
+        console.log(recipe)
+    }, [content])
 
     return (
         <div className="container" style={{ background: "lightblue", padding: 16 }}>
@@ -36,6 +42,7 @@ function CreateRecipes() {
                     onChange={newContent => { }}
                 />
             </div>
+            <button onClick = {()=>saveRecipe(recipe,navigate)}>Save Recipe</button>
         </div>
     )
     /*

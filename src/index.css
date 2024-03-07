@@ -33,18 +33,18 @@
 
   @keyframes moveToLeft{
     0% {
-      transform: translateX(150%);
+      transform: translateX(-50%);
     }
     
     100%{
-      transform: translateX(0%);
+      transform: translateX(150%);
     } 
   }
 
   .leftDiv{
-    animation: moveToLeft 1s;
+    animation: moveToRight 1s;
     }
 
     .rightDiv{
-      animation: moveToRight 1s;
+      animation: moveToLeft 1s;
     }

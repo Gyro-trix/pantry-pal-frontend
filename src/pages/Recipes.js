@@ -31,7 +31,12 @@ function Recipes() {
         const divleft = left.current
         divleft.className = "card leftDiv"
         const divright = right.current
-        divright.className = "card rightDiv" 
+        divright.className = "card rightDiv"
+        setIndex(index+1) 
+    }
+
+    function moveLeft(){
+        
     }
 
 
@@ -47,7 +52,7 @@ function Recipes() {
                         onChange={newContent => { }}
                     />
                 </div>
-                <div ref ={right} className="card" style={{ margin: "auto", width: "50%", transform: "translateX(150%)" }}>
+                <div ref ={right} onAnimationEnd = {(e)=> e.currentTarget.className = "card"} className="card" style={{ margin: "auto", width: "50%", transform: "translateX(150%)" }}>
                     <JoditEditor
                         ref={editorTwo}
                         value={displayRecipe(index+1)}

@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect, useMemo, useRef } from "react";
-import { saveRecipe, displayRecipe, getNumberOfRecipes } from "../utils/recipes";
+import { saveRecipe } from "../utils/recipes";
 import { useNavigate } from "react-router-dom";
 import { CUR_USER } from "../config/localStorage";
 import { checkAdminLogin } from "../utils/users";
@@ -42,7 +42,7 @@ function CreateRecipes() {
                     onChange={newContent => { }}
                 />
             </div>
-            <button onClick = {()=>saveRecipe(recipe,navigate)}>Save Recipe</button>
+            <button type="button" className="btn btn-primary" onClick = {()=>saveRecipe(recipe,navigate)}>Save Recipe</button>
         </div>
     )
     /*

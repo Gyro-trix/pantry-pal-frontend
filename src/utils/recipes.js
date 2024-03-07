@@ -1,6 +1,7 @@
 import { RECIPES, INGREDIENTS, RECIPETOADD, RECIPETOEDIT, CUR_USER } from "../config/localStorage"
 import { CREATERECIPES, EDIT_RECIPE } from "../config/routes";
 
+
 export function saveRecipe(recipe, navigate) {
     const recipeDataStr = localStorage.getItem(RECIPES)
     const recipeData = recipeDataStr ? JSON.parse(recipeDataStr) : []

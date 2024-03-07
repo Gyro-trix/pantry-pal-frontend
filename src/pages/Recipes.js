@@ -6,11 +6,10 @@ import { CUR_USER } from "../config/localStorage";
 import JoditEditor from 'jodit-react';
 
 function Recipes() {
-    const editorOne = useRef(null)
-    const editorTwo = useRef(null)
-    const left = useRef(null)
-    const right = useRef(null)
-    const [index,setIndex] = useState(0)
+    const [index, setIndex] = useState(0)
+    const [cardClass,setCardClass] = useState("card")
+    const [cardStyle, setCardStyle] =useState({height:500})
+    const editor = useRef(null)
     const config = useMemo(() =>
     ({
         uploader: { "insertImageAsBase64URI": true },
@@ -27,68 +26,33 @@ function Recipes() {
     }, [currentUserStr, navigate])
 
 
-    function moveRight(){
-        const divleft = left.current
-        divleft.className = "card leftDiv"
-        const divright = right.current
-        divright.className = "card rightDiv"
-        setIndex(index+1) 
+    function nextRecipe(){
+        setCardClass("card nextRecipe")
+        setTimeout(()=>setIndex(index+1),500)
     }
 
-    function moveLeft(){
-        
+    function prevRecipe(){
+        setCardStyle({height:500,animationDirection:"reverse" })
+        setCardClass("card nextRecipe")
+        setTimeout(()=>setIndex(index-1),500)
     }
-
 
     return (
-        <div className = "container">
-            <div className="container d-inline-flex" style={{ marginTop: 32 }}>
-                <div ref = {left} onAnimationEnd = {(e)=> e.currentTarget.className = "card"} className="card" style={{ margin: "auto", width: "50%", transform: "translateX(50%)" }}>
-                    <JoditEditor
-                        ref={editorOne}
-                        value={displayRecipe(index)}
-                        config={config}
-                        tabIndex={1} // tabIndex of textarea
-                        onChange={newContent => { }}
-                    />
-                </div>
-                <div ref ={right} onAnimationEnd = {(e)=> e.currentTarget.className = "card"} className="card" style={{ margin: "auto", width: "50%", transform: "translateX(150%)" }}>
-                    <JoditEditor
-                        ref={editorTwo}
-                        value={displayRecipe(index+1)}
-                        config={config}
-                        tabIndex={1} // tabIndex of textarea
-                        onChange={newContent => { }}
-                    />
-                </div>
-
-            </div>
-            <button onClick = {moveRight}>Previous Page</button>
-            <button onClick = {moveRight}>Next Page</button>
+        <div className="card w-50 mb-3" style={{ height: 600,margin: "auto",overflow:"hidden"}} >
+            <div  className ={cardClass} onAnimationEnd = {()=>{setCardClass("card"); setCardStyle({height:500})}} style ={cardStyle} >
+                        <JoditEditor
+                        ref = {editor}
+                            value={displayRecipe(index)}
+                            config={config}
+                            tabIndex={1} // tabIndex of textarea
+                            onChange={newContent => { }}
+                        />
+            </div>        
+            <button onClick = {()=> prevRecipe()}>Previous</button>
+            <button onClick = {()=> nextRecipe()}>Next</button>
         </div>
     )
-    /*
-    setIndex(index-1)
-    {displayRecipe(recipeIndex)}
-                    <button 
-                    type="button" 
-                    className="btn btn-primary"
-                    onClick={() => {
-                        if (recipeIndex <= 0){
-                            setRecipeIndex(0)
-                        } else {
-                            setRecipeIndex(recipeIndex - 1)
-                        }
-                    }}>Previous</button>
-                    <button 
-                    type="button" 
-                    className="btn btn-primary"
-                    onClick={() => {
-                        setRecipeIndex(recipeIndex + 1)
-                    }}>Next</button>
-    */
+
 }
-
-
 
 export default Recipes

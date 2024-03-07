@@ -6,8 +6,10 @@ import { CUR_USER } from "../config/localStorage";
 import JoditEditor from 'jodit-react';
 
 function Recipes() {
-    const editorOne = useRef(null);
-    const editorTwo = useRef(null);
+    const editorOne = useRef(null)
+    const editorTwo = useRef(null)
+    const left = useRef(null)
+    const right = useRef(null)
     const [index,setIndex] = useState(0)
     const config = useMemo(() =>
     ({
@@ -24,10 +26,19 @@ function Recipes() {
         checkUserLogin(currentUserStr, navigate)
     }, [currentUserStr, navigate])
 
+
+    function moveRight(){
+        const divleft = left.current
+        divleft.className = "card leftDiv"
+        const divright = right.current
+        divright.className = "card rightDiv" 
+    }
+
+
     return (
         <div className = "container">
             <div className="container d-inline-flex" style={{ marginTop: 32 }}>
-                <div id = "leftDiv" className="card" style={{ margin: "auto", width: "50%", animation: "fadeIn 1s", transform: "translateX(50%)" }}>
+                <div ref = {left} onAnimationEnd = {(e)=> e.currentTarget.className = "card"} className="card" style={{ margin: "auto", width: "50%", transform: "translateX(50%)" }}>
                     <JoditEditor
                         ref={editorOne}
                         value={displayRecipe(index)}
@@ -36,7 +47,7 @@ function Recipes() {
                         onChange={newContent => { }}
                     />
                 </div>
-                <div id = "rightDiv" className="card" style={{ margin: "auto", width: "50%", transform: "translateX(0%)" }}>
+                <div ref ={right} className="card" style={{ margin: "auto", width: "50%", transform: "translateX(150%)" }}>
                     <JoditEditor
                         ref={editorTwo}
                         value={displayRecipe(index+1)}
@@ -47,11 +58,12 @@ function Recipes() {
                 </div>
 
             </div>
-            <button onClick = {()=> setIndex(index-1)}>Previous Page</button>
-            <button onClick = {()=> setIndex(index+1)}>Next Page</button>
+            <button onClick = {moveRight}>Previous Page</button>
+            <button onClick = {moveRight}>Next Page</button>
         </div>
     )
     /*
+    setIndex(index-1)
     {displayRecipe(recipeIndex)}
                     <button 
                     type="button" 

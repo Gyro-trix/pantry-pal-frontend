@@ -68,15 +68,15 @@ export function displayRecipe(index) {
     const recipeDataStr = localStorage.getItem(RECIPES)
     const recipeData = recipeDataStr ? JSON.parse(recipeDataStr) : []
     const indexLimit = recipeData.length - 1
-    
-    if(indexLimit <= 0){
+
+    if (indexLimit <= 0) {
         return "<h3>No Recipes Stored<h3>"
     }
-    if(index <= indexLimit){
+    if (index <= indexLimit) {
         return (recipeData[index].content)
-    } else if(index > indexLimit){
+    } else if (index > indexLimit) {
         return ""
-    } else if(index < 0){
+    } else if (index < 0) {
         return ""
     }
 
@@ -86,16 +86,19 @@ export function deleteRecipe(recipeIndex, navigate) {
     const recipeDataStr = localStorage.getItem(RECIPES)
     let recipeData = recipeDataStr ? JSON.parse(recipeDataStr) : []
     let recipeToDelete = recipeData[recipeIndex]
-    console.log(recipeToDelete.id)
     recipeData = recipeData.filter(recipe => !String(recipe.id).match(new RegExp('^' + recipeToDelete.id + '$')))
     localStorage.setItem(RECIPES, JSON.stringify(recipeData))
     navigate(DISPLAYRECIPES)
 
 }
-export function editRecipe(recipeToEdit, navigate) {
+export function editRecipe(recipeIndex, navigate) {
+    const recipeDataStr = localStorage.getItem(RECIPES)
+    const recipeData = recipeDataStr ? JSON.parse(recipeDataStr) : []
+    let recipeToEdit = recipeData[recipeIndex]
     localStorage.setItem(RECIPETOEDIT, JSON.stringify(recipeToEdit))
     navigate(EDIT_RECIPE)
 }
+
 export function getNumberOfRecipes() {
     const recipeDataStr = localStorage.getItem(RECIPES)
     let recipeData = recipeDataStr ? JSON.parse(recipeDataStr) : []
@@ -104,15 +107,14 @@ export function getNumberOfRecipes() {
 
 export function saveOverRecipe(recipeToReplace, navigate) {
     const recipeDataStr = localStorage.getItem(RECIPES)
-    const ingredients = JSON.parse(localStorage.getItem(INGREDIENTS))
     let recipeData = recipeDataStr ? JSON.parse(recipeDataStr) : []
-    recipeData = recipeData.filter(recipe => !recipe.id.match(new RegExp('^' + recipeToReplace.id + '$')))
-    recipeToReplace.ingredients = ingredients
-    recipeData = [...recipeData, recipeToReplace]
+    let repData = String(recipeToReplace.id)
+    recipeData.forEach((recipe) => {
+        let rData = String(recipe.id)
+        if (rData === repData) {
+            recipe.content = recipeToReplace.content
+        }
+    })
     localStorage.setItem(RECIPES, JSON.stringify(recipeData))
-    localStorage.setItem(INGREDIENTS, [])
-    localStorage.setItem(RECIPETOADD, "")
-    navigate(CREATERECIPES)
-
-
+    navigate(DISPLAYRECIPES)
 }

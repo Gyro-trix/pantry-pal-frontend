@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
-import { deleteRecipe, displayRecipe, getNumberOfRecipes } from "../utils/recipes";
+import { deleteRecipe, displayRecipe, editRecipe, getNumberOfRecipes } from "../utils/recipes";
 import { useNavigate } from "react-router-dom";
 import { checkUserLogin } from "../utils/users";
 import { CUR_USER } from "../config/localStorage";
@@ -73,7 +73,7 @@ function Recipes() {
                 </div>
                 <div className="col d-flex justify-content-between" style={{ marginTop: 16 }}>
                     <button type="button" className="btn btn-primary" onClick={() => prevRecipe()} style={{ width: 112 }}>Previous</button>
-                    <button ref={editButton} type="button" className="btn btn-primary" style={{ width: 112, marginLeft: 8 }} hidden = {true}>Edit</button>
+                    <button ref={editButton} type="button" className="btn btn-primary" onClick = {()=>editRecipe(index,navigate)}style={{ width: 112, marginLeft: 8 }} hidden = {true}>Edit</button>
                     <button ref={deleteButton} type="button" className="btn btn-primary"  onClick = {()=> deleteRecipe(index,navigate)}style={{ width: 112, marginLeft: 8 }} hidden={true} >Delete</button>
                     <button type="button" className="btn btn-primary" onClick={() => nextRecipe()} style={{ width: 112, marginLeft: 8 }}>Next</button>
                 </div>

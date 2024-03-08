@@ -1,14 +1,16 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import { saveOverRecipe } from "../utils/recipes";
-import { CUR_USER } from "../config/localStorage"
+import { CUR_USER, RECIPETOEDIT } from "../config/localStorage"
 import { checkAdminLogin } from "../utils/users";
 import { useNavigate } from "react-router-dom";
 import JoditEditor from 'jodit-react';
 
 function EditRecipe() {
+    const recipeStr = localStorage.getItem(RECIPETOEDIT)
+    const [recipe,setRecipe] = useState(JSON.parse(recipeStr))
     const editor = useRef(null);
-    const [content, setContent] = useState('');
-    const [recipe,setRecipe] = useState({id:"",content:""})
+    const [content, setContent] = useState(recipe.content);
+    
     const config = useMemo(() =>
         ({ uploader: { "insertImageAsBase64URI": true } }),
         []

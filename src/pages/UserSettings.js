@@ -51,8 +51,10 @@ function UserSettings() {
                 <div className="col">
                     <div className = "card" style = {{padding:16}}>
                     <h5>Welcome: {currentUser.username}</h5>
+                    <form>
                     <label style = {{marginTop:16}}>  Current Password:
                         <input
+                            className="form-control"
                             style={{ width: 200, marginLeft: 8 }}
                             type="password"
                             onChange={handlePasswordChange}
@@ -63,6 +65,7 @@ function UserSettings() {
                     <br></br>
                     <label style = {{marginTop:16}}> New Password:
                         <input
+                            className="form-control"
                             style={{ width: 200, marginLeft: 8 }}
                             type="password"
                             onChange={handlePasswordChange}
@@ -73,14 +76,16 @@ function UserSettings() {
                     <br></br>
                     <label style = {{marginTop:16}}> Re-Type New Password:
                         <input
+                            className="form-control"
                             style={{ width: 200, marginLeft: 8 }}
                             type="password"
                             onChange={handlePasswordChange}
                             name="newpasswordcheck"
                         ></input>
                     </label>
-                    <p style={{ color: passwordNoticeColor,marginTop:16 }}>{passwordNotice}</p>
-                    <button type="button" className="btn btn-primary" style={{ marginLeft: 8 }} onClick={() => {
+                    </form>
+                    <p style={{ color: passwordNoticeColor,marginTop:32 }}>{passwordNotice}</p>
+                    <button type="button" className="btn btn-primary" style={{ marginLeft: 8, marginTop:32 }} onClick={() => {
                         if (changeUserPassword(passwords) === true) {
                             setCurrentUser((prev) => ({
                                 ...prev,
@@ -94,20 +99,22 @@ function UserSettings() {
                         }
                     }}>Update Password</button>
                     </div>
+                    
                 </div>
                 {/* Settings column */}
                 <div className="col">
                 <div className = "card" style = {{padding:16}}>
                     
-                    <form style = {{marginTop:16}}>
+                    <form style = {{marginTop:32}}>
+                     <label className="form-control" style={{ marginLeft: 8 }}>   
                     <input type="checkbox" name="notify" checked={notify} onChange={handleCheck} />
-                    <label style={{ marginLeft: 16 }}>
-                        Enable Notifications
+                        <span style={{ marginLeft: 8, whiteSpace:"nowrap" }}>Enable Notifications</span>
                     </label>
                     </form>
                     <label style = {{marginTop:16}}> Low Stock Threshold:
                         <input
-                            style={{ width: 200, marginLeft: 8 }}
+                            className="form-control"
+                            style={{ marginLeft: 8 }}
                             type="text"
                             onChange={handleChange}
                             name="itemlimit"
@@ -115,19 +122,21 @@ function UserSettings() {
                         ></input>
                     </label>
                     
-                    <label style = {{marginTop:16}}> Expiry Threshold:
+                    <label style = {{marginTop:16}}> Expiry Threshold (Days):
                         <input
-                            style={{ width: 200, marginLeft: 8 }}
+                            className="form-control"
+                            style={{ marginLeft: 8 }}
                             type="text"
                             onChange={handleChange}
                             name="expirylimit"
                             placeholder={currentUser.expirylimit}
-                        ></input> Days
+                        ></input> 
                     </label>
                     
                     <label style = {{marginTop:16}}> Email:
                         <input
-                            style={{ width: 200, marginLeft: 8 }}
+                            className="form-control"
+                            style={{  marginLeft: 8 }}
                             type="text"
                             onChange={handleChange}
                             name="email"
@@ -135,7 +144,7 @@ function UserSettings() {
                         ></input>
                     </label>
                    
-                    <button type="button" className="btn btn-primary" style={{ marginLeft: 10, marginTop: 16 }} onClick={() => saveUserSettings(currentUser)}>Update Settings</button>
+                    <button type="button" className="btn btn-primary" style={{ marginLeft: 8, marginTop: 64 }} onClick={() => saveUserSettings(currentUser)}>Update Settings</button>
                 </div>
                 </div>
             </div>

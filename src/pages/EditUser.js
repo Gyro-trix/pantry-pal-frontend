@@ -31,7 +31,7 @@ function UserSettings() {
     const onRadioChange = e => {
         setUserToEdit((prev) => ({
             ...prev,
-            adminlevel:Number(e.target.value),
+            adminlevel: Number(e.target.value),
         }))
     }
     //Collects passwords to attempt password change
@@ -45,122 +45,129 @@ function UserSettings() {
     if (!userToEdit) return <div> Loading </div>
 
     return (
-        <div className="container" style = {{padding:32}}>
+        <div className="container" style={{ padding: 32 }}>
             <div className="row">
-                <div className="col"> 
-                    <div className = "card" style = {{padding:16}}>
-                    <h5 >Account For: {userToEdit.username}</h5>
-                    <form>
-                        <label style = {{marginTop:16}} > Current Password:
-                            <input
-                                style={{ width: 200, marginLeft: 8 }}
-                                type="password"
-                                onChange={handlePasswordChange}
-                                name="currentpassword"
-                                autoComplete="current-password"
-                            ></input>
-                        </label>
-                        
-                        <label style = {{marginTop:16}}> New Password:
-                            <input
-                                style={{ width: 200, marginLeft: 8 }}
-                                type="password"
-                                onChange={handlePasswordChange}
-                                name="newpassword"
-                                autoComplete="new-password"
-                            ></input>
-                        </label>
-                        
-                        <label style = {{marginTop:16}}> Re-Type New Password:
-                            <input
-                                style={{ width: 200, marginLeft: 8 }}
-                                type="password"
-                                onChange={handlePasswordChange}
-                                name="newpasswordcheck"
-                                autoComplete="new-password"
-                            ></input>
-                        </label>
-                    </form>
-                    <p style={{ color: passwordNoticeColor, marginTop:16 }}>{passwordNotice}</p>
-                    <button type="button" className="btn btn-primary" style={{ marginTop: 16 }} onClick={() => {
-                        if (adminPasswordChange(passwords) === true) {
-                            setUserToEdit((prev) => ({
-                                ...prev,
-                                password: passwords.newpassword
-                            }))
-                            setPasswordNotice("Password Changed Sucessful")
-                            setPasswordNoticeColor("green")
-                        } else {
-                            setPasswordNotice("Unable to change password")
-                            setPasswordNoticeColor("red")
-                        }
-                    }}>Update Password</button>
-                </div>
+                <div className="col">
+                    <div className="card" style={{ padding: 16 }}>
+                        <h5 >Account For: {userToEdit.username}</h5>
+                        <form>
+                            <label style={{ marginTop: 16 }} > Current Password:
+                                <input
+                                    className="form-control"
+                                    style={{ width: 200, marginLeft: 8 }}
+                                    type="password"
+                                    onChange={handlePasswordChange}
+                                    name="currentpassword"
+                                    autoComplete="current-password"
+                                ></input>
+                            </label>
+
+                            <label style={{ marginTop: 16 }}> New Password:
+                                <input
+                                    className="form-control"
+                                    style={{ width: 200, marginLeft: 8 }}
+                                    type="password"
+                                    onChange={handlePasswordChange}
+                                    name="newpassword"
+                                    autoComplete="new-password"
+                                ></input>
+                            </label>
+
+                            <label style={{ marginTop: 16 }}> Re-Type New Password:
+                                <input
+                                    className="form-control"
+                                    style={{ width: 200, marginLeft: 8 }}
+                                    type="password"
+                                    onChange={handlePasswordChange}
+                                    name="newpasswordcheck"
+                                    autoComplete="new-password"
+                                ></input>
+                            </label>
+                        </form>
+                        <p style={{ color: passwordNoticeColor, marginTop: 32 }}>{passwordNotice}</p>
+                        <button type="button" className="btn btn-primary" style={{ marginTop: 30 }} onClick={() => {
+                            if (adminPasswordChange(passwords) === true) {
+                                setUserToEdit((prev) => ({
+                                    ...prev,
+                                    password: passwords.newpassword
+                                }))
+                                setPasswordNotice("Password Changed Sucessful")
+                                setPasswordNoticeColor("green")
+                            } else {
+                                setPasswordNotice("Unable to change password")
+                                setPasswordNoticeColor("red")
+                            }
+                        }}>Update Password</button>
+                    </div>
                 </div>
                 {/* Settings column */}
                 <div className="col">
-                <div className = "card" style = {{padding:16}}>
-                    
-                    <form>
-                        <label>Admin Level</label>
-                        <div className="form-check form-check-inline" style = {{marginLeft:16}}>
-                            <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" checked={userToEdit.adminlevel === 3} value={3} disabled />
-                            <label className="form-check-label" htmlFor="inlineRadio1">3</label>
-                        </div>
-                        <div className="form-check form-check-inline" style = {{marginLeft:16}}>
-                            <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" checked={userToEdit.adminlevel === 2} onChange = {onRadioChange}value={2} />
-                            <label className="form-check-label" htmlFor="inlineRadio2">2</label>
-                        </div>
-                        <div className="form-check form-check-inline" style = {{marginLeft:16}}>
-                            <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" checked={userToEdit.adminlevel === 1} onChange = {onRadioChange}value={1} />
-                            <label className="form-check-label" htmlFor="inlineRadio3">1</label>
-                        </div>
-                    </form>
-                    <form style = {{marginTop:16}}>
-                    <input type="checkbox" name="notify" checked={notify} onChange={(e) => {
-                        setUserToEdit((prev) => ({
-                            ...prev,
-                            notify: !notify,
-                        }))
-                        setNotify(!notify)
-                        console.log(notify)
-                    }} />
-                    <label style={{ marginLeft: 16 }}>
-                        Enable Notifications
-                    </label>
-                    </form>
-                    <form>
-                    <label style = {{marginTop:16}}> Low Stock Threshold:
-                        <input
-                            style={{ width: 200, marginLeft: 16 }}
-                            type="text"
-                            onChange={handleChange}
-                            name="itemlimit"
-                            placeholder={userToEdit.itemlimit}
-                        ></input>
-                    </label>
-                    
-                    <label style = {{marginTop:16}}> Expiry Threshold:
-                        <input
-                            style={{ width: 200, marginLeft: 16 }}
-                            type="text"
-                            onChange={handleChange}
-                            name="expirylimit"
-                            placeholder={userToEdit.expirylimit}
-                        ></input> Days
-                    </label>
-                    
-                    <label style = {{marginTop:16}}> Email:
-                        <input
-                            style={{  marginLeft: 16 }}
-                            type="text"
-                            onChange={handleChange}
-                            name="email"
-                            placeholder={userToEdit.email}
-                        ></input>
-                    </label>
-                    </form>
-                    <button type="button" className="btn btn-primary" style={{ marginTop: 16 }} onClick={() => { saveUserSettings(userToEdit) }}>Update Settings</button>
+                    <div className="card" style={{ padding: 16 }}>
+
+                        <form>
+                            <div className="form-control" style = {{marginLeft: 8 ,whiteSpace: "nowrap"}}>
+                            
+                            <div className="form-check form-check-inline" style={{ marginLeft: 16 }}>
+                                <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" checked={userToEdit.adminlevel === 3} value={3} disabled />
+                                <label className="form-check-label" htmlFor="inlineRadio1">3</label>
+                            </div>
+                            <div className="form-check form-check-inline" style={{ marginLeft: 16 }}>
+                                <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" checked={userToEdit.adminlevel === 2} onChange={onRadioChange} value={2} />
+                                <label className="form-check-label" htmlFor="inlineRadio2">2</label>
+                            </div>
+                            <div className="form-check form-check-inline" style={{ marginLeft: 16 }}>
+                                <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" checked={userToEdit.adminlevel === 1} onChange={onRadioChange} value={1} />
+                                <label className="form-check-label" htmlFor="inlineRadio3">1</label>
+                            </div> <span style={{ marginLeft: 8, whiteSpace: "nowrap" }}>Admin Level</span>
+                            </div>
+                        </form>
+                        <form style={{ marginTop: 16 }}>
+                            <label className="form-control"style={{ marginLeft: 8 }}>
+                                <input type="checkbox" name="notify" checked={notify} onChange={(e) => {
+                                    setUserToEdit((prev) => ({
+                                        ...prev,
+                                        notify: !notify,
+                                    }))
+                                    setNotify(!notify)
+                                }} />
+                                <span style={{ marginLeft: 8, whiteSpace: "nowrap" }}>Enable Notifications</span>
+                            </label>
+                        </form>
+                        <form>
+                            <label style={{ marginTop: 16 }}> Low Stock Threshold:
+                                <input
+                                    className="form-control"
+                                    style={{ width: 200, marginLeft: 8 }}
+                                    type="text"
+                                    onChange={handleChange}
+                                    name="itemlimit"
+                                    placeholder={userToEdit.itemlimit}
+                                ></input>
+                            </label>
+
+                            <label style={{ marginTop: 16 }}> Expiry Threshold (Days):
+                                <input
+                                    className="form-control"
+                                    style={{ width: 200, marginLeft: 8 }}
+                                    type="text"
+                                    onChange={handleChange}
+                                    name="expirylimit"
+                                    placeholder={userToEdit.expirylimit}
+                                ></input>
+                            </label>
+
+                            <label style={{ marginTop: 16 }}> Email:
+                                <input
+                                    className="form-control"
+                                    style={{ marginLeft: 8 }}
+                                    type="text"
+                                    onChange={handleChange}
+                                    name="email"
+                                    placeholder={userToEdit.email}
+                                ></input>
+                            </label>
+                        </form>
+                        <button type="button" className="btn btn-primary" style={{ marginTop: 40 }} onClick={() => { saveUserSettings(userToEdit) }}>Update Settings</button>
                     </div>
                 </div>
             </div>

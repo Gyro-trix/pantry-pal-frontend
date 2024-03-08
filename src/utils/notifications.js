@@ -88,9 +88,9 @@ export function displayNotifications(type) {
         return notifications.map((notification) => {
             if (notification.type === type && notification.dismissed === false) {
                 return (
-                    <div key={notification.id} className="card-text">
-                        {notification.item} in {notification.storage} is {notification.type} of {notification.id}
-                        <button type="button" className="btn btn-primary" onClick={() => dismissNotification(notification.id)}>Dismiss</button>
+                    <div key={notification.id} className="card d-flex justify-content-evenly">
+                        <label style = {{marginLeft:16}}>{notification.item} in {notification.storage} is {notification.type}</label>
+                        <button type="button" className="btn btn-primary" style = {{marginLeft:"auto"}} onClick={() => dismissNotification(notification.id)}>Dismiss</button>
                     </div>
                 )
             } else {
@@ -137,7 +137,7 @@ export function notificationCleanUp() {
                 })
             })
     })
-    console.log(tempNotifications)
+    
     localStorage.setItem(NOTIFICATIONS,JSON.stringify(tempNotifications))
     numberOfNotifications()
 }

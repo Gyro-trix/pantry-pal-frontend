@@ -27,7 +27,6 @@ function EditRecipe() {
             ...prev,
             content: content,
         })) 
-        console.log(recipe)
     }, [content])
 
     return (

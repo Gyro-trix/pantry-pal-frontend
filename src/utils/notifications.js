@@ -1,4 +1,6 @@
 import { ALL_STORAGES, CUR_USER, NOTIFICATIONS } from "../config/localStorage"
+//import { toast } from 'react-toastify';
+//import "react-toastify/dist/ReactToastify.css";
 
 export function gatherNotifications() {
     const allStoragesStr = localStorage.getItem(ALL_STORAGES)

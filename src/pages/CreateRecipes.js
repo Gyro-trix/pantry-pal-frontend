@@ -27,7 +27,6 @@ function CreateRecipes() {
             ...prev,
             content: content,
         })) 
-        console.log(recipe)
     }, [content])
 
     return (

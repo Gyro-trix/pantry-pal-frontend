@@ -1,5 +1,7 @@
 import { ALL_STORAGES, CUR_ITEM_LIST, CUR_STORAGE } from "../config/localStorage"
 import { EDIT_STORAGE, HOME } from "../config/routes"
+import { toast } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 
 const allStorageDataStr = localStorage.getItem(ALL_STORAGES)
 const allStorageData = JSON.parse(allStorageDataStr)
@@ -15,7 +17,7 @@ export function createStorage(storageToAdd, navigate) {
             saveStorage(allStorageData, newStorage)
             navigate(HOME)
         } else {
-            alert("Name Already Used")
+            toast("Name Already Used",{position: "bottom-right"})
         }
     }
 
@@ -114,7 +116,7 @@ export function addItem(item) {
         localStorage.setItem(CUR_ITEM_LIST, JSON.stringify(itemlist))
         window.location.reload()
     } else {
-        window.alert("Missing Information")
+        toast("Missing Information",{position: "bottom-right"})
     }
 
 }

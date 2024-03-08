@@ -1,42 +1,86 @@
-import React, { useState,useEffect } from "react";
-import { displayRecipe } from "../utils/recipes";
+import React, { useState, useEffect, useRef, useMemo } from "react";
+import { deleteRecipe, displayRecipe, editRecipe, getNumberOfRecipes } from "../utils/recipes";
 import { useNavigate } from "react-router-dom";
 import { checkUserLogin } from "../utils/users";
 import { CUR_USER } from "../config/localStorage";
+import JoditEditor from 'jodit-react';
 
-function Recipes(){
-    const [recipeIndex, setRecipeIndex] = useState(0)
+function Recipes() {
+    const [index, setIndex] = useState(0)
+    const [cardClass, setCardClass] = useState("card")
+    const [cardStyle, setCardStyle] = useState({ height: 500 })
+    const indexLimit = getNumberOfRecipes() - 1
+    const editButton = useRef(null)
+    const deleteButton = useRef(null)
+    const editor = useRef(null)
+    const config = useMemo(() =>
+    ({
+        uploader: { "insertImageAsBase64URI": true },
+        toolbar: false,
+        readonly: true,
+        height: 500
+    }),
+        []
+    );
     const currentUserStr = localStorage.getItem(CUR_USER)
     const navigate = useNavigate();
     useEffect(() => {
         checkUserLogin(currentUserStr, navigate)
-      }, [currentUserStr, navigate])
+        const currentUser = JSON.parse(currentUserStr)
+        if (currentUser.adminlevel === 3) {
+            console.log(currentUser.adminlevel)
+            editButton.current.hidden = false
+            deleteButton.current.hidden = false
+        }
+    }, [currentUserStr, navigate])
 
-    return(
-        <div>
-                {displayRecipe(recipeIndex)}
-                <button 
-                type="button" 
-                className="btn btn-primary"
-                onClick={() => {
-                    if (recipeIndex <= 0){
-                        setRecipeIndex(0)
-                    } else {
-                        setRecipeIndex(recipeIndex - 1)
-                    }
-                }}>Previous</button>
-                <button 
-                type="button" 
-                className="btn btn-primary"
-                onClick={() => {
-                    setRecipeIndex(recipeIndex + 1)
-                }}>Next</button>
+
+    function nextRecipe() {
+        setCardClass("card nextRecipe")
+        setTimeout(() => {
+            if (index < indexLimit) {
+                setIndex(index + 1)
+            } else if (index >= indexLimit) {
+                setIndex(0)
+            }
+        }, 500)
+
+    }
+
+    function prevRecipe() {
+        setCardStyle({ height: 500, animationDirection: "reverse" })
+        setCardClass("card nextRecipe")
+        setTimeout(() => {
+            if (index > 0) {
+                setIndex(index - 1)
+            } else if (index <= 0) {
+                setIndex(indexLimit)
+            }
+        }, 500)
+
+    }
+
+    return (
+        <div style={{minWidth:700, marginTop: 32 }}>
+            <div className="card w-50 mb-3" style={{ height: 588, margin: "auto", overflow: "hidden", padding: 16 }} >
+                <div className={cardClass} onAnimationEnd={() => { setCardClass("card"); setCardStyle({ height: 500 }) }} style={cardStyle} >
+                    <JoditEditor
+                        ref={editor}
+                        value={displayRecipe(index)}
+                        config={config}
+                        tabIndex={1} // tabIndex of textarea
+                    />
+                </div>
+                <div className="col d-flex justify-content-between" style={{ marginTop: 16 }}>
+                    <button type="button" className="btn btn-primary" onClick={() => prevRecipe()} style={{ width: 112 }}>Previous</button>
+                    <button ref={editButton} type="button" className="btn btn-primary" onClick = {()=>editRecipe(index,navigate)}style={{ width: 112, marginLeft: 8 }} hidden = {true}>Edit</button>
+                    <button ref={deleteButton} type="button" className="btn btn-primary"  onClick = {()=> deleteRecipe(index,navigate)}style={{ width: 112, marginLeft: 8 }} hidden={true} >Delete</button>
+                    <button type="button" className="btn btn-primary" onClick={() => nextRecipe()} style={{ width: 112, marginLeft: 8 }}>Next</button>
+                </div>
             </div>
-
-)
-
+        </div>
+    )
+//deleteRecipe(index,navigate)
 }
-
-
 
 export default Recipes

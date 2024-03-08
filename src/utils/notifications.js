@@ -1,4 +1,6 @@
 import { ALL_STORAGES, CUR_USER, NOTIFICATIONS } from "../config/localStorage"
+//import { toast } from 'react-toastify';
+//import "react-toastify/dist/ReactToastify.css";
 
 export function gatherNotifications() {
     const allStoragesStr = localStorage.getItem(ALL_STORAGES)
@@ -86,9 +88,13 @@ export function displayNotifications(type) {
         return notifications.map((notification) => {
             if (notification.type === type && notification.dismissed === false) {
                 return (
-                    <div key={notification.id} className="card-text">
-                        {notification.item} in {notification.storage} is {notification.type} of {notification.id}
-                        <button type="button" className="btn btn-primary" onClick={() => dismissNotification(notification.id)}>Dismiss</button>
+                    <div key={notification.id} className="card d-flex justify-content-evenly">
+                        <div className=" d-flex justify-content-between">
+                            <label style={{ marginLeft: 16, marginTop:8 }}>{notification.item} in {notification.storage} is {notification.type}</label>
+                            
+                            <button type="button" className="btn btn-primary" style={{ marginLeft: "auto" }} onClick={() => dismissNotification(notification.id)}>Dismiss</button>
+                            
+                        </div>
                     </div>
                 )
             } else {
@@ -108,12 +114,12 @@ export function numberOfNotifications() {
                 count++
             }
         })
-        if ( count <= 0){
+        if (count <= 0) {
             return ""
         } else {
             return count
         }
-        
+
     } else {
         return ""
     }
@@ -122,20 +128,20 @@ export function numberOfNotifications() {
 // Delete a notification, to be used when an item is deleted to remove any coresponding notifications
 export function notificationCleanUp() {
     const notificationsStr = localStorage.getItem(NOTIFICATIONS)
-    const notifications = notificationsStr ? JSON.parse(notificationsStr) :[]
+    const notifications = notificationsStr ? JSON.parse(notificationsStr) : []
     const allStorages = JSON.parse(localStorage.getItem(ALL_STORAGES))
     let tempNotifications = []
     allStorages.forEach((storage) => {
         let tempItemList = storage.items ? storage.items : []
-            tempItemList.forEach((item) => {            
-                notifications.forEach((notification) => {
-                    if (notification.id === item.id) {
-                        tempNotifications = [...tempNotifications, notification]
-                    }
-                })
+        tempItemList.forEach((item) => {
+            notifications.forEach((notification) => {
+                if (notification.id === item.id) {
+                    tempNotifications = [...tempNotifications, notification]
+                }
             })
+        })
     })
-    console.log(tempNotifications)
-    localStorage.setItem(NOTIFICATIONS,JSON.stringify(tempNotifications))
+
+    localStorage.setItem(NOTIFICATIONS, JSON.stringify(tempNotifications))
     numberOfNotifications()
 }

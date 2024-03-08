@@ -51,6 +51,7 @@ function CreateUser() {
                     <form className="flex row-auto" style = {{marginTop: 16}} >
                         <div className="input_space" >
                             <input placeholder="Username"
+                                className="form-control"
                                 type="text"
                                 onChange={handleChange}
                                 name="username"
@@ -60,12 +61,13 @@ function CreateUser() {
                         <p style={{ color: noticeStyle, marginTop: 16 }}>{text}</p>
                         <div className="input_space" style={{ marginTop: 16 }}>
                             <input placeholder="Email"
-                                type="text"
+                               className="form-control"
+                               type="text"
                                 onChange={handleChange}
                                 name="email"
                             />
                         </div>
-                        <div style={{ marginTop: 16 }}>
+                        <div className="form-control" style={{ marginTop: 16 }}>
                             <div className="form-check form-check-inline">
                                 <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" checked={newUser.adminlevel === 3} value={3} disabled />
                                 <label className="form-check-label" htmlFor="inlineRadio1">3</label>
@@ -82,6 +84,7 @@ function CreateUser() {
                         </div>
                         <div className="input_space" style={{ marginTop: 16 }}>
                             <input placeholder="Password"
+                                className="form-control"
                                 type="text"
                                 onChange={handleChange}
                                 name="password"
@@ -89,6 +92,7 @@ function CreateUser() {
                         </div>
                         <div className="input_space" style={{ marginTop: 16 }}>
                             <input placeholder="Re-Type Password"
+                                className="form-control"
                                 type="text"
                                 onChange={handleChange}
                                 name="passwordchk"

@@ -78,6 +78,7 @@ function NavBar() {
         <li className="nav-item p-2"><a className="nav-link" aria-current="page" href="/createStorage#" onClick={createStorage}>Add Storage</a></li>
         <li className="nav-item p-2"><a className="nav-link" aria-current="page" href="/notifications#" onClick={notifications}>Notifications<sup style={{ color: "red" }}>{notificationCount}</sup></a></li>
         <li className="nav-item p-2"><a className="nav-link" aria-current="page" href="/createrecipes#" onClick={createRecipes}>Add A Recipe</a></li>
+        <li className="nav-item p-2"><a className="nav-link" aria-current="page" href="/recipes#" onClick={displayRecipes}>Recipes</a></li>
         <li className="nav-item p-2"><a className="nav-link" aria-current="page" href="/manageusers#" onClick={manageUsers}>Manage Users</a></li>
         <li className="nav-item p-2"><a className="nav-link" aria-current="page" href="/createuser#" onClick={createUser}>Create User</a></li>
       </ul>
@@ -90,6 +91,7 @@ function NavBar() {
         <li><a className="dropdown-item" aria-current="page" href="/createStorage#" onClick={createStorage}>Add Storage</a></li>
         <li><a className="dropdown-item" aria-current="page" href="/notifications#" onClick={notifications}>Notifications<sup style={{ color: "red" }}>{notificationCount}</sup></a></li>
         <li><a className="dropdown-item" aria-current="page" href="/createrecipes#" onClick={createRecipes}>Add A Recipe</a></li>
+        <li><a className="dropdown-item" aria-current="page" href="/recipes#" onClick={displayRecipes}>Recipes</a></li>
         <li><a className="dropdown-item" aria-current="page" href="/manageusers#" onClick={manageUsers}>Manage Users</a></li>
         <li><a className="dropdown-item" aria-current="page" href="/createuser#" onClick={createUser}>Create User</a></li>
         <li><a className="dropdown-item" aria-current="page" href="/userSettings#" onClick={userSettings}>Settings</a></li>

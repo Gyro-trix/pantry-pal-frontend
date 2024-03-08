@@ -1,6 +1,9 @@
 import { ALL_USERS, CUR_USER, USER_TO_EDIT } from "../config/localStorage"
 import { HOME, SIGN_IN, MANAGEUSERS, EDITUSER } from "../config/routes"
 import { gatherNotifications } from "./notifications"
+import React from 'react';
+import { toast } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 //Checks if a user is logged in
 export function checkUserLogin(currentUser, navigate) {
   if (currentUser === null || currentUser.trim() === "") {
@@ -24,7 +27,7 @@ export function logIn(attemptingUser, navigate) {
   if (attemptingUser.username && attemptingUser.password) {
     //Check for user in local storage
     if (validateUser(attemptingUser) === false) {
-      alert("Invalid Username or Password")
+      toast("Invalid Username or Password!",{position: "bottom-right"})
     } else {
       localStorage.setItem(CUR_USER, JSON.stringify(attemptingUser))
       navigate(HOME)

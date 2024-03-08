@@ -34,7 +34,7 @@ function Home() {
 
   return (
     <div className="card w-90" style={{ background: "lightblue", padding: 32, height: height-70 }}>
-      <div className="row row-cols-auto" >
+      <div className="row row-cols-auto" style = {{animation: "moveToRight 1s"}}>
         {displayStorage(allStorageDataStr, allStorageData, navigate)}
       </div>
     </div>

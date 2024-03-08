@@ -1,69 +1,47 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import { saveOverRecipe } from "../utils/recipes";
-import { RECIPETOEDIT,CUR_USER, INGREDIENTS } from "../config/localStorage"
+import { CUR_USER, RECIPETOEDIT } from "../config/localStorage"
 import { checkAdminLogin } from "../utils/users";
 import { useNavigate } from "react-router-dom";
-import AddIngredient from "./AddIngredient";
+import JoditEditor from 'jodit-react';
 
 function EditRecipe() {
-    const recipeDataStr = localStorage.getItem(RECIPETOEDIT)
-    const recipeData = recipeDataStr ? JSON.parse(recipeDataStr) : ""
-    const [recipe, setRecipe] = useState({ id: recipeData.id, name: recipeData.name, instructions: recipeData.instructions, ingredients: recipeData.ingredients })
-    const [ingredients,setIngredients] = useState(JSON.parse(localStorage.getItem(INGREDIENTS)))
+    const recipeStr = localStorage.getItem(RECIPETOEDIT)
+    const [recipe,setRecipe] = useState(JSON.parse(recipeStr))
+    const editor = useRef(null);
+    const [content, setContent] = useState(recipe.content);
+    
+    const config = useMemo(() =>
+        ({ uploader: { "insertImageAsBase64URI": true } }),
+        []
+    );
+
     const currentUserStr = localStorage.getItem(CUR_USER)
     const navigate = useNavigate()
-
     useEffect(() => {
         checkAdminLogin(currentUserStr, navigate)
     }, [currentUserStr, navigate])
 
     useEffect(() => {
-        localStorage.setItem(RECIPETOEDIT, JSON.stringify(recipe))
-    }, [recipe])
-
-    useEffect(() => {
-        localStorage.setItem(INGREDIENTS, JSON.stringify(ingredients))
-    }, [ingredients])
-
-    useEffect(() => {
         setRecipe((prev) => ({
             ...prev,
-            ingredients: ingredients,
-        }))
-    }, [ingredients])
-
-    const handleChange = e => {
-        setRecipe((prev) => ({
-            ...prev,
-            [e.target.name]: e.target.value,
-        }))
-    }
+            content: content,
+        })) 
+    }, [content])
 
     return (
-        <div className = "container" style = {{background:"lightblue",padding:16}}>
-            <div className="input_group mb-3" style = {{marginTop:16}}>
-                <input
-                    className="form-control"
-                    placeholder="Recipe Name"
-                    type="text"
-                    name="name"
-                    defaultValue = {recipe.name}
-                    onChange={handleChange} />
+        <div className="container" style={{ background: "lightblue", padding: 16 }}>
+            <div className="card">
+                <JoditEditor
+                    ref={editor}
+                    value={content}
+                    config={config}
+                    tabIndex={1} // tabIndex of textarea
+                    onBlur={newContent => setContent(newContent)} // preferred to use only this option to update the content for performance reasons
+                    onChange={newContent => setContent(newContent)}
+                />
             </div>
-            <div className="input_group mb-3">
-                <AddIngredient ingredients = {ingredients} />
-            </div>
-            <div className="input_group mb-3">
-                <input
-                    className="form-control"
-                    placeholder="Instructions"
-                    type="textfield"
-                    name="instructions"
-                    defaultValue = {recipe.instructions}
-                    onChange={handleChange} />
-            </div>
-            <button type="button" className="btn btn-primary" onClick={() => saveOverRecipe(recipe,navigate)}>Save Recipe</button>
-
+            <button type="button" className="btn btn-primary" onClick = {()=>{saveOverRecipe(recipe,navigate)}}>Save Recipe</button>
         </div>
     )
 }

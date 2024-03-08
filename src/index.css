@@ -1,0 +1,47 @@
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 100;
+  }
+}
+
+@keyframes fadeIn2 {
+  0% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 100;
+  }
+}
+
+@keyframes next{
+  0%{
+    transform: translateX(0%);
+  }
+  49%{
+    transform: translateX(100%)
+  }
+  50%{
+    position: -100%;
+    transform: translateX(-100%)
+  }
+  100%{
+transform: translateX(0%)
+  }
+}
+
+.nextRecipe {
+  animation: next 1s;
+}
+
+.prevRecipe {
+  animation: next 1s;
+}

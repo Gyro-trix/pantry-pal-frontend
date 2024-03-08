@@ -1,5 +1,5 @@
 import { RECIPES, INGREDIENTS, RECIPETOADD, RECIPETOEDIT, CUR_USER } from "../config/localStorage"
-import { CREATERECIPES, EDIT_RECIPE } from "../config/routes";
+import { CREATERECIPES, EDIT_RECIPE, DISPLAYRECIPES } from "../config/routes";
 
 
 export function saveRecipe(recipe, navigate) {
@@ -82,12 +82,14 @@ export function displayRecipe(index) {
 
 }
 
-export function deleteRecipe(recipeToDelete, navigate) {
+export function deleteRecipe(recipeIndex, navigate) {
     const recipeDataStr = localStorage.getItem(RECIPES)
     let recipeData = recipeDataStr ? JSON.parse(recipeDataStr) : []
-    recipeData = recipeData.filter(recipe => !recipe.id.match(new RegExp('^' + recipeToDelete.id + '$')))
+    let recipeToDelete = recipeData[recipeIndex]
+    console.log(recipeToDelete.id)
+    recipeData = recipeData.filter(recipe => !String(recipe.id).match(new RegExp('^' + recipeToDelete.id + '$')))
     localStorage.setItem(RECIPES, JSON.stringify(recipeData))
-    navigate(CREATERECIPES)
+    navigate(DISPLAYRECIPES)
 
 }
 export function editRecipe(recipeToEdit, navigate) {

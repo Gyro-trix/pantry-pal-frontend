@@ -67,15 +67,17 @@ export function displayIngredients(navigate) {
 export function displayRecipe(index) {
     const recipeDataStr = localStorage.getItem(RECIPES)
     const recipeData = recipeDataStr ? JSON.parse(recipeDataStr) : []
-    if (index < 0) {
+    const indexLimit = recipeData.length - 1
+    
+    if(indexLimit <= 0){
+        return "<h3>No Recipes Stored<h3>"
+    }
+    if(index <= indexLimit){
+        return (recipeData[index].content)
+    } else if(index > indexLimit){
         return ""
-    } else {
-        if (recipeData.length > 0) {
-            return (recipeData[index].content)
-        } else {
-            return "<h3>No Recipes Stored<h3>"
-        }
-
+    } else if(index < 0){
+        return ""
     }
 
 }

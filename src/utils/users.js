@@ -27,7 +27,7 @@ export function logIn(attemptingUser, navigate) {
   if (attemptingUser.username && attemptingUser.password) {
     //Check for user in local storage
     if (validateUser(attemptingUser) === false) {
-      toast("Invalid Username or Password!",{position: "top-center"})
+      toast("Invalid Username or Password!",{position: "bottom-right"})
     } else {
       localStorage.setItem(CUR_USER, JSON.stringify(attemptingUser))
       navigate(HOME)

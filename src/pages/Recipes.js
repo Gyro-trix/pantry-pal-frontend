@@ -11,6 +11,7 @@ function Recipes() {
     const [cardStyle, setCardStyle] = useState({ height: 500 })
     const indexLimit = getNumberOfRecipes() - 1
     const editButton = useRef(null)
+    const deleteButton = useRef(null)
     const editor = useRef(null)
     const config = useMemo(() =>
     ({
@@ -28,7 +29,8 @@ function Recipes() {
         const currentUser = JSON.parse(currentUserStr)
         if (currentUser.adminlevel === 3) {
             console.log(currentUser.adminlevel)
-            editButton.current.disabled = false
+            editButton.current.hidden = false
+            deleteButton.current.hidden = false
         }
     }, [currentUserStr, navigate])
 
@@ -71,14 +73,14 @@ function Recipes() {
                 </div>
                 <div className="col d-flex justify-content-between" style={{ marginTop: 16 }}>
                     <button type="button" className="btn btn-primary" onClick={() => prevRecipe()} style={{ width: 112 }}>Previous</button>
-                    <button ref={editButton} type="button" className="btn btn-primary" style={{ width: 112, marginLeft: 8 }} disabled={true}>Edit</button>
-                    <button type="button" className="btn btn-primary"  onClick = {()=> deleteRecipe(index,navigate)}style={{ width: 112, marginLeft: 8 }}>Delete</button>
+                    <button ref={editButton} type="button" className="btn btn-primary" style={{ width: 112, marginLeft: 8 }} hidden = {true}>Edit</button>
+                    <button ref={deleteButton} type="button" className="btn btn-primary"  onClick = {()=> deleteRecipe(index,navigate)}style={{ width: 112, marginLeft: 8 }} hidden={true} >Delete</button>
                     <button type="button" className="btn btn-primary" onClick={() => nextRecipe()} style={{ width: 112, marginLeft: 8 }}>Next</button>
                 </div>
             </div>
         </div>
     )
-
+//deleteRecipe(index,navigate)
 }
 
 export default Recipes

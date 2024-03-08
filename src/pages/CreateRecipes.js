@@ -39,10 +39,10 @@ function CreateRecipes() {
                     config={config}
                     tabIndex={1} // tabIndex of textarea
                     onBlur={newContent => setContent(newContent)} // preferred to use only this option to update the content for performance reasons
-                    onChange={newContent => { }}
+                    onChange={newContent => setContent(newContent)}
                 />
             </div>
-            <button type="button" className="btn btn-primary" onClick = {()=>saveRecipe(recipe,navigate)}>Save Recipe</button>
+            <button type="button" className="btn btn-primary" onClick = {()=>{saveRecipe(recipe,navigate); setContent('')}}>Save Recipe</button>
         </div>
     )
     /*

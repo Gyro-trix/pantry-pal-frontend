@@ -10,7 +10,7 @@ function Recipes() {
     const [cardClass, setCardClass] = useState("card")
     const [cardStyle, setCardStyle] = useState({ height: 500 })
     const indexLimit = getNumberOfRecipes() - 1
-    console.log(indexLimit)
+    const editButton = useRef(null)
     const editor = useRef(null)
     const config = useMemo(() =>
     ({
@@ -25,52 +25,55 @@ function Recipes() {
     const navigate = useNavigate();
     useEffect(() => {
         checkUserLogin(currentUserStr, navigate)
+        const currentUser = JSON.parse(currentUserStr)
+        if (currentUser.adminlevel === 3) {
+            console.log(currentUser.adminlevel)
+            editButton.current.disabled = false
+        }
     }, [currentUserStr, navigate])
 
 
     function nextRecipe() {
         setCardClass("card nextRecipe")
         setTimeout(() => {
-            if(index < indexLimit){
+            if (index < indexLimit) {
                 setIndex(index + 1)
-            } else if(index >= indexLimit){
+            } else if (index >= indexLimit) {
                 setIndex(0)
             }
-            console.log("index",index)
         }, 500)
-        
+
     }
 
     function prevRecipe() {
         setCardStyle({ height: 500, animationDirection: "reverse" })
         setCardClass("card nextRecipe")
         setTimeout(() => {
-            if(index > 0){
+            if (index > 0) {
                 setIndex(index - 1)
-            } else if (index <= 0){
+            } else if (index <= 0) {
                 setIndex(indexLimit)
             }
-            console.log("index",index)
         }, 500)
-        
+
     }
 
     return (
-        <div style = {{marginTop: 32}}>
-            <div className="card w-50 mb-3" style={{ height: 588, margin: "auto", overflow: "hidden", padding:16 }} >
+        <div style={{minWidth:700, marginTop: 32 }}>
+            <div className="card w-50 mb-3" style={{ height: 588, margin: "auto", overflow: "hidden", padding: 16 }} >
                 <div className={cardClass} onAnimationEnd={() => { setCardClass("card"); setCardStyle({ height: 500 }) }} style={cardStyle} >
                     <JoditEditor
                         ref={editor}
                         value={displayRecipe(index)}
                         config={config}
                         tabIndex={1} // tabIndex of textarea
-                        onChange={newContent => { }}
                     />
                 </div>
-                <div className="col d-flex justify-content-between" style ={{marginTop:16}}>
-                    <button type="button" className="btn btn-primary" onClick={() => prevRecipe()} style = {{width:128}}>Previous</button>
-                    <button type="button" className="btn btn-primary" style = {{width:128,marginLeft:8}} disabled = {true}>Edit</button>
-                    <button type="button" className="btn btn-primary" onClick={() => nextRecipe()} style = {{width:128, marginLeft:8}}>Next</button>
+                <div className="col d-flex justify-content-between" style={{ marginTop: 16 }}>
+                    <button type="button" className="btn btn-primary" onClick={() => prevRecipe()} style={{ width: 112 }}>Previous</button>
+                    <button ref={editButton} type="button" className="btn btn-primary" style={{ width: 112, marginLeft: 8 }} disabled={true}>Edit</button>
+                    <button type="button" className="btn btn-primary"  style={{ width: 112, marginLeft: 8 }}>Delete</button>
+                    <button type="button" className="btn btn-primary" onClick={() => nextRecipe()} style={{ width: 112, marginLeft: 8 }}>Next</button>
                 </div>
             </div>
         </div>

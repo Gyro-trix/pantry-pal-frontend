@@ -6,7 +6,7 @@ import { CUR_ITEM_LIST } from "../config/localStorage";
 
 function AddItems(props) {
     const [startDate, setStartDate] = useState(new Date())
-    const [data, setData] = useState(null)
+    const [data, setData] = useState({ "items": [{ "name": "chicken", "calories": 222.6, "serving_size_g": 100, "fat_total_g": 12.9, "fat_saturated_g": 3.7, "protein_g": 23.7, "sodium_mg": 72, "potassium_mg": 179, "cholesterol_mg": 92, "carbohydrates_total_g": 0, "fiber_g": 0, "sugar_g": 0 }] })
     const [itemSearch, setItemSearch] = useState('chicken')
     const [item, setItem] = useState({
         quantity: 0,
@@ -35,30 +35,30 @@ function AddItems(props) {
     useEffect(() => {
         localStorage.setItem(CUR_ITEM_LIST, JSON.stringify(itemlist))
     }, [itemlist])
-
-    const handleSearch = async () => {
-
-        const apiKey = process.env.REACT_APP_CALORIE_NINJAS_KEY
-        const search = 'https://api.calorieninjas.com/v1/nutrition?query=' + itemSearch
-
-        try {
-            const response = await fetch(search, {
-                method: 'GET',
-                headers: {
-                    'X-Api-Key': apiKey
+    /*
+        const handleSearch = async () => {
+    
+            const apiKey = process.env.REACT_APP_CALORIE_NINJAS_KEY
+            const search = 'https://api.calorieninjas.com/v1/nutrition?query=' + itemSearch
+    
+            try {
+                const response = await fetch(search, {
+                    method: 'GET',
+                    headers: {
+                        'X-Api-Key': apiKey
+                    }
+                })
+                if (!response.ok) {
+                    throw new Error('Response was not okay')
                 }
-            })
-            if (!response.ok) {
-                throw new Error('Response was not okay')
+    
+                setData(await response.json())
+            } catch (error) {
+                console.error('Error', error)
             }
-
-            setData(await response.json())
-        } catch (error) {
-            console.error('Error', error)
+    
         }
-
-    }
-
+    */
     const handleInput = e => {
         setItemSearch(e.target.value)
         console.log(itemSearch)
@@ -71,13 +71,20 @@ function AddItems(props) {
         }))
     }
 
+    const removeName = () => {
+        setNutrition(current => {
+            const {name, ...rest } = current
+            return rest
+        })
+    }
+
     return (
         <div>
             <div className="container">
                 <div className="container" style={{ marginTop: 16 }} >
                     {displayItems()}
                 </div>
-                <div className="input-group" style={{ marginTop: 10 }} hidden = {true}>
+                <div className="input-group" style={{ marginTop: 10 }} hidden={true}>
                     <input className="form-control"
                         style={{}}
                         type="number"
@@ -123,10 +130,10 @@ function AddItems(props) {
                     name="search"
                     placeholder="Search"
                 ></input>
-                <button type="button" className="btn btn-primary" style={{ whiteSpace: "nowrap" }} onClick={() => { handleSearch() }}>Test</button>
+                <button type="button" className="btn btn-primary" style={{ whiteSpace: "nowrap" }} onClick={()=>{setNutrition(data.items[0])}}>Set From Data</button>
             </div>
-            {JSON.stringify(data)} Hello There
-            <button type="button" className="btn btn-primary" style={{ whiteSpace: "nowrap" }} onClick={() => {  console.log(data) }}>Test</button>
+            {JSON.stringify(nutrition)} Hello There
+            <button type="button" className="btn btn-primary" style={{ whiteSpace: "nowrap" }} onClick={removeName}>Remove Name</button>
         </div>
     )
 

@@ -169,4 +169,3 @@ export function deleteStorage(allStorage, singleStorageData) {
     localStorage.setItem(ALL_STORAGES, JSON.stringify(allStorage))
     window.location.reload()
 }
-

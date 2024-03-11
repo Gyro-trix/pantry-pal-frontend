@@ -7,7 +7,9 @@ import { CUR_ITEM_LIST } from "../config/localStorage";
 function AddItems(props) {
     const [startDate, setStartDate] = useState(new Date())
     const [data, setData] = useState({ "items": [{ "name": "chicken", "calories": 222.6, "serving_size_g": 100, "fat_total_g": 12.9, "fat_saturated_g": 3.7, "protein_g": 23.7, "sodium_mg": 72, "potassium_mg": 179, "cholesterol_mg": 92, "carbohydrates_total_g": 0, "fiber_g": 0, "sugar_g": 0 }] })
+    
     const [itemSearch, setItemSearch] = useState('chicken')
+    
     const [item, setItem] = useState({
         quantity: 0,
         name: "",
@@ -61,7 +63,6 @@ function AddItems(props) {
     */
     const handleInput = e => {
         setItemSearch(e.target.value)
-        console.log(itemSearch)
     }
 
     const handleChange = e => {
@@ -132,7 +133,7 @@ function AddItems(props) {
                 ></input>
                 <button type="button" className="btn btn-primary" style={{ whiteSpace: "nowrap" }} onClick={()=>{setNutrition(data.items[0])}}>Set From Data</button>
             </div>
-            {JSON.stringify(nutrition)} Hello There
+            {JSON.stringify(nutrition)}
             <button type="button" className="btn btn-primary" style={{ whiteSpace: "nowrap" }} onClick={removeName}>Remove Name</button>
         </div>
     )

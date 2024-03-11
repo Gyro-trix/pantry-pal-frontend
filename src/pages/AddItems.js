@@ -6,14 +6,29 @@ import { CUR_ITEM_LIST } from "../config/localStorage";
 
 function AddItems(props) {
     const [startDate, setStartDate] = useState(new Date())
-    const [data,setData] = useState(null)
-    const [ingredient,setIngredient] = useState('chicken')
+    const [data, setData] = useState(null)
+    const [itemSearch, setItemSearch] = useState('chicken')
     const [item, setItem] = useState({
         quantity: 0,
         name: "",
         size: "",
         expiry: "",
+        nutrition: null,
         id: ""
+    })
+
+    const [nutrition, setNutrition] = useState({
+        calories: 0,
+        serving_size_g: 0,
+        fat_total_g: 0,
+        fat_saturated_g: 0,
+        protein_g: 0,
+        sodium_mg: 0,
+        potassium_mg: 0,
+        cholesterol_mg: 0,
+        carbohydrates_total_g: 0,
+        fiber_g: 0,
+        sugar_g: 0
     })
     const { itemlist } = props;
 
@@ -24,7 +39,7 @@ function AddItems(props) {
     const handleSearch = async () => {
 
         const apiKey = process.env.REACT_APP_CALORIE_NINJAS_KEY
-        const search = 'https://api.calorieninjas.com/v1/nutrition?query=' + ingredient
+        const search = 'https://api.calorieninjas.com/v1/nutrition?query=' + itemSearch
 
         try {
             const response = await fetch(search, {
@@ -44,6 +59,11 @@ function AddItems(props) {
 
     }
 
+    const handleInput = e => {
+        setItemSearch(e.target.value)
+        console.log(itemSearch)
+    }
+
     const handleChange = e => {
         setItem((prev) => ({
             ...prev,
@@ -57,7 +77,7 @@ function AddItems(props) {
                 <div className="container" style={{ marginTop: 16 }} >
                     {displayItems()}
                 </div>
-                <div className="input-group" style={{ marginTop: 10 }}>
+                <div className="input-group" style={{ marginTop: 10 }} hidden = {true}>
                     <input className="form-control"
                         style={{}}
                         type="number"
@@ -92,10 +112,21 @@ function AddItems(props) {
                         }
                     />
                     <button type="button" className="btn btn-primary" style={{ whiteSpace: "nowrap" }} onClick={() => addItem(item)}>Add Item</button>
-                    <button type="button" className="btn btn-primary" style={{ whiteSpace: "nowrap" }} onClick={() => handleSearch()}>Test</button>
+
                 </div>
             </div>
+            <div className="input-group">
+                <input className="form-control"
+                    style={{}}
+                    type="text"
+                    onChange={handleInput}
+                    name="search"
+                    placeholder="Search"
+                ></input>
+                <button type="button" className="btn btn-primary" style={{ whiteSpace: "nowrap" }} onClick={() => { handleSearch() }}>Test</button>
+            </div>
             {JSON.stringify(data)} Hello There
+            <button type="button" className="btn btn-primary" style={{ whiteSpace: "nowrap" }} onClick={() => {  console.log(data) }}>Test</button>
         </div>
     )
 

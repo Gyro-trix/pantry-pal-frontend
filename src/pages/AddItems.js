@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import DatePicker from "react-datepicker";
 import { displayItems, addItem, addExpiryDate } from "../utils/storage"
 import "react-datepicker/dist/react-datepicker.css";
@@ -7,9 +7,10 @@ import { CUR_ITEM_LIST } from "../config/localStorage";
 function AddItems(props) {
     const [startDate, setStartDate] = useState(new Date())
     const [data, setData] = useState({ "items": [{ "name": "chicken", "calories": 222.6, "serving_size_g": 100, "fat_total_g": 12.9, "fat_saturated_g": 3.7, "protein_g": 23.7, "sodium_mg": 72, "potassium_mg": 179, "cholesterol_mg": 92, "carbohydrates_total_g": 0, "fiber_g": 0, "sugar_g": 0 }] })
-    
+    //const [data, setData] = useState({items:[]})
     const [itemSearch, setItemSearch] = useState('chicken')
-    
+    const addItemRef = useRef(null)
+    const itemName = useRef(null)
     const [item, setItem] = useState({
         quantity: 0,
         name: "",
@@ -37,30 +38,57 @@ function AddItems(props) {
     useEffect(() => {
         localStorage.setItem(CUR_ITEM_LIST, JSON.stringify(itemlist))
     }, [itemlist])
-    /*
-        const handleSearch = async () => {
-    
-            const apiKey = process.env.REACT_APP_CALORIE_NINJAS_KEY
-            const search = 'https://api.calorieninjas.com/v1/nutrition?query=' + itemSearch
-    
-            try {
-                const response = await fetch(search, {
-                    method: 'GET',
-                    headers: {
-                        'X-Api-Key': apiKey
+
+    useEffect(() => {
+        setItem((prev) => ({
+            ...prev,
+            nutrition: nutrition,
+            name: itemSearch,
+        }))
+    }, [nutrition,itemSearch])
+
+
+
+    const handleSearch = async () => {
+        /*
+                const apiKey = process.env.REACT_APP_CALORIE_NINJAS_KEY
+                const search = 'https://api.calorieninjas.com/v1/nutrition?query=' + itemSearch
+        
+                try {
+                    const response = await fetch(search, {
+                        method: 'GET',
+                        headers: {
+                            'X-Api-Key': apiKey
+                        }
+                    })
+                    if (!response.ok) {
+                        throw new Error('Response was not okay')
                     }
-                })
-                if (!response.ok) {
-                    throw new Error('Response was not okay')
+        
+                    setData(await response.json())
+                } catch (error) {
+                    console.error('Error', error)
                 }
-    
-                setData(await response.json())
-            } catch (error) {
-                console.error('Error', error)
-            }
-    
+        */
+        if (data.items.length === 0) {
+            console.log("no results")
+            addItemRef.current.hidden = false
+            itemName.current.value = itemSearch
+        } else {
+            setNutrition(data.items[0])
+            removeName()
+            updateItem()
+            //removes the items name making only nutritional information
+            //addItemRef.current.hidden = false
+            //itemName.current.value = itemSearch
+            //itemName.current.disabled = true
+            
+            
         }
-    */
+
+
+    }
+
     const handleInput = e => {
         setItemSearch(e.target.value)
     }
@@ -74,9 +102,17 @@ function AddItems(props) {
 
     const removeName = () => {
         setNutrition(current => {
-            const {name, ...rest } = current
+            const { name, ...rest } = current
             return rest
         })
+    }
+
+    const updateItem = () => {
+        setItem((prev) => ({
+            ...prev,
+            nutrition: nutrition,
+            name: itemSearch,
+        }))
     }
 
     return (
@@ -85,7 +121,7 @@ function AddItems(props) {
                 <div className="container" style={{ marginTop: 16 }} >
                     {displayItems()}
                 </div>
-                <div className="input-group" style={{ marginTop: 10 }} hidden={true}>
+                <div ref={addItemRef} className="input-group" style={{ marginTop: 10 }} hidden={true}>
                     <input className="form-control"
                         style={{}}
                         type="number"
@@ -94,6 +130,7 @@ function AddItems(props) {
                         placeholder="Quantity"
                     ></input>
                     <input className="form-control"
+                        ref={itemName}
                         style={{}}
                         type="text"
                         onChange={handleChange}
@@ -131,9 +168,10 @@ function AddItems(props) {
                     name="search"
                     placeholder="Search"
                 ></input>
-                <button type="button" className="btn btn-primary" style={{ whiteSpace: "nowrap" }} onClick={()=>{setNutrition(data.items[0])}}>Set From Data</button>
+                <button type="button" className="btn btn-primary" style={{ whiteSpace: "nowrap" }} onClick={handleSearch}>Set From Data</button>
             </div>
             {JSON.stringify(nutrition)}
+            {JSON.stringify(item)}
             <button type="button" className="btn btn-primary" style={{ whiteSpace: "nowrap" }} onClick={removeName}>Remove Name</button>
         </div>
     )

@@ -9,8 +9,8 @@ import "react-toastify/dist/ReactToastify.css";
 function AddItems(props) {
 
     const [startDate, setStartDate] = useState(new Date())
-    const [data, setData] = useState({ "items": [{ "name": "chicken", "calories": 222.6, "serving_size_g": 100, "fat_total_g": 12.9, "fat_saturated_g": 3.7, "protein_g": 23.7, "sodium_mg": 72, "potassium_mg": 179, "cholesterol_mg": 92, "carbohydrates_total_g": 0, "fiber_g": 0, "sugar_g": 0 }] })
-    //const [data, setData] = useState({items:[]})
+    //const [data, setData] = useState({ "items": [{ "name": "chicken", "calories": 222.6, "serving_size_g": 100, "fat_total_g": 12.9, "fat_saturated_g": 3.7, "protein_g": 23.7, "sodium_mg": 72, "potassium_mg": 179, "cholesterol_mg": 92, "carbohydrates_total_g": 0, "fiber_g": 0, "sugar_g": 0 }] })
+    const [data, setData] = useState({items:[]})
     const [itemSearch, setItemSearch] = useState(null)
     const addItemRef = useRef(null)
     const itemName = useRef(null)
@@ -53,7 +53,7 @@ function AddItems(props) {
 
 
     const handleSearch = async () => {
-        /*
+        
                 const apiKey = process.env.REACT_APP_CALORIE_NINJAS_KEY
                 const search = 'https://api.calorieninjas.com/v1/nutrition?query=' + itemSearch
         
@@ -72,12 +72,13 @@ function AddItems(props) {
                 } catch (error) {
                     console.error('Error', error)
                 }
-        */
+        
         if (data.items.length === 0) {
             toast("No results from API, please manually enter",{position: "bottom-right"})
             addItemRef.current.hidden = false
             itemName.current.value = itemSearch
         } else if(data.items.length === 1){
+            //Single result
             setNutrition(data.items[0])
             //removes the items name making only nutritional information
             removeName()

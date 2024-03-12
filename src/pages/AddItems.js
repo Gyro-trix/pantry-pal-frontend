@@ -109,8 +109,8 @@ function AddItems(props) {
     }
 
     return (
-        <div>
-            <div>
+        <div >
+            
             <div className="container" style={{zIndex:0}}>
                     <div className="input-group" >
                         <input className="form-control"
@@ -167,7 +167,7 @@ function AddItems(props) {
 
                 </div>
                 
-            </div>
+            
             
         </div>
         <div className="container" style={{ marginTop: 16 }} >

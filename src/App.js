@@ -21,7 +21,7 @@ function App() {
 
 
   return (
-    <div style={{ background: "lightblue", height: 850, minWidth: 600 }}>
+    <div style={{ background: "lightblue", height: "100%", minWidth: 600 }}>
 
       <BrowserRouter>
         <NavBar />

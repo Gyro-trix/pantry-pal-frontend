@@ -3,7 +3,7 @@ import { EDIT_STORAGE, HOME } from "../config/routes"
 import { toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import Nutrition from "../pages/Nutrition";
-import React, { useEffect, useState, useRef } from "react";
+import React, {useState} from "react";
 
 const allStorageDataStr = localStorage.getItem(ALL_STORAGES)
 const allStorageData = JSON.parse(allStorageDataStr)
@@ -72,6 +72,7 @@ export function displayItems() {
                     {itemlist.map((item, index) => {
                         const [key,setKey] = useState(false)
                         return (
+                            
                             <tr key={item.id}>
                                 <td>
                                     {item.quantity}
@@ -87,12 +88,16 @@ export function displayItems() {
                                 </td>
                                 <td>
                                 <button type="button" className="btn btn-primary" onClick={()=> {setKey(true)}}>_</button>
+                                <div>
                                 <Nutrition nutrition = {item.nutrition} trigger = {key} setTrigger={setKey}/>
+                                </div>
                                 </td>
                                 <td>
                                     <button type="button" className="btn btn-primary" onClick={() => deleteItem(index)}>Delete</button>
                                 </td>
+                                
                             </tr>
+                            
                         )
                     })}
                 </tbody>

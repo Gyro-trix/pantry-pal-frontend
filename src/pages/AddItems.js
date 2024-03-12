@@ -3,16 +3,15 @@ import DatePicker from "react-datepicker";
 import { displayItems, addItem, addExpiryDate } from "../utils/storage"
 import "react-datepicker/dist/react-datepicker.css";
 import { CUR_ITEM_LIST } from "../config/localStorage";
-
+import { toast } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 
 function AddItems(props) {
-
-
 
     const [startDate, setStartDate] = useState(new Date())
     const [data, setData] = useState({ "items": [{ "name": "chicken", "calories": 222.6, "serving_size_g": 100, "fat_total_g": 12.9, "fat_saturated_g": 3.7, "protein_g": 23.7, "sodium_mg": 72, "potassium_mg": 179, "cholesterol_mg": 92, "carbohydrates_total_g": 0, "fiber_g": 0, "sugar_g": 0 }] })
     //const [data, setData] = useState({items:[]})
-    const [itemSearch, setItemSearch] = useState('chicken')
+    const [itemSearch, setItemSearch] = useState(null)
     const addItemRef = useRef(null)
     const itemName = useRef(null)
     const [item, setItem] = useState({
@@ -75,16 +74,18 @@ function AddItems(props) {
                 }
         */
         if (data.items.length === 0) {
-            console.log("no results")
+            toast("No results from API, please manually enter",{position: "bottom-right"})
             addItemRef.current.hidden = false
             itemName.current.value = itemSearch
-        } else {
+        } else if(data.items.length === 1){
             setNutrition(data.items[0])
             //removes the items name making only nutritional information
             removeName()
             addItemRef.current.hidden = false
             itemName.current.value = itemSearch
             itemName.current.disabled = true
+        } else {
+            //more than one result
         }
 
 
@@ -120,7 +121,7 @@ function AddItems(props) {
                             name="search"
                             placeholder="Search"
                         ></input>
-                        <button type="button" className="btn btn-primary" style={{ whiteSpace: "nowrap" }} onClick={handleSearch}>Set From Data</button>
+                        <button type="button" className="btn btn-primary" style={{ whiteSpace: "nowrap" }} onClick={handleSearch}>Search</button>
                     </div>
 
                 

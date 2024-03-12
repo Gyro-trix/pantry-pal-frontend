@@ -89,7 +89,7 @@ export function displayItems() {
                                 <td>
                                 <button type="button" className="btn btn-primary" onClick={()=> {setKey(true)}}>_</button>
                                 <div>
-                                <Nutrition nutrition = {item.nutrition} trigger = {key} setTrigger={setKey}/>
+                                <Nutrition name= {item.name} nutrition = {item.nutrition} trigger = {key} setTrigger={setKey}/>
                                 </div>
                                 </td>
                                 <td>

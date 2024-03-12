@@ -87,7 +87,7 @@ export function displayItems() {
                                 </td>
                                 <td>
                                 <button type="button" className="btn btn-primary" onClick={()=> {setKey(true)}}>_</button>
-                                <Nutrition nutrition = {item.nutrition} trigger = {key}/>
+                                <Nutrition nutrition = {item.nutrition} trigger = {key} setTrigger={setKey}/>
                                 </td>
                                 <td>
                                     <button type="button" className="btn btn-primary" onClick={() => deleteItem(index)}>Delete</button>

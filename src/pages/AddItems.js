@@ -7,7 +7,7 @@ import { CUR_ITEM_LIST } from "../config/localStorage";
 
 function AddItems(props) {
 
-    
+
 
     const [startDate, setStartDate] = useState(new Date())
     const [data, setData] = useState({ "items": [{ "name": "chicken", "calories": 222.6, "serving_size_g": 100, "fat_total_g": 12.9, "fat_saturated_g": 3.7, "protein_g": 23.7, "sodium_mg": 72, "potassium_mg": 179, "cholesterol_mg": 92, "carbohydrates_total_g": 0, "fiber_g": 0, "sugar_g": 0 }] })
@@ -110,22 +110,20 @@ function AddItems(props) {
 
     return (
         <div>
-            <div className="container">
-                <div className="container" style={{ marginTop: 16 }} >
-                    {displayItems()}
-                </div>
+            <div>
+            <div className="container" style={{zIndex:0}}>
+                    <div className="input-group" >
+                        <input className="form-control"
+                            
+                            type="text"
+                            onChange={handleInput}
+                            name="search"
+                            placeholder="Search"
+                        ></input>
+                        <button type="button" className="btn btn-primary" style={{ whiteSpace: "nowrap" }} onClick={handleSearch}>Set From Data</button>
+                    </div>
 
-                <div className="input-group">
-                    <input className="form-control"
-                        style={{}}
-                        type="text"
-                        onChange={handleInput}
-                        name="search"
-                        placeholder="Search"
-                    ></input>
-                    <button type="button" className="btn btn-primary" style={{ whiteSpace: "nowrap" }} onClick={handleSearch}>Set From Data</button>
-                </div>
-
+                
                 <div style={{ height: 90 }}>
                     <div ref={addItemRef} className="input-group" style={{ marginTop: 10 }} hidden={true}>
                         <input className="form-control"
@@ -165,10 +163,16 @@ function AddItems(props) {
                         <button type="button" className="btn btn-primary" style={{ whiteSpace: "nowrap" }} onClick={() => addItem(item)}>Add Item</button>
 
                     </div>
+                    
+
                 </div>
+                
             </div>
-            {JSON.stringify(nutrition)}
-            {JSON.stringify(item)}
+            
+        </div>
+        <div className="container" style={{ marginTop: 16 }} >
+                        {displayItems()}
+                    </div>
         </div>
     )
 

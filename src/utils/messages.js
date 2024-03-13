@@ -16,7 +16,7 @@ export function getOtherUsers(currentUsername) {
 export function displayMessages(targetUser, currentUser, navigate) {
     const userMessagesStr = localStorage.getItem(USER_MESSAGES)
     const userMessages = userMessagesStr ? JSON.parse(userMessagesStr) : []
-    
+
     let messages = []
     userMessages.forEach(message => {
         if ((message.from === targetUser) && (message.to === currentUser)) {
@@ -30,18 +30,31 @@ export function displayMessages(targetUser, currentUser, navigate) {
         <div>
             {
                 orderedMessages.map((message, index) => {
+
                     let hideSeen = false
-                    let disableDelete = false
+                    let hideDelete = false
+                    const toStyle = { marginTop: 8, padding: 8, background: "white", marginLeft: 48 }
+                    const fromStyle = { marginTop: 8, padding: 8, background: "lightcyan", marginRight: 48 }
+                    let style = {}
+                    if (message.from === currentUser) {
+                        hideDelete = false
+                        style = toStyle
+                    } else {
+                        hideDelete = true
+                        style = fromStyle
+                    }
                     if ((message.from === currentUser) || (message.seen)) {
                         hideSeen = true
                     }
                     return (
-                        <div className="card" key={index}>
-                            {message.from}:
-                            {message.contents}
-                            <span hidden={!(hideSeen) || (message.from === currentUser)}>Seen</span>
-                            <button type="button" className="btn btn-primary" disabled = {disableDelete} onClick={() => deleteMessage(currentUser, message.time,navigate)}>X</button>
-                            <button type="button" className="btn btn-primary" hidden={hideSeen} onClick={() => markSeen(currentUser, message.time,navigate)}>S</button>
+                        <div className="card" style={style} key={index}>
+                            <span style={{ fontSize: 12 }}>{message.from}:</span>
+                            <span style={{ marginLeft: 8, marginTop: 8, marginBottom: 8 }}>{message.contents}</span>
+                            <form>
+                                <span style={{ fontSize: 12 }} hidden={!(hideSeen) || (message.from === currentUser)}>Seen</span>
+                                <button type="button" className="btn btn-primary" style={{ float: "right", fontSize: 12 }} hidden={hideDelete} onClick={() => deleteMessage(currentUser, message.time, navigate)}>X</button>
+                                <button type="button" className="btn btn-primary" style={{ float: "right", fontSize: 12 }} hidden={hideSeen} onClick={() => markSeen(currentUser, message.time, navigate)}>S</button>
+                            </form>
                         </div>
                     )
                 })
@@ -50,7 +63,7 @@ export function displayMessages(targetUser, currentUser, navigate) {
     )
 }
 
-export function submitMessage(targetUser, currentUser, contents,navigate) {
+export function submitMessage(targetUser, currentUser, contents, navigate) {
     const userMessagesStr = localStorage.getItem(USER_MESSAGES)
     const userMessages = userMessagesStr ? JSON.parse(userMessagesStr) : []
     const time = new Date().getTime()
@@ -85,4 +98,32 @@ export function markSeen(currentUser, time, navigate) {
     })
     localStorage.setItem(USER_MESSAGES, JSON.stringify(tempMessages))
     navigate(USERMESSAGES)
+}
+
+export function newMessagesForUser(fromUser, currentUser) {
+    const userMessagesStr = localStorage.getItem(USER_MESSAGES)
+    const userMessages = userMessagesStr ? JSON.parse(userMessagesStr) : []
+    let answer = false
+    userMessages.every(message => {
+        if ((message.to === currentUser) && (message.from === fromUser) && (message.seen === false)) {
+            answer = true
+            return false
+        }
+        return true
+    })
+    return answer
+}
+
+export function anyNewMessages(currentUser) {
+    const userMessagesStr = localStorage.getItem(USER_MESSAGES)
+    const userMessages = userMessagesStr ? JSON.parse(userMessagesStr) : []
+    let answer = false
+    userMessages.every(message => {
+        if ((message.to === currentUser) && (message.seen === false)) {
+            answer = true
+            return false
+        }
+        return true
+    })
+    return answer
 }

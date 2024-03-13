@@ -4,7 +4,6 @@ import { displayStorage} from "../utils/storage";
 import { ALL_STORAGES, CUR_ITEM_LIST, CUR_USER } from "../config/localStorage"
 import { checkUserLogin } from "../utils/users"
 import { getWindowDimensions } from "../utils/display";
-import { getUsers } from "../utils/messages";
 
 
 

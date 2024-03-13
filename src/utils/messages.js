@@ -1,4 +1,5 @@
 import { ALL_USERS, USER_MESSAGES } from "../config/localStorage";
+import { USERMESSAGES } from "../config/routes";
 
 
 export function getOtherUsers(currentUsername) {
@@ -12,10 +13,10 @@ export function getOtherUsers(currentUsername) {
     return otherUsers
 }
 
-export function displayMessages(targetUser, currentUser) {
+export function displayMessages(targetUser, currentUser, navigate) {
     const userMessagesStr = localStorage.getItem(USER_MESSAGES)
     const userMessages = userMessagesStr ? JSON.parse(userMessagesStr) : []
-
+    
     let messages = []
     userMessages.forEach(message => {
         if ((message.from === targetUser) && (message.to === currentUser)) {
@@ -27,39 +28,61 @@ export function displayMessages(targetUser, currentUser) {
     let orderedMessages = messages
     return (
         <div>
-        {
-            orderedMessages.map((message, index) => {
-                return (
-                    <div className = "card" key={index}>
-                        {message.from}:
-                        {message.contents}
-                        <button onClick={()=>deleteMessage(currentUser,message.time)}>X</button>
-                    </div>
-                )
-            })
-        }
+            {
+                orderedMessages.map((message, index) => {
+                    let hideSeen = false
+                    let disableDelete = false
+                    if ((message.from === currentUser) || (message.seen)) {
+                        hideSeen = true
+                    }
+                    return (
+                        <div className="card" key={index}>
+                            {message.from}:
+                            {message.contents}
+                            <span hidden={!(hideSeen) || (message.from === currentUser)}>Seen</span>
+                            <button type="button" className="btn btn-primary" disabled = {disableDelete} onClick={() => deleteMessage(currentUser, message.time,navigate)}>X</button>
+                            <button type="button" className="btn btn-primary" hidden={hideSeen} onClick={() => markSeen(currentUser, message.time,navigate)}>S</button>
+                        </div>
+                    )
+                })
+            }
         </div>
     )
 }
 
-export function submitMessage(targetUser, currentUser, contents) {
+export function submitMessage(targetUser, currentUser, contents,navigate) {
     const userMessagesStr = localStorage.getItem(USER_MESSAGES)
     const userMessages = userMessagesStr ? JSON.parse(userMessagesStr) : []
     const time = new Date().getTime()
-    const message = { from: currentUser, to: targetUser, contents: contents, time: time,seen:false }
+    const message = { from: currentUser, to: targetUser, contents: contents, time: time, seen: false }
     let messages = [...userMessages, message]
     localStorage.setItem(USER_MESSAGES, JSON.stringify(messages))
+    navigate(USERMESSAGES)
 }
 
-export function deleteMessage(currentUser,time){
+export function deleteMessage(currentUser, time, navigate) {
     const userMessagesStr = localStorage.getItem(USER_MESSAGES)
     const userMessages = userMessagesStr ? JSON.parse(userMessagesStr) : []
     let tempMessages = []
-    userMessages.forEach(message =>{
-        if(!((message.from === currentUser)&&(message.time === time))){
-            tempMessages = [...tempMessages,message]
+    userMessages.forEach(message => {
+        if (!((message.from === currentUser) && (message.time === time))) {
+            tempMessages = [...tempMessages, message]
         }
     })
+    localStorage.setItem(USER_MESSAGES, JSON.stringify(tempMessages))
+    navigate(USERMESSAGES)
+}
 
-    localStorage.setItem(USER_MESSAGES,JSON.stringify(tempMessages))
+export function markSeen(currentUser, time, navigate) {
+    const userMessagesStr = localStorage.getItem(USER_MESSAGES)
+    const userMessages = userMessagesStr ? JSON.parse(userMessagesStr) : []
+    let tempMessages = []
+    userMessages.forEach(message => {
+        if ((message.to === currentUser) && (message.time === time)) {
+            message.seen = true
+        }
+        tempMessages = [...tempMessages, message]
+    })
+    localStorage.setItem(USER_MESSAGES, JSON.stringify(tempMessages))
+    navigate(USERMESSAGES)
 }

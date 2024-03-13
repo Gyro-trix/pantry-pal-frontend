@@ -1,9 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
-import { SIGN_IN, CREATE_STORAGE, USER_SETTINGS, NOTIFICATION, CREATERECIPES, DISPLAYRECIPES, MANAGEUSERS, CREATE_USER } from "../config/routes";
+import { SIGN_IN, CREATE_STORAGE, USER_SETTINGS, NOTIFICATION, CREATERECIPES, DISPLAYRECIPES, MANAGEUSERS, CREATE_USER, USERMESSAGES } from "../config/routes";
 import { numberOfNotifications } from "../utils/notifications";
-import { CUR_USER } from "../config/localStorage";
+import { CUR_USER, MESSAGE_USER } from "../config/localStorage";
 import { getWindowDimensions } from "../utils/display";
+import { anyNewMessages, getOtherUsers } from "../utils/messages";
 
 function NavBar() {
   const navigate = useNavigate()
@@ -12,10 +13,9 @@ function NavBar() {
   const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions);
   const { width, height } = windowDimensions;
 
-
-
   let currentUsername
   let currentAdminLevel
+
   if (!(currentUserStr === null || currentUserStr.trim() === "")) {
     const currentUser = JSON.parse(currentUserStr)
     currentUsername = currentUser.username
@@ -25,11 +25,22 @@ function NavBar() {
     currentAdminLevel = 0
   }
 
+  const userList = getOtherUsers(currentUsername)
+
   let dropDown
   let dropDownContent = <ul></ul>
   let allToDropDown = <ul></ul>
   let navBarContent = <ul></ul>
   let navBar = <ul></ul>
+
+ 
+  let dot
+  if (anyNewMessages(currentUsername)) {
+    dot = '\u2b24'
+  } else {
+    dot = ''
+  }
+  
   useEffect(() => {
     setNotificationCount(numberOfNotifications())
   }, [])
@@ -60,6 +71,7 @@ function NavBar() {
         <li className="nav-item p-2"><a className="nav-link" aria-current="page" href="/recipes#" onClick={displayRecipes}>Recipes</a></li>
       </ul>
       dropDownContent = <ul className="dropdown-menu" style={{ padding: 8 }}>
+        <li><a className="dropdown-item" aria-current="page" href="/usermessages#" onClick={messages}>Messages<sup style={{ color: "red" }}>{dot}</sup></a></li>
         <li><a className="dropdown-item" aria-current="page" href="/userSettings#" onClick={userSettings}>Settings</a></li>
         <li><a className="dropdown-item" aria-current="page" href="/login#" style={{ marginTop: 8 }} onClick={logOut}>Logout</a></li>
       </ul>
@@ -68,6 +80,7 @@ function NavBar() {
         <li><a className="dropdown-item" aria-current="page" href="/createStorage#" onClick={createStorage}>Add Storage</a></li>
         <li><a className="dropdown-item" aria-current="page" href="/notifications#" onClick={notifications}>Notifications<sup style={{ color: "red" }}>{notificationCount}</sup></a></li>
         <li><a className="dropdown-item" aria-current="page" href="/recipes#" onClick={displayRecipes}>Recipes</a></li>
+        <li><a className="dropdown-item" aria-current="page" href="/usermessages#" onClick={messages}>Messages<sup style={{ color: "red" }}>{dot}</sup></a></li>
         <li><a className="dropdown-item" aria-current="page" href="/userSettings#" onClick={userSettings}>Settings</a></li>
         <li><a className="dropdown-item" aria-current="page" href="/login#" onClick={logOut}>Logout</a></li>
       </ul>
@@ -83,6 +96,7 @@ function NavBar() {
         <li className="nav-item p-2"><a className="nav-link" aria-current="page" href="/createuser#" onClick={createUser}>Create User</a></li>
       </ul>
       dropDownContent = <ul className="dropdown-menu" style={{ padding: 8 }}>
+        <li><a className="dropdown-item" aria-current="page" href="/usermessages#" onClick={messages}>Messages<sup style={{ color: "red" }}>{dot}</sup></a></li>
         <li><a className="dropdown-item" aria-current="page" href="/userSettings#" onClick={userSettings}>Settings</a></li>
         <li><a className="dropdown-item" aria-current="page" href="/login#" style={{ marginTop: 8 }} onClick={logOut}>Logout</a></li>
       </ul>
@@ -94,6 +108,7 @@ function NavBar() {
         <li><a className="dropdown-item" aria-current="page" href="/recipes#" onClick={displayRecipes}>Recipes</a></li>
         <li><a className="dropdown-item" aria-current="page" href="/manageusers#" onClick={manageUsers}>Manage Users</a></li>
         <li><a className="dropdown-item" aria-current="page" href="/createuser#" onClick={createUser}>Create User</a></li>
+        <li><a className="dropdown-item" aria-current="page" href="/usermessages#" onClick={messages}>Messages<sup style={{ color: "red" }}>{dot}</sup></a></li>
         <li><a className="dropdown-item" aria-current="page" href="/userSettings#" onClick={userSettings}>Settings</a></li>
         <li><a className="dropdown-item" aria-current="page" href="/login#" onClick={logOut}>Logout</a></li>
       </ul>
@@ -149,9 +164,14 @@ function NavBar() {
     navigate(CREATE_USER)
   }
 
+  function messages() {
+    localStorage.setItem(MESSAGE_USER, userList[0] ? JSON.stringify(userList[0]) : "")
+    navigate(USERMESSAGES)
+  }
+
   return (
 
-    <nav style = {{minWidth:600}} className="navbar navbar-expand bg-body-tertiary">
+    <nav style={{ minWidth: 600 }} className="navbar navbar-expand sticky-top bg-body-tertiary">
       <div className="container-fluid">
         <a className="navbar-brand" href="/#">Pantry Pal</a>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">

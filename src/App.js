@@ -14,6 +14,7 @@ import ManageUsers from './pages/ManageUsers';
 import EditUser from './pages/EditUser'
 import CreateUser from './pages/CreateUser'
 import EditRecipe from './pages/EditRecipe'
+import UserMessages from './pages/UserMessages';
 import { ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 
@@ -21,7 +22,7 @@ function App() {
 
 
   return (
-    <div style={{ background: "lightblue", height: 850, minWidth: 600 }}>
+    <div style={{ background: "lightblue", height: "100vh", minWidth: 600 }}>
 
       <BrowserRouter>
         <NavBar />
@@ -41,6 +42,7 @@ function App() {
             <Route path="/edituser" element={<EditUser />} />
             <Route path="/createuser" element={<CreateUser />} />
             <Route path="/editrecipe" element={<EditRecipe />} />
+            <Route path="/usermessages" element ={<UserMessages/>}/>
           </Routes>
         </div>
       </BrowserRouter>

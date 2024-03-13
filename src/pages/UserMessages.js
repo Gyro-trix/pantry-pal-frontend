@@ -5,15 +5,15 @@ import { checkUserLogin } from "../utils/users";
 import { displayMessages, getOtherUsers, submitMessage } from "../utils/messages";
 
 function UserMessages() {
-    
-    const [message, setMessage] = useState({ from: "", to: "", content: "", time: "" })
-    const [targetUser, setTargetUser] = useState("Matt")
+
+    const [message, setMessage] = useState({ from: "", to: "", content: "", time: "", seen: false })
+    const [targetUser, setTargetUser] = useState("")
     const [content, setContent] = useState("")
     const currentUserStr = localStorage.getItem(CUR_USER)
     const currentUser = JSON.parse(currentUserStr).username
     const [userList, setUserList] = useState(getOtherUsers(currentUser))
     const navigate = useNavigate();
-    
+
     useEffect(() => {
         checkUserLogin(currentUserStr, navigate)
     }, [currentUserStr, navigate])
@@ -21,17 +21,17 @@ function UserMessages() {
     const handleContentChange = e => {
         setContent(e.target.value)
     }
-console.log(userList)
+    
     return (
         <div className="container col-2">
-            <div  id="upper">
+            <div id="upper">
                 <div className="card row" id="users">
-                    {userList.map((user,index)=>{
-                        return(<button key ={index} onClick={()=>setTargetUser(user)}>{user}</button>)
+                    {userList.map((user, index) => {
+                        return (<button key={index} onClick={() => setTargetUser(user)}>{user}</button>)
                     })}
                 </div>
                 <div className="card row" id="messages">
-                    {displayMessages(targetUser,currentUser)}
+                    {displayMessages(targetUser, currentUser)}
                 </div>
             </div>
             <div id="lower">

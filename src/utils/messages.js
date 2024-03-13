@@ -1,5 +1,5 @@
 import { ALL_USERS, USER_MESSAGES } from "../config/localStorage";
-import UserMessages from "../pages/UserMessages";
+
 
 export function getOtherUsers(currentUsername) {
     const allUserData = JSON.parse(localStorage.getItem(ALL_USERS))
@@ -12,14 +12,6 @@ export function getOtherUsers(currentUsername) {
     return otherUsers
 }
 
-/*
-export function getMessages(targetUser, currentUser) {
-    const userMessagesStr = localStorage.getItem(USER_MESSAGES)
-    const userMessages = userMessagesStr ? JSON.parse(userMessagesStr) : []
-    
-    return messages
-}
-*/
 export function displayMessages(targetUser, currentUser) {
     const userMessagesStr = localStorage.getItem(USER_MESSAGES)
     const userMessages = userMessagesStr ? JSON.parse(userMessagesStr) : []
@@ -41,6 +33,7 @@ export function displayMessages(targetUser, currentUser) {
                     <div className = "card" key={index}>
                         {message.from}:
                         {message.contents}
+                        <button onClick={()=>deleteMessage(currentUser,message.time)}>X</button>
                     </div>
                 )
             })
@@ -53,7 +46,20 @@ export function submitMessage(targetUser, currentUser, contents) {
     const userMessagesStr = localStorage.getItem(USER_MESSAGES)
     const userMessages = userMessagesStr ? JSON.parse(userMessagesStr) : []
     const time = new Date().getTime()
-    const message = { from: currentUser, to: targetUser, contents: contents, time: time }
+    const message = { from: currentUser, to: targetUser, contents: contents, time: time,seen:false }
     let messages = [...userMessages, message]
     localStorage.setItem(USER_MESSAGES, JSON.stringify(messages))
+}
+
+export function deleteMessage(currentUser,time){
+    const userMessagesStr = localStorage.getItem(USER_MESSAGES)
+    const userMessages = userMessagesStr ? JSON.parse(userMessagesStr) : []
+    let tempMessages = []
+    userMessages.forEach(message =>{
+        if(!((message.from === currentUser)&&(message.time === time))){
+            tempMessages = [...tempMessages,message]
+        }
+    })
+
+    localStorage.setItem(USER_MESSAGES,JSON.stringify(tempMessages))
 }

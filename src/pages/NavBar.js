@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
-import { SIGN_IN, CREATE_STORAGE, USER_SETTINGS, NOTIFICATION, CREATERECIPES, DISPLAYRECIPES, MANAGEUSERS, CREATE_USER } from "../config/routes";
+import { SIGN_IN, CREATE_STORAGE, USER_SETTINGS, NOTIFICATION, CREATERECIPES, DISPLAYRECIPES, MANAGEUSERS, CREATE_USER, MESSAGES } from "../config/routes";
 import { numberOfNotifications } from "../utils/notifications";
 import { CUR_USER } from "../config/localStorage";
 import { getWindowDimensions } from "../utils/display";
@@ -60,6 +60,7 @@ function NavBar() {
         <li className="nav-item p-2"><a className="nav-link" aria-current="page" href="/recipes#" onClick={displayRecipes}>Recipes</a></li>
       </ul>
       dropDownContent = <ul className="dropdown-menu" style={{ padding: 8 }}>
+        <li><a className="dropdown-item" aria-current="page" href="/usermessages#" onClick={messages}>Messages</a></li>
         <li><a className="dropdown-item" aria-current="page" href="/userSettings#" onClick={userSettings}>Settings</a></li>
         <li><a className="dropdown-item" aria-current="page" href="/login#" style={{ marginTop: 8 }} onClick={logOut}>Logout</a></li>
       </ul>
@@ -68,6 +69,7 @@ function NavBar() {
         <li><a className="dropdown-item" aria-current="page" href="/createStorage#" onClick={createStorage}>Add Storage</a></li>
         <li><a className="dropdown-item" aria-current="page" href="/notifications#" onClick={notifications}>Notifications<sup style={{ color: "red" }}>{notificationCount}</sup></a></li>
         <li><a className="dropdown-item" aria-current="page" href="/recipes#" onClick={displayRecipes}>Recipes</a></li>
+        <li><a className="dropdown-item" aria-current="page" href="/usermessages#" onClick={messages}>Messages</a></li>
         <li><a className="dropdown-item" aria-current="page" href="/userSettings#" onClick={userSettings}>Settings</a></li>
         <li><a className="dropdown-item" aria-current="page" href="/login#" onClick={logOut}>Logout</a></li>
       </ul>
@@ -83,6 +85,7 @@ function NavBar() {
         <li className="nav-item p-2"><a className="nav-link" aria-current="page" href="/createuser#" onClick={createUser}>Create User</a></li>
       </ul>
       dropDownContent = <ul className="dropdown-menu" style={{ padding: 8 }}>
+        <li><a className="dropdown-item" aria-current="page" href="/usermessages#" onClick={messages}>Messages</a></li>
         <li><a className="dropdown-item" aria-current="page" href="/userSettings#" onClick={userSettings}>Settings</a></li>
         <li><a className="dropdown-item" aria-current="page" href="/login#" style={{ marginTop: 8 }} onClick={logOut}>Logout</a></li>
       </ul>
@@ -94,6 +97,7 @@ function NavBar() {
         <li><a className="dropdown-item" aria-current="page" href="/recipes#" onClick={displayRecipes}>Recipes</a></li>
         <li><a className="dropdown-item" aria-current="page" href="/manageusers#" onClick={manageUsers}>Manage Users</a></li>
         <li><a className="dropdown-item" aria-current="page" href="/createuser#" onClick={createUser}>Create User</a></li>
+        <li><a className="dropdown-item" aria-current="page" href="/usermessages#" onClick={messages}>Messages</a></li>
         <li><a className="dropdown-item" aria-current="page" href="/userSettings#" onClick={userSettings}>Settings</a></li>
         <li><a className="dropdown-item" aria-current="page" href="/login#" onClick={logOut}>Logout</a></li>
       </ul>
@@ -147,6 +151,10 @@ function NavBar() {
 
   function createUser() {
     navigate(CREATE_USER)
+  }
+
+  function messages() {
+    navigate(MESSAGES)
   }
 
   return (

@@ -4,7 +4,6 @@ import { displayStorage} from "../utils/storage";
 import { ALL_STORAGES, CUR_ITEM_LIST, CUR_USER } from "../config/localStorage"
 import { checkUserLogin } from "../utils/users"
 import { getWindowDimensions } from "../utils/display";
-//import { cleanup } from "@testing-library/react";
 
 
 
@@ -38,6 +37,7 @@ function Home() {
         {displayStorage(allStorageDataStr, allStorageData, navigate)}
       </div>
     </div>
+
   )
 }
 export default Home;

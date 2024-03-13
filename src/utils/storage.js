@@ -2,6 +2,8 @@ import { ALL_STORAGES, CUR_ITEM_LIST, CUR_STORAGE } from "../config/localStorage
 import { EDIT_STORAGE, HOME } from "../config/routes"
 import { toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
+import Nutrition from "../pages/Nutrition";
+import React, {useState} from "react";
 
 const allStorageDataStr = localStorage.getItem(ALL_STORAGES)
 const allStorageData = JSON.parse(allStorageDataStr)
@@ -17,7 +19,7 @@ export function createStorage(storageToAdd, navigate) {
             saveStorage(allStorageData, newStorage)
             navigate(HOME)
         } else {
-            toast("Name Already Used",{position: "bottom-right"})
+            toast("Name Already Used", { position: "bottom-right" })
         }
     }
 
@@ -52,6 +54,8 @@ export function saveStorageToLocalStorage(currentStorage) {
 }
 
 export function displayItems() {
+    
+    
     const itemlist = JSON.parse(localStorage.getItem(CUR_ITEM_LIST))
     if ((itemlist === null) === false) {
         return (
@@ -62,10 +66,13 @@ export function displayItems() {
                         <th scope="col">Item Name</th>
                         <th scope="col">Size</th>
                         <th scope="col">Expiry</th>
+                        <th scope="col">Nutrition</th>
                         <th scope="col">Delete</th>
                     </tr>
                     {itemlist.map((item, index) => {
+                        const [key,setKey] = useState(false)
                         return (
+                            
                             <tr key={item.id}>
                                 <td>
                                     {item.quantity}
@@ -80,20 +87,21 @@ export function displayItems() {
                                     {displayDate(item.expiry)}
                                 </td>
                                 <td>
-                                    <button type="button" className="btn btn-primary" onClick={() => deleteItem(index)}>Delete Ingredient</button>
+                                <button type="button" className="btn btn-primary" onClick={()=> {setKey(true)}}>_</button>
+                                <div>
+                                <Nutrition name= {item.name} nutrition = {item.nutrition} trigger = {key} setTrigger={setKey}/>
+                                </div>
                                 </td>
+                                <td>
+                                    <button type="button" className="btn btn-primary" onClick={() => deleteItem(index)}>Delete</button>
+                                </td>
+                                
                             </tr>
+                            
                         )
                     })}
                 </tbody>
             </table>
-
-            /*<div key={item.id} className="card" style={{ marginTop: 10 }}>
-                <div className="card-body">
-                    <p className="card-text">Item Name: {item.name} Quantity:{item.quantity} Size:{item.size} Expiry:{displayDate(item.expiry)}</p>
-                    <button type="button" className="btn btn-primary" onClick={() => deleteItem(index)}>Delete Item</button>
-                </div>
-            </div>*/
 
         )
 
@@ -116,7 +124,7 @@ export function addItem(item) {
         localStorage.setItem(CUR_ITEM_LIST, JSON.stringify(itemlist))
         window.location.reload()
     } else {
-        toast("Missing Information",{position: "bottom-right"})
+        toast("Missing Information", { position: "bottom-right" })
     }
 
 }
@@ -169,4 +177,3 @@ export function deleteStorage(allStorage, singleStorageData) {
     localStorage.setItem(ALL_STORAGES, JSON.stringify(allStorage))
     window.location.reload()
 }
-

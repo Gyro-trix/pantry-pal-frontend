@@ -37,7 +37,6 @@ function Home() {
       <div className="row row-cols-auto" style = {{animation: "moveToRight 1s"}}>
         {displayStorage(allStorageDataStr, allStorageData, navigate)}
       </div>
-    <button onClick={()=>console.log(getUsers(JSON.parse(currentUserStr).username))}>Test</button>
     </div>
 
   )

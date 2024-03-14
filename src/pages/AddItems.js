@@ -1,16 +1,19 @@
 import React, { useEffect, useState, useRef } from "react";
 import DatePicker from "react-datepicker";
 import { displayItems, addItem, addExpiryDate } from "../utils/storage"
-import "react-datepicker/dist/react-datepicker.css";
-import { CUR_ITEM_LIST } from "../config/localStorage";
+import { CALORIES, CUR_ITEM_LIST } from "../config/localStorage";
+
 import { toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
+import "react-datepicker/dist/react-datepicker.css";
+
 
 function AddItems(props) {
 
     const [startDate, setStartDate] = useState(new Date())
     //const [data, setData] = useState({ "items": [{ "name": "chicken", "calories": 222.6, "serving_size_g": 100, "fat_total_g": 12.9, "fat_saturated_g": 3.7, "protein_g": 23.7, "sodium_mg": 72, "potassium_mg": 179, "cholesterol_mg": 92, "carbohydrates_total_g": 0, "fiber_g": 0, "sugar_g": 0 }] })
-    const [data, setData] = useState({items:[]})
+    const dataStr = localStorage.getItem(CALORIES)
+    const [data, setData] = useState(dataStr ? JSON.parse(dataStr) : "")
     const [itemSearch, setItemSearch] = useState(null)
     const addItemRef = useRef(null)
     const itemName = useRef(null)
@@ -22,22 +25,9 @@ function AddItems(props) {
         nutrition: null,
         id: ""
     })
-
-    const [nutrition, setNutrition] = useState({
-        calories: 0,
-        serving_size_g: 0,
-        fat_total_g: 0,
-        fat_saturated_g: 0,
-        protein_g: 0,
-        sodium_mg: 0,
-        potassium_mg: 0,
-        cholesterol_mg: 0,
-        carbohydrates_total_g: 0,
-        fiber_g: 0,
-        sugar_g: 0
-    })
+    const [nutrition, setNutrition] = useState(null)
     const { itemlist } = props;
-
+    let fetchedData = ""
     useEffect(() => {
         localStorage.setItem(CUR_ITEM_LIST, JSON.stringify(itemlist))
     }, [itemlist])
@@ -50,38 +40,41 @@ function AddItems(props) {
         }))
     }, [nutrition, itemSearch])
 
-
-
     const handleSearch = async () => {
-        
-                const apiKey = process.env.REACT_APP_CALORIE_NINJAS_KEY
-                const search = 'https://api.calorieninjas.com/v1/nutrition?query=' + itemSearch
-        
-                try {
-                    const response = await fetch(search, {
-                        method: 'GET',
-                        headers: {
-                            'X-Api-Key': apiKey
-                        }
-                    })
-                    if (!response.ok) {
-                        throw new Error('Response was not okay')
-                    }
-        
-                    setData(await response.json())
-                } catch (error) {
-                    console.error('Error', error)
+
+        const apiKey = process.env.REACT_APP_CALORIE_NINJAS_KEY
+        const apiKeyType = process.env.REACT_APP_CALORIE_NINJAS_KEY_TYPE
+        const search = 'https://api.calorieninjas.com/v1/nutrition?query=' + itemSearch
+
+        try {
+            const response = await fetch(search, {
+                method: 'GET',
+                headers: {
+                    [apiKeyType]: apiKey
                 }
-        
-        if (data.items.length === 0) {
-            toast("No results from API, please manually enter",{position: "bottom-right"})
+            })
+            if (!response.ok) {
+                throw new Error('Response was not okay')
+            }
+
+            //const fetchedData =await response.json()
+            fetchedData = await response.json()
+            //localStorage.setItem(CALORIES,JSON.stringify(await response.json()))
+        } catch (error) {
+            console.error('Error', error)
+        }
+
+        //const caloriesStr = localStorage.getItem(CALORIES)
+        //const calories = JSON.parse(caloriesStr)
+
+        if (fetchedData.items.length === 0) {
+            toast("No results from API, please manually enter", { position: "bottom-right" })
             addItemRef.current.hidden = false
             itemName.current.value = itemSearch
-        } else if(data.items.length === 1){
-            //Single result
-            setNutrition(data.items[0])
-            //removes the items name making only nutritional information
-            removeName()
+        } else if (fetchedData.items.length === 1) {
+            let temp = fetchedData.items[0]
+            delete temp.name
+            setNutrition(temp)
             addItemRef.current.hidden = false
             itemName.current.value = itemSearch
             itemName.current.disabled = true
@@ -112,20 +105,21 @@ function AddItems(props) {
 
     return (
         <div >
-            
-            <div className="container" style={{zIndex:0}}>
-                    <div className="input-group" >
-                        <input className="form-control"
-                            
-                            type="text"
-                            onChange={handleInput}
-                            name="search"
-                            placeholder="Search"
-                        ></input>
-                        <button type="button" className="btn btn-primary" style={{ whiteSpace: "nowrap" }} onClick={handleSearch}>Search</button>
-                    </div>
 
-                
+            <div className="container" style={{ zIndex: 0 }}>
+                <div className="input-group" >
+                    <input className="form-control"
+
+                        type="text"
+                        onChange={handleInput}
+                        name="search"
+                        placeholder="Search"
+                    ></input>
+                    <button type="button" className="btn btn-primary" style={{ whiteSpace: "nowrap" }} onClick={handleSearch}>Search</button>
+                    <button type="button" className="btn btn-primary" style={{ whiteSpace: "nowrap" }} onClick={() => console.log(nutrition)}>Test</button>
+                </div>
+
+
                 <div style={{ height: 90 }}>
                     <div ref={addItemRef} className="input-group" style={{ marginTop: 10 }} hidden={true}>
                         <input className="form-control"
@@ -165,16 +159,16 @@ function AddItems(props) {
                         <button type="button" className="btn btn-primary" style={{ whiteSpace: "nowrap" }} onClick={() => addItem(item)}>Add Item</button>
 
                     </div>
-                    
+
 
                 </div>
-                
-            
-            
-        </div>
-        <div className="container" style={{ marginTop: 16 }} >
-                        {displayItems()}
-                    </div>
+
+
+
+            </div>
+            <div className="container" style={{ marginTop: 16 }} >
+                {displayItems()}
+            </div>
         </div>
     )
 

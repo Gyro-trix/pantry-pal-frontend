@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
-import { SIGN_IN, CREATE_STORAGE, USER_SETTINGS, NOTIFICATION, CREATERECIPES, DISPLAYRECIPES, MANAGEUSERS, CREATE_USER, USERMESSAGES } from "../config/routes";
+import { SIGN_IN, CREATE_STORAGE, USER_SETTINGS, NOTIFICATION, CREATERECIPES, DISPLAYRECIPES, MANAGEUSERS, CREATE_USER, USERMESSAGES, RECIPE_CENTRE } from "../config/routes";
 import { numberOfNotifications } from "../utils/notifications";
 import { CUR_USER, MESSAGE_USER } from "../config/localStorage";
 import { getWindowDimensions } from "../utils/display";
@@ -167,6 +167,10 @@ function NavBar() {
   function messages() {
     localStorage.setItem(MESSAGE_USER, userList[0] ? JSON.stringify(userList[0]) : "")
     navigate(USERMESSAGES)
+  }
+
+  function recipecentre(){
+    navigate(RECIPE_CENTRE)
   }
 
   return (

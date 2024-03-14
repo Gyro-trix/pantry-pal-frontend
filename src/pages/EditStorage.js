@@ -15,13 +15,14 @@ function EditStorage() {
     const [notifyColor, setNotifyColor] = useState("black")
     const navigate = useNavigate()
     //updates currentStorage as the form changes. Applies to name, type and location
+    
     const handleChange = e => {
         setCurrentStorage((prev) => ({
             ...prev,
             [e.target.name]: e.target.value,
         }))
     }
-
+//Check if users is logged in
     useEffect(() => {
         checkUserLogin(currentUserStr, navigate)
     }, [currentUserStr, navigate])

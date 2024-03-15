@@ -17,6 +17,7 @@ function AddItems(props) {
     const [itemSearch, setItemSearch] = useState(null)
     const addItemRef = useRef(null)
     const itemName = useRef(null)
+    const [searchBtn,setSearchBtn] = useState("Search")
     const [item, setItem] = useState({
         quantity: 0,
         name: "",
@@ -66,7 +67,7 @@ function AddItems(props) {
 
         //const caloriesStr = localStorage.getItem(CALORIES)
         //const calories = JSON.parse(caloriesStr)
-
+setSearchBtn( "Clear Search")
         if (fetchedData.items.length === 0) {
             toast("No results from API, please manually enter", { position: "bottom-right" })
             addItemRef.current.hidden = false
@@ -115,8 +116,7 @@ function AddItems(props) {
                         name="search"
                         placeholder="Search"
                     ></input>
-                    <button type="button" className="btn btn-primary" style={{ whiteSpace: "nowrap" }} onClick={handleSearch}>Search</button>
-                    <button type="button" className="btn btn-primary" style={{ whiteSpace: "nowrap" }} onClick={() => console.log(nutrition)}>Test</button>
+                    <button type="button" className="btn btn-primary" style={{ whiteSpace: "nowrap" }} onClick={handleSearch}>{searchBtn}</button>
                 </div>
 
 

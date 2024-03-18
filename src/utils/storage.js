@@ -70,6 +70,7 @@ export function displayItems() {
                     </tr>
                     {itemlist.map((item, index) => {
                         const [key,setKey] = useState(false)
+                        const nutrition = item.nutrition ? item.nutrition : {No_Data:"avaiable"}
                         return (
                             
                             <tr key={item.id}>
@@ -88,7 +89,7 @@ export function displayItems() {
                                 <td>
                                 <button type="button" className="btn btn-primary" onClick={()=> {setKey(true)}}>_</button>
                                 <div>
-                                <Nutrition name= {item.name} nutrition = {item.nutrition} trigger = {key} setTrigger={setKey}/>
+                                <Nutrition name= {item.name} nutrition = {nutrition} trigger = {key} setTrigger={setKey}/>
                                 </div>
                                 </td>
                                 <td>

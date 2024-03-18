@@ -6,12 +6,12 @@ import { CUR_ITEM_LIST } from "../config/localStorage";
 import { toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import "react-datepicker/dist/react-datepicker.css";
+import AddNutrition from "./AddNutrition";
 
 
 function AddItems(props) {
-
+    const [key,setKey] = useState(false)
     const [startDate, setStartDate] = useState(new Date())
-
     const [itemSearch, setItemSearch] = useState(null)
     const addItemRef = useRef(null)
     const itemName = useRef(null)
@@ -25,7 +25,8 @@ function AddItems(props) {
         nutrition: null,
         id: ""
     })
-    const [nutrition, setNutrition] = useState(null)
+    const [nutrition, setNutrition] = useState({calories:0,serving_size_g:0,fat_total_g:0,fat_saturated_g:0,protein_g:0,sodium_mg:0,potassium_mg:0,cholesterol_mg:0,carbohydrates_total_g:0,fiber_g:0,sugar_g:0})
+    //const [nutrition, setNutrition] = useState(null)
     const { itemlist } = props;
     let fetchedData = ""
     useEffect(() => {
@@ -162,17 +163,13 @@ function AddItems(props) {
                             </div>
                         </div>
                         <div style={{ marginTop: 16, float: "right" }}>
-                            <button type="button" className="btn btn-primary" style={{ whiteSpace: "nowrap" }} hidden={addNutritionBtn} >Add Nutrition Info</button>
+                            <button type="button" className="btn btn-primary" style={{ whiteSpace: "nowrap" }} hidden={addNutritionBtn} onClick={()=> {setKey(true)}}>Add Nutrition Info</button>
                             <button type="button" className="btn btn-primary" style={{ whiteSpace: "nowrap", marginLeft: 16 }} onClick={() => addItem(item)}>Add Item</button>
-
+                            <AddNutrition name= {item.name} nutrition = {nutrition} setNutrition = {setNutrition} trigger = {key} setTrigger={setKey}/>
                         </div>
                     </div>
 
-
                 </div>
-
-
-
             </div>
             <div className="container" style={{ marginTop: 16 }} >
                 {displayItems()}

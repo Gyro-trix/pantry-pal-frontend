@@ -68,12 +68,34 @@ export function displayIngredients(navigate) {
     )
 }
 */
+
+export function displayRecipeHeader(index){
+    const recipeDataStr = localStorage.getItem(RECIPES)
+    const recipeData = recipeDataStr ? JSON.parse(recipeDataStr) : []
+    const indexLimit = recipeData.length - 1
+
+    if (indexLimit < 0) {
+        return (<h3>No Recipes Stored</h3>)
+    }
+    if (index <= indexLimit) {
+        return (<div>
+            <h4>{recipeData[index].title}</h4>
+            <h5>{recipeData[index].subtitle}</h5>
+            <p>{recipeData[index].description}</p>
+            </div>
+            )
+    } else if (index > indexLimit) {
+        return ""
+    } else if (index < 0) {
+        return ""
+    }
+}
 export function displayRecipe(index) {
     const recipeDataStr = localStorage.getItem(RECIPES)
     const recipeData = recipeDataStr ? JSON.parse(recipeDataStr) : []
     const indexLimit = recipeData.length - 1
 
-    if (indexLimit <= 0) {
+    if (indexLimit < 0) {
         return "<h3>No Recipes Stored<h3>"
     }
     if (index <= indexLimit) {

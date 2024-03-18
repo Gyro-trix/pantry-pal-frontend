@@ -29,7 +29,6 @@ function Recipes() {
         checkUserLogin(currentUserStr, navigate)
         const currentUser = JSON.parse(currentUserStr)
         if (currentUser.adminlevel === 3) {
-            console.log(currentUser.adminlevel)
             editButton.current.hidden = false
             deleteButton.current.hidden = false
         }

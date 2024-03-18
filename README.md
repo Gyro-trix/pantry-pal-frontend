@@ -14,8 +14,8 @@ The following APIs are in use:
 - Add create demo functions for ease of display and testing, demo of storage, items, recipes, user and others
 - ~~Add clear search option~~
 - ~~Add way to enter own nutritional info when API returns none~~
-- Add seperate title, sub-title and description inputs for recipes
-- Add react-avatar
+- ~~Add seperate title, sub-title and description inputs for recipes~~
+- ~~Add react-avatar~~
 - Try and implement themes(dark and light) which changes react components based on local storage value
 - Add ability to save a user profile picture in base 64 on local storage
 - Add a default image to storage cards

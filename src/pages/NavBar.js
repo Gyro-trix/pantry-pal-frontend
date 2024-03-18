@@ -5,6 +5,7 @@ import { numberOfNotifications } from "../utils/notifications";
 import { CUR_USER, MESSAGE_USER } from "../config/localStorage";
 import { getWindowDimensions } from "../utils/display";
 import { anyNewMessages, getOtherUsers } from "../utils/messages";
+import Avatar from 'react-avatar';
 
 function NavBar() {
   const navigate = useNavigate()
@@ -186,7 +187,7 @@ function NavBar() {
         </div>
         <div className={"dropdown justify-content-left "} style={{ width: 160 }}>
           <button className={drop} style={{ width: 160, marginTop: 16 }} data-bs-toggle="dropdown" aria-expanded="false">
-            {currentUsername}
+          <Avatar  unstyle = {true} size = "32" round = {true} color={Avatar.getRandomColor('sitebase', ['cyan', 'lightblue', 'blue'])} name={currentUsername} textSizeRatio={2}/> {currentUsername}
           </button>
           <ul>
             {dropDown}

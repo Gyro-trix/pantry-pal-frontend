@@ -29,8 +29,42 @@ function EditRecipe() {
         })) 
     }, [content])
 
+    const handleChange = e => {
+        setRecipe((prev) => ({
+            ...prev,
+            [e.target.name]: e.target.value,
+        }))
+    }
+
     return (
         <div className="container" style={{ background: "lightblue", padding: 16 }}>
+            
+            <input
+                    className="form-control"
+                    style ={{marginBottom: 16}}
+                    value = {recipe.title}
+                    type="text"
+                    name="title"
+                    onChange={handleChange} />
+            
+            
+                <input
+                    className="form-control"
+                    style ={{marginBottom: 16}}
+                    value = {recipe.subtitle}
+                    type="text"
+                    name="subtitle"
+                    onChange={handleChange} />
+            
+            
+                <input
+                    className="form-control"
+                    style ={{marginBottom: 16}}
+                    value = {recipe.description}
+                    type="text"
+                    name="description"
+                    onChange={handleChange} />
+            
             <div className="card">
                 <JoditEditor
                     ref={editor}

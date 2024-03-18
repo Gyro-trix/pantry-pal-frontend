@@ -1,9 +1,7 @@
 import { RECIPES, RECIPETOEDIT, CUR_USER } from "../config/localStorage"
 import { CREATERECIPES, EDIT_RECIPE, DISPLAYRECIPES } from "../config/routes";
-
-
-//import { toast } from 'react-toastify';
-//import "react-toastify/dist/ReactToastify.css";
+import { toast } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 
 
 export function saveRecipe(recipe, navigate) {
@@ -69,7 +67,7 @@ export function displayIngredients(navigate) {
 }
 */
 
-export function displayRecipeHeader(index){
+export function displayRecipeHeader(index) {
     const recipeDataStr = localStorage.getItem(RECIPES)
     const recipeData = recipeDataStr ? JSON.parse(recipeDataStr) : []
     const indexLimit = recipeData.length - 1
@@ -80,10 +78,10 @@ export function displayRecipeHeader(index){
     if (index <= indexLimit) {
         return (<div>
             <h4>{recipeData[index].title}</h4>
-            <h5>{recipeData[index].subtitle}</h5>
-            <p>{recipeData[index].description}</p>
-            </div>
-            )
+            <h5 style={{ marginLeft: 16 }}>{recipeData[index].subtitle}</h5>
+            <p style={{ marginLeft: 16 }}>{recipeData[index].description}</p>
+        </div>
+        )
     } else if (index > indexLimit) {
         return ""
     } else if (index < 0) {
@@ -120,9 +118,13 @@ export function deleteRecipe(recipeIndex, navigate) {
 export function editRecipe(recipeIndex, navigate) {
     const recipeDataStr = localStorage.getItem(RECIPES)
     const recipeData = recipeDataStr ? JSON.parse(recipeDataStr) : []
-    let recipeToEdit = recipeData[recipeIndex]
-    localStorage.setItem(RECIPETOEDIT, JSON.stringify(recipeToEdit))
-    navigate(EDIT_RECIPE)
+    if (recipeData.length === 0) {
+        toast("No recipes to Edit", { position: "bottom-right" })
+    } else {
+        let recipeToEdit = recipeData[recipeIndex]
+        localStorage.setItem(RECIPETOEDIT, JSON.stringify(recipeToEdit))
+        navigate(EDIT_RECIPE)
+    }
 }
 
 export function getNumberOfRecipes() {
@@ -138,6 +140,9 @@ export function saveOverRecipe(recipeToReplace, navigate) {
     recipeData.forEach((recipe) => {
         let rData = String(recipe.id)
         if (rData === repData) {
+            recipe.title = recipeToReplace.title
+            recipe.subtitle = recipeToReplace.subtitle
+            recipe.description = recipeToReplace.description
             recipe.content = recipeToReplace.content
         }
     })

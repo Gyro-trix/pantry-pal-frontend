@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import DatePicker from "react-datepicker";
 import { displayItems, addItem, addExpiryDate } from "../utils/storage"
-import {CUR_ITEM_LIST } from "../config/localStorage";
+import { CUR_ITEM_LIST } from "../config/localStorage";
 
 import { toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
@@ -16,7 +16,7 @@ function AddItems(props) {
     const addItemRef = useRef(null)
     const itemName = useRef(null)
     const [searchBtn, setSearchBtn] = useState("Search")
-    const [addNutritionBtn,setAddNutritionBtn] = useState(false)
+    const [addNutritionBtn, setAddNutritionBtn] = useState(false)
     const [item, setItem] = useState({
         quantity: 0,
         name: "",
@@ -121,47 +121,53 @@ function AddItems(props) {
 
 
                 <div style={{ height: 150 }}>
-                    <div ref={addItemRef} className style={{ marginTop: 16 }} hidden={true}>
+                    <div ref={addItemRef} style={{ marginTop: 16 }} hidden={true}>
                         <div>
-                        <input className="form-control"
-                            style={{width:"45%",float:"left",marginBottom:16,marginRight:16}}
-                            type="number"
-                            onChange={handleChange}
-                            name="quantity"
-                            placeholder="Quantity"
-                        ></input>
-                        <input className="form-control"
-                            ref={itemName}
-                            style={{width:"45%",marginBottom:16}}
-                            type="text"
-                            onChange={handleChange}
-                            name="name"
-                            placeholder="Name"
-                        ></input>
-                        <input className="form-control"
-                            style={{width:"45%",float:"left",marginBottom:16,marginRight:16}}
-                            type="text"
-                            onChange={handleChange}
-                            name="size"
-                            placeholder="Size"
-                        ></input>
-                        <DatePicker
-                            className="form-control"
-                            style={{ borderRadius: 0.0,marginBottom:16 }}
-                            selected={startDate}
-                            name="expiry"
-                            onChange={(date) => {
-                                let expiry = addExpiryDate(date)
-                                setStartDate(expiry)
-                                item.expiry = expiry
-                            }
-                            }
-                        />
-                        <button type="button" className="btn btn-primary" style={{ whiteSpace: "nowrap",float:"right" }} hidden ={addNutritionBtn} >Add Nutrition Info</button>
+                            <input className="form-control"
+                                style={{ width: "48%", float: "left", marginBottom: 16, marginRight: 16 }}
+                                type="number"
+                                onChange={handleChange}
+                                name="quantity"
+                                placeholder="Quantity"
+                            ></input>
+                            <input className="form-control"
+                                ref={itemName}
+                                style={{ width: "48%", marginBottom: 16 }}
+                                type="text"
+                                onChange={handleChange}
+                                name="name"
+                                placeholder="Name"
+                            ></input>
+                            <input className="form-control"
+                                style={{ width: "48%", float: "left", marginBottom: 16, marginRight: 16 }}
+                                type="text"
+                                onChange={handleChange}
+                                name="size"
+                                placeholder="Size"
+                            ></input>
+                            <div style={{ whiteSpace: "nowrap" }}>
+                                <span style={{ marginRight: 16 }}>Expiry:</span>
+                                <DatePicker
+                                    className="form-control"
+                                    style={{ borderRadius: 0.0 }}
+                                    selected={startDate}
+                                    name="expiry"
+                                    onChange={(date) => {
+                                        let expiry = addExpiryDate(date)
+                                        setStartDate(expiry)
+                                        item.expiry = expiry
+                                    }
+                                    }
+                                />
+                            </div>
                         </div>
-                        <button type="button" className="btn btn-primary" style={{ whiteSpace: "nowrap",float:"right",marginTop:16 }} onClick={() => addItem(item)}>Add Item</button>
+                        <div style={{ marginTop: 16, float: "right" }}>
+                            <button type="button" className="btn btn-primary" style={{ whiteSpace: "nowrap" }} hidden={addNutritionBtn} >Add Nutrition Info</button>
+                            <button type="button" className="btn btn-primary" style={{ whiteSpace: "nowrap", marginLeft: 16 }} onClick={() => addItem(item)}>Add Item</button>
+
+                        </div>
                     </div>
-                    
+
 
                 </div>
 

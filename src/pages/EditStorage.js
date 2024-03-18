@@ -55,7 +55,7 @@ function EditStorage() {
                 <div className="container flex col">
                     <form className="flex row-auto"  >
                         <div className="input_group mb-3">
-                            <label>Storage Name:
+                            <label style ={{width:"100%"}}>Storage Name:
                                 <input
                                     className="form-control"
                                     type="text"
@@ -67,7 +67,7 @@ function EditStorage() {
                             </label>
                         </div>
                         <div className="input_group mb-3">
-                            <label>Storage Type:
+                            <label style ={{width:"100%"}}>Storage Type:
                                 <input
                                     className="form-control"
                                     type="text"
@@ -78,7 +78,7 @@ function EditStorage() {
                             </label>
                         </div>
                         <div className="input_group mb-3">
-                            <label>Storage Location:
+                            <label style ={{width:"100%"}}>Storage Location:
                                 <input
                                     className="form-control"
                                     type="text"
@@ -94,8 +94,8 @@ function EditStorage() {
             </div>
             <AddItems itemlist={itemlist} setItemList={setItemList} />
             {/*Notification text to appear above save button */}
-            <div className = "card" style={{justifyItems:"center"}}>
-                <p style={{ color: notifyColor, marginTop: 16, float:"center"}}>{notifyText}</p>
+            <div className = "container" style={{textAlign:"center"}}>
+                <span style={{ color: notifyColor, marginTop: 16}}>{notifyText}</span>
             </div>
             <button type="button" className="btn btn-primary" style={{ whiteSpace: "nowrap", marginTop: 16 }} onClick={() => {
                 saveStorageToLocalStorage(currentStorage)

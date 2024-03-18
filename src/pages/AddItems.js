@@ -17,7 +17,7 @@ function AddItems(props) {
     const [itemSearch, setItemSearch] = useState(null)
     const addItemRef = useRef(null)
     const itemName = useRef(null)
-    const [searchBtn,setSearchBtn] = useState("Search")
+    const [searchBtn, setSearchBtn] = useState("Search")
     const [item, setItem] = useState({
         quantity: 0,
         name: "",
@@ -47,42 +47,48 @@ function AddItems(props) {
         const apiKeyType = process.env.REACT_APP_CALORIE_NINJAS_KEY_TYPE
         const search = 'https://api.calorieninjas.com/v1/nutrition?query=' + itemSearch
 
-        try {
-            const response = await fetch(search, {
-                method: 'GET',
-                headers: {
-                    [apiKeyType]: apiKey
+        if (searchBtn === "Search") {
+            try {
+                const response = await fetch(search, {
+                    method: 'GET',
+                    headers: {
+                        [apiKeyType]: apiKey
+                    }
+                })
+                if (!response.ok) {
+                    throw new Error('Response was not okay')
                 }
-            })
-            if (!response.ok) {
-                throw new Error('Response was not okay')
+
+                //const fetchedData =await response.json()
+                fetchedData = await response.json()
+                //localStorage.setItem(CALORIES,JSON.stringify(await response.json()))
+            } catch (error) {
+                console.error('Error', error)
             }
 
-            //const fetchedData =await response.json()
-            fetchedData = await response.json()
-            //localStorage.setItem(CALORIES,JSON.stringify(await response.json()))
-        } catch (error) {
-            console.error('Error', error)
-        }
-
-        //const caloriesStr = localStorage.getItem(CALORIES)
-        //const calories = JSON.parse(caloriesStr)
-setSearchBtn( "Clear Search")
-        if (fetchedData.items.length === 0) {
-            toast("No results from API, please manually enter", { position: "bottom-right" })
-            addItemRef.current.hidden = false
-            itemName.current.value = itemSearch
-        } else if (fetchedData.items.length === 1) {
-            let temp = fetchedData.items[0]
-            delete temp.name
-            setNutrition(temp)
-            addItemRef.current.hidden = false
-            itemName.current.value = itemSearch
-            itemName.current.disabled = true
+            //const caloriesStr = localStorage.getItem(CALORIES)
+            //const calories = JSON.parse(caloriesStr)
+            setSearchBtn("Clear Search")
+            if (fetchedData.items.length === 0) {
+                toast("No results from API, please manually enter", { position: "bottom-right" })
+                addItemRef.current.hidden = false
+                itemName.current.value = itemSearch
+            } else if (fetchedData.items.length === 1) {
+                let temp = fetchedData.items[0]
+                delete temp.name
+                setNutrition(temp)
+                addItemRef.current.hidden = false
+                itemName.current.value = itemSearch
+                itemName.current.disabled = true
+            } else {
+                //more than one result
+            }
         } else {
-            //more than one result
+            addItemRef.current.hidden = true
+                itemName.current.value = ""
+                itemName.current.disabled = false
+            setSearchBtn("Search")
         }
-
 
     }
 

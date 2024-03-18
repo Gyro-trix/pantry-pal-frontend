@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import DatePicker from "react-datepicker";
 import { displayItems, addItem, addExpiryDate } from "../utils/storage"
-import { CALORIES, CUR_ITEM_LIST } from "../config/localStorage";
+import {CUR_ITEM_LIST } from "../config/localStorage";
 
 import { toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
@@ -11,13 +11,12 @@ import "react-datepicker/dist/react-datepicker.css";
 function AddItems(props) {
 
     const [startDate, setStartDate] = useState(new Date())
-    //const [data, setData] = useState({ "items": [{ "name": "chicken", "calories": 222.6, "serving_size_g": 100, "fat_total_g": 12.9, "fat_saturated_g": 3.7, "protein_g": 23.7, "sodium_mg": 72, "potassium_mg": 179, "cholesterol_mg": 92, "carbohydrates_total_g": 0, "fiber_g": 0, "sugar_g": 0 }] })
-    const dataStr = localStorage.getItem(CALORIES)
-    const [data, setData] = useState(dataStr ? JSON.parse(dataStr) : "")
+
     const [itemSearch, setItemSearch] = useState(null)
     const addItemRef = useRef(null)
     const itemName = useRef(null)
     const [searchBtn, setSearchBtn] = useState("Search")
+    const [addNutritionBtn,setAddNutritionBtn] = useState(false)
     const [item, setItem] = useState({
         quantity: 0,
         name: "",
@@ -73,10 +72,12 @@ function AddItems(props) {
                 toast("No results from API, please manually enter", { position: "bottom-right" })
                 addItemRef.current.hidden = false
                 itemName.current.value = itemSearch
+                setAddNutritionBtn(false)
             } else if (fetchedData.items.length === 1) {
                 let temp = fetchedData.items[0]
                 delete temp.name
                 setNutrition(temp)
+                setAddNutritionBtn(true)
                 addItemRef.current.hidden = false
                 itemName.current.value = itemSearch
                 itemName.current.disabled = true
@@ -85,8 +86,8 @@ function AddItems(props) {
             }
         } else {
             addItemRef.current.hidden = true
-                itemName.current.value = ""
-                itemName.current.disabled = false
+            itemName.current.value = ""
+            itemName.current.disabled = false
             setSearchBtn("Search")
         }
 
@@ -101,13 +102,6 @@ function AddItems(props) {
             ...prev,
             [e.target.name]: e.target.value,
         }))
-    }
-
-    const removeName = () => {
-        setNutrition(current => {
-            const { name, ...rest } = current
-            return rest
-        })
     }
 
     return (
@@ -126,10 +120,11 @@ function AddItems(props) {
                 </div>
 
 
-                <div style={{ height: 90 }}>
-                    <div ref={addItemRef} className="input-group" style={{ marginTop: 10 }} hidden={true}>
+                <div style={{ height: 150 }}>
+                    <div ref={addItemRef} className style={{ marginTop: 16 }} hidden={true}>
+                        <div>
                         <input className="form-control"
-                            style={{}}
+                            style={{width:"45%",float:"left",marginBottom:16,marginRight:16}}
                             type="number"
                             onChange={handleChange}
                             name="quantity"
@@ -137,14 +132,14 @@ function AddItems(props) {
                         ></input>
                         <input className="form-control"
                             ref={itemName}
-                            style={{}}
+                            style={{width:"45%",marginBottom:16}}
                             type="text"
                             onChange={handleChange}
                             name="name"
                             placeholder="Name"
                         ></input>
                         <input className="form-control"
-                            style={{}}
+                            style={{width:"45%",float:"left",marginBottom:16,marginRight:16}}
                             type="text"
                             onChange={handleChange}
                             name="size"
@@ -152,7 +147,7 @@ function AddItems(props) {
                         ></input>
                         <DatePicker
                             className="form-control"
-                            style={{ borderRadius: 0.0 }}
+                            style={{ borderRadius: 0.0,marginBottom:16 }}
                             selected={startDate}
                             name="expiry"
                             onChange={(date) => {
@@ -162,10 +157,11 @@ function AddItems(props) {
                             }
                             }
                         />
-                        <button type="button" className="btn btn-primary" style={{ whiteSpace: "nowrap" }} onClick={() => addItem(item)}>Add Item</button>
-
+                        <button type="button" className="btn btn-primary" style={{ whiteSpace: "nowrap",float:"right" }} hidden ={addNutritionBtn} >Add Nutrition Info</button>
+                        </div>
+                        <button type="button" className="btn btn-primary" style={{ whiteSpace: "nowrap",float:"right",marginTop:16 }} onClick={() => addItem(item)}>Add Item</button>
                     </div>
-
+                    
 
                 </div>
 

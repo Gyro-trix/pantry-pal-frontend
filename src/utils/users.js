@@ -176,7 +176,7 @@ export function displayUsers(navigate) {
                   {user.adminlevel}
                 </td>
                 <td>
-                  <button className="btn btn-primary" onClick={() => editUser(user, navigate)}>Edit User</button>
+                  <button className="btn btn-primary" style = {{marginRight:16}} onClick={() => editUser(user, navigate)}>Edit User</button>
                   <button className="btn btn-primary" onClick={() => deleteUser(user, navigate)}>Delete User</button>
                 </td>
               </tr>

@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/pantry-pal/static/css/main.74d2474d.css",
-    "main.js": "/pantry-pal/static/js/main.e7bf4e42.js",
+    "main.js": "/pantry-pal/static/js/main.d7bc7f9e.js",
     "static/js/787.87161add.chunk.js": "/pantry-pal/static/js/787.87161add.chunk.js",
     "index.html": "/pantry-pal/index.html",
     "main.74d2474d.css.map": "/pantry-pal/static/css/main.74d2474d.css.map",
-    "main.e7bf4e42.js.map": "/pantry-pal/static/js/main.e7bf4e42.js.map",
+    "main.d7bc7f9e.js.map": "/pantry-pal/static/js/main.d7bc7f9e.js.map",
     "787.87161add.chunk.js.map": "/pantry-pal/static/js/787.87161add.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.74d2474d.css",
-    "static/js/main.e7bf4e42.js"
+    "static/js/main.d7bc7f9e.js"
   ]
 }

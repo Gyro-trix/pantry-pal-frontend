@@ -19,42 +19,42 @@ function UserMessages() {
     }, [currentUserStr, navigate])
 
     useEffect(() => {
-        localStorage.setItem(MESSAGE_USER,JSON.stringify(targetUser))
-    }, [targetUser ])
+        localStorage.setItem(MESSAGE_USER, JSON.stringify(targetUser))
+    }, [targetUser])
 
     const handleContentChange = e => {
         setContent(e.target.value)
     }
-    
+
     return (
-        <div className="container " style = {{padding:8}}>
-            <div id="upper" className = "row" style = {{padding:8}}>
-                <div className="card col" id="users" style = {{margin:8, paddingBottom:8}}>
+        <div className="container " style={{ padding: 8 }}>
+            <div id="upper" className="row" style={{ padding: 8 }}>
+                <div className="card col" id="users" style={{ margin: 8, paddingBottom: 8 }}>
                     {userList.map((user, index) => {
-                        let dot =''
-                        if(newMessagesForUser(user,currentUser)){
-dot = '\u2b24'
+                        let dot = ''
+                        if (newMessagesForUser(user, currentUser)) {
+                            dot = '\u2b24'
                         }
-                        return (<button type="button" className="btn btn-primary" key={index} style = {{marginTop:8}} onClick={() => setTargetUser(user)}>{user}<sup style={{ color: "red" }}>{dot}</sup></button>)
+                        return (<button type="button" className="btn btn-primary" key={index} style={{ marginTop: 8 }} onClick={() => setTargetUser(user)}>{user}<sup style={{ color: "red" }}>{dot}</sup></button>)
                     })}
                 </div>
-                <div className="card col-8 " id="messages" style = {{margin:8, paddingBottom:8}}>
-                    {displayMessages(targetUser, currentUser,navigate)}
+                <div className="card col-8 " id="messages" style={{ margin: 8, paddingBottom: 8 }}>
+                    {displayMessages(targetUser, currentUser, navigate)}
                 </div>
             </div>
-            <div id="lower" className ="card">
-                
-                <form id="messageinput" style = {{padding:8}}>
+            <div id="lower" className="card">
+
+                <form id="messageinput" style={{ padding: 8 }}>
                     <textarea
                         id="messagecontents"
                         name="content"
                         className="card"
                         placeholder="Type Here"
                         rows={3}
-                        style = {{width:"100%"}}
+                        style={{ width: "100%" }}
                         onChange={handleContentChange}>
                     </textarea>
-                    <button type="button" className="btn btn-primary" style = {{marginTop:8, right:8,float:"right"}} onClick={() => submitMessage(targetUser, currentUser, content, navigate)}>Send</button>
+                    <button type="button" className="btn btn-primary" style={{ marginTop: 8, right: 8, float: "right" }} onClick={() => submitMessage(targetUser, currentUser, content, navigate)}>Send</button>
                 </form>
 
             </div>

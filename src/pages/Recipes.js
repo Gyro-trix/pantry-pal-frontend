@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
-import { deleteRecipe, displayRecipe, editRecipe, getNumberOfRecipes } from "../utils/recipes";
+import { deleteRecipe, displayRecipe, displayRecipeHeader, editRecipe, getNumberOfRecipes } from "../utils/recipes";
 import { useNavigate } from "react-router-dom";
 import { checkUserLogin } from "../utils/users";
 import { CUR_USER } from "../config/localStorage";
@@ -8,6 +8,7 @@ import JoditEditor from 'jodit-react';
 function Recipes() {
     const [index, setIndex] = useState(0)
     const [cardClass, setCardClass] = useState("card")
+    const [headerClass,setHeaderClass] = useState("")
     const [cardStyle, setCardStyle] = useState({ height: 500 })
     const indexLimit = getNumberOfRecipes() - 1
     const editButton = useRef(null)
@@ -28,7 +29,6 @@ function Recipes() {
         checkUserLogin(currentUserStr, navigate)
         const currentUser = JSON.parse(currentUserStr)
         if (currentUser.adminlevel === 3) {
-            console.log(currentUser.adminlevel)
             editButton.current.hidden = false
             deleteButton.current.hidden = false
         }
@@ -37,6 +37,7 @@ function Recipes() {
 
     function nextRecipe() {
         setCardClass("card nextRecipe")
+        setHeaderClass("changeHeader")
         setTimeout(() => {
             if (index < indexLimit) {
                 setIndex(index + 1)
@@ -50,6 +51,7 @@ function Recipes() {
     function prevRecipe() {
         setCardStyle({ height: 500, animationDirection: "reverse" })
         setCardClass("card nextRecipe")
+        setHeaderClass("changeHeader")
         setTimeout(() => {
             if (index > 0) {
                 setIndex(index - 1)
@@ -61,8 +63,9 @@ function Recipes() {
     }
 
     return (
-        <div style={{minWidth:700, marginTop: 32 }}>
-            <div className="card w-50 mb-3" style={{ height: 588, margin: "auto", overflow: "hidden", padding: 16 }} >
+        <div style={{minWidth:700, marginTop: 16 }}>
+            <div className="card w-50 mb-3" style={{ margin: "auto", overflow: "hidden", padding: 16 }} >
+                <div className={headerClass} onAnimationEnd={()=> setHeaderClass("")} >{displayRecipeHeader(index)}</div>
                 <div className={cardClass} onAnimationEnd={() => { setCardClass("card"); setCardStyle({ height: 500 }) }} style={cardStyle} >
                     <JoditEditor
                         ref={editor}

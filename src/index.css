@@ -34,7 +34,7 @@
     transform: translateX(-100%)
   }
   100%{
-transform: translateX(0%)
+    transform: translateX(0%)
   }
 }
 
@@ -44,4 +44,23 @@ transform: translateX(0%)
 
 .prevRecipe {
   animation: next 1s;
+}
+
+@keyframes recipeheader{
+  0%{
+    opacity: 100;
+  }
+  49%{
+    opacity:0;
+  }
+  50%{
+    opacity:0;
+  }
+  100%{
+    opacity:100;
+  }
+}
+
+.changeHeader{
+  animation: recipeheader 1s;
 }

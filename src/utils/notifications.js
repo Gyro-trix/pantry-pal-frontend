@@ -88,7 +88,7 @@ export function displayNotifications(type) {
         return notifications.map((notification) => {
             if (notification.type === type && notification.dismissed === false) {
                 return (
-                    <div key={notification.id} className="card d-flex justify-content-evenly">
+                    <div key={notification.id} className="card d-flex justify-content-evenly" style={{marginTop:16}}>
                         <div className=" d-flex justify-content-between">
                             <label style={{ marginLeft: 16, marginTop:8 }}>{notification.item} in {notification.storage} is {notification.type}</label>
                             

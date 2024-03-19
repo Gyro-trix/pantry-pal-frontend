@@ -1,4 +1,4 @@
-import { ALL_STORAGES, CUR_ITEM_LIST, CUR_STORAGE } from "../config/localStorage"
+import { ALL_STORAGES, CUR_ITEM_LIST, CUR_STORAGE,CALORIES } from "../config/localStorage"
 import { EDIT_STORAGE, HOME } from "../config/routes"
 import { toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
@@ -55,7 +55,6 @@ export function saveStorageToLocalStorage(currentStorage) {
 
 export function displayItems() {
     
-    
     const itemlist = JSON.parse(localStorage.getItem(CUR_ITEM_LIST))
     if ((itemlist === null) === false) {
         return (
@@ -71,6 +70,7 @@ export function displayItems() {
                     </tr>
                     {itemlist.map((item, index) => {
                         const [key,setKey] = useState(false)
+                        const nutrition = item.nutrition ? item.nutrition : {No_Data:"avaiable"}
                         return (
                             
                             <tr key={item.id}>
@@ -89,7 +89,7 @@ export function displayItems() {
                                 <td>
                                 <button type="button" className="btn btn-primary" onClick={()=> {setKey(true)}}>_</button>
                                 <div>
-                                <Nutrition name= {item.name} nutrition = {item.nutrition} trigger = {key} setTrigger={setKey}/>
+                                <Nutrition name= {item.name} nutrition = {nutrition} trigger = {key} setTrigger={setKey}/>
                                 </div>
                                 </td>
                                 <td>
@@ -122,6 +122,7 @@ export function addItem(item) {
         item.id = new Date().getTime() + "-" + item.name
         itemlist = [...itemlist, item]
         localStorage.setItem(CUR_ITEM_LIST, JSON.stringify(itemlist))
+        localStorage.setItem(CALORIES,"")
         window.location.reload()
     } else {
         toast("Missing Information", { position: "bottom-right" })

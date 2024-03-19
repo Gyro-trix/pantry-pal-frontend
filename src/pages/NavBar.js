@@ -1,10 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
-import { SIGN_IN, CREATE_STORAGE, USER_SETTINGS, NOTIFICATION, CREATERECIPES, DISPLAYRECIPES, MANAGEUSERS, CREATE_USER, USERMESSAGES } from "../config/routes";
+import { SIGN_IN, CREATE_STORAGE, USER_SETTINGS, NOTIFICATION, CREATERECIPES, DISPLAYRECIPES, MANAGEUSERS, CREATE_USER, USERMESSAGES, RECIPE_CENTRE } from "../config/routes";
 import { numberOfNotifications } from "../utils/notifications";
 import { CUR_USER, MESSAGE_USER } from "../config/localStorage";
 import { getWindowDimensions } from "../utils/display";
 import { anyNewMessages, getOtherUsers } from "../utils/messages";
+import Avatar from 'react-avatar';
 
 function NavBar() {
   const navigate = useNavigate()
@@ -169,9 +170,13 @@ function NavBar() {
     navigate(USERMESSAGES)
   }
 
+  function recipecentre(){
+    navigate(RECIPE_CENTRE)
+  }
+
   return (
 
-    <nav style={{ minWidth: 600 }} className="navbar navbar-expand sticky-top bg-body-tertiary">
+    <nav style={{ minWidth: 600 }} className="navbar navbar-expand sticky-top bg-body-tertiary" data-bs-theme="light">
       <div className="container-fluid">
         <a className="navbar-brand" href="/#">Pantry Pal</a>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -182,7 +187,7 @@ function NavBar() {
         </div>
         <div className={"dropdown justify-content-left "} style={{ width: 160 }}>
           <button className={drop} style={{ width: 160, marginTop: 16 }} data-bs-toggle="dropdown" aria-expanded="false">
-            {currentUsername}
+          <Avatar  unstyle = {true} size = "32" round = {true} color={Avatar.getRandomColor('sitebase', ['cyan', 'lightblue', 'blue'])} name={currentUsername} textSizeRatio={2}/> {currentUsername}
           </button>
           <ul>
             {dropDown}

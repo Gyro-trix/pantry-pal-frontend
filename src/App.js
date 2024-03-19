@@ -1,5 +1,5 @@
 import './App.css';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, HashRouter } from 'react-router-dom';
 import Login from "./pages/Login";
 import Home from "./pages/Home";
 import Register from "./pages/Register";
@@ -25,7 +25,7 @@ function App() {
   return (
     <div style={{ background: "lightblue", height: "100vh", minWidth: 600 }}>
 
-      <BrowserRouter>
+      <HashRouter>
         <NavBar />
         <div >
           <ToastContainer />
@@ -47,7 +47,7 @@ function App() {
             <Route path="/recipecentre" element ={<RecipeCentre/>}/>
           </Routes>
         </div>
-      </BrowserRouter>
+      </HashRouter>
     </div>
   );
 }

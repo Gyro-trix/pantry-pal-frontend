@@ -13,6 +13,7 @@ function EditStorage() {
     const [itemlist, setItemList] = useState(JSON.parse(localStorage.getItem(CUR_ITEM_LIST)));
     const [notifyText, setNotifyText] = useState("Edit in progress")
     const [notifyColor, setNotifyColor] = useState("black")
+    const [image, setImage] = useState(null)
     const navigate = useNavigate()
     //updates currentStorage as the form changes. Applies to name, type and location
 
@@ -48,6 +49,23 @@ function EditStorage() {
         setNotifyText("Please Save")
     }, [itemlist])
 
+    const handleFile = e => {
+        let file = e.target.files[0]
+        let string
+        if (file) {
+            const reader = new FileReader()
+            reader.onload = function (event) {
+                string = event.target.result
+                console.log(string)
+            }
+            //reader.readAsDataURL(file)
+            setImage(string)
+        }
+    }
+
+
+
+
     return (
         <div className="card w-50 mb-3" style={{ padding: 16, margin: "auto", marginTop: 64, minWidth: 600 }}>
             {/*Edit Storage Form */}
@@ -55,19 +73,19 @@ function EditStorage() {
                 <div className="container flex col">
                     <form className="flex row-auto"  >
                         <div className="input_group mb-3">
-                            <label style ={{width:"100%"}}>Storage Name:
+                            <label style={{ width: "100%" }}>Storage Name:
                                 <input
                                     className="form-control"
                                     type="text"
                                     onChange={handleChange}
                                     name="name"
-                                    style ={{}}
+                                    style={{}}
                                     defaultValue={currentStorage.name}
                                 ></input>
                             </label>
                         </div>
                         <div className="input_group mb-3">
-                            <label style ={{width:"100%"}}>Storage Type:
+                            <label style={{ width: "100%" }}>Storage Type:
                                 <input
                                     className="form-control"
                                     type="text"
@@ -78,7 +96,7 @@ function EditStorage() {
                             </label>
                         </div>
                         <div className="input_group mb-3">
-                            <label style ={{width:"100%"}}>Storage Location:
+                            <label style={{ width: "100%" }}>Storage Location:
                                 <input
                                     className="form-control"
                                     type="text"
@@ -90,12 +108,28 @@ function EditStorage() {
                         </div>
                     </form>
                 </div>
-                <div className="container flex col">Image Changer</div>
+                <div className="container flex col">
+
+                    <div>
+                        <input
+                            type="file"
+                            name="image"
+                            id="file"
+                            accept=".jpg, .jpeg, .png"
+                            onChange={handleFile}
+                        />
+
+                        <p>base64 string: {console.log(image)}</p>
+                        <br />
+                        {image != null && <img src={`${image}`} />}
+                    </div>
+
+                </div>
             </div>
             <AddItems itemlist={itemlist} setItemList={setItemList} />
             {/*Notification text to appear above save button */}
-            <div className = "container" style={{textAlign:"center"}}>
-                <span style={{ color: notifyColor, marginTop: 16}}>{notifyText}</span>
+            <div className="container" style={{ textAlign: "center" }}>
+                <span style={{ color: notifyColor, marginTop: 16 }}>{notifyText}</span>
             </div>
             <button type="button" className="btn btn-primary" style={{ whiteSpace: "nowrap", marginTop: 16 }} onClick={() => {
                 saveStorageToLocalStorage(currentStorage)

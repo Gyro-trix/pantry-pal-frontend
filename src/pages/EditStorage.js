@@ -13,7 +13,7 @@ function EditStorage() {
     const [itemlist, setItemList] = useState(JSON.parse(localStorage.getItem(CUR_ITEM_LIST)));
     const [notifyText, setNotifyText] = useState("Edit in progress")
     const [notifyColor, setNotifyColor] = useState("black")
-    const [image, setImage] = useState(null)
+    const [image, setImage] = useState("hello")
     const navigate = useNavigate()
     //updates currentStorage as the form changes. Applies to name, type and location
 
@@ -51,16 +51,17 @@ function EditStorage() {
 
     const handleFile = e => {
         let file = e.target.files[0]
-        let string
+        
         if (file) {
             const reader = new FileReader()
             reader.onload = function (event) {
-                string = event.target.result
-                console.log(string)
+                console.log(event.target.result)
+            localStorage.setItem("TEST",JSON.stringify(event.target.result))
             }
-            //reader.readAsDataURL(file)
-            setImage(string)
+            reader.readAsDataURL(file)
+            
         }
+        setImage(JSON.parse(localStorage.getItem("TEST")))
     }
 
 
@@ -119,11 +120,11 @@ function EditStorage() {
                             onChange={handleFile}
                         />
 
-                        <p>base64 string: {console.log(image)}</p>
+                        <p style ={{fontSize:2}}>base64 string: {image}</p>
                         <br />
                         {image != null && <img src={`${image}`} />}
                     </div>
-
+<button onClick ={()=>{setImage(JSON.parse(localStorage.getItem("TEST")))}}>Test</button>
                 </div>
             </div>
             <AddItems itemlist={itemlist} setItemList={setItemList} />

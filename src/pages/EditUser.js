@@ -13,6 +13,7 @@ function UserSettings() {
     const [notify, setNotify] = useState(userToEdit ? userToEdit.notify : null)
     const [passwordNotice, setPasswordNotice] = useState("Password not Updated")
     const [passwordNoticeColor, setPasswordNoticeColor] = useState("red")
+    const [image, setImage] = useState(userToEdit.image ? userToEdit.image : null)
 
     useEffect(() => {
         checkAdminLogin(currentUserStr, navigate)
@@ -39,6 +40,24 @@ function UserSettings() {
         setPasswords((prev) => ({
             ...prev,
             [e.target.name]: e.target.value,
+        }))
+    }
+
+    const reader = (file) =>
+        new Promise((resolve, reject) => {
+            const fr = new FileReader()
+            fr.onload = () => resolve(fr)
+            fr.onerror = (err) => reject(err)
+            fr.readAsDataURL(file)
+        })
+
+
+    const handleFile = async (e) => {
+        const image = await reader(e.target.files[0])
+        setImage(image.result)
+        setUserToEdit((prev) => ({
+            ...prev,
+            image: image.result,
         }))
     }
 
@@ -100,29 +119,48 @@ function UserSettings() {
                         }}>Update Password</button>
                     </div>
                 </div>
+                <div className="col">
+                    <div className="card" style={{ padding: 16 }}>
+                        <div className="container flex col">
+                            <br />
+                            {image != null && <img alt="" height={260} src={`${image}`} />}
+                            <div className="input-group mb-3" style={{ marginTop: 16 }}>
+                                <input
+                                    type="file"
+                                    className="form-control"
+                                    name="image"
+                                    id="file"
+                                    accept=".jpg, .jpeg, .png"
+                                    onChange={handleFile}
+                                />
+                            </div>
+                        </div>
+                        <button type="button" className="btn btn-primary" style={{ marginLeft: 8, marginTop: 16 }} onClick={() => saveUserSettings(userToEdit)}>Save Profile Image</button>
+                    </div>
+                </div>
                 {/* Settings column */}
                 <div className="col">
                     <div className="card" style={{ padding: 16 }}>
 
                         <form>
-                            <div className="form-control" style = {{marginLeft: 8 ,whiteSpace: "nowrap"}}>
-                            
-                            <div className="form-check form-check-inline" style={{ marginLeft: 16 }}>
-                                <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" checked={userToEdit.adminlevel === 3} value={3} disabled />
-                                <label className="form-check-label" htmlFor="inlineRadio1">3</label>
-                            </div>
-                            <div className="form-check form-check-inline" style={{ marginLeft: 16 }}>
-                                <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" checked={userToEdit.adminlevel === 2} onChange={onRadioChange} value={2} />
-                                <label className="form-check-label" htmlFor="inlineRadio2">2</label>
-                            </div>
-                            <div className="form-check form-check-inline" style={{ marginLeft: 16 }}>
-                                <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" checked={userToEdit.adminlevel === 1} onChange={onRadioChange} value={1} />
-                                <label className="form-check-label" htmlFor="inlineRadio3">1</label>
-                            </div> <span style={{ marginLeft: 8, whiteSpace: "nowrap" }}>Admin Level</span>
+                            <div className="form-control" style={{ marginLeft: 8, whiteSpace: "nowrap" }}>
+
+                                <div className="form-check form-check-inline" style={{ marginLeft: 16 }}>
+                                    <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" checked={userToEdit.adminlevel === 3} value={3} disabled />
+                                    <label className="form-check-label" htmlFor="inlineRadio1">3</label>
+                                </div>
+                                <div className="form-check form-check-inline" style={{ marginLeft: 16 }}>
+                                    <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" checked={userToEdit.adminlevel === 2} onChange={onRadioChange} value={2} />
+                                    <label className="form-check-label" htmlFor="inlineRadio2">2</label>
+                                </div>
+                                <div className="form-check form-check-inline" style={{ marginLeft: 16 }}>
+                                    <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" checked={userToEdit.adminlevel === 1} onChange={onRadioChange} value={1} />
+                                    <label className="form-check-label" htmlFor="inlineRadio3">1</label>
+                                </div> <span style={{ marginLeft: 8, whiteSpace: "nowrap" }}>Admin Level</span>
                             </div>
                         </form>
                         <form style={{ marginTop: 16 }}>
-                            <label className="form-control"style={{ marginLeft: 8 }}>
+                            <label className="form-control" style={{ marginLeft: 8 }}>
                                 <input type="checkbox" name="notify" checked={notify} onChange={(e) => {
                                     setUserToEdit((prev) => ({
                                         ...prev,

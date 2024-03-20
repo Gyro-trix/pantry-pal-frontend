@@ -13,10 +13,15 @@ function CreateStorage() {
         setNewStorage((prev) => ({
             ...prev,
             [e.target.name]: e.target.value,
+            
         }))
     }
     useEffect(() => {
         checkUserLogin(currentUserStr, navigate)
+        setNewStorage((prev)=>({
+            ...prev,
+            owner: JSON.parse(currentUserStr).username
+        }))
     }, [currentUserStr, navigate])
 
     return (

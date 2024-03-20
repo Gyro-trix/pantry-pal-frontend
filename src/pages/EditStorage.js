@@ -13,7 +13,7 @@ function EditStorage() {
     const [itemlist, setItemList] = useState(JSON.parse(localStorage.getItem(CUR_ITEM_LIST)));
     const [notifyText, setNotifyText] = useState("Edit in progress")
     const [notifyColor, setNotifyColor] = useState("black")
-    const [image, setImage] = useState("hello")
+    const [storageImage, setStorageImage] = useState(currentStorage.image ?currentStorage.image : null)
     const navigate = useNavigate()
     //updates currentStorage as the form changes. Applies to name, type and location
 
@@ -49,23 +49,23 @@ function EditStorage() {
         setNotifyText("Please Save")
     }, [itemlist])
 
-    const handleFile = e => {
-        let file = e.target.files[0]
-        
-        if (file) {
-            const reader = new FileReader()
-            reader.onload = function (event) {
-                console.log(event.target.result)
-            localStorage.setItem("TEST",JSON.stringify(event.target.result))
-            }
-            reader.readAsDataURL(file)
-            
-        }
-        setImage(JSON.parse(localStorage.getItem("TEST")))
+    const reader = (file) =>
+        new Promise((resolve, reject) => {
+            const fr = new FileReader()
+            fr.onload = () => resolve(fr)
+            fr.onerror = (err) => reject(err)
+            fr.readAsDataURL(file)
+        })
+
+
+    const handleFile = async (e) => {
+        const image = await reader(e.target.files[0])
+        setStorageImage(image.result)
+        setCurrentStorage((prev) => ({
+            ...prev,
+            image: image.result,
+        }))
     }
-
-
-
 
     return (
         <div className="card w-50 mb-3" style={{ padding: 16, margin: "auto", marginTop: 64, minWidth: 600 }}>
@@ -110,21 +110,18 @@ function EditStorage() {
                     </form>
                 </div>
                 <div className="container flex col">
-
-                    <div>
+                    <br />
+                    {storageImage != null && <img alt="" width={200} height={200} src={`${storageImage}`} />}
+                    <div className = "input-group mb-3">
                         <input
                             type="file"
+                            className="form-control"
                             name="image"
                             id="file"
                             accept=".jpg, .jpeg, .png"
                             onChange={handleFile}
                         />
-
-                        <p style ={{fontSize:2}}>base64 string: {image}</p>
-                        <br />
-                        {image != null && <img src={`${image}`} />}
                     </div>
-<button onClick ={()=>{setImage(JSON.parse(localStorage.getItem("TEST")))}}>Test</button>
                 </div>
             </div>
             <AddItems itemlist={itemlist} setItemList={setItemList} />

@@ -2,6 +2,7 @@ import { RECIPES, RECIPETOEDIT, CUR_USER } from "../config/localStorage"
 import { CREATERECIPES, EDIT_RECIPE, DISPLAYRECIPES } from "../config/routes";
 import { toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
+import { demoRecipe } from "./demos";
 
 
 export function saveRecipe(recipe, navigate) {
@@ -150,3 +151,10 @@ export function saveOverRecipe(recipeToReplace, navigate) {
     navigate(DISPLAYRECIPES)
 }
 
+export function createDemoRecipe(){
+    const recipeDataStr = localStorage.getItem(RECIPES)
+    const recipeData = recipeDataStr ? JSON.parse(recipeDataStr) : []
+    if (recipeData.length === 0){
+        localStorage.setItem(RECIPES, JSON.stringify([demoRecipe]))
+    }
+}

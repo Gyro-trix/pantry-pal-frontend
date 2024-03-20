@@ -32,8 +32,8 @@ function Home() {
   }, [currentUserStr, navigate])
 
   return (
-    <div className="card w-90" style={{ background: "lightblue", padding: 32, height: height-70 }}>
-      <div className="row row-cols-auto" style = {{animation: "moveToRight 1s"}}>
+    <div className="container w-90" style={{  padding: 32, height: height-70, width:width }}>
+      <div className="row row-cols-auto" style = {{animation: "moveToRight 1s",margin:"auto"}}>
         {displayStorage(allStorageDataStr, allStorageData, navigate)}
       </div>
     </div>

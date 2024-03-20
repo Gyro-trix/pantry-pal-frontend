@@ -3,7 +3,8 @@ import { USERMESSAGES } from "../config/routes";
 
 
 export function getOtherUsers(currentUsername) {
-    const allUserData = JSON.parse(localStorage.getItem(ALL_USERS))
+    const allUserStr = localStorage.getItem(ALL_USERS)
+    const allUserData = allUserStr ? JSON.parse(allUserStr) :[]
     let otherUsers = []
     allUserData.forEach(element => {
         if (!(element.username === currentUsername)) {

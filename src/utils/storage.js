@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import Nutrition from "../pages/Nutrition";
 import React, { useState } from "react";
+import Avatar from 'react-avatar';
 
 export function createStorage(storageToAdd, navigate) {
     const allStorageDataStr = localStorage.getItem(ALL_STORAGES)
@@ -25,7 +26,7 @@ export function createStorage(storageToAdd, navigate) {
 }
 
 export function saveStorage(allStorage, newStorage) {
-    const allStorageDataStr = localStorage.getItem(ALL_STORAGES)
+
 
     let temparr = [...allStorage, newStorage]
     allStorage = temparr
@@ -154,16 +155,28 @@ export function displayStorage(storageDataStr, storageData, navigate) {
 
     if ((storageDataStr === null) === false) {
         return storageData.map((singleStorageData) => {
+            let storageImage = singleStorageData.image ? singleStorageData.image : ""
             return (
-                <div className="col w-25" key={singleStorageData.name} >
-                    <div className="card" style={{ marginLeft: 16, marginTop: 16, minWidth: 320 }}>
-                        <div className="card-body" >
-                            <h4 className="card-title">{singleStorageData.name}</h4>
-                            <p className="card-text">{singleStorageData.type} at {singleStorageData.location}</p>
-                            <div className="col d-flex justify-content-between">
-                                <button className="btn btn-primary" style={{ marginRight: 16 }} onClick={() => openEditStoragePage(singleStorageData, navigate)}>Edit Storage</button>
-                                <button className="btn btn-primary" onClick={() => { if (window.confirm('Delete the item?')) { deleteStorage(allStorageData, singleStorageData) } }} >Delete Storage</button>
+                <div key={singleStorageData.name} >
+                    <div className="card mb-3" style={{ marginLeft: 16, marginTop: 16, minWidth: 320 }}>
+                        <div className="row g-0">
+                            <div className="col-md-6" style ={{padding:16}}>
+                                <Avatar unstyle={true} size ={200} color={Avatar.getRandomColor('sitebase', ['cyan', 'lightblue', 'blue'])} src={storageImage} name={singleStorageData.name} textSizeRatio={1.5} />
                             </div>
+                            <div className="col-md-4">
+                                <div className="card-body" >
+                                    <h4 className="card-title">{singleStorageData.name}</h4>
+                                    <p className="card-text">{singleStorageData.type} at {singleStorageData.location}</p>
+                                    <div className="col d-flex justify-content-between">
+                                        <button className="btn btn-primary" style={{ marginRight: 16 }} onClick={() => openEditStoragePage(singleStorageData, navigate)}>Edit Storage</button>
+                                        <button className="btn btn-primary" onClick={() => { if (window.confirm('Delete the item?')) { deleteStorage(allStorageData, singleStorageData) } }} >Delete Storage</button>
+                                    </div>
+                                </div>
+
+                                
+                            </div>
+
+                            
                         </div>
                     </div>
                 </div>

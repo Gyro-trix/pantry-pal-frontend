@@ -19,14 +19,18 @@ The following APIs are in use:
 - Try and implement themes(dark and light) which changes react components based on local storage value
 - ~~Add ability to save a user profile picture in base 64 on local storage~~
 - ~~Add a default image to storage cards~~
-- Background picture
+- ~~Background picture~~
 - Formatting for the random recipe API fetch
 - Clean up notifications page
 - Organize NavBar into categories
-- Fix background fill issue
-- Implement level 1 users, that are created by level 2 users (and also the Admin)
-- Have admin see all storages/recipes, Level 2 users see only their own storages/recipes
+
+
 
 ### Known issues
-- Overly large images in recipes can trigger a local storage character limit in browser, can I check base 64 for size?
+- Overly large images can trigger a local storage character limit in browser, can I check base 64 for size?
 - Fix up UI where image uploads are in UserSettings and EditStorage
+- ~~Fix background fill issue~~
+
+### Wishlist
+- Implement level 1 users, that are created by level 2 users (and also the Admin)
+- Have admin see all storages/recipes, Level 2 users see only their own storages/recipes

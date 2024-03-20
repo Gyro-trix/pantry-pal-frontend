@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom"
 import { logIn } from "../utils/users"
 import { REGISTER } from "../config/routes"
 import { CUR_USER,ALL_USERS } from "../config/localStorage"
+import { createDemoStorage } from "../utils/storage"
 
 
 function Login() {
@@ -12,10 +13,16 @@ function Login() {
 
     const allUserDataStr = [localStorage.getItem(ALL_USERS)]
     const [attemptingUser, setAttemptingUser] = useState({ id: " ", username: " ", email: " ", password: " ", notify: " ", itemlimit: " ", expirylimit: " " })
-    //Creates default admin account on first run
+    //Creates admin and demo users
     if (allUserDataStr[0] === null) {
-        localStorage.setItem(ALL_USERS, JSON.stringify([{ id: "TrueAdmin", username: "Admin", email: "Admin",password: "Admin", notify: true, expirylimit: 99, itemlimit: 99 ,adminlevel: 3 }]))
+        const demoUsers = [
+            { id: "TrueAdmin", username: "Admin", email: "Admin",password: "Admin", notify: true, expirylimit: 99, itemlimit: 99 ,adminlevel: 3, manager: null },
+            { id: "DemoLevel2", username: "Demo2", email: "Demo2",password: "Demo2", notify: true, expirylimit: 99, itemlimit: 99 ,adminlevel: 2, manager:"TrueAdmin" },
+            { id: "DemoLevel1", username: "Demo1", email: "Demo1",password: "Demo1", notify: true, expirylimit: 99, itemlimit: 99 ,adminlevel: 1, manager:"DemoLevel2" }
+        ]
+        localStorage.setItem(ALL_USERS, JSON.stringify(demoUsers))
     }
+    createDemoStorage()
     const handleChange = e => {
         setAttemptingUser((prev) => ({
             ...prev,

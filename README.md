@@ -11,14 +11,14 @@ The following APIs are in use:
 
 ### To DO (March 21-28)
 - ~~Clean up add item form~~
-- Add create demo functions for ease of display and testing, demo of storage, items, recipes, user and others
+- Add create demo functions for ease of display and testing, demo of ~~storage~~, ~~items~~, recipes, and ~~user~~
 - ~~Add clear search option~~
 - ~~Add way to enter own nutritional info when API returns none~~
 - ~~Add seperate title, sub-title and description inputs for recipes~~
 - ~~Add react-avatar~~
 - Try and implement themes(dark and light) which changes react components based on local storage value
-- Add ability to save a user profile picture in base 64 on local storage
-- Add a default image to storage cards
+- ~~Add ability to save a user profile picture in base 64 on local storage~~
+- ~~Add a default image to storage cards~~
 - Background picture
 - Formatting for the random recipe API fetch
 - Clean up notifications page
@@ -28,4 +28,5 @@ The following APIs are in use:
 - Have admin see all storages/recipes, Level 2 users see only their own storages/recipes
 
 ### Known issues
-- Overly large images in recipes can trigger a local storage character limit in browser
+- Overly large images in recipes can trigger a local storage character limit in browser, can I check base 64 for size?
+- Fix up UI where image uploads are in UserSettings and EditStorage

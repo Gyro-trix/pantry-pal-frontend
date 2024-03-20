@@ -5,6 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Nutrition from "../pages/Nutrition";
 import React, { useState } from "react";
 import Avatar from 'react-avatar';
+import { demoStorage } from "./demos";
 
 export function createStorage(storageToAdd, navigate) {
     const allStorageDataStr = localStorage.getItem(ALL_STORAGES)
@@ -185,7 +186,6 @@ export function displayStorage(storageDataStr, storageData, navigate) {
     }
 }
 
-
 export function openEditStoragePage(singleStorageData, navigate) {
     localStorage.setItem(CUR_STORAGE, JSON.stringify(singleStorageData))
     localStorage.setItem(CUR_ITEM_LIST, JSON.stringify(singleStorageData.items))
@@ -197,4 +197,12 @@ export function deleteStorage(allStorage, singleStorageData) {
     allStorage = allStorage.filter(storage => !storage.id.match(new RegExp('^' + singleStorageData.id + '$')))
     localStorage.setItem(ALL_STORAGES, JSON.stringify(allStorage))
     window.location.reload()
+}
+
+export function createDemoStorage(){
+    const allStorageDataStr = localStorage.getItem(ALL_STORAGES)
+    const allStorageData = allStorageDataStr ? JSON.parse(allStorageDataStr) : []
+    if (allStorageData.length === 0){
+        localStorage.setItem(ALL_STORAGES, JSON.stringify([demoStorage]))
+    }
 }

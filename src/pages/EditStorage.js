@@ -111,7 +111,7 @@ function EditStorage() {
                 </div>
                 <div className="container flex col">
                     <br />
-                    {storageImage != null && <img width={200} height={200} src={`${storageImage}`} />}
+                    {storageImage != null && <img alt="" width={200} height={200} src={`${storageImage}`} />}
                     <div className = "input-group mb-3">
                         <input
                             type="file"
@@ -121,10 +121,7 @@ function EditStorage() {
                             accept=".jpg, .jpeg, .png"
                             onChange={handleFile}
                         />
-
-
                     </div>
-
                 </div>
             </div>
             <AddItems itemlist={itemlist} setItemList={setItemList} />

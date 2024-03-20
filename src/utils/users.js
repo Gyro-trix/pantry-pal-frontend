@@ -46,6 +46,7 @@ export function validateUser(attemptingUser) {
       attemptingUser.itemlimit = allUserData[i].itemlimit
       attemptingUser.expirylimit = allUserData[i].expirylimit
       attemptingUser.adminlevel = allUserData[i].adminlevel
+      attemptingUser.image = allUserData[i].image
       return true
     }
   }

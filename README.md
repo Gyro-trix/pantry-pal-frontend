@@ -11,7 +11,7 @@ The following APIs are in use:
 
 ### To DO (March 21-28)
 - ~~Clean up add item form~~
-- Add create demo functions for ease of display and testing, demo of ~~storage~~, ~~items~~, recipes, and ~~user~~
+- ~~Add create demo functions for ease of display and testing, demo of storage, items, recipes, and user~~
 - ~~Add clear search option~~
 - ~~Add way to enter own nutritional info when API returns none~~
 - ~~Add seperate title, sub-title and description inputs for recipes~~

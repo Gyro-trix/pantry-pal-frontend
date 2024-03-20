@@ -1,5 +1,7 @@
 import './App.css';
+import { useState, useEffect } from 'react';
 import { HashRouter, Routes, Route  } from 'react-router-dom';
+import { getWindowDimensions } from './utils/display';
 import Login from "./pages/Login";
 import Home from "./pages/Home";
 import Register from "./pages/Register";
@@ -20,10 +22,20 @@ import { ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 
 function App() {
+  const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions);
+  const {width, height} = windowDimensions;
+  
+  useEffect(() => {
+    function handleResize() {
+      setWindowDimensions(getWindowDimensions());
+    }
 
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   return (
-    <div style={{ background: "lightblue", height: "100vh", minWidth: 600 }}>
+    <div style={{ background: "lightblue", height: height, minWidth: width }}>
 
       <HashRouter basename='/'>
         <NavBar />

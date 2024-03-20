@@ -4,6 +4,7 @@ import { logIn } from "../utils/users"
 import { REGISTER } from "../config/routes"
 import { CUR_USER,ALL_USERS } from "../config/localStorage"
 import { createDemoStorage } from "../utils/storage"
+import { createDemoRecipe } from "../utils/recipes"
 
 
 function Login() {
@@ -23,6 +24,7 @@ function Login() {
         localStorage.setItem(ALL_USERS, JSON.stringify(demoUsers))
     }
     createDemoStorage()
+    createDemoRecipe()
     const handleChange = e => {
         setAttemptingUser((prev) => ({
             ...prev,

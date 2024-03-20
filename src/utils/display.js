@@ -5,10 +5,3 @@ export function getWindowDimensions() {
       height
     };
   }
-
-
-  
-export function navBarContent(currentAdminLevel){
-    
-
-}

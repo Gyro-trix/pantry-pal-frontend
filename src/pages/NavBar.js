@@ -10,18 +10,21 @@ import Avatar from 'react-avatar';
 function NavBar() {
   const navigate = useNavigate()
   const currentUserStr = localStorage.getItem(CUR_USER)
+  const currentUser = JSON.parse(currentUserStr ? currentUserStr : null)
   const [notificationCount, setNotificationCount] = useState(numberOfNotifications())
   const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions);
   const { width, height } = windowDimensions;
 
   let currentUsername
   let currentAdminLevel
+  let currentUserImage
 
   if (!(currentUserStr === null || currentUserStr.trim() === "")) {
-    const currentUser = JSON.parse(currentUserStr)
+    currentUserImage = currentUser.image
     currentUsername = currentUser.username
     currentAdminLevel = currentUser.adminlevel
   } else {
+    currentUserImage = ""
     currentUsername = "No User"
     currentAdminLevel = 0
   }
@@ -188,7 +191,7 @@ function NavBar() {
         </div>
         <div className={"dropdown justify-content-left "} style={{ width: 160 }}>
           <button className={drop} style={{ width: 160, marginTop: 16 }} data-bs-toggle="dropdown" aria-expanded="false">
-          <Avatar  unstyle = {true} size = "32" round = {true} color={Avatar.getRandomColor('sitebase', ['cyan', 'lightblue', 'blue'])} name={currentUsername} textSizeRatio={2}/> {currentUsername}
+          <Avatar  unstyle = {true} size = "32" round = {true} color={Avatar.getRandomColor('sitebase', ['cyan', 'lightblue', 'blue'])} src = {currentUserImage} name={currentUsername} textSizeRatio={2}/> {currentUsername}
           </button>
           <ul>
             {dropDown}

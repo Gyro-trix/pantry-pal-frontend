@@ -13,7 +13,7 @@ function EditStorage() {
     const [itemlist, setItemList] = useState(JSON.parse(localStorage.getItem(CUR_ITEM_LIST)));
     const [notifyText, setNotifyText] = useState("Edit in progress")
     const [notifyColor, setNotifyColor] = useState("black")
-    const [image, setImage] = useState("hello")
+    const [storageImage, setStorageImage] = useState(currentStorage.image ?currentStorage.image : null)
     const navigate = useNavigate()
     //updates currentStorage as the form changes. Applies to name, type and location
 
@@ -60,7 +60,11 @@ function EditStorage() {
 
     const handleFile = async (e) => {
         const image = await reader(e.target.files[0])
-        setImage(image.result)
+        setStorageImage(image.result)
+        setCurrentStorage((prev) => ({
+            ...prev,
+            image: image.result,
+        }))
     }
 
     return (
@@ -107,10 +111,11 @@ function EditStorage() {
                 </div>
                 <div className="container flex col">
                     <br />
-                    {image != null && <img width={200} height={200} src={`${image}`} />}
-                    <div>
+                    {storageImage != null && <img width={200} height={200} src={`${storageImage}`} />}
+                    <div className = "input-group mb-3">
                         <input
                             type="file"
+                            className="form-control"
                             name="image"
                             id="file"
                             accept=".jpg, .jpeg, .png"

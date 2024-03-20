@@ -66,52 +66,52 @@ function NavBar() {
       break;
     case 2:
       navBarContent = <ul className="navbar-nav">
-        <li className="nav-item p-2"><a className="nav-link active" aria-current="page" href="/#" >Home</a></li>
-        <li className="nav-item p-2"><a className="nav-link" aria-current="page"  onClick={createStorage}>Add Storage</a></li>
-        <li className="nav-item p-2"><a className="nav-link" aria-current="page" href="/notifications#" onClick={notifications}>Notifications<sup style={{ color: "red" }}>{notificationCount}</sup></a></li>
-        <li className="nav-item p-2"><a className="nav-link" aria-current="page" href="/recipes#" onClick={displayRecipes}>Recipes</a></li>
+        <li className="nav-item p-2"><Link className="nav-link active" aria-current="page" to="" >Home</Link></li>
+        <li className="nav-item p-2"><Link className="nav-link" aria-current="page" to="createStorage" onClick={createStorage}>Add Storage</Link></li>
+        <li className="nav-item p-2"><Link className="nav-link" aria-current="page" to="notifications" onClick={notifications}>Notifications<sup style={{ color: "red" }}>{notificationCount}</sup></Link></li>
+        <li className="nav-item p-2"><Link className="nav-link" aria-current="page" to="recipes" onClick={displayRecipes}>Recipes</Link></li>
       </ul>
       dropDownContent = <ul className="dropdown-menu" style={{ padding: 8 }}>
-        <li><a className="dropdown-item" aria-current="page" href="/usermessages#" onClick={messages}>Messages<sup style={{ color: "red" }}>{dot}</sup></a></li>
-        <li><a className="dropdown-item" aria-current="page" href="/userSettings#" onClick={userSettings}>Settings</a></li>
-        <li><a className="dropdown-item" aria-current="page" href="/login#" style={{ marginTop: 8 }} onClick={logOut}>Logout</a></li>
+        <li><Link className="dropdown-item" aria-current="page" to="usermessages" onClick={messages}>Messages<sup style={{ color: "red" }}>{dot}</sup></Link></li>
+        <li><Link className="dropdown-item" aria-current="page" to="userSettings" onClick={userSettings}>Settings</Link></li>
+        <li><Link className="dropdown-item" aria-current="page" to="login" style={{ marginTop: 8 }} onClick={logOut}>Logout</Link></li>
       </ul>
       allToDropDown = <ul className="dropdown-menu" style={{ padding: 8 }}>
-        <li><a className="dropdown-item" aria-current="page" href="/#" >Home</a></li>
-        <li><a className="dropdown-item" aria-current="page" href="/createStorage#" onClick={createStorage}>Add Storage</a></li>
-        <li><a className="dropdown-item" aria-current="page" href="/notifications#" onClick={notifications}>Notifications<sup style={{ color: "red" }}>{notificationCount}</sup></a></li>
-        <li><a className="dropdown-item" aria-current="page" href="/recipes#" onClick={displayRecipes}>Recipes</a></li>
-        <li><a className="dropdown-item" aria-current="page" href="/usermessages#" onClick={messages}>Messages<sup style={{ color: "red" }}>{dot}</sup></a></li>
-        <li><a className="dropdown-item" aria-current="page" href="/userSettings#" onClick={userSettings}>Settings</a></li>
-        <li><a className="dropdown-item" aria-current="page" href="/login#" onClick={logOut}>Logout</a></li>
+        <li><Link className="dropdown-item" aria-current="page" to="" >Home</Link></li>
+        <li><Link className="dropdown-item" aria-current="page" to="createStorage" onClick={createStorage}>Add Storage</Link></li>
+        <li><Link className="dropdown-item" aria-current="page" to="notifications" onClick={notifications}>Notifications<sup style={{ color: "red" }}>{notificationCount}</sup></Link></li>
+        <li><Link className="dropdown-item" aria-current="page" to="recipes" onClick={displayRecipes}>Recipes</Link></li>
+        <li><Link className="dropdown-item" aria-current="page" to="usermessages" onClick={messages}>Messages<sup style={{ color: "red" }}>{dot}</sup></Link></li>
+        <li><Link className="dropdown-item" aria-current="page" to="userSettings" onClick={userSettings}>Settings</Link></li>
+        <li><Link className="dropdown-item" aria-current="page" to="/login" onClick={logOut}>Logout</Link></li>
       </ul>
       break;
     case 3:
       navBarContent = <ul className="navbar-nav">
-        <li className="nav-item p-2"><a className="nav-link active" aria-current="page" href="/" >Home</a></li>
+        <li className="nav-item p-2"><Link className="nav-link active" aria-current="page" to="" >Home</Link></li>
         <li className="nav-item p-2"><Link className="nav-link" aria-current="page" to="createStorage" >Add Storage</Link></li>
         <li className="nav-item p-2"><Link className="nav-link" aria-current="page" to="notifications" onClick={notifications}>Notifications<sup style={{ color: "red" }}>{notificationCount}</sup></Link></li>
-        <li className="nav-item p-2"><a className="nav-link" aria-current="page" href="/createrecipes" onClick={createRecipes}>Add A Recipe</a></li>
-        <li className="nav-item p-2"><a className="nav-link" aria-current="page" href="/recipes" onClick={displayRecipes}>Recipes</a></li>
-        <li className="nav-item p-2"><a className="nav-link" aria-current="page" href="/manageusers" onClick={manageUsers}>Manage Users</a></li>
-        <li className="nav-item p-2"><a className="nav-link" aria-current="page" href="/createuser" onClick={createUser}>Create User</a></li>
+        <li className="nav-item p-2"><Link className="nav-link" aria-current="page" to="createrecipes" onClick={createRecipes}>Add A Recipe</Link></li>
+        <li className="nav-item p-2"><Link className="nav-link" aria-current="page" to="recipes" onClick={displayRecipes}>Recipes</Link></li>
+        <li className="nav-item p-2"><Link className="nav-link" aria-current="page" to="manageusers" onClick={manageUsers}>Manage Users</Link></li>
+        <li className="nav-item p-2"><Link className="nav-link" aria-current="page" to="createuser" onClick={createUser}>Create User</Link></li>
       </ul>
       dropDownContent = <ul className="dropdown-menu" style={{ padding: 8 }}>
-        <li><a className="dropdown-item" aria-current="page" href="/usermessages#" onClick={messages}>Messages<sup style={{ color: "red" }}>{dot}</sup></a></li>
-        <li><a className="dropdown-item" aria-current="page" href="/userSettings#" onClick={userSettings}>Settings</a></li>
-        <li><a className="dropdown-item" aria-current="page" href="/login#" style={{ marginTop: 8 }} onClick={logOut}>Logout</a></li>
+        <li><Link className="dropdown-item" aria-current="page" to="usermessages" onClick={messages}>Messages<sup style={{ color: "red" }}>{dot}</sup></Link></li>
+        <li><Link className="dropdown-item" aria-current="page" to="userSettings" onClick={userSettings}>Settings</Link></li>
+        <li><Link className="dropdown-item" aria-current="page" to="login" style={{ marginTop: 8 }} onClick={logOut}>Logout</Link></li>
       </ul>
       allToDropDown = <ul className="dropdown-menu" style={{ padding: 8 }}>
-        <li><a className="dropdown-item" aria-current="page" href="/#" >Home</a></li>
-        <li><a className="dropdown-item" aria-current="page" href="/createStorage#" onClick={createStorage}>Add Storage</a></li>
-        <li><a className="dropdown-item" aria-current="page" href="/notifications#" onClick={notifications}>Notifications<sup style={{ color: "red" }}>{notificationCount}</sup></a></li>
-        <li><a className="dropdown-item" aria-current="page" href="/createrecipes#" onClick={createRecipes}>Add A Recipe</a></li>
-        <li><a className="dropdown-item" aria-current="page" href="/recipes#" onClick={displayRecipes}>Recipes</a></li>
-        <li><a className="dropdown-item" aria-current="page" href="/manageusers#" onClick={manageUsers}>Manage Users</a></li>
-        <li><a className="dropdown-item" aria-current="page" href="/createuser#" onClick={createUser}>Create User</a></li>
-        <li><a className="dropdown-item" aria-current="page" href="/usermessages#" onClick={messages}>Messages<sup style={{ color: "red" }}>{dot}</sup></a></li>
-        <li><a className="dropdown-item" aria-current="page" href="/userSettings#" onClick={userSettings}>Settings</a></li>
-        <li><a className="dropdown-item" aria-current="page" href="/login#" onClick={logOut}>Logout</a></li>
+        <li><Link className="dropdown-item" aria-current="page" to="" >Home</Link></li>
+        <li><Link className="dropdown-item" aria-current="page" to="createStorage" onClick={createStorage}>Add Storage</Link></li>
+        <li><Link className="dropdown-item" aria-current="page" to="notifications" onClick={notifications}>Notifications<sup style={{ color: "red" }}>{notificationCount}</sup></Link></li>
+        <li><Link className="dropdown-item" aria-current="page" to="createrecipes" onClick={createRecipes}>Add A Recipe</Link></li>
+        <li><Link className="dropdown-item" aria-current="page" to="recipes" onClick={displayRecipes}>Recipes</Link></li>
+        <li><Link className="dropdown-item" aria-current="page" to="manageusers" onClick={manageUsers}>Manage Users</Link></li>
+        <li><Link className="dropdown-item" aria-current="page" to="createuser" onClick={createUser}>Create User</Link></li>
+        <li><Link className="dropdown-item" aria-current="page" to="usermessages" onClick={messages}>Messages<sup style={{ color: "red" }}>{dot}</sup></Link></li>
+        <li><Link className="dropdown-item" aria-current="page" to="userSettings" onClick={userSettings}>Settings</Link></li>
+        <li><Link className="dropdown-item" aria-current="page" to="login" onClick={logOut}>Logout</Link></li>
       </ul>
       break;
     default:
@@ -134,6 +134,7 @@ function NavBar() {
   }
 
   function logOut() {
+    localStorage.setItem(CUR_USER,"")
     navigate(SIGN_IN)
   }
 

@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Link } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { SIGN_IN, CREATE_STORAGE, USER_SETTINGS, NOTIFICATION, CREATERECIPES, DISPLAYRECIPES, MANAGEUSERS, CREATE_USER, USERMESSAGES, RECIPE_CENTRE } from "../config/routes";
 import { numberOfNotifications } from "../utils/notifications";
@@ -67,7 +67,7 @@ function NavBar() {
     case 2:
       navBarContent = <ul className="navbar-nav">
         <li className="nav-item p-2"><a className="nav-link active" aria-current="page" href="/#" >Home</a></li>
-        <li className="nav-item p-2"><a className="nav-link" aria-current="page" href="/createStorage#" onClick={createStorage}>Add Storage</a></li>
+        <li className="nav-item p-2"><a className="nav-link" aria-current="page"  onClick={createStorage}>Add Storage</a></li>
         <li className="nav-item p-2"><a className="nav-link" aria-current="page" href="/notifications#" onClick={notifications}>Notifications<sup style={{ color: "red" }}>{notificationCount}</sup></a></li>
         <li className="nav-item p-2"><a className="nav-link" aria-current="page" href="/recipes#" onClick={displayRecipes}>Recipes</a></li>
       </ul>
@@ -88,13 +88,13 @@ function NavBar() {
       break;
     case 3:
       navBarContent = <ul className="navbar-nav">
-        <li className="nav-item p-2"><a className="nav-link active" aria-current="page" href="/#" >Home</a></li>
-        <li className="nav-item p-2"><a className="nav-link" aria-current="page" href="/createStorage#" onClick={createStorage}>Add Storage</a></li>
-        <li className="nav-item p-2"><a className="nav-link" aria-current="page" href="/notifications#" onClick={notifications}>Notifications<sup style={{ color: "red" }}>{notificationCount}</sup></a></li>
-        <li className="nav-item p-2"><a className="nav-link" aria-current="page" href="/createrecipes#" onClick={createRecipes}>Add A Recipe</a></li>
-        <li className="nav-item p-2"><a className="nav-link" aria-current="page" href="/recipes#" onClick={displayRecipes}>Recipes</a></li>
-        <li className="nav-item p-2"><a className="nav-link" aria-current="page" href="/manageusers#" onClick={manageUsers}>Manage Users</a></li>
-        <li className="nav-item p-2"><a className="nav-link" aria-current="page" href="/createuser#" onClick={createUser}>Create User</a></li>
+        <li className="nav-item p-2"><a className="nav-link active" aria-current="page" href="/" >Home</a></li>
+        <li className="nav-item p-2"><Link className="nav-link" aria-current="page" to="createStorage" >Add Storage</Link></li>
+        <li className="nav-item p-2"><Link className="nav-link" aria-current="page" to="notifications" onClick={notifications}>Notifications<sup style={{ color: "red" }}>{notificationCount}</sup></Link></li>
+        <li className="nav-item p-2"><a className="nav-link" aria-current="page" href="/createrecipes" onClick={createRecipes}>Add A Recipe</a></li>
+        <li className="nav-item p-2"><a className="nav-link" aria-current="page" href="/recipes" onClick={displayRecipes}>Recipes</a></li>
+        <li className="nav-item p-2"><a className="nav-link" aria-current="page" href="/manageusers" onClick={manageUsers}>Manage Users</a></li>
+        <li className="nav-item p-2"><a className="nav-link" aria-current="page" href="/createuser" onClick={createUser}>Create User</a></li>
       </ul>
       dropDownContent = <ul className="dropdown-menu" style={{ padding: 8 }}>
         <li><a className="dropdown-item" aria-current="page" href="/usermessages#" onClick={messages}>Messages<sup style={{ color: "red" }}>{dot}</sup></a></li>
@@ -178,7 +178,7 @@ function NavBar() {
 
     <nav style={{ minWidth: 600 }} className="navbar navbar-expand sticky-top bg-body-tertiary" data-bs-theme="light">
       <div className="container-fluid">
-        <a className="navbar-brand" href="/#">Pantry Pal</a>
+        <a className="navbar-brand" href="/">Pantry Pal</a>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
         </button>

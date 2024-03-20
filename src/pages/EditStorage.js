@@ -49,23 +49,19 @@ function EditStorage() {
         setNotifyText("Please Save")
     }, [itemlist])
 
-    const handleFile = e => {
-        let file = e.target.files[0]
-        
-        if (file) {
-            const reader = new FileReader()
-            reader.onload = function (event) {
-                console.log(event.target.result)
-            localStorage.setItem("TEST",JSON.stringify(event.target.result))
-            }
-            reader.readAsDataURL(file)
-            
-        }
-        setImage(JSON.parse(localStorage.getItem("TEST")))
+    const reader = (file) =>
+        new Promise((resolve, reject) => {
+            const fr = new FileReader()
+            fr.onload = () => resolve(fr)
+            fr.onerror = (err) => reject(err)
+            fr.readAsDataURL(file)
+        })
+
+
+    const handleFile = async (e) => {
+        const image = await reader(e.target.files[0])
+        setImage(image.result)
     }
-
-
-
 
     return (
         <div className="card w-50 mb-3" style={{ padding: 16, margin: "auto", marginTop: 64, minWidth: 600 }}>
@@ -110,7 +106,8 @@ function EditStorage() {
                     </form>
                 </div>
                 <div className="container flex col">
-
+                    <br />
+                    {image != null && <img width={200} height={200} src={`${image}`} />}
                     <div>
                         <input
                             type="file"
@@ -120,11 +117,9 @@ function EditStorage() {
                             onChange={handleFile}
                         />
 
-                        <p style ={{fontSize:2}}>base64 string: {image}</p>
-                        <br />
-                        {image != null && <img src={`${image}`} />}
+
                     </div>
-<button onClick ={()=>{setImage(JSON.parse(localStorage.getItem("TEST")))}}>Test</button>
+
                 </div>
             </div>
             <AddItems itemlist={itemlist} setItemList={setItemList} />

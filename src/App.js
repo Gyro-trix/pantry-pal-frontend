@@ -25,7 +25,7 @@ function App() {
   return (
     <div style={{ background: "lightblue", height: "100vh", minWidth: 600 }}>
 
-      <HashRouter>
+      <HashRouter basename='/'>
         <NavBar />
         <div >
           <ToastContainer />

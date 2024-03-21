@@ -33,4 +33,4 @@ The following APIs are in use:
 
 ### Wishlist
 - Implement level 1 users, that are created by level 2 users (and also the Admin)
-- Have admin see all storages/recipes, Level 2 users see only their own storages/recipes
+- Have admin see all storages/recipes, Level 2 users see only their own storages/recipes, level 1 only see storages of their "manager"

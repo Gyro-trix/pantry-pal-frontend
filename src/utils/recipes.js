@@ -3,7 +3,8 @@ import { CREATERECIPES, EDIT_RECIPE, DISPLAYRECIPES } from "../config/routes";
 import { toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import { demoRecipe } from "./demos";
-
+import React from "react";
+import {renderToString} from "react-dom/server"
 
 export function saveRecipe(recipe, navigate) {
     const recipeDataStr = localStorage.getItem(RECIPES)
@@ -151,18 +152,52 @@ export function saveOverRecipe(recipeToReplace, navigate) {
     navigate(DISPLAYRECIPES)
 }
 
-export function createDemoRecipe(){
+export function createDemoRecipe() {
     const recipeDataStr = localStorage.getItem(RECIPES)
     const recipeData = recipeDataStr ? JSON.parse(recipeDataStr) : []
-    if (recipeData.length === 0){
+    if (recipeData.length === 0) {
         localStorage.setItem(RECIPES, JSON.stringify([demoRecipe]))
     }
 }
 
-export function convertFetchedRecipe(fetchedRecipe){
-    let recipe 
-    recipe.id = fetchedRecipe.idMeal
-    recipe.title = fetchedRecipe.strMeal
-    recipe.subtitle = fetchedRecipe
+export function createFetchedRecipe(recipeObj) {
+    let recipe = {}
+    recipe.id = recipeObj.idMeal
+    recipe.title = recipeObj.strMeal
+    recipe.subtitle = recipeObj.strTags
+    recipe.description = recipeObj.strArea + " " + recipeObj.strCategory
+    recipe.content = renderToString(createFetchedIngredients(recipeObj)) + "<br>" + recipeObj.strInstructions
+    return recipe
+}
 
+export function createFetchedIngredients(recipeObj) {
+    let ingredients = []
+    let keyAmountString = "strMeasure"
+    let keyNameString = "strIngredient"
+    for (let i = 1; i < 21; i++) {
+        let tempMeasure = keyAmountString + i
+        let tempKeyName = keyNameString + i
+        if (!(recipeObj[tempKeyName] === "") && !(recipeObj[tempMeasure] === "")) {
+            ingredients.push([recipeObj[tempMeasure], recipeObj[tempKeyName]])
+        }
+    }
+    let ingStr =
+        <table>
+            <tbody>
+                <tr key="header">
+                    <th scope="col">Measure</th>
+                    <th scope="col">Ingredient</th>
+                </tr>
+                {ingredients.map((entry, index) =>
+                    <tr key={index}>
+                        <td>
+                            {entry[0]}
+                        </td>
+                        <td>
+                            {entry[1]}
+                        </td>
+                    </tr>)}
+            </tbody>
+        </table>
+        return ingStr
 }

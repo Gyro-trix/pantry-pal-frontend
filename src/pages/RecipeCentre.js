@@ -2,13 +2,18 @@ import React, { useEffect, useState, useMemo, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import JoditEditor from 'jodit-react';
 import { RECIPETOEDIT } from "../config/localStorage";
+import { createFetchedIngredients, createFetchedRecipe } from "../utils/recipes";
+import {renderToString} from "react-dom/server"
 
 function RecipeCentre() {
-    const [content, setContent] = useState("")
+    const [fetched, setFetched] = useState("")
+    const [obj,setObj] = useState({})
+    const [recipe,setRecipe] = useState({id:"",title:" ",subtitle:" ",description:" ",content:""})
     const editor = useRef(null)
     const config = useMemo(() =>
     ({
         uploader: { "insertImageAsBase64URI": true },
+        editHTMLDocumentMode:true,
         toolbar: false,
         readonly: true,
         height: 500
@@ -16,7 +21,15 @@ function RecipeCentre() {
         []
     );
 
-let removed
+    useEffect(() => {
+        setRecipe(createFetchedRecipe(obj))
+    }, [obj])
+
+    useEffect(() => {
+        createObj(fetched)
+    }, [fetched])
+
+
     const handleSearch = async () => {
         let fetchedData
         const search = 'https://www.themealdb.com/api/json/v1/1/random.php'
@@ -33,29 +46,41 @@ let removed
         } catch (error) {
             console.error('Error', error)
         }
-        setContent(JSON.stringify(fetchedData.meals[0].strInstructions))
-        
+        setFetched(fetchedData.meals[0])
     }
 
-function replace(){
-    removed = content.replaceAll(/(?:\\[rn])+/g,"<br>")
-    console.log(removed)
-    setContent(removed)
-}
-
+    function createObj(fetch){
+        let temp = Object.entries(fetch)
+        temp.forEach((entry,index)=>{
+            setObj((prev)=>({
+                ...prev,
+                [entry[0]]:entry[1]
+            }))
+        })
+    }
+    
     return (
-        <div>
+        <div className ="card">
+            <div>
+                <h4>{recipe.title}</h4>
+                <h3>{recipe.subtitle}</h3>
+                <h2>{recipe.description}</h2>
+            </div>
             <div className="card"  >
                 <JoditEditor
                     ref={editor}
-                    value={content}
+                    value={recipe.content}
                     config={config}
                     tabIndex={1} // tabIndex of textarea
                 />
             </div>
+            <form>
             <button onClick={handleSearch}>Fetch</button>
-            <button onClick={() => console.log(JSON.parse(content).meals[0])}>Test</button>
-            <button onClick={() => replace()}>Test</button>
+            <button onClick={() => {
+                createObj()
+                }}>Test</button>
+            <button onClick={() => console.log(renderToString(createFetchedIngredients(obj)))}>Test</button>
+        </form>
         </div>
     )
 }

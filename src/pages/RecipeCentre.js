@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useMemo, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import JoditEditor from 'jodit-react';
+import { RECIPETOEDIT } from "../config/localStorage";
 
 function RecipeCentre() {
     const [content, setContent] = useState("")
@@ -15,7 +16,7 @@ function RecipeCentre() {
         []
     );
 
-
+let removed
     const handleSearch = async () => {
         let fetchedData
         const search = 'https://www.themealdb.com/api/json/v1/1/random.php'
@@ -32,8 +33,15 @@ function RecipeCentre() {
         } catch (error) {
             console.error('Error', error)
         }
-        setContent(JSON.stringify(fetchedData))
+        setContent(JSON.stringify(fetchedData.meals[0].strInstructions))
+        
     }
+
+function replace(){
+    removed = content.replaceAll(/(?:\\[rn])+/g,"<br>")
+    console.log(removed)
+    setContent(removed)
+}
 
     return (
         <div>
@@ -46,7 +54,8 @@ function RecipeCentre() {
                 />
             </div>
             <button onClick={handleSearch}>Fetch</button>
-            <button onClick={() => console.log(content)}>Test</button>
+            <button onClick={() => console.log(JSON.parse(content).meals[0])}>Test</button>
+            <button onClick={() => replace()}>Test</button>
         </div>
     )
 }

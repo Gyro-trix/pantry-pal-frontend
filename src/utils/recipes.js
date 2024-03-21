@@ -158,3 +158,11 @@ export function createDemoRecipe(){
         localStorage.setItem(RECIPES, JSON.stringify([demoRecipe]))
     }
 }
+
+export function convertFetchedRecipe(fetchedRecipe){
+    let recipe 
+    recipe.id = fetchedRecipe.idMeal
+    recipe.title = fetchedRecipe.strMeal
+    recipe.subtitle = fetchedRecipe
+
+}

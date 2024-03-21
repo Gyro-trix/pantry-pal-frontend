@@ -96,6 +96,7 @@ function NavBar() {
         <li className="nav-item p-2"><Link className="nav-link" aria-current="page" to="notifications" onClick={notifications}>Notifications<sup style={{ color: "red" }}>{notificationCount}</sup></Link></li>
         <li className="nav-item p-2"><Link className="nav-link" aria-current="page" to="createrecipes" onClick={createRecipes}>Add A Recipe</Link></li>
         <li className="nav-item p-2"><Link className="nav-link" aria-current="page" to="recipes" onClick={displayRecipes}>Recipes</Link></li>
+        <li className="nav-item p-2"><Link className="nav-link" aria-current="page" to="recipecentre" onClick={recipecentre}>Recipe Centre</Link></li>
         <li className="nav-item p-2"><Link className="nav-link" aria-current="page" to="manageusers" onClick={manageUsers}>Manage Users</Link></li>
         <li className="nav-item p-2"><Link className="nav-link" aria-current="page" to="createuser" onClick={createUser}>Create User</Link></li>
       </ul>

@@ -1,6 +1,7 @@
 import { ALL_USERS, USER_MESSAGES } from "../config/localStorage";
 import { USERMESSAGES } from "../config/routes";
-
+import Avatar from 'react-avatar';
+import { getUserImage } from "./users";
 
 export function getOtherUsers(currentUsername) {
     const allUserStr = localStorage.getItem(ALL_USERS)
@@ -49,7 +50,8 @@ export function displayMessages(targetUser, currentUser, navigate) {
                     }
                     return (
                         <div className="card" style={style} key={index}>
-                            <span style={{ fontSize: 12 }}>{message.from}:</span>
+                            <span style={{ fontSize: 12 }}><Avatar  style = {{marginRight:8}} size = "24" round = {true} color={Avatar.getRandomColor('sitebase', ['cyan', 'lightblue', 'blue'])} src={getUserImage(message.from)} name={message.from} textSizeRatio={2}/>
+                            {message.from}:</span>
                             <span style={{ marginLeft: 8, marginTop: 8, marginBottom: 8 }}>{message.contents}</span>
                             <form>
                                 <span style={{ fontSize: 12 }} hidden={!(hideSeen) || (message.from === currentUser)}>Seen</span>

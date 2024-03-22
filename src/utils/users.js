@@ -203,3 +203,10 @@ export function editUser(userToEdit, navigate) {
   localStorage.setItem(USER_TO_EDIT, JSON.stringify(userToEdit))
   navigate(EDITUSER)
 }
+
+export function getUserImage(username){
+  const allUserDataStr = localStorage.getItem(ALL_USERS)
+  const allUserData = allUserDataStr ? JSON.parse(allUserDataStr) : []
+  const filteredUser = allUserData.filter(users => users.username.match(new RegExp('^' + username + '$')))
+  return filteredUser[0].image
+}

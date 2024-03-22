@@ -192,7 +192,7 @@ function NavBar() {
         </div>
         <div className={"dropdown justify-content-left "} style={{ width: 160 }}>
           <button className={drop} style={{ width: 160, marginTop: 16 }} data-bs-toggle="dropdown" aria-expanded="false">
-          <Avatar  unstyle = {true} size = "32" round = {true} color={Avatar.getRandomColor('sitebase', ['cyan', 'lightblue', 'blue'])} src = {currentUserImage} name={currentUsername} textSizeRatio={2}/> {currentUsername}
+          <Avatar  style = {{marginRight:8}} size = "32" round = {true} color={Avatar.getRandomColor('sitebase', ['cyan', 'lightblue', 'blue'])} src = {currentUserImage} name={currentUsername} textSizeRatio={2}/> {currentUsername}
           </button>
           <ul>
             {dropDown}

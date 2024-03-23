@@ -100,13 +100,14 @@ function NavBar() {
         <li className="nav-item p-2"><Link className="nav-link" aria-current="page" to="createrecipes" onClick={createRecipes}>Add A Recipe</Link></li>
         <li className="nav-item p-2"><Link className="nav-link" aria-current="page" to="recipes" onClick={displayRecipes}>Recipes</Link></li>
         <li className="nav-item p-2"><Link className="nav-link" aria-current="page" to="recipecentre" onClick={recipecentre}>Recipe Centre</Link></li>
-        <li className="nav-item p-2"><Link className="nav-link" aria-current="page" to="manageusers" onClick={manageUsers}>Manage Users</Link></li>
-        <li className="nav-item p-2"><Link className="nav-link" aria-current="page" to="createuser" onClick={createUser}>Create User</Link></li>
+        
       </ul>
       dropDownContent = <ul className="dropdown-menu" style={{ padding: 8 }}>
-        <li><Link className="dropdown-item" aria-current="page" to="usermessages" onClick={messages}>Messages<sup style={{ color: "red" }}>{dot}</sup></Link></li>
-        <li><Link className="dropdown-item" aria-current="page" to="userSettings" onClick={userSettings}>Settings</Link></li>
-        <li><Link className="dropdown-item" aria-current="page" to="login" style={{ marginTop: 8 }} onClick={logOut}>Logout</Link></li>
+        <li className="nav-item p-2"><Link className="dropdown-item" aria-current="page" to="manageusers" onClick={manageUsers}>Manage Users</Link></li>
+        <li className="nav-item p-2"><Link className="dropdown-item" aria-current="page" to="createuser" onClick={createUser}>Create User</Link></li>
+        <li className="nav-item p-2"><Link className="dropdown-item" aria-current="page" to="usermessages" onClick={messages}>Messages<sup style={{ color: "red" }}>{dot}</sup></Link></li>
+        <li className="nav-item p-2"><Link className="dropdown-item" aria-current="page" to="userSettings" onClick={userSettings}>Settings</Link></li>
+        <li className="nav-item p-2"><Link className="dropdown-item" aria-current="page" to="login" style={{ marginTop: 8 }} onClick={logOut}>Logout</Link></li>
       </ul>
       allToDropDown = <ul className="dropdown-menu" style={{ padding: 8 }}>
         <li><Link className="dropdown-item" aria-current="page" to="" >Home</Link></li>

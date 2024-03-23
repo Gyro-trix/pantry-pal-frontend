@@ -46,7 +46,7 @@ function CreateUser() {
     return (
             <div className="card w-50 mb-3" style={{ margin: "auto", padding: 16,marginTop:32 }}>
                 
-                <div className="card-body">
+                
                     <h4> Create User </h4>
                     <form className="flex row-auto" style = {{marginTop: 16}} >
                         <div className="input_space" >
@@ -58,7 +58,9 @@ function CreateUser() {
                                 onBlur={handleCheck}
                             />
                         </div>
+                        <div className="container" style={{ textAlign: "center" }}>
                         <p style={{ color: noticeStyle, marginTop: 16 }}>{text}</p>
+                        </div>
                         <div className="input_space" style={{ marginTop: 16 }}>
                             <input placeholder="Email"
                                className="form-control"
@@ -100,7 +102,7 @@ function CreateUser() {
                         </div>
                     </form>
                     <button type="button" className="btn btn-primary" style={{ marginTop: 16 }} onClick={() => userSave(newUser)}>Save User</button>
-                </div>
+                
             </div>
         
     );

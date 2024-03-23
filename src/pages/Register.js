@@ -17,10 +17,10 @@ function Register() {
         setNewUser((prev) => ({
             ...prev,
             [e.target.name]: e.target.value,
-        }))        
+        }))
     }
 
-    const handleCheck = () =>{
+    const handleCheck = () => {
         if (!userExists(newUser)) {
             setColor('green')
             setText("Username Available")
@@ -32,42 +32,49 @@ function Register() {
 
     //Register form
     return (
-        <div>
-            <div className="container">
-                <form className="flex row-auto" style={{ width: 100 }} >
-                    <div className="input_space">
-                        <input placeholder="Username"
-                            type="text"
-                            onChange={handleChange}
-                            name="username"
-                            onBlur={handleCheck}
-                        />
+        <div className="card w-25 mb-3" style={{ padding: 32, margin: "auto", marginTop: 32, minWidth: 400 }}>
+            
+                <form className="flex row-auto"  >
+
+                    <input className="form-control"
+                        placeholder="Username"
+                        type="text"
+                        onChange={handleChange}
+                        name="username"
+                        onBlur={handleCheck}
+                    />
+                    <div className="container" style={{ textAlign: "center" }}>
+                        <p style={{ color: noticeStyle, whiteSpace: "nowrap", marginTop:16}}>{text}</p>
                     </div>
-                    <p style={{ color: noticeStyle }}>{text}</p>
-                    <div className="input_space">
-                        <input placeholder="Email"
-                            type="text"
-                            onChange={handleChange}
-                            name="email"
-                        />
-                    </div>
-                    <div className="input_space">
-                        <input placeholder="Password"
-                            type="text"
-                            onChange={handleChange}
-                            name="password"
-                        />
-                    </div>
-                    <div className="input_space">
-                        <input placeholder="Re-Type Password"
-                            type="text"
-                            onChange={handleChange}
-                            name="passwordchk"
-                        />
-                    </div>
+                    <input className="form-control"
+                        style={{ marginTop: 16 }}
+                        placeholder="Email"
+                        type="text"
+                        onChange={handleChange}
+                        name="email"
+                    />
+
+
+                    <input className="form-control"
+                        style={{ marginTop: 16 }}
+                        placeholder="Password"
+                        type="text"
+                        onChange={handleChange}
+                        name="password"
+                    />
+
+
+                    <input className="form-control"
+                        style={{ marginTop: 16 }}
+                        placeholder="Re-Type Password"
+                        type="text"
+                        onChange={handleChange}
+                        name="passwordchk"
+                    />
+
                 </form>
-                <button onClick={() => addUser(newUser, navigate)}>Register</button>
-            </div>
+                <button type="button" className="btn btn-primary" style={{ marginTop: 16 }} onClick={() => addUser(newUser, navigate)}>Register</button>
+            
         </div>
     );
 }

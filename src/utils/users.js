@@ -1,5 +1,5 @@
 import { ALL_USERS, CUR_USER, USER_TO_EDIT } from "../config/localStorage"
-import { HOME, SIGN_IN, MANAGEUSERS, EDITUSER } from "../config/routes"
+import { HOME, SIGN_IN, MANAGEUSERS, EDITUSER, USER_SETTINGS } from "../config/routes"
 import { gatherNotifications } from "./notifications"
 import React from 'react';
 import { toast } from 'react-toastify';
@@ -105,12 +105,13 @@ export function userSave(userToSave) {
   localStorage.setItem(ALL_USERS, JSON.stringify(temparr))
 }
 //Save current user to all users in local storage
-export function saveUserSettings(currentUser) {
+export function saveUserSettings(currentUser,navigate) {
   const allUserDataStr = localStorage.getItem(ALL_USERS)
   const allUserData = allUserDataStr ? JSON.parse(allUserDataStr) : []
   const filteredUsers = allUserData.filter(users => !users.id.match(new RegExp('^' + currentUser.id + '$')))
   const newAllUsers = [...filteredUsers, currentUser]
   localStorage.setItem(ALL_USERS, JSON.stringify(newAllUsers))
+  navigate(USER_SETTINGS)
 }
 //Changes current users passwords
 export function changeUserPassword(passwords) {

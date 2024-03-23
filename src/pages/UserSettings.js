@@ -136,7 +136,7 @@ function UserSettings() {
                                 />
                             </div>
                         </div>
-                        <button type="button" className="btn btn-primary" style={{ marginLeft: 8, marginTop: 16 }} onClick={() => saveUserSettings(currentUser)}>Save Profile Image</button>
+                        <button type="button" className="btn btn-primary" style={{ marginLeft: 8, marginTop: 16 }} onClick={() => saveUserSettings(currentUser,navigate)}>Save Profile Image</button>
                     </div>
                 </div>
                 {/* Settings column */}
@@ -182,7 +182,7 @@ function UserSettings() {
                             ></input>
                         </label>
 
-                        <button type="button" className="btn btn-primary" style={{ marginLeft: 8, marginTop: 64 }} onClick={() => saveUserSettings(currentUser)}>Update Settings</button>
+                        <button type="button" className="btn btn-primary" style={{ marginLeft: 8, marginTop: 64 }} onClick={() => saveUserSettings(currentUser,navigate)}>Update Settings</button>
                     </div>
                 </div>
             </div>

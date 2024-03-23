@@ -18,12 +18,15 @@ function NavBar() {
   let currentUsername
   let currentAdminLevel
   let currentUserImage
+  let dropdownHidden
 
   if (!(currentUserStr === null || currentUserStr.trim() === "")) {
+    dropdownHidden = false
     currentUserImage = currentUser.image
     currentUsername = currentUser.username
     currentAdminLevel = currentUser.adminlevel
   } else {
+    dropdownHidden = true
     currentUserImage = ""
     currentUsername = "No User"
     currentAdminLevel = 0
@@ -190,7 +193,7 @@ function NavBar() {
         <div className="collapse navbar-collapse" id="navbarNav">
           {navBar}
         </div>
-        <div className={"dropdown justify-content-left "} style={{ width: 160 }}>
+        <div className={"dropdown justify-content-left "} hidden ={dropdownHidden} style={{ width: 160 }}>
           <button className={drop} style={{ width: 160, marginTop: 16 }} data-bs-toggle="dropdown" aria-expanded="false">
           <Avatar  style = {{marginRight:8}} size = "32" round = {true} color={Avatar.getRandomColor('sitebase', ['cyan', 'lightblue', 'blue'])} src = {currentUserImage} name={currentUsername} textSizeRatio={2}/> {currentUsername}
           </button>

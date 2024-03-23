@@ -14,7 +14,8 @@ The following APIs are in use:
 - ~~Hide user drop down when no user is logged in~~
 - ~~Moved User options for admin to dropdown~~
 - ~~Cleanup registration page~~
-- Change manager users to have visible right left and top sides that show the background
+- Implement level 1 users, that are created by level 2 users (and also the Admin)
+- ~~Change manage users page to have visible right left and top sides that show the background~~
 - Create friend invite system for messenger, add to user settings and show example added to Message center itself
 - Invites show in the notifications tab/page with accept to 
 - Change format of message center to have users the entire length with the messages and messege input box to the right
@@ -34,5 +35,4 @@ The following APIs are in use:
 - ~~Fix background fill issue~~
 
 ### Wishlist
-- Implement level 1 users, that are created by level 2 users (and also the Admin)
 - Have admin see all storages/recipes, Level 2 users see only their own storages/recipes, level 1 only see storages of their "manager"

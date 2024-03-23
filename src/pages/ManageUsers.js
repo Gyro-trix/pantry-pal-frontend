@@ -11,7 +11,7 @@ function ManageUsers() {
     }, [currentUserStr, navigate])
 
     return (
-        <div>
+        <div className = "container" style = {{marginTop: 32}}>
             {displayUsers(navigate)}
         </div>
     )

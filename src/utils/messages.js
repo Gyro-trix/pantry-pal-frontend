@@ -1,11 +1,27 @@
-import { ALL_USERS, USER_MESSAGES } from "../config/localStorage";
+import { ALL_USERS, USER_MESSAGES, NOTIFICATIONS } from "../config/localStorage";
 import { USERMESSAGES } from "../config/routes";
 import Avatar from 'react-avatar';
 import { getUserImage } from "./users";
 
+export function inviteUser(currentUser,userToInviteID) {
+
+    const allNotificationsStr = localStorage.getItem(NOTIFICATIONS)
+    const allNotifications = allNotificationsStr ? JSON.parse(allNotificationsStr) : []
+    let modifiedNotifications
+    let inviteNotification = {
+        owner: currentUser.id,
+        target: userToInviteID,
+        type: "invite",
+        id: "" + new Date().getTime() + "-invite",
+        dismissed: false
+    }
+    modifiedNotifications = [...allNotifications, inviteNotification]
+    localStorage.setItem(NOTIFICATIONS,JSON.stringify(modifiedNotifications))
+}
+
 export function getOtherUsers(currentUsername) {
     const allUserStr = localStorage.getItem(ALL_USERS)
-    const allUserData = allUserStr ? JSON.parse(allUserStr) :[]
+    const allUserData = allUserStr ? JSON.parse(allUserStr) : []
     let otherUsers = []
     allUserData.forEach(element => {
         if (!(element.username === currentUsername)) {
@@ -50,8 +66,8 @@ export function displayMessages(targetUser, currentUser, navigate) {
                     }
                     return (
                         <div className="card" style={style} key={index}>
-                            <span style={{ fontSize: 12 }}><Avatar  style = {{marginRight:8}} size = "24" round = {true} color={Avatar.getRandomColor('sitebase', ['cyan', 'lightblue', 'blue'])} src={getUserImage(message.from)} name={message.from} textSizeRatio={2}/>
-                            {message.from}:</span>
+                            <span style={{ fontSize: 12 }}><Avatar style={{ marginRight: 8 }} size="24" round={true} color={Avatar.getRandomColor('sitebase', ['cyan', 'lightblue', 'blue'])} src={getUserImage(message.from)} name={message.from} textSizeRatio={2} />
+                                {message.from}:</span>
                             <span style={{ marginLeft: 8, marginTop: 8, marginBottom: 8 }}>{message.contents}</span>
                             <form>
                                 <span style={{ fontSize: 12 }} hidden={!(hideSeen) || (message.from === currentUser)}>Seen</span>
@@ -129,11 +145,4 @@ export function anyNewMessages(currentUser) {
         return true
     })
     return answer
-}
-
-export function inviteUser(currentUser,emailToSearch){
-    const allUserStr = localStorage.getItem(ALL_USERS)
-    const allUserData = allUserStr ? JSON.parse(allUserStr) :[]
-    
-
 }

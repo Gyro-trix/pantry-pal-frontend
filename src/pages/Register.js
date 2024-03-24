@@ -64,6 +64,7 @@ function Register() {
                     type="text"
                     onChange={handleChange}
                     name="email"
+                    onBlur={handleEmailChk}
                 />
                 <div className="container" style={{ textAlign: "center" }}>
                     <p style={{ color: emailTextColor, whiteSpace: "nowrap", marginTop: 16 }}>{emailText}</p>

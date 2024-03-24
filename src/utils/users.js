@@ -47,6 +47,7 @@ export function validateUser(attemptingUser) {
       attemptingUser.expirylimit = allUserData[i].expirylimit
       attemptingUser.adminlevel = allUserData[i].adminlevel
       attemptingUser.image = allUserData[i].image
+      attemptingUser.friends = allUserData[i].friends
       return true
     }
   }
@@ -71,7 +72,7 @@ export function addUser(userToRegister, navigate) {
         friends: []
       }
       //Test newUser against current registered users, then adds to local storage All_USERS               
-      if ((userExists(newUser) === false)&&(userEmailExists(newUSer) === false)) {
+      if ((userExists(newUser) === false)&&(userEmailExists(newUser) === false)) {
         userSave(newUser)
         localStorage.setItem(CUR_USER, JSON.stringify(newUser))
         navigate(HOME)
@@ -225,4 +226,15 @@ export function getUserImage(username){
   const allUserData = allUserDataStr ? JSON.parse(allUserDataStr) : []
   const filteredUser = allUserData.filter(users => users.username.match(new RegExp('^' + username + '$')))
   return filteredUser[0].image
+}
+
+export function getUserIDByEmail(emailToSearch){
+  const allUserDataStr = localStorage.getItem(ALL_USERS)
+  const allUserData = allUserDataStr ? JSON.parse(allUserDataStr) : []
+  const filteredUser = allUserData.filter(users => users.email.match(new RegExp('^' + emailToSearch + '$')))
+  return filteredUser[0].id
+}
+
+export function addFriend(currentUser){
+
 }

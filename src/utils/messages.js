@@ -130,3 +130,10 @@ export function anyNewMessages(currentUser) {
     })
     return answer
 }
+
+export function inviteUser(currentUser,emailToSearch){
+    const allUserStr = localStorage.getItem(ALL_USERS)
+    const allUserData = allUserStr ? JSON.parse(allUserStr) :[]
+    
+
+}

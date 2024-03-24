@@ -14,6 +14,7 @@ The following APIs are in use:
 - ~~Hide user drop down when no user is logged in~~
 - ~~Moved User options for admin to dropdown~~
 - ~~Cleanup registration page~~
+- Fix Edit Users UI
 - Implement level 1 users, that are created by level 2 users (and also the Admin)
 - ~~Change manage users page to have visible right left and top sides that show the background~~
 - Create friend invite system for messenger, add to user settings and show example added to Message center itself

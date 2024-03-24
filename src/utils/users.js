@@ -67,10 +67,11 @@ export function addUser(userToRegister, navigate) {
         notify: false,
         itemlimit: 10,
         expirylimit: 7,
-        adminlevel: 2
+        adminlevel: 2,
+        friends: []
       }
       //Test newUser against current registered users, then adds to local storage All_USERS               
-      if (userExists(newUser) === false) {
+      if ((userExists(newUser) === false)&&(userEmailExists(newUSer) === false)) {
         userSave(newUser)
         localStorage.setItem(CUR_USER, JSON.stringify(newUser))
         navigate(HOME)
@@ -91,6 +92,20 @@ export function userExists(userToCheck) {
   }
   return false
 }
+
+export function userEmailExists(userToCheck){
+  const allUserData = JSON.parse(localStorage.getItem(ALL_USERS))
+  if (allUserData === null || allUserData === "") {
+    return false
+  }
+  for (let i = 0; i < allUserData.length; i++) {
+    if (allUserData[i].email === userToCheck.email) {
+      return true
+    }
+  }
+  return false
+}
+
 //Saves user to local storage, should work without modification
 export function userSave(userToSave) {
   const allUserDataStr = localStorage.getItem(ALL_USERS)

@@ -112,7 +112,7 @@ function UserSettings() {
                         </form>
                         <p style={{ color: passwordNoticeColor, marginTop: 32 }}>{passwordNotice}</p>
                         <button type="button" className="btn btn-primary" style={{ marginLeft: 8, marginTop: 32 }} onClick={() => {
-                            if (changeUserPassword(passwords) === true) {
+                            if (changeUserPassword(passwords,navigate) === true) {
                                 setCurrentUser((prev) => ({
                                     ...prev,
                                     password: passwords.newpassword

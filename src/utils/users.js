@@ -127,16 +127,17 @@ export function saveUserSettings(currentUser, navigate) {
   const filteredUsers = allUserData.filter(users => !users.id.match(new RegExp('^' + currentUser.id + '$')))
   const newAllUsers = [...filteredUsers, currentUser]
   localStorage.setItem(ALL_USERS, JSON.stringify(newAllUsers))
+  localStorage.setItem(CUR_USER,JSON.stringify(currentUser))
   navigate(USER_SETTINGS)
 }
 //Changes current users passwords
-export function changeUserPassword(passwords) {
+export function changeUserPassword(passwords,navigate) {
   const currentUser = JSON.parse(localStorage.getItem(CUR_USER))
   if (currentUser.password === passwords.currentpassword) {
     if (passwords.newpassword === passwords.newpasswordcheck) {
       currentUser.password = passwords.newpassword
       localStorage.setItem(CUR_USER, JSON.stringify(currentUser))
-      saveUserSettings(currentUser)
+      saveUserSettings(currentUser,navigate)
       return true
     } else {
       return false
@@ -259,7 +260,6 @@ export function getUserNameByID(idToSearch){
 export function addFriend(currentUser, friendToAddID) {
   const allUserDataStr = localStorage.getItem(ALL_USERS)
   const allUserData = allUserDataStr ? JSON.parse(allUserDataStr) : []
-
-  let tempFriendsList = [...currentUser.friends]
-  tempFriendsList.push(friendToAddID)
+  currentUser.friends.push(friendToAddID)
+  
 }

@@ -4,27 +4,29 @@ import Avatar from 'react-avatar';
 import { getUserIDByEmail, getUserImage } from "./users";
 import { toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
+import { checkInvites } from "./notifications";
 
 export function inviteUser(currentUser, userToInviteEmail) {
 
     const allNotificationsStr = localStorage.getItem(NOTIFICATIONS)
     const allNotifications = allNotificationsStr ? JSON.parse(allNotificationsStr) : []
     const userToInviteID = getUserIDByEmail(userToInviteEmail)
-    if (!(userToInviteID === "No User Found")) {
-        let modifiedNotifications
-        let inviteNotification = {
-            owner: currentUser.id,
-            target: userToInviteID,
-            type: "invite",
-            id: "" + new Date().getTime() + "-invite",
-            dismissed: false
+    if (checkInvites(currentUser, userToInviteID)) {
+        if (!(userToInviteID === "No User Found")) {
+            let modifiedNotifications
+            let inviteNotification = {
+                owner: currentUser.id,
+                target: userToInviteID,
+                type: "invite",
+                id: "" + new Date().getTime() + "-invite",
+                dismissed: false
+            }
+            modifiedNotifications = [...allNotifications, inviteNotification]
+            localStorage.setItem(NOTIFICATIONS, JSON.stringify(modifiedNotifications))
+        } else {
+            toast("No User matched to email", { position: "bottom-right" })
         }
-        modifiedNotifications = [...allNotifications, inviteNotification]
-        localStorage.setItem(NOTIFICATIONS, JSON.stringify(modifiedNotifications))
-    } else {
-        toast("No User matched to email", { position: "bottom-right" })
-    }
-
+    } 
 }
 
 export function getOtherUsers(currentUsername) {

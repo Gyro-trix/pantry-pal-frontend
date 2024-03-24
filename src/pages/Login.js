@@ -17,9 +17,9 @@ function Login() {
     //Creates admin and demo users
     if (allUserDataStr[0] === null) {
         const demoUsers = [
-            { id: "TrueAdmin", username: "Admin", email: "Admin",password: "Admin", notify: true, expirylimit: 99, itemlimit: 99 ,adminlevel: 3, manager: null },
-            { id: "DemoLevel2", username: "Demo2", email: "Demo2",password: "Demo2", notify: true, expirylimit: 99, itemlimit: 99 ,adminlevel: 2, manager:"TrueAdmin" },
-            { id: "DemoLevel1", username: "Demo1", email: "Demo1",password: "Demo1", notify: true, expirylimit: 99, itemlimit: 99 ,adminlevel: 1, manager:"DemoLevel2" }
+            { id: "TrueAdmin", username: "Admin", email: "Admin",password: "Admin", notify: true, expirylimit: 99, itemlimit: 99 ,adminlevel: 3, manager: null, friends:[] },
+            { id: "DemoLevel2", username: "Demo2", email: "Demo2",password: "Demo2", notify: true, expirylimit: 99, itemlimit: 99 ,adminlevel: 2, manager:"TrueAdmin", friends:[] },
+            { id: "DemoLevel1", username: "Demo1", email: "Demo1",password: "Demo1", notify: true, expirylimit: 99, itemlimit: 99 ,adminlevel: 1, manager:"DemoLevel2", friends:[] }
         ]
         localStorage.setItem(ALL_USERS, JSON.stringify(demoUsers))
     }

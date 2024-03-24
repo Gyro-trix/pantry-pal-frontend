@@ -260,6 +260,20 @@ export function getUserNameByID(idToSearch){
 export function addFriend(currentUser, friendToAddID) {
   const allUserDataStr = localStorage.getItem(ALL_USERS)
   const allUserData = allUserDataStr ? JSON.parse(allUserDataStr) : []
+  let filteredUsers = allUserData.filter(users => !users.id.match(new RegExp('^' + currentUser.id + '$')))
+  console.log(filteredUsers)
+  console.log(currentUser.id)
+  filteredUsers = filteredUsers.filter(users => !users.id.match(new RegExp('^' + friendToAddID + '$')))
+  console.log(filteredUsers)
+  let friendUserEntry = allUserData.filter(users => users.id.match(new RegExp('^' + friendToAddID + '$')))
+  let friendUser = friendUserEntry[0]
+
+  friendUser.friends.push(currentUser.id)
+  filteredUsers = [...filteredUsers,friendUser]
   currentUser.friends.push(friendToAddID)
+  filteredUsers = [...filteredUsers,currentUser]
+  
+  localStorage.setItem(CUR_USER,JSON.stringify(currentUser))
+  localStorage.setItem(ALL_USERS,JSON.stringify(filteredUsers))
   
 }

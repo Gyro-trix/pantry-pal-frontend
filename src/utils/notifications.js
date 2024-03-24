@@ -1,7 +1,7 @@
 import { ALL_STORAGES, CUR_USER, NOTIFICATIONS } from "../config/localStorage"
-import { getUserNameByID } from "./users"
-//import { toast } from 'react-toastify';
-//import "react-toastify/dist/ReactToastify.css";
+import { addFriend, getUserNameByID } from "./users"
+import { toast } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 
 export function gatherNotifications() {
     const allStoragesStr = localStorage.getItem(ALL_STORAGES)
@@ -92,9 +92,7 @@ export function displayNotifications(type) {
                     <div key={notification.id} className="card d-flex justify-content-evenly" style={{ marginTop: 16 }}>
                         <div className=" d-flex justify-content-between">
                             <label style={{ marginLeft: 16, marginTop: 8 }}>{notification.item} in {notification.storage} is {notification.type}</label>
-
                             <button type="button" className="btn btn-primary" style={{ marginLeft: "auto" }} onClick={() => dismissNotification(notification.id)}>Dismiss</button>
-
                         </div>
                     </div>
                 )
@@ -116,7 +114,10 @@ export function displayInvites(currentUser) {
                         <div className=" d-flex justify-content-between">
                             <label style={{ marginLeft: 16, marginTop: 8 }}>{getUserNameByID(notification.owner)} has invited you to their friends list.</label>
 
-                            <button type="button" className="btn btn-primary" style={{ marginLeft: "auto" }} onClick={() => dismissNotification(notification.id)}>Accept</button>
+                            <button type="button" className="btn btn-primary" style={{ marginLeft: "auto" }} onClick={() => {
+                                addFriend(currentUser, notification.owner)
+                                deleteNotification(notification.id)
+                            }}>Accept</button>
                             <button type="button" className="btn btn-primary" style={{ marginLeft: "auto" }} onClick={() => dismissNotification(notification.id)}>Decline</button>
                         </div>
                     </div>
@@ -179,12 +180,33 @@ export function notificationCleanUp() {
 export function deleteNotification(notificationID) {
     const notificationsStr = localStorage.getItem(NOTIFICATIONS)
     const notifications = notificationsStr ? JSON.parse(notificationsStr) : []
-    let tempNotifications
-    notifications.forEach((notification) => {
-        if (!(notificationID === notification.id)) {
-            tempNotifications = [...tempNotifications, notification]
+    let filteredNotes = notifications.filter(notes => !notes.id.match(new RegExp('^' + notificationID + '$')))
+    localStorage.setItem(NOTIFICATIONS, JSON.stringify(filteredNotes))
+    window.location.reload()
+}
+
+export function checkInvites(currentUser, inviteID) {
+    const notificationsStr = localStorage.getItem(NOTIFICATIONS)
+    const notifications = notificationsStr ? JSON.parse(notificationsStr) : []
+    let response = true
+    let toastResponse = 0
+    notifications.forEach((note) => {
+        if (note.owner === currentUser.id && note.target === inviteID) {
+            toastResponse = 1
+            response = false
+        } else {
+            response = true
         }
     })
-    localStorage.setItem(NOTIFICATIONS, JSON.stringify(tempNotifications))
+    if (currentUser.friends.includes(inviteID)) {
+        toastResponse = 2
+        response = false
+    }
 
+    if (toastResponse === 1) {
+        toast("Invite Already Sent", { position: "bottom-right" })
+    } else if (toastResponse === 2) {
+        toast("Already a Friend", { position: "bottom-right" })
+    }
+    return response
 }

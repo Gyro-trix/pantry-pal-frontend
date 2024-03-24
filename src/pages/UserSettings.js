@@ -80,7 +80,7 @@ function UserSettings() {
                             <label style={{ marginTop: 16 }}>  Current Password:
                                 <input
                                     className="form-control"
-                                    style={{ width: 200, marginLeft: 8 }}
+                                    style={{ width: 200}}
                                     type="password"
                                     onChange={handlePasswordChange}
                                     name="currentpassword"
@@ -91,7 +91,7 @@ function UserSettings() {
                             <label style={{ marginTop: 16 }}> New Password:
                                 <input
                                     className="form-control"
-                                    style={{ width: 200, marginLeft: 8 }}
+                                    style={{ width: 200 }}
                                     type="password"
                                     onChange={handlePasswordChange}
                                     name="newpassword"
@@ -102,7 +102,7 @@ function UserSettings() {
                             <label style={{ marginTop: 16 }}> Re-Type New Password:
                                 <input
                                     className="form-control"
-                                    style={{ width: 200, marginLeft: 8 }}
+                                    style={{ width: 200 }}
                                     type="password"
                                     onChange={handlePasswordChange}
                                     name="newpasswordcheck"
@@ -112,7 +112,7 @@ function UserSettings() {
                         </form>
                         <p style={{ color: passwordNoticeColor, marginTop: 32 }}>{passwordNotice}</p>
                         <button type="button" className="btn btn-primary" style={{ marginLeft: 8, marginTop: 32 }} onClick={() => {
-                            if (changeUserPassword(passwords,navigate) === true) {
+                            if (changeUserPassword(passwords, navigate) === true) {
                                 setCurrentUser((prev) => ({
                                     ...prev,
                                     password: passwords.newpassword
@@ -127,8 +127,8 @@ function UserSettings() {
                     </div>
 
                 </div>
-                <div className="col">
-                    <div className="card" style={{ padding: 16 }}>
+                <div className="col" style={{ marginBottom: 32 }}>
+                    <div className="card" style={{ padding: 16, height:"100%" }}>
                         <div className="container flex col">
                             <br />
                             {image != null && <img alt="" height={260} src={`${image}`} />}
@@ -151,7 +151,7 @@ function UserSettings() {
                     <div className="card" style={{ padding: 16 }}>
 
                         <form style={{ marginTop: 32 }}>
-                            <label className="form-control" style={{ marginLeft: 8 }}>
+                            <label className="form-control" style={{ }}>
                                 <input type="checkbox" name="notify" checked={notify} onChange={handleCheck} />
                                 <span style={{ marginLeft: 8, whiteSpace: "nowrap" }} >Enable Notifications</span>
                             </label>
@@ -159,7 +159,7 @@ function UserSettings() {
                         <label style={{ marginTop: 16 }}> Low Stock Threshold:
                             <input
                                 className="form-control"
-                                style={{ marginLeft: 8 }}
+                                style={{  }}
                                 type="text"
                                 onChange={handleChange}
                                 name="itemlimit"
@@ -170,7 +170,7 @@ function UserSettings() {
                         <label style={{ marginTop: 16 }}> Expiry Threshold (Days):
                             <input
                                 className="form-control"
-                                style={{ marginLeft: 8 }}
+                                style={{  }}
                                 type="text"
                                 onChange={handleChange}
                                 name="expirylimit"
@@ -181,7 +181,7 @@ function UserSettings() {
                         <label style={{ marginTop: 16 }}> Email:
                             <input
                                 className="form-control"
-                                style={{ marginLeft: 8 }}
+                                style={{ }}
                                 type="text"
                                 onChange={handleChange}
                                 name="email"
@@ -189,20 +189,23 @@ function UserSettings() {
                             ></input>
                         </label>
 
-                        <button type="button" className="btn btn-primary" style={{ marginLeft: 8, marginTop: 64 }} onClick={() => saveUserSettings(currentUser, navigate)}>Update Settings</button>
+                        <button type="button" className="btn btn-primary" style={{  marginTop: 64 }} onClick={() => saveUserSettings(currentUser, navigate)}>Update Settings</button>
                     </div>
                 </div>
-
-                <div className="card">
-                    <input
-                        className="form-control"
-                        style={{ marginLeft: 8 }}
-                        type="text"
-                        onChange={handleInvite}
-                        name="invite"
-                        placeholder="Invite by Email"
-                    ></input>
-                    <button onClick={() => { inviteUser(currentUser, inviteEmail) }}>Invite</button>
+                <div className="col">
+                    <div className="card"style={{ padding: 16 }}>
+                        <form>
+                        <input
+                            className="form-control"
+                            style={{  marginRight:16 }}
+                            type="text"
+                            onChange={handleInvite}
+                            name="invite"
+                            placeholder="Invite by Email"
+                        ></input>
+                        </form>
+                        <button type="button" className="btn btn-primary" style={{ marginTop: 16 }} onClick={() => { inviteUser(currentUser, inviteEmail) }}>Invite</button>
+                    </div>
                 </div>
             </div>
         </div>

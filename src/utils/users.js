@@ -13,9 +13,9 @@ export function checkUserLogin(currentUser, navigate) {
   }
 }
 //Checks is a user is logged in and if it is an admin
-export function checkAdminLogin(currentUser, navigate){
+export function checkAdminLogin(currentUser, navigate) {
   const userData = JSON.parse(currentUser)
-  if(userData.adminlevel === 3){
+  if (userData.adminlevel === 3) {
     checkUserLogin(currentUser, navigate)
   } else {
     navigate(HOME)
@@ -27,7 +27,7 @@ export function logIn(attemptingUser, navigate) {
   if (attemptingUser.username && attemptingUser.password) {
     //Check for user in local storage
     if (validateUser(attemptingUser) === false) {
-      toast("Invalid Username or Password!",{position: "bottom-right"})
+      toast("Invalid Username or Password!", { position: "bottom-right" })
     } else {
       localStorage.setItem(CUR_USER, JSON.stringify(attemptingUser))
       navigate(HOME)
@@ -72,7 +72,7 @@ export function addUser(userToRegister, navigate) {
         friends: []
       }
       //Test newUser against current registered users, then adds to local storage All_USERS               
-      if ((userExists(newUser) === false)&&(userEmailExists(newUser) === false)) {
+      if ((userExists(newUser) === false) && (userEmailExists(newUser) === false)) {
         userSave(newUser)
         localStorage.setItem(CUR_USER, JSON.stringify(newUser))
         navigate(HOME)
@@ -94,7 +94,7 @@ export function userExists(userToCheck) {
   return false
 }
 
-export function userEmailExists(userToCheck){
+export function userEmailExists(userToCheck) {
   const allUserData = JSON.parse(localStorage.getItem(ALL_USERS))
   if (allUserData === null || allUserData === "") {
     return false
@@ -110,7 +110,7 @@ export function userEmailExists(userToCheck){
 //Saves user to local storage, should work without modification
 export function userSave(userToSave) {
   const allUserDataStr = localStorage.getItem(ALL_USERS)
-  userToSave.id ="" + new Date().getTime() + "-" + userToSave.username
+  userToSave.id = "" + new Date().getTime() + "-" + userToSave.username
   let temparr
   if (!(allUserDataStr === null || allUserDataStr.trim() === "")) {
     const allUserData = JSON.parse(allUserDataStr)
@@ -121,7 +121,7 @@ export function userSave(userToSave) {
   localStorage.setItem(ALL_USERS, JSON.stringify(temparr))
 }
 //Save current user to all users in local storage
-export function saveUserSettings(currentUser,navigate) {
+export function saveUserSettings(currentUser, navigate) {
   const allUserDataStr = localStorage.getItem(ALL_USERS)
   const allUserData = allUserDataStr ? JSON.parse(allUserDataStr) : []
   const filteredUsers = allUserData.filter(users => !users.id.match(new RegExp('^' + currentUser.id + '$')))
@@ -194,7 +194,7 @@ export function displayUsers(navigate) {
                   {user.adminlevel}
                 </td>
                 <td>
-                  <button className="btn btn-primary" style = {{marginRight:16}} onClick={() => editUser(user, navigate)}>Edit User</button>
+                  <button className="btn btn-primary" style={{ marginRight: 16 }} onClick={() => editUser(user, navigate)}>Edit User</button>
                   <button className="btn btn-primary" onClick={() => deleteUser(user, navigate)}>Delete User</button>
                 </td>
               </tr>
@@ -221,20 +221,45 @@ export function editUser(userToEdit, navigate) {
   navigate(EDITUSER)
 }
 
-export function getUserImage(username){
+export function getUserImage(username) {
   const allUserDataStr = localStorage.getItem(ALL_USERS)
   const allUserData = allUserDataStr ? JSON.parse(allUserDataStr) : []
   const filteredUser = allUserData.filter(users => users.username.match(new RegExp('^' + username + '$')))
   return filteredUser[0].image
 }
 
-export function getUserIDByEmail(emailToSearch){
+export function getUserIDByEmail(emailToSearch) {
   const allUserDataStr = localStorage.getItem(ALL_USERS)
   const allUserData = allUserDataStr ? JSON.parse(allUserDataStr) : []
-  const filteredUser = allUserData.filter(users => users.email.match(new RegExp('^' + emailToSearch + '$')))
-  return filteredUser[0].id
+  if (allUserData.length > 0) {
+    const filteredUser = allUserData.filter(users => users.email.match(new RegExp('^' + emailToSearch + '$')))
+    if (filteredUser.length > 0) {
+      console.log(filteredUser[0].id)
+      return filteredUser[0].id
+    } else {
+      return "No User Found"
+    }
+  }
+
 }
 
-export function addFriend(currentUser){
+export function getUserNameByID(idToSearch){
+  const allUserDataStr = localStorage.getItem(ALL_USERS)
+  const allUserData = allUserDataStr ? JSON.parse(allUserDataStr) : []
+  if (allUserData.length > 0) {
+    const filteredUser = allUserData.filter(users => users.id.match(new RegExp('^' + idToSearch + '$')))
+    if (filteredUser.length > 0) {
+      return filteredUser[0].username
+    } else {
+      return "No User Found"
+    }
+  }
+}
 
+export function addFriend(currentUser, friendToAddID) {
+  const allUserDataStr = localStorage.getItem(ALL_USERS)
+  const allUserData = allUserDataStr ? JSON.parse(allUserDataStr) : []
+
+  let tempFriendsList = [...currentUser.friends]
+  tempFriendsList.push(friendToAddID)
 }

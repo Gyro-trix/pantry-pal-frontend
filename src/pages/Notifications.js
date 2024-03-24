@@ -1,11 +1,12 @@
 import React, { useEffect } from "react";
-import { displayNotifications } from "../utils/notifications"
+import { displayInvites, displayNotifications } from "../utils/notifications"
 import { checkUserLogin } from "../utils/users"
 import { CUR_USER } from "../config/localStorage"
 import { useNavigate } from "react-router-dom";
 
 function Notifications() {
     const currentUserStr = localStorage.getItem(CUR_USER)
+    const currentUser = currentUserStr ? JSON.parse(currentUserStr) : null
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -22,6 +23,10 @@ function Notifications() {
                 <div className="card-body">
                     <h3 className="card-title">About to Expire</h3>
                     {displayNotifications("Expiring")}
+                </div>
+                <div className="card-body">
+                    <h3 className="card-title">Message Invites</h3>
+                    {displayInvites(currentUser)}
                 </div>
             </div>
         </div>

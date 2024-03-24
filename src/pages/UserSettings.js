@@ -2,11 +2,13 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { checkUserLogin, saveUserSettings, changeUserPassword } from "../utils/users"
 import { CUR_USER } from "../config/localStorage"
+import { inviteUser } from "../utils/messages";
 
 
 function UserSettings() {
     const navigate = useNavigate()
     const currentUserStr = localStorage.getItem(CUR_USER)
+    const [inviteEmail, setInviteEmail] = useState("")
     const [passwords, setPasswords] = useState({ currentpassword: "", newpassword: "", newpasswordcheck: "" })
     const [currentUser, setCurrentUser] = useState(currentUserStr ? JSON.parse(currentUserStr) : null)
     const [notify, setNotify] = useState(currentUser ? currentUser.notify : null)
@@ -62,6 +64,10 @@ function UserSettings() {
         }))
     }
 
+    const handleInvite = e => {
+        setInviteEmail(e.target.value)
+    }
+
     if (!currentUser) return <div> Loading </div>
 
     return (
@@ -78,7 +84,7 @@ function UserSettings() {
                                     type="password"
                                     onChange={handlePasswordChange}
                                     name="currentpassword"
-
+                                    autoComplete="current-password"
                                 ></input>
                             </label>
                             <br></br>
@@ -89,7 +95,7 @@ function UserSettings() {
                                     type="password"
                                     onChange={handlePasswordChange}
                                     name="newpassword"
-
+                                    autoComplete="new-password"
                                 ></input>
                             </label>
                             <br></br>
@@ -100,6 +106,7 @@ function UserSettings() {
                                     type="password"
                                     onChange={handlePasswordChange}
                                     name="newpasswordcheck"
+                                    autoComplete="new-password"
                                 ></input>
                             </label>
                         </form>
@@ -124,8 +131,8 @@ function UserSettings() {
                     <div className="card" style={{ padding: 16 }}>
                         <div className="container flex col">
                             <br />
-                            {image != null && <img alt=""  height={260} src={`${image}`} />}
-                            <div className = "input-group mb-3" style ={{marginTop:16}}>
+                            {image != null && <img alt="" height={260} src={`${image}`} />}
+                            <div className="input-group mb-3" style={{ marginTop: 16 }}>
                                 <input
                                     type="file"
                                     className="form-control"
@@ -136,7 +143,7 @@ function UserSettings() {
                                 />
                             </div>
                         </div>
-                        <button type="button" className="btn btn-primary" style={{ marginLeft: 8, marginTop: 16 }} onClick={() => saveUserSettings(currentUser,navigate)}>Save Profile Image</button>
+                        <button type="button" className="btn btn-primary" style={{ marginLeft: 8, marginTop: 16 }} onClick={() => saveUserSettings(currentUser, navigate)}>Save Profile Image</button>
                     </div>
                 </div>
                 {/* Settings column */}
@@ -182,8 +189,20 @@ function UserSettings() {
                             ></input>
                         </label>
 
-                        <button type="button" className="btn btn-primary" style={{ marginLeft: 8, marginTop: 64 }} onClick={() => saveUserSettings(currentUser,navigate)}>Update Settings</button>
+                        <button type="button" className="btn btn-primary" style={{ marginLeft: 8, marginTop: 64 }} onClick={() => saveUserSettings(currentUser, navigate)}>Update Settings</button>
                     </div>
+                </div>
+
+                <div className="card">
+                    <input
+                        className="form-control"
+                        style={{ marginLeft: 8 }}
+                        type="text"
+                        onChange={handleInvite}
+                        name="invite"
+                        placeholder="Invite by Email"
+                    ></input>
+                    <button onClick={() => { inviteUser(currentUser, inviteEmail) }}>Invite</button>
                 </div>
             </div>
         </div>

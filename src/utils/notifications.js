@@ -1,4 +1,5 @@
 import { ALL_STORAGES, CUR_USER, NOTIFICATIONS } from "../config/localStorage"
+import { getUserNameByID } from "./users"
 //import { toast } from 'react-toastify';
 //import "react-toastify/dist/ReactToastify.css";
 
@@ -94,6 +95,29 @@ export function displayNotifications(type) {
                             
                             <button type="button" className="btn btn-primary" style={{ marginLeft: "auto" }} onClick={() => dismissNotification(notification.id)}>Dismiss</button>
                             
+                        </div>
+                    </div>
+                )
+            } else {
+                return ""
+            }
+        })
+    }
+}
+
+export function displayInvites(currentUser){
+    const notificationsStr = localStorage.getItem(NOTIFICATIONS)
+    if (!(notificationsStr === null || notificationsStr.trim() === "")) {
+        const notifications = JSON.parse(notificationsStr)
+        return notifications.map((notification) => {
+            if (notification.type === "invite" && notification.target === currentUser.id) {
+                return (
+                    <div key={notification.id} className="card d-flex justify-content-evenly" style={{marginTop:16}}>
+                        <div className=" d-flex justify-content-between">
+                            <label style={{ marginLeft: 16, marginTop:8 }}>{getUserNameByID(notification.owner)} has invited you to their friends list.</label>
+                            
+                            <button type="button" className="btn btn-primary" style={{ marginLeft: "auto" }} onClick={() => dismissNotification(notification.id)}>Accept</button>
+                            <button type="button" className="btn btn-primary" style={{ marginLeft: "auto" }} onClick={() => dismissNotification(notification.id)}>Decline</button>
                         </div>
                     </div>
                 )

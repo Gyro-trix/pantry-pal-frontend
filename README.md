@@ -19,6 +19,7 @@ The following APIs are in use:
 - ~~Change manage users page to have visible right left and top sides that show the background~~
 - Create friend invite system for messenger, add to user settings and show example added to Message center itself
 - Invites show in the notifications tab/page with accept to 
+- Pending invites
 - Change format of message center to have users the entire length with the messages and messege input box to the right
 - Change button location on storage to bottom on home page, using flex to push down
 - Implement more toastify instances
@@ -27,6 +28,7 @@ The following APIs are in use:
 - Formatting for the random recipe API fetch(partially done)
 - Clean up notifications page
 - Organize NavBar into categories
+- Nutrition Symbol instead of _ in items
 
 
 

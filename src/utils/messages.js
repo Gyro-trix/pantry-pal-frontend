@@ -28,19 +28,21 @@ export function inviteUser(currentUser, userToInviteEmail) {
         }
     } 
 }
-
-export function getOtherUsers(currentUsername) {
+/*
+export function getOtherUsers(currentUser) {
     const allUserStr = localStorage.getItem(ALL_USERS)
     const allUserData = allUserStr ? JSON.parse(allUserStr) : []
-    let otherUsers = []
+    let otherUsers = currentUser.friends
+    
     allUserData.forEach(element => {
-        if (!(element.username === currentUsername)) {
+        if (!(element.username === currentUser.username)) {
             otherUsers.push(element.username)
         }
     });
+    
     return otherUsers
 }
-
+*/
 export function displayMessages(targetUser, currentUser, navigate) {
     const userMessagesStr = localStorage.getItem(USER_MESSAGES)
     const userMessages = userMessagesStr ? JSON.parse(userMessagesStr) : []

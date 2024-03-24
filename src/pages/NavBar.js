@@ -19,20 +19,23 @@ function NavBar() {
   let currentAdminLevel
   let currentUserImage
   let dropdownHidden
+  let friendsList
 
   if (!(currentUserStr === null || currentUserStr.trim() === "")) {
     dropdownHidden = false
     currentUserImage = currentUser.image
     currentUsername = currentUser.username
     currentAdminLevel = currentUser.adminlevel
+    friendsList = currentUser.friends
   } else {
     dropdownHidden = true
     currentUserImage = ""
     currentUsername = "No User"
     currentAdminLevel = 0
+    friendsList =[]
   }
 
-  const userList = getOtherUsers(currentUsername)
+ 
 
   let dropDown
   let dropDownContent = <ul></ul>
@@ -175,7 +178,7 @@ function NavBar() {
   }
 
   function messages() {
-    localStorage.setItem(MESSAGE_USER, userList[0] ? JSON.stringify(userList[0]) : "")
+    localStorage.setItem(MESSAGE_USER, friendsList[0] ? JSON.stringify(friendsList[0]) : "")
     navigate(USERMESSAGES)
   }
 
@@ -196,7 +199,7 @@ function NavBar() {
         </div>
         <div className={"dropdown justify-content-left "} hidden ={dropdownHidden} style={{ width: 160 }}>
           <button className={drop} style={{ width: 160, marginTop: 16 }} data-bs-toggle="dropdown" aria-expanded="false">
-          <Avatar  style = {{marginRight:8}} size = "32" round = {true} color={Avatar.getRandomColor('sitebase', ['cyan', 'lightblue', 'blue'])} src = {currentUserImage} name={currentUsername} textSizeRatio={2}/> {currentUsername}
+          <Avatar size = "32" round = {true} color={Avatar.getRandomColor('sitebase', ['cyan', 'lightblue', 'blue'])} src = {currentUserImage} name={currentUsername} textSizeRatio={2}/><sup style={{ marginLeft:-8,color: "red" }}>{dot}</sup> <span style ={{}}>{currentUsername}</span>
           </button>
           <ul>
             {dropDown}

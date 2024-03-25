@@ -37,7 +37,7 @@ function App() {
 
   return (
 
-    <div style={{ margin: "auto", backgroundImage: "url(" + background + ")", backgroundRepeat: "no-repeat", backgroundSize: "cover", backgroundOrigin: "border-box", color: "blue", minHeight: height, minWidth:600 }}>
+    <div data-bs-theme= "dark" style={{ margin: "auto", backgroundImage: "url(" + background + ")", backgroundRepeat: "no-repeat", backgroundSize: "cover", backgroundOrigin: "border-box", color: "blue", minHeight: height, minWidth:600 }}>
       <div style={{ backgroundColor: 'rgba(173, 216, 230, 0.7)', minHeight: height}}>
         <HashRouter basename='/'>
           <NavBar />

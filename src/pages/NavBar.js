@@ -1,9 +1,9 @@
-import { useNavigate,Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { SIGN_IN, CREATE_STORAGE, USER_SETTINGS, NOTIFICATION, CREATERECIPES, DISPLAYRECIPES, MANAGEUSERS, CREATE_USER, USERMESSAGES, RECIPE_CENTRE } from "../config/routes";
 import { numberOfNotifications } from "../utils/notifications";
-import { CUR_USER, MESSAGE_USER } from "../config/localStorage";
-import { getWindowDimensions } from "../utils/display";
+import { CUR_USER, MESSAGE_USER, THEME } from "../config/localStorage";
+import { changeTheme, getWindowDimensions } from "../utils/display";
 import { anyNewMessages } from "../utils/messages";
 import Avatar from 'react-avatar';
 
@@ -11,9 +11,14 @@ function NavBar() {
   const navigate = useNavigate()
   const currentUserStr = localStorage.getItem(CUR_USER)
   const currentUser = JSON.parse(currentUserStr ? currentUserStr : null)
+  const [theme,setTheme] = useState(true)
+
+  const themeTypeStr = localStorage.getItem(THEME)
+  
   const [notificationCount, setNotificationCount] = useState(numberOfNotifications())
   const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions);
   const { width, height } = windowDimensions;
+  const [themeSettings,setThemeSettings] = useState({navbar:"light"})
 
   let currentUsername
   let currentAdminLevel
@@ -32,10 +37,8 @@ function NavBar() {
     currentUserImage = ""
     currentUsername = "No User"
     currentAdminLevel = 0
-    friendsList =[]
+    friendsList = []
   }
-
- 
 
   let dropDown
   let dropDownContent = <ul></ul>
@@ -43,14 +46,14 @@ function NavBar() {
   let navBarContent = <ul></ul>
   let navBar = <ul></ul>
 
- 
+
   let dot
   if (anyNewMessages(currentUsername)) {
     dot = '\u2b24'
   } else {
     dot = ''
   }
-  
+
   useEffect(() => {
     setNotificationCount(numberOfNotifications())
   }, [])
@@ -103,7 +106,7 @@ function NavBar() {
         <li className="nav-item p-2"><Link className="nav-link" aria-current="page" to="createrecipes" onClick={createRecipes}>Add A Recipe</Link></li>
         <li className="nav-item p-2"><Link className="nav-link" aria-current="page" to="recipes" onClick={displayRecipes}>Recipes</Link></li>
         <li className="nav-item p-2"><Link className="nav-link" aria-current="page" to="recipecentre" onClick={recipecentre}>Recipe Centre</Link></li>
-        
+
       </ul>
       dropDownContent = <ul className="dropdown-menu" style={{ padding: 8 }}>
         <li className="nav-item p-2"><Link className="dropdown-item" aria-current="page" to="manageusers" onClick={manageUsers}>Manage Users</Link></li>
@@ -145,7 +148,7 @@ function NavBar() {
   }
 
   function logOut() {
-    localStorage.setItem(CUR_USER,"")
+    localStorage.setItem(CUR_USER, "")
     navigate(SIGN_IN)
   }
 
@@ -182,13 +185,13 @@ function NavBar() {
     navigate(USERMESSAGES)
   }
 
-  function recipecentre(){
+  function recipecentre() {
     navigate(RECIPE_CENTRE)
   }
 
   return (
 
-    <nav  className="navbar navbar-expand sticky-top bg-body-tertiary" data-bs-theme="light">
+    <nav className="navbar navbar-expand sticky-top bg-body-tertiary" data-bs-theme={themeSettings.navbar}>
       <div className="container-fluid">
         <a className="navbar-brand" href="/">Pantry Pal</a>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -197,9 +200,15 @@ function NavBar() {
         <div className="collapse navbar-collapse" id="navbarNav">
           {navBar}
         </div>
-        <div className={"dropdown justify-content-left "} hidden ={dropdownHidden} style={{ width: 160 }}>
+
+        <div className="form-check form-switch">
+          <input className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked ={theme} onClick={()=>setTheme(!theme)} onChange={()=>changeTheme()}/>
+          <label className="form-check-label" ></label>
+        </div>
+
+        <div className={"dropdown justify-content-left "} hidden={dropdownHidden} style={{ width: 160 }}>
           <button className={drop} style={{ width: 160, marginTop: 16 }} data-bs-toggle="dropdown" aria-expanded="false">
-          <Avatar size = "32" round = {true} color={Avatar.getRandomColor('sitebase', ['cyan', 'lightblue', 'blue'])} src = {currentUserImage} name={currentUsername} textSizeRatio={2}/><sup style={{ marginLeft:-8,color: "red" }}>{dot}</sup> <span style ={{}}>{currentUsername}</span>
+            <Avatar size="32" round={true} color={Avatar.getRandomColor('sitebase', ['cyan', 'lightblue', 'blue'])} src={currentUserImage} name={currentUsername} textSizeRatio={2} /><sup style={{ marginLeft: -8, color: "red" }}>{dot}</sup> <span style={{}}>{currentUsername}</span>
           </button>
           <ul>
             {dropDown}

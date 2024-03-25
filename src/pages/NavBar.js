@@ -4,7 +4,7 @@ import { SIGN_IN, CREATE_STORAGE, USER_SETTINGS, NOTIFICATION, CREATERECIPES, DI
 import { numberOfNotifications } from "../utils/notifications";
 import { CUR_USER, MESSAGE_USER } from "../config/localStorage";
 import { getWindowDimensions } from "../utils/display";
-import { anyNewMessages, getOtherUsers } from "../utils/messages";
+import { anyNewMessages } from "../utils/messages";
 import Avatar from 'react-avatar';
 
 function NavBar() {

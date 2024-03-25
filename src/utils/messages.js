@@ -1,4 +1,4 @@
-import { ALL_USERS, USER_MESSAGES, NOTIFICATIONS } from "../config/localStorage";
+import { USER_MESSAGES, NOTIFICATIONS } from "../config/localStorage";
 import { USERMESSAGES } from "../config/routes";
 import Avatar from 'react-avatar';
 import { getUserIDByEmail, getUserImage } from "./users";
@@ -28,21 +28,7 @@ export function inviteUser(currentUser, userToInviteEmail) {
         }
     } 
 }
-/*
-export function getOtherUsers(currentUser) {
-    const allUserStr = localStorage.getItem(ALL_USERS)
-    const allUserData = allUserStr ? JSON.parse(allUserStr) : []
-    let otherUsers = currentUser.friends
-    
-    allUserData.forEach(element => {
-        if (!(element.username === currentUser.username)) {
-            otherUsers.push(element.username)
-        }
-    });
-    
-    return otherUsers
-}
-*/
+
 export function displayMessages(targetUser, currentUser, navigate) {
     const userMessagesStr = localStorage.getItem(USER_MESSAGES)
     const userMessages = userMessagesStr ? JSON.parse(userMessagesStr) : []

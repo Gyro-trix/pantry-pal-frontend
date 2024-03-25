@@ -1,8 +1,9 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { CUR_USER, MESSAGE_USER } from "../config/localStorage";
-import { checkUserLogin, getUserNameByID } from "../utils/users";
+import { checkUserLogin, getUserImage, getUserNameByID } from "../utils/users";
 import { displayMessages, newMessagesForUser, submitMessage } from "../utils/messages";
+import Avatar from 'react-avatar';
 
 function UserMessages() {
 
@@ -37,7 +38,9 @@ function UserMessages() {
                         if (newMessagesForUser(uname, currentUsername)) {
                             dot = '\u2b24'
                         }
-                        return (<button type="button" className="btn btn-primary" key={index} style={{ marginTop: 8 }} onClick={() => setTargetUser(uname)}>{uname}<sup style={{ color: "red" }}>{dot}</sup></button>)
+                        return (<button type="button" className="btn" key={index} style={{ marginTop: 16,background: "white",borderColor:"lightgrey" }} onClick={() => setTargetUser(uname)}>
+                            <Avatar size = "32" round = {true} color={Avatar.getRandomColor('sitebase', ['cyan', 'lightblue', 'blue'])} src = {getUserImage(uname)} name={uname} textSizeRatio={2}/>
+                            <span style ={{marginLeft:8}}>{uname}</span><sup style={{ color: "red" }}>{dot}</sup></button>)
                     })}
                 </div>
                 <div className=" col-8 " id="messages" style={{ margin: 8 }}>

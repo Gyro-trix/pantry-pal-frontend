@@ -1,11 +1,13 @@
 import { ALL_STORAGES, CUR_ITEM_LIST, CUR_STORAGE, CALORIES } from "../config/localStorage"
 import { EDIT_STORAGE, HOME } from "../config/routes"
 import { toast } from 'react-toastify';
+import { demoStorage } from "./demos";
 import "react-toastify/dist/ReactToastify.css";
 import Nutrition from "../pages/Nutrition";
 import React, { useState } from "react";
 import Avatar from 'react-avatar';
-import { demoStorage } from "./demos";
+import * as Icon from 'react-bootstrap-icons';
+
 
 export function createStorage(storageToAdd, navigate) {
     const allStorageDataStr = localStorage.getItem(ALL_STORAGES)
@@ -92,8 +94,9 @@ export function displayItems() {
                                 <td>
                                     {displayDate(item.expiry)}
                                 </td>
-                                <td>
-                                    <button type="button" className="btn btn-primary" onClick={() => { setKey(true) }}>_</button>
+                                <td >
+                                    <button type="button" className="btn btn-primary"  onClick={() => { setKey(true) }}><Icon.Eye size={20}/></button>
+                                    
                                     <div>
                                         <Nutrition name={item.name} nutrition={nutrition} trigger={key} setTrigger={setKey} />
                                     </div>

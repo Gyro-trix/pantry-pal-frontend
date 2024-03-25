@@ -14,27 +14,27 @@ The following APIs are in use:
 - ~~Hide user drop down when no user is logged in~~
 - ~~Moved User options for admin to dropdown~~
 - ~~Cleanup registration page~~
-- Fix Edit Users UI
+- ~~Fix Edit Users UI~~
 - Implement level 1 users, that are created by level 2 users (and also the Admin)
 - ~~Change manage users page to have visible right left and top sides that show the background~~
-- Create friend invite system for messenger, add to user settings and show example added to Message center itself
-- Invites show in the notifications tab/page with accept to 
+- ~~Create friend invite system for messenger, add to user settings ~~ and show example added to Message center itself
+- ~~Invites show in the notifications tab/page with accept to ~~ fix button formatting
 - Pending invites
-- Change format of message center to have users the entire length with the messages and messege input box to the right
+- ~~Change format of message center to have users the entire length with the messages and messege input box to the right~~
+- Have user selection on Message page show an avatar instead of a button
 - Change button location on storage to bottom on home page, using flex to push down
 - Implement more toastify instances
-- Center image in places where it displays image to be added on edit storage and user settings
+- ~~Center image in places where it displays image to be added on edit storage and user settings~~
 - Try and implement themes(dark and light) which changes react components based on local storage value
-- Formatting for the random recipe API fetch(partially done)
-- Clean up notifications page
+- Formatting for the random recipe API fetch(partially done, image and youtube link left)
+- Clean up notifications page (add expired and ~~friend invites~~)
 - Organize NavBar into categories
-- Nutrition Symbol instead of _ in items
+- ~~Nutrition Symbol instead of _ in items~~ Added bootstrap icons (react-bootstrap-icons)
 
 
 
 ### Known issues
 - Overly large images can trigger a local storage character limit in browser, can I check base 64 for size?
-- Fix up UI where image uploads are in UserSettings and EditStorage
 - ~~Fix background fill issue~~
 
 ### Wishlist

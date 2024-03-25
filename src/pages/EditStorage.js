@@ -109,13 +109,14 @@ function EditStorage() {
                         </div>
                     </form>
                 </div>
-                <div className="container flex col">
+                <div className="container flex col" >
                     <br />
-                    {storageImage != null && <img alt="" width={200} height={200} src={`${storageImage}`} />}
+                    <div style ={{display:"flex",alignItems:"center",justifyContent:"center"}}>{storageImage != null && <img alt="" width={200} height={200} src={`${storageImage}`} />}</div>
                     <div className = "input-group mb-3">
                         <input
                             type="file"
                             className="form-control"
+                            style ={{marginTop:16}}
                             name="image"
                             id="file"
                             accept=".jpg, .jpeg, .png"

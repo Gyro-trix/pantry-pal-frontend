@@ -131,7 +131,7 @@ function UserSettings() {
                     <div className="card" style={{ padding: 16, height:"100%" }}>
                         <div className="container flex col">
                             <br />
-                            {image != null && <img alt="" height={260} src={`${image}`} />}
+                            <div style ={{display:"flex",justifyContent:"center"}}>{image != null && <img alt="" height={260} src={`${image}`} />}</div>
                             <div className="input-group mb-3" style={{ marginTop: 16 }}>
                                 <input
                                     type="file"

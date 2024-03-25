@@ -11,14 +11,14 @@ export function getWindowDimensions() {
 export const darkTheme ={
   name:"dark",
   navbar:"dark",
-  backgroundRGD:"rgba(192, 192, 192, 0.7)",
+  backgroundRGB:"rgba(128, 128, 128, 0.7)",
   card:"",
   button:"",
 }
 export const lightTheme ={
   name:"light",
   navbar:"light",
-  backgroundRGD:"rgba(173, 216, 230, 0.7)",
+  backgroundRGB:"rgba(173, 216, 230, 0.7)",
   card:"",
   button:"",
 }
@@ -31,4 +31,5 @@ export function changeTheme(){
   } else if (currentTheme.name === "light"){
     localStorage.setItem(THEME,JSON.stringify(darkTheme))
   }
+  window.location.reload()
 }

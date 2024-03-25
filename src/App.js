@@ -1,7 +1,7 @@
 import './App.css';
 import { useState, useEffect } from 'react';
 import { HashRouter, Routes, Route } from 'react-router-dom';
-import { getWindowDimensions } from './utils/display';
+import { getWindowDimensions, lightTheme } from './utils/display';
 import Login from "./pages/Login";
 import Home from "./pages/Home";
 import Register from "./pages/Register";
@@ -21,11 +21,18 @@ import RecipeCentre from './pages/RecipeCentre';
 import { ToastContainer } from 'react-toastify';
 import background from './images/background.jpg'
 import "react-toastify/dist/ReactToastify.css";
+import { THEME } from './config/localStorage';
 
 function App() {
+  if(localStorage.getItem(THEME)===null){
+    localStorage.setItem(THEME,JSON.stringify(lightTheme))
+}
+  
   const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions);
   const { width, height } = windowDimensions;
-
+  const themeStr = localStorage.getItem(THEME)
+  const theme = JSON.parse(themeStr)
+  
   useEffect(() => {
     function handleResize() {
       setWindowDimensions(getWindowDimensions());
@@ -37,8 +44,8 @@ function App() {
 
   return (
 
-    <div data-bs-theme= "dark" style={{ margin: "auto", backgroundImage: "url(" + background + ")", backgroundRepeat: "no-repeat", backgroundSize: "cover", backgroundOrigin: "border-box", color: "blue", minHeight: height, minWidth:600 }}>
-      <div style={{ backgroundColor: 'rgba(173, 216, 230, 0.7)', minHeight: height}}>
+    <div data-bs-theme={theme.name} style={{ margin: "auto", backgroundImage: "url(" + background + ")", backgroundRepeat: "no-repeat", backgroundSize: "cover", backgroundOrigin: "border-box", color: "blue", minHeight: height, minWidth: 600 }}>
+      <div style={{ backgroundColor: theme.backgroundRGB, minHeight: height }}>
         <HashRouter basename='/'>
           <NavBar />
           <div >

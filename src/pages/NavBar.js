@@ -6,20 +6,21 @@ import { CUR_USER, MESSAGE_USER, THEME } from "../config/localStorage";
 import { changeTheme, getWindowDimensions } from "../utils/display";
 import { anyNewMessages } from "../utils/messages";
 import Avatar from 'react-avatar';
+import * as Icon from 'react-bootstrap-icons';
 
 function NavBar() {
   const navigate = useNavigate()
   const currentUserStr = localStorage.getItem(CUR_USER)
   const currentUser = JSON.parse(currentUserStr ? currentUserStr : null)
-  const [theme,setTheme] = useState(true)
 
-  const themeTypeStr = localStorage.getItem(THEME)
-  
+  const themeStr = localStorage.getItem(THEME)
+  const theme = JSON.parse(themeStr)
   const [notificationCount, setNotificationCount] = useState(numberOfNotifications())
   const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions);
   const { width, height } = windowDimensions;
-  const [themeSettings,setThemeSettings] = useState({navbar:"light"})
+  const [themeSettings, setThemeSettings] = useState({ navbar: "light" })
 
+  let themeSwitch = true
   let currentUsername
   let currentAdminLevel
   let currentUserImage
@@ -38,6 +39,12 @@ function NavBar() {
     currentUsername = "No User"
     currentAdminLevel = 0
     friendsList = []
+  }
+
+  if (theme.name === "dark") {
+    themeSwitch = true
+  } else if (theme.name === "light") {
+    themeSwitch = false
   }
 
   let dropDown
@@ -189,9 +196,15 @@ function NavBar() {
     navigate(RECIPE_CENTRE)
   }
 
+  function delayThemeSwitch() {
+    
+      changeTheme()
+   
+  }
+
   return (
 
-    <nav className="navbar navbar-expand sticky-top bg-body-tertiary" data-bs-theme={themeSettings.navbar}>
+    <nav className="navbar navbar-expand sticky-top bg-body-tertiary" data-bs-theme={theme.navbar}>
       <div className="container-fluid">
         <a className="navbar-brand" href="/">Pantry Pal</a>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -200,15 +213,13 @@ function NavBar() {
         <div className="collapse navbar-collapse" id="navbarNav">
           {navBar}
         </div>
-
-        <div className="form-check form-switch">
-          <input className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked ={theme} onClick={()=>setTheme(!theme)} onChange={()=>changeTheme()}/>
-          <label className="form-check-label" ></label>
+        <div>
+          <Icon.SunFill hidden={themeSwitch} style={{ animation: "fadeIn 1s" }} onClick={() => delayThemeSwitch()} size={24} />
+          <Icon.MoonFill color="grey"hidden={!themeSwitch} style={{ animation: "fadeIn 1s" }} onClick={() => delayThemeSwitch()} size={24} />
         </div>
-
-        <div className={"dropdown justify-content-left "} hidden={dropdownHidden} style={{ width: 160 }}>
+        <div className="dropdown justify-content-left " hidden={dropdownHidden} style={{ width: 160 }}>
           <button className={drop} style={{ width: 160, marginTop: 16 }} data-bs-toggle="dropdown" aria-expanded="false">
-            <Avatar size="32" round={true} color={Avatar.getRandomColor('sitebase', ['cyan', 'lightblue', 'blue'])} src={currentUserImage} name={currentUsername} textSizeRatio={2} /><sup style={{ marginLeft: -8, color: "red" }}>{dot}</sup> <span style={{}}>{currentUsername}</span>
+            <Avatar size="32" round={true} color={Avatar.getRandomColor('sitebase', ['cyan', 'lightblue', 'blue'])} src={currentUserImage} name={currentUsername} textSizeRatio={2} /><sup style={{ marginLeft: -8, color: "red" }}>{dot}</sup> <span style={{ marginLeft: 16 }}>{currentUsername}</span>
           </button>
           <ul>
             {dropDown}

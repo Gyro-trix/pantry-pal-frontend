@@ -12,13 +12,8 @@ function Login() {
     //Treats navigating to Log In as logging out
     localStorage.setItem(CUR_USER, "")
     const navigate = useNavigate()
-    if(localStorage.getItem(THEME)===null){
-        localStorage.setItem(THEME,JSON.stringify(lightTheme))
-    }
     const themeStr = localStorage.getItem(THEME)
     const [theme, setTheme] = useState(JSON.parse(themeStr))
-    
-    
     const allUserDataStr = [localStorage.getItem(ALL_USERS)]
     const [attemptingUser, setAttemptingUser] = useState({ id: " ", username: " ", email: " ", password: " ", notify: " ", itemlimit: " ", expirylimit: " " })
     //Creates admin and demo users

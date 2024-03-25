@@ -1,13 +1,17 @@
 # The Pantry Pal App
 The main focus of this app is to provide a basic inventory system that can be assigned to containers (such as freezers,cupboards,etc). 
 
+## Frameworks used in this project
+- Bootstrap (Layout and theme control)
+
 ## Current APIs in use in this project
 The following APIs are in use:
-- Bootstrap (Layout and theme control)
 - Datepicker (used to select an items expiry date)
-- Jodit Rish Text Editor (used to create recipes to be stored)
+- Jodit Rich Text Editor (used to create recipes to be stored)
 - React Jodit (React wrapper to allow use of Jodit)
 - Toastify (used for error messages, replacing alert)
+- Meal Database free one random recipe
+- Calorie Ninja for nutritional information, API key and API key type must be supplied in an .env file not included
 
 ### To DO (March 21-28)
 - ~~Have nav bar update profile image as soon as set on User Setting page~~
@@ -21,14 +25,14 @@ The following APIs are in use:
 - ~~Invites show in the notifications tab/page with accept to ~~ fix button formatting
 - Pending invites
 - ~~Change format of message center to have users the entire length with the messages and messege input box to the right~~
-- Have user selection on Message page show an avatar instead of a button
-- Change button location on storage to bottom on home page, using flex to push down
+- ~~Have user selection on Message page show an avatar instead of a button~~
+- ~~Change button location on storage to bottom~~
 - Implement more toastify instances
 - ~~Center image in places where it displays image to be added on edit storage and user settings~~
 - Try and implement themes(dark and light) which changes react components based on local storage value
 - Formatting for the random recipe API fetch(partially done, image and youtube link left)
 - Clean up notifications page (add expired and ~~friend invites~~)
-- Organize NavBar into categories
+- ~~Move Manage User and Create User to dropdown in Admin's NavBar~~
 - ~~Nutrition Symbol instead of _ in items~~ Added bootstrap icons (react-bootstrap-icons)
 
 

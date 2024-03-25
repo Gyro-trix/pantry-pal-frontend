@@ -29,8 +29,6 @@ export function createStorage(storageToAdd, navigate) {
 }
 
 export function saveStorage(allStorage, newStorage) {
-
-
     let temparr = [...allStorage, newStorage]
     allStorage = temparr
     localStorage.setItem(ALL_STORAGES, JSON.stringify(allStorage))
@@ -95,8 +93,8 @@ export function displayItems() {
                                     {displayDate(item.expiry)}
                                 </td>
                                 <td >
-                                    <button type="button" className="btn btn-primary"  onClick={() => { setKey(true) }}><Icon.Eye size={20}/></button>
-                                    
+                                    <button type="button" className="btn btn-primary" onClick={() => { setKey(true) }}><Icon.Eye size={20} /></button>
+
                                     <div>
                                         <Nutrition name={item.name} nutrition={nutrition} trigger={key} setTrigger={setKey} />
                                     </div>
@@ -162,25 +160,25 @@ export function displayStorage(storageDataStr, storageData, navigate) {
             let storageImage = singleStorageData.image ? singleStorageData.image : ""
             return (
                 <div key={singleStorageData.name} >
-                    <div className="card mb-3" style={{ marginLeft: 16, marginTop: 16, minWidth: 320 }}>
+                    <div className="card mb-3" style={{ marginLeft: 16, marginTop: 16, maxWidth: "70%" }}>
                         <div className="row g-0">
-                            <div className="col-md-6" style ={{padding:16}}>
-                                <Avatar unstyle={true} size ={200} color={Avatar.getRandomColor('sitebase', ['cyan', 'lightblue', 'blue'])} src={storageImage} name={singleStorageData.name} textSizeRatio={1.5} />
+                            <div className="col-md-6" style={{ padding: 16 }}>
+                                <Avatar unstyle={true} size={200} color={Avatar.getRandomColor('sitebase', ['cyan', 'lightblue', 'blue'])} src={storageImage} name={singleStorageData.name} textSizeRatio={1.5} />
                             </div>
                             <div className="col-md-4">
                                 <div className="card-body" >
                                     <h4 className="card-title">{singleStorageData.name}</h4>
                                     <p className="card-text">{singleStorageData.type} at {singleStorageData.location}</p>
-                                    <div className="col d-flex justify-content-between">
-                                        <button className="btn btn-primary" style={{ marginRight: 16 }} onClick={() => openEditStoragePage(singleStorageData, navigate)}>Edit Storage</button>
-                                        <button className="btn btn-primary" onClick={() => { if (window.confirm('Delete the item?')) { deleteStorage(allStorageData, singleStorageData) } }} >Delete Storage</button>
-                                    </div>
+
                                 </div>
 
-                                
+
+                            </div>
+                            <div className="col d-flex justify-content-between" style={{ padding: 16 }}>
+                                <button className="btn btn-primary" style={{ whiteSpace: "nowrap" }} onClick={() => openEditStoragePage(singleStorageData, navigate)}>Edit Storage</button>
+                                <button className="btn btn-primary" style={{ whiteSpace: "nowrap" }} onClick={() => { if (window.confirm('Delete the item?')) { deleteStorage(allStorageData, singleStorageData) } }} >Delete Storage</button>
                             </div>
 
-                            
                         </div>
                     </div>
                 </div>
@@ -202,10 +200,10 @@ export function deleteStorage(allStorage, singleStorageData) {
     window.location.reload()
 }
 
-export function createDemoStorage(){
+export function createDemoStorage() {
     const allStorageDataStr = localStorage.getItem(ALL_STORAGES)
     const allStorageData = allStorageDataStr ? JSON.parse(allStorageDataStr) : []
-    if (allStorageData.length === 0){
+    if (allStorageData.length === 0) {
         localStorage.setItem(ALL_STORAGES, JSON.stringify([demoStorage]))
     }
 }

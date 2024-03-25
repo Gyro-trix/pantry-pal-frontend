@@ -1,4 +1,4 @@
-import { ALL_STORAGES, CUR_ITEM_LIST, CUR_STORAGE, CALORIES } from "../config/localStorage"
+import { ALL_STORAGES, CUR_ITEM_LIST, CUR_STORAGE, CALORIES,THEME } from "../config/localStorage"
 import { EDIT_STORAGE, HOME } from "../config/routes"
 import { toast } from 'react-toastify';
 import { demoStorage } from "./demos";
@@ -154,7 +154,8 @@ export function displayDate(date) {
 export function displayStorage(storageDataStr, storageData, navigate) {
     const allStorageDataStr = localStorage.getItem(ALL_STORAGES)
     const allStorageData = JSON.parse(allStorageDataStr)
-
+    const themeStr = localStorage.getItem(THEME)
+    const theme = JSON.parse(themeStr)
     if ((storageDataStr === null) === false) {
         return storageData.map((singleStorageData) => {
             let storageImage = singleStorageData.image ? singleStorageData.image : ""
@@ -175,8 +176,8 @@ export function displayStorage(storageDataStr, storageData, navigate) {
 
                             </div>
                             <div className="col d-flex justify-content-between" style={{ padding: 16 }}>
-                                <button className="btn btn-primary" style={{ whiteSpace: "nowrap" }} onClick={() => openEditStoragePage(singleStorageData, navigate)}>Edit Storage</button>
-                                <button className="btn btn-primary" style={{ whiteSpace: "nowrap" }} onClick={() => { if (window.confirm('Delete the item?')) { deleteStorage(allStorageData, singleStorageData) } }} >Delete Storage</button>
+                                <button className={theme.button} style={{ whiteSpace: "nowrap" }} onClick={() => openEditStoragePage(singleStorageData, navigate)}>Edit Storage</button>
+                                <button className={theme.button} style={{ whiteSpace: "nowrap" }} onClick={() => { if (window.confirm('Delete the item?')) { deleteStorage(allStorageData, singleStorageData) } }} >Delete Storage</button>
                             </div>
 
                         </div>

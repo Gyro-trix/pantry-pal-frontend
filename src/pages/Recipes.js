@@ -2,10 +2,12 @@ import React, { useState, useEffect, useRef, useMemo } from "react";
 import { deleteRecipe, displayRecipe, displayRecipeHeader, editRecipe, getNumberOfRecipes } from "../utils/recipes";
 import { useNavigate } from "react-router-dom";
 import { checkUserLogin } from "../utils/users";
-import { CUR_USER } from "../config/localStorage";
+import { CUR_USER,THEME } from "../config/localStorage";
 import JoditEditor from 'jodit-react';
 
 function Recipes() {
+    const themeStr = localStorage.getItem(THEME)
+  const theme = JSON.parse(themeStr)
     const [index, setIndex] = useState(0)
     const [cardClass, setCardClass] = useState("card")
     const [headerClass,setHeaderClass] = useState("")
@@ -17,6 +19,7 @@ function Recipes() {
     const config = useMemo(() =>
     ({
         uploader: { "insertImageAsBase64URI": true },
+        theme:theme.name,
         toolbar: false,
         readonly: true,
         height: 500
@@ -75,10 +78,10 @@ function Recipes() {
                     />
                 </div>
                 <div className="col d-flex justify-content-between" style={{ marginTop: 16 }}>
-                    <button type="button" className="btn btn-primary" onClick={() => prevRecipe()} style={{ width: 112 }}>Previous</button>
-                    <button ref={editButton} type="button" className="btn btn-primary" onClick = {()=>editRecipe(index,navigate)}style={{ width: 112, marginLeft: 8 }} hidden = {true}>Edit</button>
-                    <button ref={deleteButton} type="button" className="btn btn-primary"  onClick = {()=> deleteRecipe(index,navigate)}style={{ width: 112, marginLeft: 8 }} hidden={true} >Delete</button>
-                    <button type="button" className="btn btn-primary" onClick={() => nextRecipe()} style={{ width: 112, marginLeft: 8 }}>Next</button>
+                    <button type="button" className={theme.button} onClick={() => prevRecipe()} style={{ width: 112 }}>Previous</button>
+                    <button ref={editButton} type="button" className={theme.button} onClick = {()=>editRecipe(index,navigate)}style={{ width: 112, marginLeft: 8 }} hidden = {true}>Edit</button>
+                    <button ref={deleteButton} type="button" className={theme.button}  onClick = {()=> deleteRecipe(index,navigate)}style={{ width: 112, marginLeft: 8 }} hidden={true} >Delete</button>
+                    <button type="button" className={theme.button} onClick={() => nextRecipe()} style={{ width: 112, marginLeft: 8 }}>Next</button>
                 </div>
             </div>
         </div>

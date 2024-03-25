@@ -214,8 +214,8 @@ function NavBar() {
           {navBar}
         </div>
         <div>
-          <Icon.SunFill hidden={themeSwitch} style={{ animation: "fadeIn 1s" }} onClick={() => delayThemeSwitch()} size={24} />
-          <Icon.MoonFill color="grey"hidden={!themeSwitch} style={{ animation: "fadeIn 1s" }} onClick={() => delayThemeSwitch()} size={24} />
+          <Icon.SunFill color="powderblue" hidden={themeSwitch} style={{ animation: "fadeIn 1s" }} onClick={() => delayThemeSwitch()} size={24} />
+          <Icon.MoonFill color="grey" hidden={!themeSwitch} style={{ animation: "fadeIn 1s" }} onClick={() => delayThemeSwitch()} size={24} />
         </div>
         <div className="dropdown justify-content-left " hidden={dropdownHidden} style={{ width: 160 }}>
           <button className={drop} style={{ width: 160, marginTop: 16 }} data-bs-toggle="dropdown" aria-expanded="false">

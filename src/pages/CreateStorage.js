@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createStorage } from "../utils/storage"
 import { checkUserLogin} from "../utils/users"
-import { CUR_USER } from "../config/localStorage"
+import { CUR_USER,THEME } from "../config/localStorage"
 
 function CreateStorage() {
     const navigate = useNavigate()
     const [newStorage, setNewStorage] = useState()
     const currentUserStr = localStorage.getItem(CUR_USER)
+    const themeStr = localStorage.getItem(THEME)
+  const theme = JSON.parse(themeStr)
 
     const handleChange = e => {
         setNewStorage((prev) => ({
@@ -53,7 +55,7 @@ function CreateStorage() {
                 </div>
 
             </form>
-            <button type="button" className="btn btn-primary" style={{ whiteSpace: "nowrap", marginTop: 16 }} onClick={() => createStorage(newStorage, navigate)}>Add Storage</button>
+            <button type="button" className={theme.button} style={{ whiteSpace: "nowrap", marginTop: 16 }} onClick={() => createStorage(newStorage, navigate)}>Add Storage</button>
 
         </div>
     )

@@ -13,14 +13,14 @@ export const darkTheme ={
   navbar:"dark",
   backgroundRGB:"rgba(128, 128, 128, 0.7)",
   card:"",
-  button:"",
+  button:"btn btn-secondary",
 }
 export const lightTheme ={
   name:"light",
   navbar:"light",
   backgroundRGB:"rgba(173, 216, 230, 0.7)",
   card:"",
-  button:"",
+  button:"btn btn-primary",
 }
 
 export function changeTheme(){

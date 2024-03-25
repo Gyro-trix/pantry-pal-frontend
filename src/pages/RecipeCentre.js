@@ -60,11 +60,12 @@ function RecipeCentre() {
     }
     
     return (
+        <div className="container">
         <div className ="card">
             <div>
-                <h4>{recipe.title}</h4>
+                <h2>{recipe.title}</h2>
                 <h3>{recipe.subtitle}</h3>
-                <h2>{recipe.description}</h2>
+                <h4>{recipe.description}</h4>
             </div>
             <div className="card"  >
                 <JoditEditor
@@ -81,6 +82,7 @@ function RecipeCentre() {
                 }}>Test</button>
             <button onClick={() => console.log(renderToString(createFetchedIngredients(obj)))}>Test</button>
         </form>
+        </div>
         </div>
     )
 }

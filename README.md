@@ -29,7 +29,7 @@ The following APIs are in use:
 - ~~Change button location on storage to bottom~~
 - Implement more toastify instances
 - ~~Center image in places where it displays image to be added on edit storage and user settings~~
-- Try and implement themes(dark and light) which changes react components based on local storage value
+- Try and implement themes(dark and light) which changes react components based on local storage value (working on buttons, on manage users)
 - Formatting for the random recipe API fetch(partially done, image and youtube link left) and add save recipe
 - Clean up notifications page (add expired and ~~friend invites~~)
 - ~~Move Manage User and Create User to dropdown in Admin's NavBar~~

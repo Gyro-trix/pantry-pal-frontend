@@ -2,17 +2,20 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
 import { saveRecipe } from "../utils/recipes";
 import { useNavigate } from "react-router-dom";
-import { CUR_USER } from "../config/localStorage";
+import { CUR_USER,THEME } from "../config/localStorage";
 import { checkAdminLogin } from "../utils/users";
 import JoditEditor from 'jodit-react';
 
 
 function CreateRecipes() {
+    const themeStr = localStorage.getItem(THEME)
+  const theme = JSON.parse(themeStr)
     const editor = useRef(null);
     const [content, setContent] = useState('');
     const [recipe, setRecipe] = useState({ id: "", title: "", subtitle: "", content: "" })
     const config = useMemo(() =>
-        ({ uploader: { "insertImageAsBase64URI": true } }),
+        ({ uploader: { "insertImageAsBase64URI": true },
+    theme: theme.name }),
         []
     );
 
@@ -76,7 +79,7 @@ function CreateRecipes() {
                     onChange={newContent => setContent(newContent)}
                 />
             </div>
-            <button type="button" className="btn btn-primary" onClick={() => { saveRecipe(recipe, navigate); setContent('') }}>Save Recipe</button>
+            <button type="button" className={theme.button} onClick={() => { saveRecipe(recipe, navigate); setContent('') }}>Save Recipe</button>
         </div>
     )
     /*

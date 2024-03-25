@@ -1,4 +1,4 @@
-import { ALL_STORAGES, CUR_USER, NOTIFICATIONS } from "../config/localStorage"
+import { ALL_STORAGES, CUR_USER, NOTIFICATIONS, THEME } from "../config/localStorage"
 import { addFriend, getUserNameByID } from "./users"
 import { toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
@@ -84,6 +84,8 @@ export function dismissNotification(notificationID) {
 //Display notifications on page, needs formatting updated
 export function displayNotifications(type) {
     const notificationsStr = localStorage.getItem(NOTIFICATIONS)
+    const themeStr = localStorage.getItem(THEME)
+    const theme = JSON.parse(themeStr)
     if (!(notificationsStr === null || notificationsStr.trim() === "")) {
         const notifications = JSON.parse(notificationsStr)
         return notifications.map((notification) => {
@@ -92,7 +94,7 @@ export function displayNotifications(type) {
                     <div key={notification.id} className="card d-flex justify-content-evenly" style={{ marginTop: 16 }}>
                         <div className=" d-flex justify-content-between">
                             <label style={{ marginLeft: 16, marginTop: 8 }}>{notification.item} in {notification.storage} is {notification.type}</label>
-                            <button type="button" className="btn btn-primary" style={{ marginLeft: "auto" }} onClick={() => dismissNotification(notification.id)}>Dismiss</button>
+                            <button type="button" className={theme.button} style={{ marginLeft: "auto" }} onClick={() => dismissNotification(notification.id)}>Dismiss</button>
                         </div>
                     </div>
                 )

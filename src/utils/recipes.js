@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import { demoRecipe } from "./demos";
 import React from "react";
-import {renderToString} from "react-dom/server"
+import { renderToString } from "react-dom/server"
 
 export function saveRecipe(recipe, navigate) {
     const recipeDataStr = localStorage.getItem(RECIPES)
@@ -25,59 +25,6 @@ export function saveFetchedRecipe(recipe, navigate) {
     localStorage.setItem(RECIPES, JSON.stringify(temparray))
     navigate(RECIPE_CENTRE)
 }
-/*
-export function addIngredient(ingredient) {
-    const ingredientsDataStr = localStorage.getItem(INGREDIENTS)
-    const ingredientsData = ingredientsDataStr ? JSON.parse(ingredientsDataStr) : []
-    if (ingredient.name && ingredient.amount) {
-        ingredient.id = ingredient.name + "-" + new Date().getTime()
-        let temparray = [...ingredientsData, ingredient]
-        localStorage.setItem(INGREDIENTS, JSON.stringify(temparray))
-        window.location.reload()
-    } else {
-        window.alert("Missing Information")
-    }
-}
-
-export function deleteIngredient(ingredient, navigate) {
-    const ingredientsDataStr = localStorage.getItem(INGREDIENTS)
-    const ingredientsData = ingredientsDataStr ? JSON.parse(ingredientsDataStr) : []
-    const newIngredients = ingredientsData.filter(ing => !ing.id.match(new RegExp('^' + ingredient.id + '$')))
-    localStorage.setItem(INGREDIENTS, JSON.stringify(newIngredients))
-    navigate(CREATERECIPES)
-}
-
-export function displayIngredients(navigate) {
-    const ingredientsDataStr = localStorage.getItem(INGREDIENTS)
-    const ingredients = ingredientsDataStr ? JSON.parse(ingredientsDataStr) : []
-    return (
-        <table className="table table-info table-striped" style={{ background: "white" }}>
-            <tbody>
-                <tr key="header">
-                    <th scope="col">Amount</th>
-                    <th scope="col">Ingredient Name</th>
-                    <th scope="col">Delete</th>
-                </tr>
-                {ingredients.map(ingredient => {
-                    return (
-                        <tr key={ingredient.id}>
-                            <td>
-                                {ingredient.amount}
-                            </td>
-                            <td>
-                                {ingredient.name}
-                            </td>
-                            <td>
-                                <button type="button" className="btn btn-primary" onClick={() => deleteIngredient(ingredient, navigate)}>Delete Ingredient</button>
-                            </td>
-                        </tr>
-                    )
-                })}
-            </tbody>
-        </table>
-    )
-}
-*/
 
 export function displayRecipeHeader(index) {
     const recipeDataStr = localStorage.getItem(RECIPES)
@@ -170,20 +117,23 @@ export function createDemoRecipe() {
     }
 }
 
-export function createFetchedRecipe(recipeObj) {
+export function createFetchedRecipe(recipeObj,imageStr) {
     let recipe = {}
     recipe.id = recipeObj.idMeal
     recipe.title = recipeObj.strMeal
     recipe.subtitle = recipeObj.strTags
     recipe.description = recipeObj.strArea + " " + recipeObj.strCategory
-    recipe.content = renderToString(createFetchedIngredients(recipeObj)) + "<br>" + recipeObj.strInstructions
+    recipe.content = renderToString(createFetchedIngredients(recipeObj,imageStr)) + "<br>" + recipeObj.strInstructions
     return recipe
 }
 
-export function createFetchedIngredients(recipeObj) {
+
+export function createFetchedIngredients(recipeObj,imageStr) {
+
     let ingredients = []
     let keyAmountString = "strMeasure"
     let keyNameString = "strIngredient"
+    console.log(imageStr)
     for (let i = 1; i < 21; i++) {
         let tempMeasure = keyAmountString + i
         let tempKeyName = keyNameString + i
@@ -192,22 +142,41 @@ export function createFetchedIngredients(recipeObj) {
         }
     }
     let ingStr =
-        <table>
-            <tbody>
-                <tr key="header">
-                    <th scope="col">Measure</th>
-                    <th scope="col">Ingredient</th>
-                </tr>
-                {ingredients.map((entry, index) =>
-                    <tr key={index}>
+        <div>
+            <table>
+                <tbody>
+                    <tr>
                         <td>
-                            {entry[0]}
+                            <img alt="" src={imageStr} />
+                            <br></br>
+                            <br></br>
+                            <a href={recipeObj.strYoutube} target="_blank" rel="noreferrer">Youtube Link </a>
                         </td>
                         <td>
-                            {entry[1]}
+                            <table>
+                                <tbody>
+                                    <tr key="header">
+                                        <th scope="col">Measure</th>
+                                        <th scope="col">Ingredient</th>
+                                    </tr>
+                                    {ingredients.map((entry, index) =>
+                                        <tr key={index}>
+                                            <td>
+                                                {entry[0]}
+                                            </td>
+                                            <td>
+                                                {entry[1]}
+                                            </td>
+                                        </tr>)}
+                                </tbody>
+                            </table>
                         </td>
-                    </tr>)}
-            </tbody>
-        </table>
-        return ingStr
+                    </tr>
+                </tbody>
+            </table>
+            <br></br>
+            <span>Source: </span>
+            <a href={recipeObj.strSource} target="_blank" rel="noreferrer"> {recipeObj.strSource} </a>
+        </div>
+    return ingStr
 }

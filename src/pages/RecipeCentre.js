@@ -26,13 +26,44 @@ function RecipeCentre() {
 
     useEffect(() => {
         if (!(obj === null)) {
-            setRecipe(createFetchedRecipe(obj))
+            const handleFile = async () => {
+                
+                let data
+                try {
+                    const response = await fetch(obj.strMealThumb, {
+                        method: 'GET'
+                    })
+                    if (!response.ok) {
+                        throw new Error('Response was not okay')
+                    }
+        
+                    data = await response.blob()
+                   
+                } catch (error) {
+                    console.error('Error', error)
+                }
+                const image = await reader(data)
+                setRecipe(createFetchedRecipe(obj,image.result))
+            }
+            handleFile(obj)
         }
     }, [obj])
 
     useEffect(() => {
         createObj(fetched)
     }, [fetched])
+
+
+    const reader = (file) =>
+        new Promise((resolve, reject) => {
+            const fr = new FileReader()
+            const blob = new Blob([file])
+            fr.onload = () => resolve(fr)
+            fr.onerror = (err) => reject(err)
+            fr.readAsDataURL(blob)
+        })
+
+
 
 
     const handleSearch = async () => {
@@ -52,6 +83,8 @@ function RecipeCentre() {
             console.error('Error', error)
         }
         setFetched(fetchedData.meals[0])
+
+
     }
 
     function createObj(fetch) {
@@ -88,6 +121,7 @@ function RecipeCentre() {
                     <button className={theme.button} style={{ marginTop: 16 }} onClick={() => {
                         handleSearch()
                         createObj(fetched)
+
                     }}>Get Random Recipe</button>
                     <button className={theme.button} style={{ marginTop: 16 }} onClick={() => {
                         saveFetchedRecipe(recipe, navigate)

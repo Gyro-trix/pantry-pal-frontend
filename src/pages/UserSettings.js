@@ -78,33 +78,44 @@ function UserSettings() {
                 <div className="col" style={{ marginBottom: 32 }}>
                     <div className="card" style={{ padding: 16 }}>
                         <h5>Welcome: {currentUser.username}</h5>
-                        <form>
-                            <label style={{ marginTop: 16 }}>  Current Password:
+                        <form >
+                        <label hidden={true} style={{ marginTop: 16}}>  User:
                                 <input
                                     className="form-control"
-                                    style={{ width: 200}}
+                                    style={{ }}
+                                    type="text"
+                                    onChange={handlePasswordChange}
+                                    name="username"
+                                    autoComplete="username"
+                                ></input>
+                            </label>
+                            
+                            <label style={{ marginTop: 16 , width:"100%"}}>  Current Password:
+                                <input
+                                    className="form-control"
+                                    style={{ }}
                                     type="password"
                                     onChange={handlePasswordChange}
                                     name="currentpassword"
                                     autoComplete="current-password"
                                 ></input>
                             </label>
-                            <br></br>
-                            <label style={{ marginTop: 16 }}> New Password:
+                            
+                            <label style={{ marginTop: 16 , width:"100%"}}> New Password:
                                 <input
                                     className="form-control"
-                                    style={{ width: 200 }}
+                                    style={{ }}
                                     type="password"
                                     onChange={handlePasswordChange}
                                     name="newpassword"
                                     autoComplete="new-password"
                                 ></input>
                             </label>
-                            <br></br>
-                            <label style={{ marginTop: 16 }}> Re-Type New Password:
+                            
+                            <label style={{ marginTop: 16 , width:"100%"}}> Re-Type New Password:
                                 <input
                                     className="form-control"
-                                    style={{ width: 200 }}
+                                    style={{  }}
                                     type="password"
                                     onChange={handlePasswordChange}
                                     name="newpasswordcheck"
@@ -132,8 +143,8 @@ function UserSettings() {
                 <div className="col" style={{ marginBottom: 32 }}>
                     <div className="card" style={{ padding: 16, height:"100%" }}>
                         <div className="container flex col">
-                            <br />
-                            <div style ={{display:"flex",justifyContent:"center"}}>{image != null && <img alt="" height={260} src={`${image}`} />}</div>
+                            
+                            <div style ={{height:260,display:"flex",justifyContent:"center"}}>{image != null && <img alt="" height={260} src={`${image}`} />}</div>
                             <div className="input-group mb-3" style={{ marginTop: 16 }}>
                                 <input
                                     type="file"
@@ -154,7 +165,7 @@ function UserSettings() {
 
                         <form style={{ marginTop: 32 }}>
                             <label className="form-control" style={{ }}>
-                                <input type="checkbox" name="notify" checked={notify} onChange={handleCheck} />
+                                <input className="form-check-input" type="checkbox" name="notify" checked={notify} onChange={handleCheck} />
                                 <span style={{ marginLeft: 8, whiteSpace: "nowrap" }} >Enable Notifications</span>
                             </label>
                         </form>

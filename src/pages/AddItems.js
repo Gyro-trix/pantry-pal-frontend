@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import DatePicker from "react-datepicker";
 import { displayItems, addItem, addExpiryDate } from "../utils/storage"
-import { CUR_ITEM_LIST } from "../config/localStorage";
+import { CUR_ITEM_LIST,THEME } from "../config/localStorage";
 
 import { toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
@@ -10,6 +10,8 @@ import AddNutrition from "./AddNutrition";
 
 
 function AddItems(props) {
+    const themeStr = localStorage.getItem(THEME)
+  const theme = JSON.parse(themeStr)
     const [key,setKey] = useState(false)
     const [startDate, setStartDate] = useState(new Date())
     const [itemSearch, setItemSearch] = useState(null)
@@ -117,7 +119,7 @@ function AddItems(props) {
                         name="search"
                         placeholder="Search"
                     ></input>
-                    <button type="button" className="btn btn-primary" style={{ whiteSpace: "nowrap" }} onClick={handleSearch}>{searchBtn}</button>
+                    <button type="button" className={theme.button} style={{ whiteSpace: "nowrap" }} onClick={handleSearch}>{searchBtn}</button>
                 </div>
 
 
@@ -163,8 +165,8 @@ function AddItems(props) {
                             </div>
                         </div>
                         <div style={{ marginTop: 16, float: "right" }}>
-                            <button type="button" className="btn btn-primary" style={{ whiteSpace: "nowrap" }} hidden={addNutritionBtn} onClick={()=> {setKey(true)}}>Add Nutrition Info</button>
-                            <button type="button" className="btn btn-primary" style={{ whiteSpace: "nowrap", marginLeft: 16 }} onClick={() => addItem(item)}>Add Item</button>
+                            <button type="button" className={theme.button} style={{ whiteSpace: "nowrap" }} hidden={addNutritionBtn} onClick={()=> {setKey(true)}}>Add Nutrition Info</button>
+                            <button type="button" className={theme.button} style={{ whiteSpace: "nowrap", marginLeft: 16 }} onClick={() => addItem(item)}>Add Item</button>
                             <AddNutrition name= {item.name} nutrition = {nutrition} setNutrition = {setNutrition} trigger = {key} setTrigger={setKey}/>
                         </div>
                     </div>

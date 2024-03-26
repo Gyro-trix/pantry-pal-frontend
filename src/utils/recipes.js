@@ -1,5 +1,5 @@
 import { RECIPES, RECIPETOEDIT, CUR_USER } from "../config/localStorage"
-import { CREATERECIPES, EDIT_RECIPE, DISPLAYRECIPES } from "../config/routes";
+import { CREATERECIPES, EDIT_RECIPE, DISPLAYRECIPES, RECIPE_CENTRE } from "../config/routes";
 import { toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import { demoRecipe } from "./demos";
@@ -14,6 +14,16 @@ export function saveRecipe(recipe, navigate) {
     let temparray = [...recipeData, recipe]
     localStorage.setItem(RECIPES, JSON.stringify(temparray))
     navigate(CREATERECIPES)
+}
+
+export function saveFetchedRecipe(recipe, navigate) {
+    const recipeDataStr = localStorage.getItem(RECIPES)
+    const recipeData = recipeDataStr ? JSON.parse(recipeDataStr) : []
+    const currentUser = JSON.parse(localStorage.getItem(CUR_USER))
+    recipe.id = currentUser.username + "" + new Date().getTime()
+    let temparray = [...recipeData, recipe]
+    localStorage.setItem(RECIPES, JSON.stringify(temparray))
+    navigate(RECIPE_CENTRE)
 }
 /*
 export function addIngredient(ingredient) {

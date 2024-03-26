@@ -60,11 +60,12 @@ export function saveStorageToLocalStorage(currentStorage) {
 }
 
 export function displayItems() {
-
+    const themeStr = localStorage.getItem(THEME)
+    const theme = JSON.parse(themeStr)
     const itemlist = JSON.parse(localStorage.getItem(CUR_ITEM_LIST))
     if ((itemlist === null) === false) {
         return (
-            <table className="table table-info table-striped" style={{ background: "white" }}>
+            <table className={theme.table} style={{ background: "white" }}>
                 <tbody>
                     <tr key="header">
                         <th scope="col">Quantity</th>
@@ -92,15 +93,15 @@ export function displayItems() {
                                 <td>
                                     {displayDate(item.expiry)}
                                 </td>
-                                <td >
-                                    <button type="button" className="btn btn-primary" onClick={() => { setKey(true) }}><Icon.Eye size={20} /></button>
+                                <td style={{textAlign:"center"}}>
+                                    <button type="button" className={theme.button} onClick={() => { setKey(true) }}><Icon.Eye size={20} /></button>
 
                                     <div>
                                         <Nutrition name={item.name} nutrition={nutrition} trigger={key} setTrigger={setKey} />
                                     </div>
                                 </td>
                                 <td>
-                                    <button type="button" className="btn btn-primary" onClick={() => deleteItem(index)}>Delete</button>
+                                    <button type="button" className={theme.button} onClick={() => deleteItem(index)}>Delete</button>
                                 </td>
 
                             </tr>

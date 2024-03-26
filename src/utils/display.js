@@ -14,6 +14,7 @@ export const darkTheme ={
   backgroundRGB:"rgba(128, 128, 128, 0.7)",
   card:"",
   button:"btn btn-secondary",
+  table:"table table-striped"
 }
 export const lightTheme ={
   name:"light",
@@ -21,6 +22,7 @@ export const lightTheme ={
   backgroundRGB:"rgba(173, 216, 230, 0.7)",
   card:"",
   button:"btn btn-primary",
+  table:"table table-striped"
 }
 
 export function changeTheme(){

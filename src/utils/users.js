@@ -1,4 +1,4 @@
-import { ALL_USERS, CUR_USER, USER_TO_EDIT } from "../config/localStorage"
+import { ALL_USERS, CUR_USER, USER_TO_EDIT,THEME } from "../config/localStorage"
 import { HOME, SIGN_IN, MANAGEUSERS, EDITUSER, USER_SETTINGS } from "../config/routes"
 import { gatherNotifications } from "./notifications"
 import React from 'react';
@@ -176,27 +176,29 @@ export function getCurrentUsername() {
 export function displayUsers(navigate) {
   const allUserDataStr = localStorage.getItem(ALL_USERS)
   const allUserData = allUserDataStr ? JSON.parse(allUserDataStr) : []
+  const themeStr = localStorage.getItem(THEME)
+  const theme = JSON.parse(themeStr)
   return (
-    <table className="table table-info table-striped">
+    <table className={theme.table}>
       <tbody>
-        <tr key="header">
-          <th scope="col">Username</th>
-          <th scope="col">Admin Level</th>
-          <th scope="col">Options</th>
+        <tr  key="header">
+          <th  scope="col">Username</th>
+          <th  scope="col">Admin Level</th>
+          <th  scope="col">Options</th>
         </tr>
         {allUserData.map(user => {
           if (user.adminlevel <= 2) {
             return (
               <tr key={user.id}>
-                <td>
+                <td >
                   {user.username}
                 </td>
-                <td>
+                <td >
                   {user.adminlevel}
                 </td>
-                <td>
-                  <button className="btn btn-primary" style={{ marginRight: 16 }} onClick={() => editUser(user, navigate)}>Edit User</button>
-                  <button className="btn btn-primary" onClick={() => deleteUser(user, navigate)}>Delete User</button>
+                <td >
+                  <button className={theme.button} style={{ marginRight: 16 }} onClick={() => editUser(user, navigate)}>Edit User</button>
+                  <button className={theme.button} onClick={() => deleteUser(user, navigate)}>Delete User</button>
                 </td>
               </tr>
             )

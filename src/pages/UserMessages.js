@@ -1,20 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { CUR_USER, MESSAGE_USER } from "../config/localStorage";
+import { CUR_USER, MESSAGE_USER,THEME } from "../config/localStorage";
 import { checkUserLogin, getUserImage, getUserNameByID } from "../utils/users";
 import { displayMessages, newMessagesForUser, submitMessage } from "../utils/messages";
 import Avatar from 'react-avatar';
 
 function UserMessages() {
-
+    const themeStr = localStorage.getItem(THEME)
+    const theme = JSON.parse(themeStr)
     const [content, setContent] = useState("")
     const currentUserStr = localStorage.getItem(CUR_USER)
     const currentUser = JSON.parse(currentUserStr)
     const currentUsername = currentUser.username
     const [userList, setUserList] = useState(currentUser.friends)
     const navigate = useNavigate();
-    //localStorage.setItem(MESSAGE_USER,userList[0] ? JSON.stringify(userList[0]):"")
-    const [targetUser, setTargetUser] = useState(JSON.parse(localStorage.getItem(MESSAGE_USER)))
+    localStorage.setItem(MESSAGE_USER,userList[0] ? JSON.stringify(userList[0]):"")
+    const targetUserStr = localStorage.getItem(MESSAGE_USER)
+    const [targetUser, setTargetUser] = useState(targetUserStr ? JSON.parse(targetUserStr):"")
 
     useEffect(() => {
         checkUserLogin(currentUserStr, navigate)
@@ -59,7 +61,7 @@ function UserMessages() {
                                 style={{ width: "100%" }}
                                 onChange={handleContentChange}>
                             </textarea>
-                            <button type="button" className="btn btn-primary" style={{ marginTop: 8, right: 8, float: "right" }} onClick={() => submitMessage(targetUser, currentUsername, content, navigate)}>Send</button>
+                            <button type="button" className={theme.button} style={{ marginTop: 8, right: 8, float: "right" }} onClick={() => submitMessage(targetUser, currentUsername, content, navigate)}>Send</button>
                         </form>
                     </div>
                 </div>

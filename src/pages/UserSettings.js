@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { checkUserLogin, saveUserSettings, changeUserPassword } from "../utils/users"
-import { CUR_USER } from "../config/localStorage"
+import { CUR_USER,THEME } from "../config/localStorage"
 import { inviteUser } from "../utils/messages";
 
 
 function UserSettings() {
+    const themeStr = localStorage.getItem(THEME)
+    const theme = JSON.parse(themeStr)
     const navigate = useNavigate()
     const currentUserStr = localStorage.getItem(CUR_USER)
     const [inviteEmail, setInviteEmail] = useState("")
@@ -111,7 +113,7 @@ function UserSettings() {
                             </label>
                         </form>
                         <p style={{ color: passwordNoticeColor, marginTop: 32 }}>{passwordNotice}</p>
-                        <button type="button" className="btn btn-primary" style={{ marginLeft: 8, marginTop: 32 }} onClick={() => {
+                        <button type="button" className={theme.button} style={{ marginLeft: 8, marginTop: 32 }} onClick={() => {
                             if (changeUserPassword(passwords, navigate) === true) {
                                 setCurrentUser((prev) => ({
                                     ...prev,
@@ -143,7 +145,7 @@ function UserSettings() {
                                 />
                             </div>
                         </div>
-                        <button type="button" className="btn btn-primary" style={{ marginLeft: 8, marginTop: 16 }} onClick={() => saveUserSettings(currentUser, navigate)}>Save Profile Image</button>
+                        <button type="button" className={theme.button} style={{ marginLeft: 8, marginTop: 16 }} onClick={() => saveUserSettings(currentUser, navigate)}>Save Profile Image</button>
                     </div>
                 </div>
                 {/* Settings column */}
@@ -189,7 +191,7 @@ function UserSettings() {
                             ></input>
                         </label>
 
-                        <button type="button" className="btn btn-primary" style={{  marginTop: 64 }} onClick={() => saveUserSettings(currentUser, navigate)}>Update Settings</button>
+                        <button type="button" className={theme.button} style={{  marginTop: 64 }} onClick={() => saveUserSettings(currentUser, navigate)}>Update Settings</button>
                     </div>
                 </div>
                 <div className="col">
@@ -204,7 +206,7 @@ function UserSettings() {
                             placeholder="Invite by Email"
                         ></input>
                         </form>
-                        <button type="button" className="btn btn-primary" style={{ marginTop: 16 }} onClick={() => { inviteUser(currentUser, inviteEmail) }}>Invite</button>
+                        <button type="button" className={theme.button} style={{ marginTop: 16 }} onClick={() => { inviteUser(currentUser, inviteEmail) }}>Invite</button>
                     </div>
                 </div>
             </div>

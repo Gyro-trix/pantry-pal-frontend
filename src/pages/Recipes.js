@@ -24,7 +24,7 @@ function Recipes() {
         readonly: true,
         height: 500
     }),
-        []
+        [theme.name]
     );
     const currentUserStr = localStorage.getItem(CUR_USER)
     const navigate = useNavigate();
@@ -66,8 +66,8 @@ function Recipes() {
     }
 
     return (
-        <div style={{minWidth:700, marginTop: 16 }}>
-            <div className="card w-50 mb-3" style={{ margin: "auto", overflow: "hidden", padding: 16 }} >
+        <div className="container" style={{ minWidth: "100%",marginTop: 16 }}>
+            <div className="card w-75 mb-3" style={{ margin: "auto", overflow: "hidden", padding: 16 }} >
                 <div className={headerClass} onAnimationEnd={()=> setHeaderClass("")} >{displayRecipeHeader(index)}</div>
                 <div className={cardClass} onAnimationEnd={() => { setCardClass("card"); setCardStyle({ height: 500 }) }} style={cardStyle} >
                     <JoditEditor

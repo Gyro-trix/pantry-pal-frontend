@@ -26,7 +26,7 @@ export const lightTheme ={
   backgroundRGB:"rgba(173, 216, 230, 0.7)",
   card:"",
   button:"btn btn-primary",
-  table:"table table-striped",
+  table:"table table-info table-striped",
   dropdown:"black",
   avatar:['cyan', 'lightblue', 'blue'],
   to:"white",

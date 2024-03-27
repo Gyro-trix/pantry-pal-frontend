@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { addUser, userEmailExists, userExists } from "../utils/users"
-import { CUR_USER } from "../config/localStorage"
+import { CUR_USER, THEME } from "../config/localStorage"
 
 //Used to register a new admin level user 
 function Register() {
+    const themeStr = localStorage.getItem(THEME)
+    const theme = JSON.parse(themeStr)
     const [newUser, setNewUser] = useState()
     const navigate = useNavigate()
     //Used to update reminder text on registration page 
@@ -87,7 +89,7 @@ function Register() {
                 />
 
             </form>
-            <button type="button" className="btn btn-primary" style={{ marginTop: 16 }} onClick={() => addUser(newUser, navigate)}>Register</button>
+            <button type="button" className={theme.button} style={{ marginTop: 16 }} onClick={() => addUser(newUser, navigate)}>Register</button>
 
         </div>
     );

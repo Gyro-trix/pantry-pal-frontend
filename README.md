@@ -34,6 +34,8 @@ The following APIs are in use:
 - Clean up notifications page (add expired and ~~friend invites~~)
 - ~~Move Manage User and Create User to dropdown in Admin's NavBar~~
 - ~~Nutrition Symbol instead of _ in items~~ Added bootstrap icons (react-bootstrap-icons)
+- Message can be entered without a targetted user, need to fix
+- Apply theme to toastify if possible
 
 
 

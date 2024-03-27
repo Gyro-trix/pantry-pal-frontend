@@ -141,9 +141,9 @@ function NavBar() {
   }
 
   //Disable dropdown if no user
-  let drop = "btn dropdown-toggle"
+  let drop = "nav-link dropdown-toggle"
   if (currentUsername === "No User") {
-    drop = "btn dropdown-toggle disabled"
+    drop = "nav-link dropdown-toggle disabled"
   }
 
   if (width < 1000) {
@@ -217,10 +217,10 @@ function NavBar() {
           <Icon.SunFill color="powderblue" hidden={themeSwitch} style={{ animation: "fadeIn 1s" }} onClick={() => delayThemeSwitch()} size={24} />
           <Icon.MoonFill color="grey" hidden={!themeSwitch} style={{ animation: "fadeIn 1s" }} onClick={() => delayThemeSwitch()} size={24} />
         </div>
-        <div className="dropdown justify-content-left " hidden={dropdownHidden} style={{ width: 160 }}>
-          <button className={drop} style={{ width: 160, marginTop: 16 }} data-bs-toggle="dropdown" aria-expanded="false">
-            <Avatar size="32" round={true} color={Avatar.getRandomColor('sitebase', ['cyan', 'lightblue', 'blue'])} src={currentUserImage} name={currentUsername} textSizeRatio={2} /><sup style={{ marginLeft: -8, color: "red" }}>{dot}</sup> <span style={{ marginLeft: 16 }}>{currentUsername}</span>
-          </button>
+        <div className="dropdown justify-content-left " hidden={dropdownHidden} style={{ marginLeft:8,width: 160 }}>
+          <a className={drop} style={{ color:theme.dropdown,width: 160, marginTop: 16 }} data-bs-toggle="dropdown" aria-expanded="false">
+            <Avatar size="32" round={true} color={Avatar.getRandomColor('sitebase', theme.avatar)} src={currentUserImage} name={currentUsername} textSizeRatio={2} /><sup style={{ marginLeft: -8, color: "red" }}>{dot}</sup> <span style={{ marginLeft: 16 }}>{currentUsername}</span>
+          </a>
           <ul>
             {dropDown}
           </ul>

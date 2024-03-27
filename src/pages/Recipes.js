@@ -80,7 +80,8 @@ function Recipes() {
                 <div className="col d-flex justify-content-between" style={{ marginTop: 16 }}>
                     <button type="button" className={theme.button} onClick={() => prevRecipe()} style={{ width: 112 }}>Previous</button>
                     <button ref={editButton} type="button" className={theme.button} onClick = {()=>editRecipe(index,navigate)}style={{ width: 112, marginLeft: 8 }} hidden = {true}>Edit</button>
-                    <button ref={deleteButton} type="button" className={theme.button}  onClick = {()=> deleteRecipe(index,navigate)}style={{ width: 112, marginLeft: 8 }} hidden={true} >Delete</button>
+                    <button ref={deleteButton} type="button" className={theme.button}  onClick = {()=> {deleteRecipe(index,navigate)
+                    nextRecipe()}}style={{ width: 112, marginLeft: 8 }} hidden={true} >Delete</button>
                     <button type="button" className={theme.button} onClick={() => nextRecipe()} style={{ width: 112, marginLeft: 8 }}>Next</button>
                 </div>
             </div>

@@ -133,7 +133,6 @@ export function createFetchedIngredients(recipeObj,imageStr) {
     let ingredients = []
     let keyAmountString = "strMeasure"
     let keyNameString = "strIngredient"
-    console.log(imageStr)
     for (let i = 1; i < 21; i++) {
         let tempMeasure = keyAmountString + i
         let tempKeyName = keyNameString + i

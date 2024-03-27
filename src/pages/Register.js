@@ -7,7 +7,7 @@ import { CUR_USER, THEME } from "../config/localStorage"
 function Register() {
     const themeStr = localStorage.getItem(THEME)
     const theme = JSON.parse(themeStr)
-    const [newUser, setNewUser] = useState()
+    const [newUser, setNewUser] = useState(null)
     const navigate = useNavigate()
     //Used to update reminder text on registration page 
     const [noticeStyle, setColor] = useState('green')
@@ -25,6 +25,7 @@ function Register() {
     }
 
     const handleCheck = () => {
+        if(!(newUser === null)){
         if (!userExists(newUser)) {
             setColor('green')
             setText("Username Available")
@@ -33,8 +34,10 @@ function Register() {
             setText("Username Taken")
         }
     }
+    }
 
     const handleEmailChk = () => {
+        if(!(newUser === null)){
         if (!userEmailExists(newUser)) {
             setEmailTextColor('green')
             setEmailText("Email Not Used")
@@ -42,6 +45,7 @@ function Register() {
             setEmailTextColor('red')
             setEmailText("EMail already in use")
         }
+    }
     }
 
     //Register form

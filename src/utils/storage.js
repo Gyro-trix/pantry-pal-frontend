@@ -161,13 +161,13 @@ export function displayStorage(storageDataStr, storageData, navigate) {
         return storageData.map((singleStorageData) => {
             let storageImage = singleStorageData.image ? singleStorageData.image : ""
             return (
-                <div key={singleStorageData.name} >
-                    <div className="card mb-3" style={{ marginLeft: 16, marginTop: 16, maxWidth: "70%" }}>
-                        <div className="row g-0">
-                            <div className="col-md-6" style={{ padding: 16 }}>
-                                <Avatar unstyle={true} size={200} color={Avatar.getRandomColor('sitebase', ['cyan', 'lightblue', 'blue'])} src={storageImage} name={singleStorageData.name} textSizeRatio={1.5} />
+                
+                    <div key={singleStorageData.id} className="card mb-3" style={{ display:"grid",marginLeft: 16, marginTop: 16, maxWidth: "48%",minWidth:"48%" }}>
+                        <div className="row g-0 d-flex" >
+                            <div className="col-md-6" style={{ padding: 16, minWidth:232 }}>
+                                <Avatar unstyle={true} size={200} color={Avatar.getRandomColor('sitebase', theme.avatar)} src={storageImage} name={singleStorageData.name} textSizeRatio={1.5} />
                             </div>
-                            <div className="col-md-4">
+                            <div className="col-md-6">
                                 <div className="card-body" >
                                     <h4 className="card-title">{singleStorageData.name}</h4>
                                     <p className="card-text">{singleStorageData.type} at {singleStorageData.location}</p>
@@ -176,14 +176,14 @@ export function displayStorage(storageDataStr, storageData, navigate) {
 
 
                             </div>
-                            <div className="col d-flex justify-content-between" style={{ padding: 16 }}>
-                                <button className={theme.button} style={{ whiteSpace: "nowrap" }} onClick={() => openEditStoragePage(singleStorageData, navigate)}>Edit Storage</button>
-                                <button className={theme.button} style={{ whiteSpace: "nowrap" }} onClick={() => { if (window.confirm('Delete the item?')) { deleteStorage(allStorageData, singleStorageData) } }} >Delete Storage</button>
+                            <div className="col d-flex justify-content-between" style={{ padding: 16,marginTop:"auto"}}>
+                                <button className={theme.button} style={{ whiteSpace: "nowrap"}} onClick={() => openEditStoragePage(singleStorageData, navigate)}>Edit Storage</button>
+                                <button className={theme.button} style={{ whiteSpace: "nowrap",marginLeft:16 }} onClick={() => { if (window.confirm('Delete the item?')) { deleteStorage(allStorageData, singleStorageData) } }} >Delete Storage</button>
                             </div>
 
                         </div>
                     </div>
-                </div>
+                
             )
         })
     }

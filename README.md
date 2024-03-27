@@ -29,13 +29,13 @@ The following APIs are in use:
 - ~~Change button location on storage to bottom~~
 - Implement more toastify instances
 - ~~Center image in places where it displays image to be added on edit storage and user settings~~
-- Try and implement themes(dark and light) which changes react components based on local storage value (currently on message system, need to work on radio buttons)
+- ~~Try and implement themes(dark and light) which changes react components based on local storage value (currently on message system, need to work on radio buttons)~~
 - ~~Formatting for the random recipe API fetch(partially done, image and youtube link left) and add save recipe~~
 - Clean up notifications page (add expired and ~~friend invites~~)
 - ~~Move Manage User and Create User to dropdown in Admin's NavBar~~
 - ~~Nutrition Symbol instead of _ in items~~ Added bootstrap icons (react-bootstrap-icons)
 - Message can be entered without a targeted user, need to fix
-- Apply theme to toastify if possible
+- ~~Apply theme to toastify if possible~~
 
 
 

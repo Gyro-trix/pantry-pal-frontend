@@ -23,11 +23,13 @@ export function checkAdminLogin(currentUser, navigate) {
 }
 //Basic login function
 export function logIn(attemptingUser, navigate) {
+  const themeStr = localStorage.getItem(THEME)
+  const theme = JSON.parse(themeStr)
   //Checks if both fields have a value
   if (attemptingUser.username && attemptingUser.password) {
     //Check for user in local storage
     if (validateUser(attemptingUser) === false) {
-      toast("Invalid Username or Password!", { position: "bottom-right" })
+      toast("Invalid Username or Password!", { position: "bottom-right", theme:theme.toast})
     } else {
       localStorage.setItem(CUR_USER, JSON.stringify(attemptingUser))
       navigate(HOME)
@@ -237,7 +239,6 @@ export function getUserIDByEmail(emailToSearch) {
   if (allUserData.length > 0) {
     const filteredUser = allUserData.filter(users => users.email.match(new RegExp('^' + emailToSearch + '$')))
     if (filteredUser.length > 0) {
-      console.log(filteredUser[0].id)
       return filteredUser[0].id
     } else {
       return "No User Found"

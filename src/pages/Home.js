@@ -32,7 +32,7 @@ function Home() {
   }, [currentUserStr, navigate])
 
   return (
-    <div className="container w-90" style={{  padding: 32, height: height-70, width:width }}>
+    <div className="container w-90" style={{  padding: 32, height: height-70, width:width,minWidth:700 }}>
       <div className="row row-cols-auto" style = {{animation: "moveToRight 1s",margin:"auto"}}>
         {displayStorage(allStorageDataStr, allStorageData, navigate)}
       </div>

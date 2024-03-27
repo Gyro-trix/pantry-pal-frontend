@@ -2,6 +2,7 @@ import { ALL_STORAGES, CUR_USER, NOTIFICATIONS, THEME } from "../config/localSto
 import { addFriend, getUserNameByID } from "./users"
 import { toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
+import * as Icon from 'react-bootstrap-icons';
 
 export function gatherNotifications() {
     const allStoragesStr = localStorage.getItem(ALL_STORAGES)
@@ -130,7 +131,32 @@ export function displayInvites(currentUser) {
         })
     }
 }
-// Counts number of notifications not yet dismissed, needs to take into effect is a user is signed in
+
+export function displayInvitesSmall(currentUser) {
+    const notificationsStr = localStorage.getItem(NOTIFICATIONS)
+    if (!(notificationsStr === null || notificationsStr.trim() === "")) {
+        const notifications = JSON.parse(notificationsStr)
+        return notifications.map((notification) => {
+            if (notification.type === "invite" && notification.target === currentUser.id) {
+                return (
+                    <div key={notification.id} className="card d-flex justify-content-evenly" style={{ marginTop: 16, padding: 8, border:0 }}>
+                        <div className=" d-flex justify-content-between">
+                            <label style={{ marginLeft: 16, marginTop: 8 }}>Invite From: {getUserNameByID(notification.owner)}</label>
+                            <div className="button" style={{ backgroundColor: "green", height: 35, width: 35, borderRadius: "50%" }} onClick={() => {
+                                addFriend(currentUser, notification.owner)
+                                deleteNotification(notification.id)
+                            }}><Icon.CheckCircle style={{}} size={35} /></div>
+                            <div className="button" style={{ backgroundColor: "red", height: 35, width: 35, borderRadius: "50%" }} onClick={() => dismissNotification(notification.id)}><Icon.XCircle style={{}} size={35} /></div>
+                        </div>
+                    </div>
+                )
+            } else {
+                return ""
+            }
+        })
+    }
+}
+
 export function numberOfNotifications() {
     const currentUserStr = localStorage.getItem(CUR_USER)
     const currentUser = currentUserStr ? JSON.parse(currentUserStr) : null

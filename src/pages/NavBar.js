@@ -17,8 +17,7 @@ function NavBar() {
   const theme = JSON.parse(themeStr)
   const [notificationCount, setNotificationCount] = useState(numberOfNotifications())
   const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions);
-  const { width, height } = windowDimensions;
-  const [themeSettings, setThemeSettings] = useState({ navbar: "light" })
+  const { width } = windowDimensions;
 
   let themeSwitch = true
   let currentUsername
@@ -218,7 +217,7 @@ function NavBar() {
           <Icon.MoonFill color="grey" hidden={!themeSwitch} style={{ animation: "fadeIn 1s" }} onClick={() => delayThemeSwitch()} size={24} />
         </div>
         <div className="dropdown justify-content-left " hidden={dropdownHidden} style={{ marginLeft:8,width: 160 }}>
-          <a className={drop} style={{ color:theme.dropdown,width: 160, marginTop: 16 }} data-bs-toggle="dropdown" aria-expanded="false">
+          <a href ="/" className={drop} style={{ color:theme.dropdown,width: 160, marginTop: 16 }} data-bs-toggle="dropdown" aria-expanded="false">
             <Avatar size="32" round={true} color={Avatar.getRandomColor('sitebase', theme.avatar)} src={currentUserImage} name={currentUsername} textSizeRatio={2} /><sup style={{ marginLeft: -8, color: "red" }}>{dot}</sup> <span style={{ marginLeft: 16 }}>{currentUsername}</span>
           </a>
           <ul>

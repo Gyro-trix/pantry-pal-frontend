@@ -1,16 +1,20 @@
 import React, { useEffect, useState, useMemo, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import JoditEditor from 'jodit-react';
-import { THEME } from "../config/localStorage";
+import { CUR_USER, THEME } from "../config/localStorage";
 import { createFetchedRecipe, saveFetchedRecipe } from "../utils/recipes";
+import { checkUserLogin } from "../utils/users";
 
 function RecipeCentre() {
+
+    const navigate = useNavigate()
+    const currentUserStr = localStorage.getItem(CUR_USER)
     const themeStr = localStorage.getItem(THEME)
     const theme = JSON.parse(themeStr)
-    const navigate = useNavigate()
     const [fetched, setFetched] = useState(null)
     const [obj, setObj] = useState(null)
     const [recipe, setRecipe] = useState({ id: " ", title: " ", subtitle: " ", description: " ", content: "" })
+    const saveButton = useRef(null)
     const editor = useRef(null)
     const config = useMemo(() =>
     ({
@@ -25,9 +29,13 @@ function RecipeCentre() {
     );
 
     useEffect(() => {
+        checkUserLogin(currentUserStr, navigate)
+    }, [currentUserStr, navigate])
+
+    useEffect(() => {
         if (!(obj === null)) {
             const handleFile = async () => {
-                
+
                 let data
                 try {
                     const response = await fetch(obj.strMealThumb, {
@@ -36,14 +44,14 @@ function RecipeCentre() {
                     if (!response.ok) {
                         throw new Error('Response was not okay')
                     }
-        
+
                     data = await response.blob()
-                   
+
                 } catch (error) {
                     console.error('Error', error)
                 }
                 const image = await reader(data)
-                setRecipe(createFetchedRecipe(obj,image.result))
+                setRecipe(createFetchedRecipe(obj, image.result))
             }
             handleFile(obj)
         }
@@ -96,6 +104,7 @@ function RecipeCentre() {
                     [entry[0]]: entry[1]
                 }))
             })
+            saveButton.current.hidden=false
         }
 
     }
@@ -121,10 +130,11 @@ function RecipeCentre() {
                     <button className={theme.button} style={{ marginTop: 16 }} onClick={() => {
                         handleSearch()
                         createObj(fetched)
-
+                        
                     }}>Get Random Recipe</button>
-                    <button className={theme.button} style={{ marginTop: 16 }} onClick={() => {
+                    <button ref={saveButton} hidden={true} className={theme.button} style={{ marginTop: 16 }} onClick={() => {
                         saveFetchedRecipe(recipe, navigate)
+                        saveButton.current.hidden=true
                     }}>Save Random Recipe</button>
                 </div>
             </div>

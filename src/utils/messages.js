@@ -1,4 +1,4 @@
-import { USER_MESSAGES, NOTIFICATIONS,THEME } from "../config/localStorage";
+import { USER_MESSAGES, NOTIFICATIONS, THEME } from "../config/localStorage";
 import { USERMESSAGES } from "../config/routes";
 import Avatar from 'react-avatar';
 import { getUserIDByEmail, getUserImage } from "./users";
@@ -26,7 +26,7 @@ export function inviteUser(currentUser, userToInviteEmail) {
         } else {
             toast("No User matched to email", { position: "bottom-right" })
         }
-    } 
+    }
 }
 
 export function displayMessages(targetUser, currentUser, navigate) {
@@ -82,12 +82,21 @@ export function displayMessages(targetUser, currentUser, navigate) {
 }
 
 export function submitMessage(targetUser, currentUser, contents, navigate) {
-    const userMessagesStr = localStorage.getItem(USER_MESSAGES)
-    const userMessages = userMessagesStr ? JSON.parse(userMessagesStr) : []
-    const time = new Date().getTime()
-    const message = { from: currentUser, to: targetUser, contents: contents, time: time, seen: false }
-    let messages = [...userMessages, message]
-    localStorage.setItem(USER_MESSAGES, JSON.stringify(messages))
+    const themeStr = localStorage.getItem(THEME)
+    const theme = JSON.parse(themeStr)
+    if (targetUser !== "" && contents !== "") {
+        console.log(targetUser)
+        const userMessagesStr = localStorage.getItem(USER_MESSAGES)
+        const userMessages = userMessagesStr ? JSON.parse(userMessagesStr) : []
+        const time = new Date().getTime()
+        const message = { from: currentUser, to: targetUser, contents: contents, time: time, seen: false }
+        let messages = [...userMessages, message]
+        localStorage.setItem(USER_MESSAGES, JSON.stringify(messages))
+    } else if(targetUser !== ""){
+        toast("Please enter a message.", { position: "bottom-right", theme: theme.toast })
+    } else if(contents !== ""){
+        toast("Please select a user.", { position: "bottom-right", theme: theme.toast })
+    }
     navigate(USERMESSAGES)
 }
 

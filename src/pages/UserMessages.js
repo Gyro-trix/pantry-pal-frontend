@@ -4,7 +4,7 @@ import { CUR_USER, MESSAGE_USER, THEME } from "../config/localStorage";
 import { checkUserLogin, getUserImage, getUserNameByID } from "../utils/users";
 import { displayMessages, inviteUser, newMessagesForUser, submitMessage } from "../utils/messages";
 import Avatar from 'react-avatar';
-import { displayInvites, displayInvitesSmall } from "../utils/notifications";
+import { displayInvitesSmall, displayPendingInvites } from "../utils/notifications";
 
 function UserMessages() {
     const themeStr = localStorage.getItem(THEME)
@@ -52,6 +52,7 @@ function UserMessages() {
                     })}
                     <div className="card col" style={{ marginTop: "auto" }}>
                     {displayInvitesSmall(currentUser)}
+                    {displayPendingInvites(currentUser)}
                         <div className="col">
                             <div className="card" style={{ padding: 16,border:0 }}>
                                 <form>

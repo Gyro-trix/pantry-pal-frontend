@@ -14,7 +14,8 @@ function Notifications() {
     }, [currentUserStr, navigate])
 
     return (
-        <div className="row row-cols" style={{ padding: 32, minWidth:500, maxWidth:800 }}>
+        <div className ="container" style={{margin:"auto"}}>
+        <div className="row row-cols" style={{ padding: 32 }}>
             <div className="card" style={{ padding: 32 }}>
                 <div className="card-body">
                     <h3 className="card-title">Low Inventory</h3>
@@ -30,6 +31,7 @@ function Notifications() {
                 </div>
             </div>
         </div>
+      </div>  
     )
 }
 

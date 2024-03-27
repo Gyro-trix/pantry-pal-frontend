@@ -7,10 +7,11 @@ import "react-toastify/dist/ReactToastify.css";
 import { checkInvites } from "./notifications";
 
 export function inviteUser(currentUser, userToInviteEmail) {
-
     const allNotificationsStr = localStorage.getItem(NOTIFICATIONS)
     const allNotifications = allNotificationsStr ? JSON.parse(allNotificationsStr) : []
     const userToInviteID = getUserIDByEmail(userToInviteEmail)
+    const themeStr = localStorage.getItem(THEME)
+    const theme = JSON.parse(themeStr)
     if (checkInvites(currentUser, userToInviteID)) {
         if (!(userToInviteID === "No User Found")) {
             let modifiedNotifications
@@ -24,7 +25,7 @@ export function inviteUser(currentUser, userToInviteEmail) {
             modifiedNotifications = [...allNotifications, inviteNotification]
             localStorage.setItem(NOTIFICATIONS, JSON.stringify(modifiedNotifications))
         } else {
-            toast("No User matched to email", { position: "bottom-right" })
+            toast("No User matched to email", { position: "bottom-right",theme:theme.toast })
         }
     }
 }

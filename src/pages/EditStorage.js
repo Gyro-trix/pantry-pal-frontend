@@ -8,7 +8,7 @@ import { checkUserLogin } from "../utils/users"
 
 function EditStorage() {
     const themeStr = localStorage.getItem(THEME)
-  const theme = JSON.parse(themeStr)
+    const theme = JSON.parse(themeStr)
     
     const allStorageData = JSON.parse(localStorage.getItem(ALL_STORAGES));
     const currentUserStr = localStorage.getItem(CUR_USER)

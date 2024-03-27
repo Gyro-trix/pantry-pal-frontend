@@ -13,5 +13,6 @@ module.exports = {
     MANAGEUSERS: "/manageusers",
     USERMESSAGES:"/usermessages",
     RECIPE_CENTRE:"/recipecentre",
-    EDITUSER: "/edituser"
+    EDITUSER: "/edituser",
+    ADJUSTSTORAGE:"/adjuststorage"
 }

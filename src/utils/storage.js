@@ -1,5 +1,5 @@
-import { ALL_STORAGES, CUR_ITEM_LIST, CUR_STORAGE, CALORIES,THEME } from "../config/localStorage"
-import { EDIT_STORAGE, HOME } from "../config/routes"
+import { ALL_STORAGES, CUR_ITEM_LIST, CUR_STORAGE, CALORIES, THEME } from "../config/localStorage"
+import { ADJUSTSTORAGE, EDIT_STORAGE, HOME } from "../config/routes"
 import { toast } from 'react-toastify';
 import { demoStorage } from "./demos";
 import "react-toastify/dist/ReactToastify.css";
@@ -12,7 +12,8 @@ import * as Icon from 'react-bootstrap-icons';
 export function createStorage(storageToAdd, navigate) {
     const allStorageDataStr = localStorage.getItem(ALL_STORAGES)
     const allStorageData = JSON.parse(allStorageDataStr)
-
+    const themeStr = localStorage.getItem(THEME)
+    const theme = JSON.parse(themeStr)
     const newStorage = { id: storageToAdd.name.toLowerCase() + "-" + new Date().getTime(), name: storageToAdd.name, type: storageToAdd.type, location: storageToAdd.location, owner: storageToAdd.owner, items: [] }
     if (allStorageDataStr === null) {
         localStorage.setItem(ALL_STORAGES, JSON.stringify([newStorage]))
@@ -22,7 +23,7 @@ export function createStorage(storageToAdd, navigate) {
             saveStorage(allStorageData, newStorage)
             navigate(HOME)
         } else {
-            toast("Name Already Used", { position: "bottom-right" })
+            toast("Name Already Used", { position: "bottom-right", theme: theme.toast })
         }
     }
 
@@ -93,7 +94,7 @@ export function displayItems() {
                                 <td>
                                     {displayDate(item.expiry)}
                                 </td>
-                                <td style={{textAlign:"center"}}>
+                                <td style={{ textAlign: "center" }}>
                                     <button type="button" className={theme.button} onClick={() => { setKey(true) }}><Icon.Eye size={20} /></button>
 
                                     <div>
@@ -115,6 +116,84 @@ export function displayItems() {
 
     }
 }
+
+export function displayAdjustableItems(navigate) {
+    const themeStr = localStorage.getItem(THEME)
+    const theme = JSON.parse(themeStr)
+    const itemlist = JSON.parse(localStorage.getItem(CUR_ITEM_LIST))
+    let quantList = []
+    if ((itemlist === null) === false) {
+        return (
+            <div>
+                <table className={theme.table} style={{ background: "white" }}>
+                    <tbody>
+                        <tr key="header">
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Item Name</th>
+                            <th scope="col">Size</th>
+                            <th scope="col">Expiry</th>
+                            <th scope="col">Nutrition</th>
+                        </tr>
+                        {itemlist.map((item, index) => {
+                            const [key, setKey] = useState(false)
+                            const [quantity, setQuantity] = useState(Number(item.quantity))
+
+                            const nutrition = item.nutrition ? item.nutrition : { No_Data: "avaiable" }
+                            quantList[index] = quantity
+
+                            return (
+                                <tr key={item.id}>
+                                    <td>
+                                        <button className={theme.button}
+                                            onClick={() => {
+                                                setQuantity(quantity + 1)
+                                                quantList[index] = quantity
+                                            }}><Icon.ChevronUp /></button>
+                                        <span style ={{marginLeft:16,marginRight:16}}>{quantity}</span>
+                                        <button className={theme.button}
+                                            onClick={() => {
+                                                if(quantity === 0){
+                                                    setQuantity(0)
+                                                    quantList[index] = 0
+                                                } else {
+                                                    setQuantity(quantity - 1)
+                                                quantList[index] = quantity
+                                                }
+                                            }}><Icon.ChevronDown /></button>
+                                    </td>
+                                    <td>
+                                        {item.name}
+                                    </td>
+                                    <td>
+                                        {item.size}
+                                    </td>
+                                    <td>
+                                        {displayDate(item.expiry)}
+                                    </td>
+                                    <td style={{ textAlign: "center" }}>
+                                        <button type="button" className={theme.button} onClick={() => { setKey(true) }}><Icon.Eye size={20} /></button>
+
+                                        <div>
+                                            <Nutrition name={item.name} nutrition={nutrition} trigger={key} setTrigger={setKey} />
+                                        </div>
+                                    </td>
+
+
+                                </tr>
+
+                            )
+                        })}
+                    </tbody>
+                </table>
+                <div className="container">
+                <button className = {theme.button} style ={{}} onClick={() => { saveItemQuantity(quantList, navigate) }}>Save</button>
+                </div>
+            </div>
+        )
+
+    }
+}
+
 
 export function deleteItem(indextodelete) {
     let itemlist = JSON.parse(localStorage.getItem(CUR_ITEM_LIST))
@@ -152,38 +231,51 @@ export function displayDate(date) {
     return dateStr
 }
 //Working on below
-export function displayStorage(storageDataStr, storageData, navigate) {
+export function displayStorage(currentUser, storageDataStr, storageData, navigate) {
     const allStorageDataStr = localStorage.getItem(ALL_STORAGES)
     const allStorageData = JSON.parse(allStorageDataStr)
+
     const themeStr = localStorage.getItem(THEME)
     const theme = JSON.parse(themeStr)
+    let editButton
+    let adjustButton
+    let deleteButton
+    if (currentUser.adminlevel === 1) {
+        editButton = true
+        adjustButton = false
+        deleteButton = true
+    } else {
+        editButton = false
+        adjustButton = true
+        deleteButton = false
+    }
+
     if ((storageDataStr === null) === false) {
         return storageData.map((singleStorageData) => {
             let storageImage = singleStorageData.image ? singleStorageData.image : ""
+
             return (
-                
-                    <div key={singleStorageData.id} className="card mb-3" style={{ display:"grid",marginLeft: 16, marginTop: 16, maxWidth: "48%",minWidth:"48%" }}>
-                        <div className="row g-0 d-flex" >
-                            <div className="col-md-6" style={{ padding: 16, minWidth:232 }}>
-                                <Avatar unstyle={true} size={200} color={Avatar.getRandomColor('sitebase', theme.avatar)} src={storageImage} name={singleStorageData.name} textSizeRatio={1.5} />
-                            </div>
-                            <div className="col-md-6">
-                                <div className="card-body" >
-                                    <h4 className="card-title">{singleStorageData.name}</h4>
-                                    <p className="card-text">{singleStorageData.type} at {singleStorageData.location}</p>
 
-                                </div>
-
+                <div key={singleStorageData.id} className="card mb-3" style={{ display: "grid", marginLeft: 16, marginTop: 16, maxWidth: "48%", minWidth: "48%" }}>
+                    <div className="row g-0 d-flex" >
+                        <div className="col-md-6" style={{ padding: 16, minWidth: 232 }}>
+                            <Avatar unstyle={true} size={200} color={Avatar.getRandomColor('sitebase', theme.avatar)} src={storageImage} name={singleStorageData.name} textSizeRatio={1.5} />
+                        </div>
+                        <div className="col-md-6">
+                            <div className="card-body" >
+                                <h4 className="card-title">{singleStorageData.name}</h4>
+                                <p className="card-text">{singleStorageData.type} at {singleStorageData.location}</p>
 
                             </div>
-                            <div className="col d-flex justify-content-between" style={{ padding: 16,marginTop:"auto"}}>
-                                <button className={theme.button} style={{ whiteSpace: "nowrap"}} onClick={() => openEditStoragePage(singleStorageData, navigate)}>Edit Storage</button>
-                                <button className={theme.button} style={{ whiteSpace: "nowrap",marginLeft:16 }} onClick={() => { if (window.confirm('Delete the item?')) { deleteStorage(allStorageData, singleStorageData) } }} >Delete Storage</button>
-                            </div>
-
+                        </div>
+                        <div className="col d-flex justify-content-between" style={{ padding: 16, marginTop: "auto" }}>
+                            <button hidden={editButton} className={theme.button} style={{ whiteSpace: "nowrap" }} onClick={() => openEditStoragePage(singleStorageData, navigate)}>Edit Storage</button>
+                            <button hidden={adjustButton} className={theme.button} style={{ whiteSpace: "nowrap" }} onClick={() => openAdjustStoragePage(singleStorageData, navigate)}>Adjust Storage Contents</button>
+                            <button hidden={deleteButton} className={theme.button} style={{ whiteSpace: "nowrap", marginLeft: 16 }} onClick={() => { if (window.confirm('Delete the item?')) { deleteStorage(allStorageData, singleStorageData) } }} >Delete Storage</button>
                         </div>
                     </div>
-                
+                </div>
+
             )
         })
     }
@@ -194,12 +286,31 @@ export function openEditStoragePage(singleStorageData, navigate) {
     localStorage.setItem(CUR_ITEM_LIST, JSON.stringify(singleStorageData.items))
     navigate(EDIT_STORAGE)
 }
+
+export function openAdjustStoragePage(singleStorageData, navigate) {
+    localStorage.setItem(CUR_STORAGE, JSON.stringify(singleStorageData))
+    localStorage.setItem(CUR_ITEM_LIST, JSON.stringify(singleStorageData.items))
+    navigate(ADJUSTSTORAGE)
+}
 //Delete Storage
 export function deleteStorage(allStorage, singleStorageData) {
     localStorage.setItem(CUR_STORAGE, JSON.stringify(singleStorageData))
     allStorage = allStorage.filter(storage => !storage.id.match(new RegExp('^' + singleStorageData.id + '$')))
     localStorage.setItem(ALL_STORAGES, JSON.stringify(allStorage))
     window.location.reload()
+}
+
+export function saveItemQuantity(quantityList, navigate) {
+    const currentStorage = JSON.parse(localStorage.getItem(CUR_STORAGE))
+    const currentItemList = JSON.parse(localStorage.getItem(CUR_ITEM_LIST))
+    let count = 0
+    currentItemList.forEach(item => {
+        item.quantity = quantityList[count]
+        count++
+    });
+    localStorage.setItem(CUR_ITEM_LIST, JSON.stringify(currentItemList))
+    saveStorageToLocalStorage(currentStorage)
+    navigate(HOME)
 }
 
 export function createDemoStorage() {

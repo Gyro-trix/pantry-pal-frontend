@@ -19,29 +19,22 @@ The following APIs are in use:
 - ~~Moved User options for admin to dropdown~~
 - ~~Cleanup registration page~~
 - ~~Fix Edit Users UI~~
-- Implement level 1 users, that are created by level 2 users (and also the Admin)
+- ~~Implement level 1 users ~~
 - ~~Change manage users page to have visible right left and top sides that show the background~~
 - ~~Create friend invite system for messenger, add to user settings ~~ and show example added to Message center itself
 - ~~Invites show in the notifications tab/page with accept to ~~ fix button formatting
-- Pending invites
+- ~~Pending invites~~
 - ~~Change format of message center to have users the entire length with the messages and messege input box to the right~~
 - ~~Have user selection on Message page show an avatar instead of a button~~
 - ~~Change button location on storage to bottom~~
-- Implement more toastify instances
+- ~~Implement more toastify instances~~
 - ~~Center image in places where it displays image to be added on edit storage and user settings~~
 - ~~Try and implement themes(dark and light) which changes react components based on local storage value (currently on message system, need to work on radio buttons)~~
 - ~~Formatting for the random recipe API fetch(partially done, image and youtube link left) and add save recipe~~
 - Clean up notifications page (add expired and ~~friend invites~~)
 - ~~Move Manage User and Create User to dropdown in Admin's NavBar~~
-- ~~Nutrition Symbol instead of _ in items~~ Added bootstrap icons (react-bootstrap-icons)
-- Message can be entered without a targeted user, need to fix
+- ~~Nutrition Symbol instead of _ in items Added bootstrap icons (react-bootstrap-icons)~~
+- ~~Message can be entered without a targeted user, need to fix~~
 - ~~Apply theme to toastify if possible~~
 
-
-
 ### Known issues
-- Overly large images can trigger a local storage character limit in browser, can I check base 64 for size?
-- ~~Fix background fill issue~~
-
-### Wishlist
-- Have admin see all storages/recipes, Level 2 users see only their own storages/recipes, level 1 only see storages of their "manager"

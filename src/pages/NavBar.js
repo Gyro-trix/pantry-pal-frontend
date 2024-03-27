@@ -79,7 +79,24 @@ function NavBar() {
 
       break;
     case 1:
-      navBarContent = ""
+      navBarContent = <ul className="navbar-nav">
+      <li className="nav-item p-2"><Link className="nav-link active" aria-current="page" to="" >Home</Link></li>
+      <li className="nav-item p-2"><Link className="nav-link" aria-current="page" to="notifications" onClick={notifications}>Notifications<sup style={{ color: "red" }}>{notificationCount}</sup></Link></li>
+      <li className="nav-item p-2"><Link className="nav-link" aria-current="page" to="recipes" onClick={displayRecipes}>Recipes</Link></li>
+    </ul>
+    dropDownContent = <ul className="dropdown-menu" style={{ padding: 8 }}>
+      <li><Link className="dropdown-item" aria-current="page" to="usermessages" onClick={messages}>Messages<sup style={{ color: "red" }}>{dot}</sup></Link></li>
+      <li><Link className="dropdown-item" aria-current="page" to="userSettings" onClick={userSettings}>Settings</Link></li>
+      <li><Link className="dropdown-item" aria-current="page" to="login" style={{ marginTop: 8 }} onClick={logOut}>Logout</Link></li>
+    </ul>
+    allToDropDown = <ul className="dropdown-menu" style={{ padding: 8 }}>
+      <li><Link className="dropdown-item" aria-current="page" to="" >Home</Link></li>
+      <li><Link className="dropdown-item" aria-current="page" to="notifications" onClick={notifications}>Notifications<sup style={{ color: "red" }}>{notificationCount}</sup></Link></li>
+      <li><Link className="dropdown-item" aria-current="page" to="recipes" onClick={displayRecipes}>Recipes</Link></li>
+      <li><Link className="dropdown-item" aria-current="page" to="usermessages" onClick={messages}>Messages<sup style={{ color: "red" }}>{dot}</sup></Link></li>
+      <li><Link className="dropdown-item" aria-current="page" to="userSettings" onClick={userSettings}>Settings</Link></li>
+      <li><Link className="dropdown-item" aria-current="page" to="/login" onClick={logOut}>Logout</Link></li>
+    </ul>
 
       break;
     case 2:

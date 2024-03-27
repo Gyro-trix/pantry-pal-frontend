@@ -18,6 +18,7 @@ import CreateUser from './pages/CreateUser'
 import EditRecipe from './pages/EditRecipe'
 import UserMessages from './pages/UserMessages';
 import RecipeCentre from './pages/RecipeCentre';
+import AdjustStorage from './pages/AdjustStorage'
 import { ToastContainer } from 'react-toastify';
 import background from './images/background.jpg'
 import "react-toastify/dist/ReactToastify.css";
@@ -78,7 +79,8 @@ function App() {
               <Route path="/editrecipe" element={<EditRecipe />} />
               <Route path="/usermessages" element={<UserMessages />} />
               <Route path="/recipecentre" element={<RecipeCentre />} />
-
+              <Route path="/adjuststorage" element={<AdjustStorage />} />
+              
             </Routes>
            
           </div>

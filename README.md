@@ -13,6 +13,12 @@ The following APIs are in use:
 - Meal Database free one random recipe
 - Calorie Ninja for nutritional information, API key and API key type must be supplied in an .env file not included
 
+## Left to do
+- Readme for project
+- links to API
+- About page for site
+- Logo for site
+
 ### To DO (March 21-28)
 - ~~Have nav bar update profile image as soon as set on User Setting page~~
 - ~~Hide user drop down when no user is logged in~~

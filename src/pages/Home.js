@@ -13,18 +13,18 @@ function Home() {
   const allStorageData = JSON.parse(allStorageDataStr)
   localStorage.setItem(CUR_ITEM_LIST, JSON.stringify([]))
   const currentUserStr = localStorage.getItem(CUR_USER)
-  const currentUser = JSON.parse(currentUserStr)
+  const currentUser = currentUserStr ?JSON.parse(currentUserStr):null
   const navigate = useNavigate();
 
-
+useEffect(() => {
+    checkUserLogin(currentUserStr, navigate)
+  }, [currentUserStr, navigate])
 
 
   const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions);
   const { width, height } = windowDimensions;
 
-  useEffect(() => {
-    checkUserLogin(currentUserStr, navigate)
-  }, [currentUserStr, navigate])
+  
 
   useEffect(() => {
     function handleResize() {

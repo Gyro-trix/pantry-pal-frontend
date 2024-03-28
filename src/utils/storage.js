@@ -149,15 +149,15 @@ export function displayAdjustableItems(navigate) {
                                                 setQuantity(quantity + 1)
                                                 quantList[index] = quantity
                                             }}><Icon.ChevronUp /></button>
-                                        <span style ={{marginLeft:16,marginRight:16}}>{quantity}</span>
+                                        <span style={{ marginLeft: 16, marginRight: 16 }}>{quantity}</span>
                                         <button className={theme.button}
                                             onClick={() => {
-                                                if(quantity === 0){
+                                                if (quantity === 0) {
                                                     setQuantity(0)
                                                     quantList[index] = 0
                                                 } else {
                                                     setQuantity(quantity - 1)
-                                                quantList[index] = quantity
+                                                    quantList[index] = quantity
                                                 }
                                             }}><Icon.ChevronDown /></button>
                                     </td>
@@ -186,7 +186,7 @@ export function displayAdjustableItems(navigate) {
                     </tbody>
                 </table>
                 <div className="container">
-                <button className = {theme.button} style ={{}} onClick={() => { saveItemQuantity(quantList, navigate) }}>Save</button>
+                    <button className={theme.button} style={{}} onClick={() => { saveItemQuantity(quantList, navigate) }}>Save</button>
                 </div>
             </div>
         )
@@ -240,14 +240,16 @@ export function displayStorage(currentUser, storageDataStr, storageData, navigat
     let editButton
     let adjustButton
     let deleteButton
-    if (currentUser.adminlevel === 1) {
-        editButton = true
-        adjustButton = false
-        deleteButton = true
-    } else {
-        editButton = false
-        adjustButton = true
-        deleteButton = false
+    if (currentUser !== null) {
+        if (currentUser.adminlevel === 1) {
+            editButton = true
+            adjustButton = false
+            deleteButton = true
+        } else {
+            editButton = false
+            adjustButton = true
+            deleteButton = false
+        }
     }
 
     if ((storageDataStr === null) === false) {

@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { userExists, userSave } from "../utils/users"
-import { CUR_USER } from "../config/localStorage"
+import { CUR_USER, THEME } from "../config/localStorage"
 import { checkAdminLogin } from "../utils/users";
 
 function CreateUser() {
-
+    const themeStr = localStorage.getItem(THEME)
+    const theme = JSON.parse(themeStr)
     const [newUser, setNewUser] = useState({ id: "", username: "", password: "", email: "", adminlevel: 2, notify: false, itemlimit: 99, expirylimit: 99 })
     const navigate = useNavigate()
     //Used to update reminder text on registration page 
@@ -46,7 +47,7 @@ function CreateUser() {
     return (
             <div className="card w-50 mb-3" style={{ margin: "auto", padding: 16,marginTop:32 }}>
                 
-                <div className="card-body">
+                
                     <h4> Create User </h4>
                     <form className="flex row-auto" style = {{marginTop: 16}} >
                         <div className="input_space" >
@@ -58,7 +59,9 @@ function CreateUser() {
                                 onBlur={handleCheck}
                             />
                         </div>
+                        <div className="container" style={{ textAlign: "center" }}>
                         <p style={{ color: noticeStyle, marginTop: 16 }}>{text}</p>
+                        </div>
                         <div className="input_space" style={{ marginTop: 16 }}>
                             <input placeholder="Email"
                                className="form-control"
@@ -69,7 +72,7 @@ function CreateUser() {
                         </div>
                         <div className="form-control" style={{ marginTop: 16 }}>
                             <div className="form-check form-check-inline">
-                                <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" checked={newUser.adminlevel === 3} value={3} disabled />
+                                <input className="form-check-input" type="radio" style={{checked:true,backgroundColor:"grey",borderColor:"grey"}} name="inlineRadioOptions" id="inlineRadio1" checked={newUser.adminlevel === 3} value={3} disabled />
                                 <label className="form-check-label" htmlFor="inlineRadio1">3</label>
                             </div>
                             <div className="form-check form-check-inline">
@@ -99,8 +102,8 @@ function CreateUser() {
                             />
                         </div>
                     </form>
-                    <button type="button" className="btn btn-primary" style={{ marginTop: 16 }} onClick={() => userSave(newUser)}>Save User</button>
-                </div>
+                    <button type="button" className={theme.button} style={{ marginTop: 16 }} onClick={() => userSave(newUser)}>Save User</button>
+                
             </div>
         
     );

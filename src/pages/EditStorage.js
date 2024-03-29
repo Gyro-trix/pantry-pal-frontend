@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AddItems from './AddItems';
-import { CUR_STORAGE, ALL_STORAGES, CUR_ITEM_LIST, CUR_USER } from "../config/localStorage"
+import { CUR_STORAGE, ALL_STORAGES, CUR_ITEM_LIST, CUR_USER,THEME } from "../config/localStorage"
 import { saveStorageToLocalStorage } from "../utils/storage"
 import { notificationCleanUp } from "../utils/notifications";
 import { checkUserLogin } from "../utils/users"
 
 function EditStorage() {
+    const themeStr = localStorage.getItem(THEME)
+    const theme = JSON.parse(themeStr)
+    
     const allStorageData = JSON.parse(localStorage.getItem(ALL_STORAGES));
     const currentUserStr = localStorage.getItem(CUR_USER)
     const [currentStorage, setCurrentStorage] = useState(JSON.parse(localStorage.getItem(CUR_STORAGE)));
@@ -68,7 +71,7 @@ function EditStorage() {
     }
 
     return (
-        <div className="card w-50 mb-3" style={{ padding: 16, margin: "auto", marginTop: 64, minWidth: 600 }}>
+        <div className="card w-50 mb-3" style={{ padding: 16, margin: "auto", marginTop: 32, minWidth: 600 }}>
             {/*Edit Storage Form */}
             <div className="container flex row">
                 <div className="container flex col">
@@ -109,13 +112,14 @@ function EditStorage() {
                         </div>
                     </form>
                 </div>
-                <div className="container flex col">
+                <div className="container flex col" >
                     <br />
-                    {storageImage != null && <img alt="" width={200} height={200} src={`${storageImage}`} />}
+                    <div style ={{display:"flex",alignItems:"center",justifyContent:"center"}}>{storageImage != null && <img alt="" width={200} height={200} src={`${storageImage}`} />}</div>
                     <div className = "input-group mb-3">
                         <input
                             type="file"
                             className="form-control"
+                            style ={{marginTop:16}}
                             name="image"
                             id="file"
                             accept=".jpg, .jpeg, .png"
@@ -129,7 +133,7 @@ function EditStorage() {
             <div className="container" style={{ textAlign: "center" }}>
                 <span style={{ color: notifyColor, marginTop: 16 }}>{notifyText}</span>
             </div>
-            <button type="button" className="btn btn-primary" style={{ whiteSpace: "nowrap", marginTop: 16 }} onClick={() => {
+            <button type="button" className={theme.button} style={{ whiteSpace: "nowrap", marginTop: 16 }} onClick={() => {
                 saveStorageToLocalStorage(currentStorage)
                 notificationCleanUp()
                 setNotifyColor("green")

@@ -1,7 +1,7 @@
 import './App.css';
-import { useState, useEffect } from 'react';
+import { useState, useEffect,useLayoutEffect } from 'react';
 import { HashRouter, Routes, Route } from 'react-router-dom';
-import { getWindowDimensions } from './utils/display';
+import { getWindowDimensions, lightTheme } from './utils/display';
 import Login from "./pages/Login";
 import Home from "./pages/Home";
 import Register from "./pages/Register";
@@ -18,14 +18,32 @@ import CreateUser from './pages/CreateUser'
 import EditRecipe from './pages/EditRecipe'
 import UserMessages from './pages/UserMessages';
 import RecipeCentre from './pages/RecipeCentre';
+import AdjustStorage from './pages/AdjustStorage'
 import { ToastContainer } from 'react-toastify';
 import background from './images/background.jpg'
 import "react-toastify/dist/ReactToastify.css";
+import { THEME } from './config/localStorage';
+
+
 
 function App() {
   const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions);
-  const { width, height } = windowDimensions;
+  const themeStr = localStorage.getItem(THEME)
+  const theme = JSON.parse(themeStr)
+  const {width, height} = windowDimensions
 
+ useLayoutEffect(() => {
+  document.body.style.backgroundImage = "linear-gradient("+theme.backgroundRGB+", "+theme.backgroundRGB+"), url(" + background + ")"
+  document.body.style.backgroundSize = "auto"
+  document.body.style.backgroundRepeat = "repeat"
+});
+
+  if(localStorage.getItem(THEME)===null){
+    localStorage.setItem(THEME,JSON.stringify(lightTheme))
+}
+  
+  
+  
   useEffect(() => {
     function handleResize() {
       setWindowDimensions(getWindowDimensions());
@@ -36,14 +54,16 @@ function App() {
   }, []);
 
   return (
-
-    <div style={{ margin: "auto", backgroundImage: "url(" + background + ")", backgroundRepeat: "no-repeat", backgroundSize: "cover", backgroundOrigin: "border-box", color: "blue", minHeight: height, minWidth:600 }}>
-      <div style={{ backgroundColor: 'rgba(173, 216, 230, 0.7)', minHeight: height}}>
+<div>
+    <div data-bs-theme={theme.name} style={{width:width,minWidth:700}}>
+      <div >
         <HashRouter basename='/'>
           <NavBar />
+          
           <div >
-            <ToastContainer />
+        <ToastContainer />
             <Routes>
+            
               <Route exact path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
@@ -59,10 +79,14 @@ function App() {
               <Route path="/editrecipe" element={<EditRecipe />} />
               <Route path="/usermessages" element={<UserMessages />} />
               <Route path="/recipecentre" element={<RecipeCentre />} />
+              <Route path="/adjuststorage" element={<AdjustStorage />} />
+              
             </Routes>
+           
           </div>
         </HashRouter>
       </div>
+    </div>
     </div>
   );
 }

@@ -1,6 +1,8 @@
-import { ALL_STORAGES, CUR_USER, NOTIFICATIONS } from "../config/localStorage"
-//import { toast } from 'react-toastify';
-//import "react-toastify/dist/ReactToastify.css";
+import { ALL_STORAGES, CUR_USER, NOTIFICATIONS, THEME } from "../config/localStorage"
+import { addFriend, getUserNameByID } from "./users"
+import { toast } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
+import * as Icon from 'react-bootstrap-icons';
 
 export function gatherNotifications() {
     const allStoragesStr = localStorage.getItem(ALL_STORAGES)
@@ -83,17 +85,17 @@ export function dismissNotification(notificationID) {
 //Display notifications on page, needs formatting updated
 export function displayNotifications(type) {
     const notificationsStr = localStorage.getItem(NOTIFICATIONS)
+    const themeStr = localStorage.getItem(THEME)
+    const theme = JSON.parse(themeStr)
     if (!(notificationsStr === null || notificationsStr.trim() === "")) {
         const notifications = JSON.parse(notificationsStr)
         return notifications.map((notification) => {
             if (notification.type === type && notification.dismissed === false) {
                 return (
-                    <div key={notification.id} className="card d-flex justify-content-evenly" style={{marginTop:16}}>
+                    <div key={notification.id} className="card d-flex justify-content-evenly" style={{ marginTop: 16 }}>
                         <div className=" d-flex justify-content-between">
-                            <label style={{ marginLeft: 16, marginTop:8 }}>{notification.item} in {notification.storage} is {notification.type}</label>
-                            
-                            <button type="button" className="btn btn-primary" style={{ marginLeft: "auto" }} onClick={() => dismissNotification(notification.id)}>Dismiss</button>
-                            
+                            <label style={{ marginLeft: 16, marginTop: 8 }}>{notification.item} in {notification.storage} is {notification.type}</label>
+                            <button type="button" className={theme.button} style={{ marginLeft: "auto" }} onClick={() => dismissNotification(notification.id)}>Dismiss</button>
                         </div>
                     </div>
                 )
@@ -103,27 +105,106 @@ export function displayNotifications(type) {
         })
     }
 }
-// Counts number of notifications not yet dismissed, needs to take into effect is a user is signed in
-export function numberOfNotifications() {
-    const notificationStr = localStorage.getItem(NOTIFICATIONS)
-    let count = 0
-    if (!(notificationStr === null || notificationStr.trim() === "")) {
-        const notifications = JSON.parse(notificationStr)
-        notifications.forEach((notification) => {
-            if (notification.dismissed === false) {
-                count++
+
+export function displayInvites(currentUser) {
+    const notificationsStr = localStorage.getItem(NOTIFICATIONS)
+    const themeStr = localStorage.getItem(THEME)
+    const theme = JSON.parse(themeStr)
+    if (!(notificationsStr === null || notificationsStr.trim() === "")) {
+        const notifications = JSON.parse(notificationsStr)
+        return notifications.map((notification) => {
+            if (notification.type === "invite" && notification.target === currentUser.id) {
+                return (
+                    <div key={notification.id} className="card d-flex justify-content-evenly" style={{ marginTop: 16 }}>
+                        <div className=" d-flex justify-content-between">
+                            <label style={{ marginLeft: 16, marginTop: 8 }}>{getUserNameByID(notification.owner)} has invited you to their friends list.</label>
+
+                            <button type="button" className={theme.button} style={{ marginLeft: "auto" }} onClick={() => {
+                                addFriend(currentUser, notification.owner)
+                                deleteNotification(notification.id)
+                            }}>Accept</button>
+                            <button type="button" className={theme.button} style={{ marginLeft: "auto" }} onClick={() => dismissNotification(notification.id)}>Decline</button>
+                        </div>
+                    </div>
+                )
+            } else {
+                return ""
             }
         })
-        if (count <= 0) {
-            return ""
-        } else {
-            return count
-        }
-
-    } else {
-        return ""
     }
+}
 
+export function displayInvitesSmall(currentUser) {
+    const notificationsStr = localStorage.getItem(NOTIFICATIONS)
+    if (!(notificationsStr === null || notificationsStr.trim() === "")) {
+        const notifications = JSON.parse(notificationsStr)
+        return notifications.map((notification) => {
+            if (notification.type === "invite" && notification.target === currentUser.id) {
+                return (
+                    <div key={notification.id} className="card d-flex justify-content-evenly" style={{ marginTop: 16, padding: 8, border:0 }}>
+                        <div className=" d-flex justify-content-between">
+                            <label style={{ marginLeft: 16, marginTop: 8 }}>Invite From: {getUserNameByID(notification.owner)}</label>
+                            <div className="button" style={{ backgroundColor: "green", height: 35, width: 35, borderRadius: "50%" }} onClick={() => {
+                                addFriend(currentUser, notification.owner)
+                                deleteNotification(notification.id)
+                            }}><Icon.CheckCircle style={{}} size={35} /></div>
+                            <div className="button" style={{ backgroundColor: "red", height: 35, width: 35, borderRadius: "50%" }} onClick={() => dismissNotification(notification.id)}><Icon.XCircle style={{}} size={35} /></div>
+                        </div>
+                    </div>
+                )
+            } else {
+                return ""
+            }
+        })
+    }
+}
+
+export function displayPendingInvites(currentUser){
+    const notificationsStr = localStorage.getItem(NOTIFICATIONS)
+    if (!(notificationsStr === null || notificationsStr.trim() === "")) {
+        const notifications = JSON.parse(notificationsStr)
+        return notifications.map((notification) => {
+            if (notification.type === "invite" && notification.owner === currentUser.id && notification.dismissed === false) {
+                return (
+                    <div key={notification.id} className="card d-flex justify-content-evenly" style={{ marginTop: 16, padding: 8, marginLeft:16, marginRight:16}}>
+                        <div className=" d-flex justify-content-between">
+                            <label style={{ marginLeft: 16 }}>Invite sent to: {getUserNameByID(notification.target)}</label>
+                        </div>
+                    </div>
+                )
+            } else {
+                return ""
+            }
+        })
+    }
+}
+
+export function numberOfNotifications() {
+    const currentUserStr = localStorage.getItem(CUR_USER)
+    const currentUser = currentUserStr ? JSON.parse(currentUserStr) : null
+    const notificationStr = localStorage.getItem(NOTIFICATIONS)
+    let count = 0
+    if (!(currentUser === null)) {
+        if (!(notificationStr === null || notificationStr.trim() === "")) {
+            const notifications = JSON.parse(notificationStr)
+            notifications.forEach((notification) => {
+                if (notification.dismissed === false) {
+                    count++
+                }
+                if (notification.owner === currentUser.id && notification.type === "invite") {
+                    count--
+                }
+            })
+            if (count <= 0) {
+                return ""
+            } else {
+                return count
+            }
+
+        } else {
+            return ""
+        }
+    }
 }
 // Delete a notification, to be used when an item is deleted to remove any coresponding notifications
 export function notificationCleanUp() {
@@ -144,4 +225,41 @@ export function notificationCleanUp() {
 
     localStorage.setItem(NOTIFICATIONS, JSON.stringify(tempNotifications))
     numberOfNotifications()
+}
+
+export function deleteNotification(notificationID) {
+    const notificationsStr = localStorage.getItem(NOTIFICATIONS)
+    const notifications = notificationsStr ? JSON.parse(notificationsStr) : []
+    let filteredNotes = notifications.filter(notes => !notes.id.match(new RegExp('^' + notificationID + '$')))
+    localStorage.setItem(NOTIFICATIONS, JSON.stringify(filteredNotes))
+    window.location.reload()
+}
+
+export function checkInvites(currentUser, inviteID) {
+    const notificationsStr = localStorage.getItem(NOTIFICATIONS)
+    const notifications = notificationsStr ? JSON.parse(notificationsStr) : []
+    const themeStr = localStorage.getItem(THEME)
+    const theme = JSON.parse(themeStr)
+    
+    let response = true
+    let toastResponse = 0
+    notifications.forEach((note) => {
+        if (note.owner === currentUser.id && note.target === inviteID) {
+            toastResponse = 1
+            response = false
+        } else {
+            response = true
+        }
+    })
+    if (currentUser.friends.includes(inviteID)) {
+        toastResponse = 2
+        response = false
+    }
+
+    if (toastResponse === 1) {
+        toast("Invite Already Sent", { position: "bottom-right",theme:theme.avatar })
+    } else if (toastResponse === 2) {
+        toast("Already a Friend", { position: "bottom-right",theme:theme.avatar })
+    }
+    return response
 }

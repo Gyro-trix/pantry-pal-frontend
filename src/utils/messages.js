@@ -1,23 +1,40 @@
-import { ALL_USERS, USER_MESSAGES } from "../config/localStorage";
+import { USER_MESSAGES, NOTIFICATIONS, THEME } from "../config/localStorage";
 import { USERMESSAGES } from "../config/routes";
+import Avatar from 'react-avatar';
+import { getUserIDByEmail, getUserImage } from "./users";
+import { toast } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
+import { checkInvites } from "./notifications";
 
-
-export function getOtherUsers(currentUsername) {
-    const allUserStr = localStorage.getItem(ALL_USERS)
-    const allUserData = allUserStr ? JSON.parse(allUserStr) :[]
-    let otherUsers = []
-    allUserData.forEach(element => {
-        if (!(element.username === currentUsername)) {
-            otherUsers.push(element.username)
+export function inviteUser(currentUser, userToInviteEmail) {
+    const allNotificationsStr = localStorage.getItem(NOTIFICATIONS)
+    const allNotifications = allNotificationsStr ? JSON.parse(allNotificationsStr) : []
+    const userToInviteID = getUserIDByEmail(userToInviteEmail)
+    const themeStr = localStorage.getItem(THEME)
+    const theme = JSON.parse(themeStr)
+    if (checkInvites(currentUser, userToInviteID)) {
+        if (!(userToInviteID === "No User Found")) {
+            let modifiedNotifications
+            let inviteNotification = {
+                owner: currentUser.id,
+                target: userToInviteID,
+                type: "invite",
+                id: "" + new Date().getTime() + "-invite",
+                dismissed: false
+            }
+            modifiedNotifications = [...allNotifications, inviteNotification]
+            localStorage.setItem(NOTIFICATIONS, JSON.stringify(modifiedNotifications))
+        } else {
+            toast("No User matched to email", { position: "bottom-right",theme:theme.toast })
         }
-    });
-    return otherUsers
+    }
 }
 
 export function displayMessages(targetUser, currentUser, navigate) {
     const userMessagesStr = localStorage.getItem(USER_MESSAGES)
     const userMessages = userMessagesStr ? JSON.parse(userMessagesStr) : []
-
+    const themeStr = localStorage.getItem(THEME)
+    const theme = JSON.parse(themeStr)
     let messages = []
     userMessages.forEach(message => {
         if ((message.from === targetUser) && (message.to === currentUser)) {
@@ -34,8 +51,8 @@ export function displayMessages(targetUser, currentUser, navigate) {
 
                     let hideSeen = false
                     let hideDelete = false
-                    const toStyle = { marginTop: 8, padding: 8, background: "white", marginLeft: 48 }
-                    const fromStyle = { marginTop: 8, padding: 8, background: "lightcyan", marginRight: 48 }
+                    const toStyle = { marginTop: 8, padding: 8, background: theme.to, marginLeft: 48 }
+                    const fromStyle = { marginTop: 8, padding: 8, background: theme.from, marginRight: 48 }
                     let style = {}
                     if (message.from === currentUser) {
                         hideDelete = false
@@ -49,12 +66,13 @@ export function displayMessages(targetUser, currentUser, navigate) {
                     }
                     return (
                         <div className="card" style={style} key={index}>
-                            <span style={{ fontSize: 12 }}>{message.from}:</span>
+                            <span style={{ fontSize: 12 }}><Avatar style={{ marginRight: 8 }} size="24" round={true} color={Avatar.getRandomColor('sitebase', theme.avatar)} src={getUserImage(message.from)} name={message.from} textSizeRatio={2} />
+                                {message.from}:</span>
                             <span style={{ marginLeft: 8, marginTop: 8, marginBottom: 8 }}>{message.contents}</span>
                             <form>
                                 <span style={{ fontSize: 12 }} hidden={!(hideSeen) || (message.from === currentUser)}>Seen</span>
-                                <button type="button" className="btn btn-primary" style={{ float: "right", fontSize: 12 }} hidden={hideDelete} onClick={() => deleteMessage(currentUser, message.time, navigate)}>X</button>
-                                <button type="button" className="btn btn-primary" style={{ float: "right", fontSize: 12 }} hidden={hideSeen} onClick={() => markSeen(currentUser, message.time, navigate)}>S</button>
+                                <button type="button" className={theme.button} style={{ float: "right", fontSize: 12 }} hidden={hideDelete} onClick={() => deleteMessage(currentUser, message.time, navigate)}>X</button>
+                                <button type="button" className={theme.button} style={{ float: "right", fontSize: 12 }} hidden={hideSeen} onClick={() => markSeen(currentUser, message.time, navigate)}>S</button>
                             </form>
                         </div>
                     )
@@ -65,12 +83,21 @@ export function displayMessages(targetUser, currentUser, navigate) {
 }
 
 export function submitMessage(targetUser, currentUser, contents, navigate) {
-    const userMessagesStr = localStorage.getItem(USER_MESSAGES)
-    const userMessages = userMessagesStr ? JSON.parse(userMessagesStr) : []
-    const time = new Date().getTime()
-    const message = { from: currentUser, to: targetUser, contents: contents, time: time, seen: false }
-    let messages = [...userMessages, message]
-    localStorage.setItem(USER_MESSAGES, JSON.stringify(messages))
+    const themeStr = localStorage.getItem(THEME)
+    const theme = JSON.parse(themeStr)
+    if (targetUser !== "" && contents !== "") {
+        console.log(targetUser)
+        const userMessagesStr = localStorage.getItem(USER_MESSAGES)
+        const userMessages = userMessagesStr ? JSON.parse(userMessagesStr) : []
+        const time = new Date().getTime()
+        const message = { from: currentUser, to: targetUser, contents: contents, time: time, seen: false }
+        let messages = [...userMessages, message]
+        localStorage.setItem(USER_MESSAGES, JSON.stringify(messages))
+    } else if(targetUser !== ""){
+        toast("Please enter a message.", { position: "bottom-right", theme: theme.toast })
+    } else if(contents !== ""){
+        toast("Please select a user.", { position: "bottom-right", theme: theme.toast })
+    }
     navigate(USERMESSAGES)
 }
 

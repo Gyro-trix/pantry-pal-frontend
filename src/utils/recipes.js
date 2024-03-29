@@ -1,9 +1,10 @@
 import { RECIPES, RECIPETOEDIT, CUR_USER } from "../config/localStorage"
-import { CREATERECIPES, EDIT_RECIPE, DISPLAYRECIPES } from "../config/routes";
+import { CREATERECIPES, EDIT_RECIPE, DISPLAYRECIPES, RECIPE_CENTRE } from "../config/routes";
 import { toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import { demoRecipe } from "./demos";
-
+import React from "react";
+import { renderToString } from "react-dom/server"
 
 export function saveRecipe(recipe, navigate) {
     const recipeDataStr = localStorage.getItem(RECIPES)
@@ -14,59 +15,16 @@ export function saveRecipe(recipe, navigate) {
     localStorage.setItem(RECIPES, JSON.stringify(temparray))
     navigate(CREATERECIPES)
 }
-/*
-export function addIngredient(ingredient) {
-    const ingredientsDataStr = localStorage.getItem(INGREDIENTS)
-    const ingredientsData = ingredientsDataStr ? JSON.parse(ingredientsDataStr) : []
-    if (ingredient.name && ingredient.amount) {
-        ingredient.id = ingredient.name + "-" + new Date().getTime()
-        let temparray = [...ingredientsData, ingredient]
-        localStorage.setItem(INGREDIENTS, JSON.stringify(temparray))
-        window.location.reload()
-    } else {
-        window.alert("Missing Information")
-    }
-}
 
-export function deleteIngredient(ingredient, navigate) {
-    const ingredientsDataStr = localStorage.getItem(INGREDIENTS)
-    const ingredientsData = ingredientsDataStr ? JSON.parse(ingredientsDataStr) : []
-    const newIngredients = ingredientsData.filter(ing => !ing.id.match(new RegExp('^' + ingredient.id + '$')))
-    localStorage.setItem(INGREDIENTS, JSON.stringify(newIngredients))
-    navigate(CREATERECIPES)
+export function saveFetchedRecipe(recipe, navigate) {
+    const recipeDataStr = localStorage.getItem(RECIPES)
+    const recipeData = recipeDataStr ? JSON.parse(recipeDataStr) : []
+    const currentUser = JSON.parse(localStorage.getItem(CUR_USER))
+    recipe.id = currentUser.username + "" + new Date().getTime()
+    let temparray = [...recipeData, recipe]
+    localStorage.setItem(RECIPES, JSON.stringify(temparray))
+    navigate(RECIPE_CENTRE)
 }
-
-export function displayIngredients(navigate) {
-    const ingredientsDataStr = localStorage.getItem(INGREDIENTS)
-    const ingredients = ingredientsDataStr ? JSON.parse(ingredientsDataStr) : []
-    return (
-        <table className="table table-info table-striped" style={{ background: "white" }}>
-            <tbody>
-                <tr key="header">
-                    <th scope="col">Amount</th>
-                    <th scope="col">Ingredient Name</th>
-                    <th scope="col">Delete</th>
-                </tr>
-                {ingredients.map(ingredient => {
-                    return (
-                        <tr key={ingredient.id}>
-                            <td>
-                                {ingredient.amount}
-                            </td>
-                            <td>
-                                {ingredient.name}
-                            </td>
-                            <td>
-                                <button type="button" className="btn btn-primary" onClick={() => deleteIngredient(ingredient, navigate)}>Delete Ingredient</button>
-                            </td>
-                        </tr>
-                    )
-                })}
-            </tbody>
-        </table>
-    )
-}
-*/
 
 export function displayRecipeHeader(index) {
     const recipeDataStr = localStorage.getItem(RECIPES)
@@ -151,10 +109,73 @@ export function saveOverRecipe(recipeToReplace, navigate) {
     navigate(DISPLAYRECIPES)
 }
 
-export function createDemoRecipe(){
+export function createDemoRecipe() {
     const recipeDataStr = localStorage.getItem(RECIPES)
     const recipeData = recipeDataStr ? JSON.parse(recipeDataStr) : []
-    if (recipeData.length === 0){
+    if (recipeData.length === 0) {
         localStorage.setItem(RECIPES, JSON.stringify([demoRecipe]))
     }
+}
+
+export function createFetchedRecipe(recipeObj,imageStr) {
+    let recipe = {}
+    recipe.id = recipeObj.idMeal
+    recipe.title = recipeObj.strMeal
+    recipe.subtitle = recipeObj.strTags
+    recipe.description = recipeObj.strArea + " " + recipeObj.strCategory
+    recipe.content = renderToString(createFetchedIngredients(recipeObj,imageStr)) + "<br>" + recipeObj.strInstructions
+    return recipe
+}
+
+
+export function createFetchedIngredients(recipeObj,imageStr) {
+
+    let ingredients = []
+    let keyAmountString = "strMeasure"
+    let keyNameString = "strIngredient"
+    for (let i = 1; i < 21; i++) {
+        let tempMeasure = keyAmountString + i
+        let tempKeyName = keyNameString + i
+        if (!(recipeObj[tempKeyName] === "") && !(recipeObj[tempMeasure] === "")) {
+            ingredients.push([recipeObj[tempMeasure], recipeObj[tempKeyName]])
+        }
+    }
+    let ingStr =
+        <div>
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <img alt="" src={imageStr} />
+                            <br></br>
+                            <br></br>
+                            <a href={recipeObj.strYoutube} target="_blank" rel="noreferrer">Youtube Link </a>
+                        </td>
+                        <td>
+                            <table>
+                                <tbody>
+                                    <tr key="header">
+                                        <th scope="col">Measure</th>
+                                        <th scope="col">Ingredient</th>
+                                    </tr>
+                                    {ingredients.map((entry, index) =>
+                                        <tr key={index}>
+                                            <td>
+                                                {entry[0]}
+                                            </td>
+                                            <td>
+                                                {entry[1]}
+                                            </td>
+                                        </tr>)}
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <br></br>
+            <span>Source: </span>
+            <a href={recipeObj.strSource} target="_blank" rel="noreferrer"> {recipeObj.strSource} </a>
+        </div>
+    return ingStr
 }

@@ -1,36 +1,46 @@
 # The Pantry Pal App
 The main focus of this app is to provide a basic inventory system that can be assigned to containers (such as freezers,cupboards,etc). 
 
+## Frameworks used in this project
+- Bootstrap (Layout and theme control)
+
 ## Current APIs in use in this project
 The following APIs are in use:
-- Bootstrap (Layout and theme control)
 - Datepicker (used to select an items expiry date)
-- Jodit Rish Text Editor (used to create recipes to be stored)
+- Jodit Rich Text Editor (used to create recipes to be stored)
 - React Jodit (React wrapper to allow use of Jodit)
 - Toastify (used for error messages, replacing alert)
+- Meal Database free one random recipe
+- Calorie Ninja for nutritional information, API key and API key type must be supplied in an .env file not included
+
+## Left to do
+- Readme for project
+- links to API
+- About page for site
+- Logo for site
 
 ### To DO (March 21-28)
-- ~~Clean up add item form~~
-- ~~Add create demo functions for ease of display and testing, demo of storage, items, recipes, and user~~
-- ~~Add clear search option~~
-- ~~Add way to enter own nutritional info when API returns none~~
-- ~~Add seperate title, sub-title and description inputs for recipes~~
-- ~~Add react-avatar~~
-- Try and implement themes(dark and light) which changes react components based on local storage value
-- ~~Add ability to save a user profile picture in base 64 on local storage~~
-- ~~Add a default image to storage cards~~
-- ~~Background picture~~
-- Formatting for the random recipe API fetch
-- Clean up notifications page
-- Organize NavBar into categories
-
-
+- ~~Have nav bar update profile image as soon as set on User Setting page~~
+- ~~Hide user drop down when no user is logged in~~
+- ~~Moved User options for admin to dropdown~~
+- ~~Cleanup registration page~~
+- ~~Fix Edit Users UI~~
+- ~~Implement level 1 users ~~
+- ~~Change manage users page to have visible right left and top sides that show the background~~
+- ~~Create friend invite system for messenger, add to user settings ~~ and show example added to Message center itself
+- ~~Invites show in the notifications tab/page with accept to ~~ fix button formatting
+- ~~Pending invites~~
+- ~~Change format of message center to have users the entire length with the messages and messege input box to the right~~
+- ~~Have user selection on Message page show an avatar instead of a button~~
+- ~~Change button location on storage to bottom~~
+- ~~Implement more toastify instances~~
+- ~~Center image in places where it displays image to be added on edit storage and user settings~~
+- ~~Try and implement themes(dark and light) which changes react components based on local storage value (currently on message system, need to work on radio buttons)~~
+- ~~Formatting for the random recipe API fetch(partially done, image and youtube link left) and add save recipe~~
+- Clean up notifications page (add expired and ~~friend invites~~)
+- ~~Move Manage User and Create User to dropdown in Admin's NavBar~~
+- ~~Nutrition Symbol instead of _ in items Added bootstrap icons (react-bootstrap-icons)~~
+- ~~Message can be entered without a targeted user, need to fix~~
+- ~~Apply theme to toastify if possible~~
 
 ### Known issues
-- Overly large images can trigger a local storage character limit in browser, can I check base 64 for size?
-- Fix up UI where image uploads are in UserSettings and EditStorage
-- ~~Fix background fill issue~~
-
-### Wishlist
-- Implement level 1 users, that are created by level 2 users (and also the Admin)
-- Have admin see all storages/recipes, Level 2 users see only their own storages/recipes

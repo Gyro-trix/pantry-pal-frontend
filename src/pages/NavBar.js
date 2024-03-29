@@ -1,35 +1,50 @@
-import { useNavigate,Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { SIGN_IN, CREATE_STORAGE, USER_SETTINGS, NOTIFICATION, CREATERECIPES, DISPLAYRECIPES, MANAGEUSERS, CREATE_USER, USERMESSAGES, RECIPE_CENTRE } from "../config/routes";
 import { numberOfNotifications } from "../utils/notifications";
-import { CUR_USER, MESSAGE_USER } from "../config/localStorage";
-import { getWindowDimensions } from "../utils/display";
-import { anyNewMessages, getOtherUsers } from "../utils/messages";
+import { CUR_USER, MESSAGE_USER, THEME } from "../config/localStorage";
+import { changeTheme, getWindowDimensions } from "../utils/display";
+import { anyNewMessages } from "../utils/messages";
 import Avatar from 'react-avatar';
+import * as Icon from 'react-bootstrap-icons';
 
 function NavBar() {
   const navigate = useNavigate()
   const currentUserStr = localStorage.getItem(CUR_USER)
   const currentUser = JSON.parse(currentUserStr ? currentUserStr : null)
+
+  const themeStr = localStorage.getItem(THEME)
+  const theme = JSON.parse(themeStr)
   const [notificationCount, setNotificationCount] = useState(numberOfNotifications())
   const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions);
-  const { width, height } = windowDimensions;
+  const { width } = windowDimensions;
 
+  let themeSwitch = true
   let currentUsername
   let currentAdminLevel
   let currentUserImage
+  let dropdownHidden
+  let friendsList
 
   if (!(currentUserStr === null || currentUserStr.trim() === "")) {
+    dropdownHidden = false
     currentUserImage = currentUser.image
     currentUsername = currentUser.username
     currentAdminLevel = currentUser.adminlevel
+    friendsList = currentUser.friends
   } else {
+    dropdownHidden = true
     currentUserImage = ""
     currentUsername = "No User"
     currentAdminLevel = 0
+    friendsList = []
   }
 
-  const userList = getOtherUsers(currentUsername)
+  if (theme.name === "dark") {
+    themeSwitch = true
+  } else if (theme.name === "light") {
+    themeSwitch = false
+  }
 
   let dropDown
   let dropDownContent = <ul></ul>
@@ -37,14 +52,14 @@ function NavBar() {
   let navBarContent = <ul></ul>
   let navBar = <ul></ul>
 
- 
+
   let dot
   if (anyNewMessages(currentUsername)) {
     dot = '\u2b24'
   } else {
     dot = ''
   }
-  
+
   useEffect(() => {
     setNotificationCount(numberOfNotifications())
   }, [])
@@ -64,7 +79,24 @@ function NavBar() {
 
       break;
     case 1:
-      navBarContent = ""
+      navBarContent = <ul className="navbar-nav">
+      <li className="nav-item p-2"><Link className="nav-link active" aria-current="page" to="" >Home</Link></li>
+      <li className="nav-item p-2"><Link className="nav-link" aria-current="page" to="notifications" onClick={notifications}>Notifications<sup style={{ color: "red" }}>{notificationCount}</sup></Link></li>
+      <li className="nav-item p-2"><Link className="nav-link" aria-current="page" to="recipes" onClick={displayRecipes}>Recipes</Link></li>
+    </ul>
+    dropDownContent = <ul className="dropdown-menu" style={{ padding: 8 }}>
+      <li><Link className="dropdown-item" aria-current="page" to="usermessages" onClick={messages}>Messages<sup style={{ color: "red" }}>{dot}</sup></Link></li>
+      <li><Link className="dropdown-item" aria-current="page" to="userSettings" onClick={userSettings}>Settings</Link></li>
+      <li><Link className="dropdown-item" aria-current="page" to="login" style={{ marginTop: 8 }} onClick={logOut}>Logout</Link></li>
+    </ul>
+    allToDropDown = <ul className="dropdown-menu" style={{ padding: 8 }}>
+      <li><Link className="dropdown-item" aria-current="page" to="" >Home</Link></li>
+      <li><Link className="dropdown-item" aria-current="page" to="notifications" onClick={notifications}>Notifications<sup style={{ color: "red" }}>{notificationCount}</sup></Link></li>
+      <li><Link className="dropdown-item" aria-current="page" to="recipes" onClick={displayRecipes}>Recipes</Link></li>
+      <li><Link className="dropdown-item" aria-current="page" to="usermessages" onClick={messages}>Messages<sup style={{ color: "red" }}>{dot}</sup></Link></li>
+      <li><Link className="dropdown-item" aria-current="page" to="userSettings" onClick={userSettings}>Settings</Link></li>
+      <li><Link className="dropdown-item" aria-current="page" to="/login" onClick={logOut}>Logout</Link></li>
+    </ul>
 
       break;
     case 2:
@@ -96,13 +128,15 @@ function NavBar() {
         <li className="nav-item p-2"><Link className="nav-link" aria-current="page" to="notifications" onClick={notifications}>Notifications<sup style={{ color: "red" }}>{notificationCount}</sup></Link></li>
         <li className="nav-item p-2"><Link className="nav-link" aria-current="page" to="createrecipes" onClick={createRecipes}>Add A Recipe</Link></li>
         <li className="nav-item p-2"><Link className="nav-link" aria-current="page" to="recipes" onClick={displayRecipes}>Recipes</Link></li>
-        <li className="nav-item p-2"><Link className="nav-link" aria-current="page" to="manageusers" onClick={manageUsers}>Manage Users</Link></li>
-        <li className="nav-item p-2"><Link className="nav-link" aria-current="page" to="createuser" onClick={createUser}>Create User</Link></li>
+        <li className="nav-item p-2"><Link className="nav-link" aria-current="page" to="recipecentre" onClick={recipecentre}>Recipe Centre</Link></li>
+
       </ul>
       dropDownContent = <ul className="dropdown-menu" style={{ padding: 8 }}>
-        <li><Link className="dropdown-item" aria-current="page" to="usermessages" onClick={messages}>Messages<sup style={{ color: "red" }}>{dot}</sup></Link></li>
-        <li><Link className="dropdown-item" aria-current="page" to="userSettings" onClick={userSettings}>Settings</Link></li>
-        <li><Link className="dropdown-item" aria-current="page" to="login" style={{ marginTop: 8 }} onClick={logOut}>Logout</Link></li>
+        <li className="nav-item p-2"><Link className="dropdown-item" aria-current="page" to="manageusers" onClick={manageUsers}>Manage Users</Link></li>
+        <li className="nav-item p-2"><Link className="dropdown-item" aria-current="page" to="createuser" onClick={createUser}>Create User</Link></li>
+        <li className="nav-item p-2"><Link className="dropdown-item" aria-current="page" to="usermessages" onClick={messages}>Messages<sup style={{ color: "red" }}>{dot}</sup></Link></li>
+        <li className="nav-item p-2"><Link className="dropdown-item" aria-current="page" to="userSettings" onClick={userSettings}>Settings</Link></li>
+        <li className="nav-item p-2"><Link className="dropdown-item" aria-current="page" to="login" style={{ marginTop: 8 }} onClick={logOut}>Logout</Link></li>
       </ul>
       allToDropDown = <ul className="dropdown-menu" style={{ padding: 8 }}>
         <li><Link className="dropdown-item" aria-current="page" to="" >Home</Link></li>
@@ -123,9 +157,9 @@ function NavBar() {
   }
 
   //Disable dropdown if no user
-  let drop = "btn dropdown-toggle"
+  let drop = "nav-link dropdown-toggle"
   if (currentUsername === "No User") {
-    drop = "btn dropdown-toggle disabled"
+    drop = "nav-link dropdown-toggle disabled"
   }
 
   if (width < 1000) {
@@ -137,7 +171,7 @@ function NavBar() {
   }
 
   function logOut() {
-    localStorage.setItem(CUR_USER,"")
+    localStorage.setItem(CUR_USER, "")
     navigate(SIGN_IN)
   }
 
@@ -170,17 +204,23 @@ function NavBar() {
   }
 
   function messages() {
-    localStorage.setItem(MESSAGE_USER, userList[0] ? JSON.stringify(userList[0]) : "")
+    localStorage.setItem(MESSAGE_USER, friendsList[0] ? JSON.stringify(friendsList[0]) : "")
     navigate(USERMESSAGES)
   }
 
-  function recipecentre(){
+  function recipecentre() {
     navigate(RECIPE_CENTRE)
+  }
+
+  function delayThemeSwitch() {
+    
+      changeTheme()
+   
   }
 
   return (
 
-    <nav  className="navbar navbar-expand sticky-top bg-body-tertiary" data-bs-theme="light">
+    <nav className="navbar navbar-expand sticky-top bg-body-tertiary" data-bs-theme={theme.navbar}>
       <div className="container-fluid">
         <a className="navbar-brand" href="/">Pantry Pal</a>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -189,10 +229,14 @@ function NavBar() {
         <div className="collapse navbar-collapse" id="navbarNav">
           {navBar}
         </div>
-        <div className={"dropdown justify-content-left "} style={{ width: 160 }}>
-          <button className={drop} style={{ width: 160, marginTop: 16 }} data-bs-toggle="dropdown" aria-expanded="false">
-          <Avatar  unstyle = {true} size = "32" round = {true} color={Avatar.getRandomColor('sitebase', ['cyan', 'lightblue', 'blue'])} src = {currentUserImage} name={currentUsername} textSizeRatio={2}/> {currentUsername}
-          </button>
+        <div>
+          <Icon.SunFill color="powderblue" hidden={themeSwitch} style={{ animation: "fadeIn 1s" }} onClick={() => delayThemeSwitch()} size={24} />
+          <Icon.MoonFill color="grey" hidden={!themeSwitch} style={{ animation: "fadeIn 1s" }} onClick={() => delayThemeSwitch()} size={24} />
+        </div>
+        <div className="dropdown justify-content-left " hidden={dropdownHidden} style={{ marginLeft:8,width: 160 }}>
+          <a href ="/" className={drop} style={{ color:theme.dropdown,width: 160, marginTop: 16 }} data-bs-toggle="dropdown" aria-expanded="false">
+            <Avatar size="32" round={true} color={Avatar.getRandomColor('sitebase', theme.avatar)} src={currentUserImage} name={currentUsername} textSizeRatio={2} /><sup style={{ marginLeft: -8, color: "red" }}>{dot}</sup> <span style={{ marginLeft: 16 }}>{currentUsername}</span>
+          </a>
           <ul>
             {dropDown}
           </ul>

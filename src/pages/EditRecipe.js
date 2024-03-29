@@ -1,19 +1,24 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import { saveOverRecipe } from "../utils/recipes";
-import { CUR_USER, RECIPETOEDIT } from "../config/localStorage"
+import { CUR_USER, RECIPETOEDIT, THEME } from "../config/localStorage"
 import { checkAdminLogin } from "../utils/users";
 import { useNavigate } from "react-router-dom";
 import JoditEditor from 'jodit-react';
 
 function EditRecipe() {
+    const themeStr = localStorage.getItem(THEME)
+    const theme = JSON.parse(themeStr)
     const recipeStr = localStorage.getItem(RECIPETOEDIT)
     const [recipe,setRecipe] = useState(JSON.parse(recipeStr))
     const editor = useRef(null);
     const [content, setContent] = useState(recipe.content);
     
     const config = useMemo(() =>
-        ({ uploader: { "insertImageAsBase64URI": true } }),
-        []
+        ({ uploader: { "insertImageAsBase64URI": true },
+    theme: theme.name,
+    }),
+        
+        [theme.name]
     );
 
     const currentUserStr = localStorage.getItem(CUR_USER)
@@ -37,7 +42,8 @@ function EditRecipe() {
     }
 
     return (
-        <div className="container" style={{ background: "lightblue", padding: 16 }}>
+        <div className ="container">
+        <div className="card" style={{ marginTop:16, padding: 16 }}>
             
             <input
                     className="form-control"
@@ -75,7 +81,8 @@ function EditRecipe() {
                     onChange={newContent => setContent(newContent)}
                 />
             </div>
-            <button type="button" className="btn btn-primary" onClick = {()=>{saveOverRecipe(recipe,navigate)}}>Save Recipe</button>
+            <button type="button" className={theme.button} style ={{marginTop:16}} onClick = {()=>{saveOverRecipe(recipe,navigate)}}>Save Recipe</button>
+        </div>
         </div>
     )
 }

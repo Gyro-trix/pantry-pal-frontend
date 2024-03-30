@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef } from "react";
 import DatePicker from "react-datepicker";
 import { displayItems, addItem, addExpiryDate } from "../utils/storage"
 import { CUR_ITEM_LIST,THEME } from "../config/localStorage";
-
 import { toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import "react-datepicker/dist/react-datepicker.css";

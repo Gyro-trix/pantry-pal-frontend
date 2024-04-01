@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { checkUserLogin, saveUserSettings, changeUserPassword } from "../utils/users"
+import { checkUserLogin, saveUserSettings, changeUserPassword, userEmailExists } from "../utils/users"
 import { CUR_USER,THEME } from "../config/localStorage"
 import { inviteUser } from "../utils/messages";
 import { toast } from 'react-toastify';
@@ -140,7 +140,7 @@ function UserSettings() {
                     <div className="card" style={{ padding: 16, height:"100%" }}>
                         <div className="container flex col">
                             
-                            <div style ={{height:260,display:"flex",justifyContent:"center"}}>{image != null && <img alt="" height={260} src={`${image}`} />}</div>
+                            <div style ={{height:200,display:"flex",justifyContent:"center"}}>{image != null && <img alt="" height={200} src={`${image}`} />}</div>
                             <div className="input-group mb-3" style={{ marginTop: 16 }}>
                                 <input
                                     type="file"
@@ -198,7 +198,13 @@ function UserSettings() {
                             ></input>
                         </label>
 
-                        <button type="button" className={theme.button} style={{  marginTop: 64 }} onClick={() => saveUserSettings(currentUser, navigate)}>Update Settings</button>
+                        <button type="button" className={theme.button} style={{  marginTop: 64 }} onClick={() => {
+                            if(userEmailExists(currentUser)){
+                                toast("Email already in Use", { position: "bottom-right", theme: theme.toast })
+                            } else{
+                                saveUserSettings(currentUser, navigate)}}
+                            }
+                            >Update Settings</button>
                     </div>
                 </div>
                 <div className="col">

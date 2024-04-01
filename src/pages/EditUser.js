@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { saveUserSettings, adminPasswordChange, checkAdminLogin } from "../utils/users"
+import { saveUserSettings, adminPasswordChange, checkAdminLogin, userEmailExists } from "../utils/users"
 import { CUR_USER, USER_TO_EDIT, THEME } from "../config/localStorage"
 import { toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
@@ -132,7 +132,7 @@ function UserSettings() {
                     <div className="card" style={{ padding: 16, height: "100%" }}>
                         <div className="container flex col">
 
-                            <div style={{ height: 260, display: "flex", justifyContent: "center" }}>{image != null && <img alt="" height={260} src={`${image}`} />}</div>
+                            <div style={{ height: 200, display: "flex", justifyContent: "center" }}>{image != null && <img alt="" height={200} src={`${image}`} />}</div>
                             <div className="input-group mb-3" style={{ marginTop: 16 }}>
                                 <input
                                     type="file"
@@ -214,7 +214,12 @@ function UserSettings() {
                                 ></input>
                             </label>
                         </form>
-                        <button type="button" className={theme.button} style={{ marginTop: 40 }} onClick={() => { saveUserSettings(userToEdit) }}>Update Settings</button>
+                        <button type="button" className={theme.button} style={{ marginTop: 40 }} onClick={() => {
+                            if(userEmailExists(userToEdit)){
+                                toast("Email already in Use", { position: "bottom-right", theme: theme.toast })
+                            } else{
+                                saveUserSettings(userToEdit, navigate)}}
+                            }>Update Settings</button>
                     </div>
                 </div>
             </div>

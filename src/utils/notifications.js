@@ -141,7 +141,7 @@ export function displayInvitesSmall(currentUser) {
         return notifications.map((notification) => {
             if (notification.type === "invite" && notification.target === currentUser.id) {
                 return (
-                    <div key={notification.id} className="card d-flex justify-content-evenly" style={{ marginTop: 16, padding: 8, border:0 }}>
+                    <div key={notification.id} className="card d-flex justify-content-evenly" style={{ marginTop: 16, padding: 8, border: 0 }}>
                         <div className=" d-flex justify-content-between">
                             <label style={{ marginLeft: 16, marginTop: 8 }}>Invite From: {getUserNameByID(notification.owner)}</label>
                             <div className="button" style={{ backgroundColor: "green", height: 35, width: 35, borderRadius: "50%" }} onClick={() => {
@@ -159,14 +159,14 @@ export function displayInvitesSmall(currentUser) {
     }
 }
 
-export function displayPendingInvites(currentUser){
+export function displayPendingInvites(currentUser) {
     const notificationsStr = localStorage.getItem(NOTIFICATIONS)
     if (!(notificationsStr === null || notificationsStr.trim() === "")) {
         const notifications = JSON.parse(notificationsStr)
         return notifications.map((notification) => {
             if (notification.type === "invite" && notification.owner === currentUser.id && notification.dismissed === false) {
                 return (
-                    <div key={notification.id} className="card d-flex justify-content-evenly" style={{ marginTop: 16, padding: 8, marginLeft:16, marginRight:16}}>
+                    <div key={notification.id} className="card d-flex justify-content-evenly" style={{ marginTop: 16, padding: 8, marginLeft: 16, marginRight: 16 }}>
                         <div className=" d-flex justify-content-between">
                             <label style={{ marginLeft: 16 }}>Invite sent to: {getUserNameByID(notification.target)}</label>
                         </div>
@@ -240,7 +240,7 @@ export function checkInvites(currentUser, inviteID) {
     const notifications = notificationsStr ? JSON.parse(notificationsStr) : []
     const themeStr = localStorage.getItem(THEME)
     const theme = JSON.parse(themeStr)
-    
+
     let response = true
     let toastResponse = 0
     notifications.forEach((note) => {
@@ -257,14 +257,34 @@ export function checkInvites(currentUser, inviteID) {
     }
 
     if (toastResponse === 1) {
-        toast("Invite Already Sent", { position: "bottom-right",theme:theme.toast })
+        toast("Invite Already Sent", { position: "bottom-right", theme: theme.toast })
     } else if (toastResponse === 2) {
-        toast("Already a Friend", { position: "bottom-right",theme:theme.toast })
+        toast("Already a Friend", { position: "bottom-right", theme: theme.toast })
     }
     return response
 }
 
-export function cleanUpInvites(targetUserID){
+export function cleanUpInvites(targetUserID) {
     const notificationsStr = localStorage.getItem(NOTIFICATIONS)
     const notifications = notificationsStr ? JSON.parse(notificationsStr) : []
+    let tempNotifications = []
+    notifications.forEach(notification => {
+        if (!(notification.owner === targetUserID || notification.target === targetUserID)) {
+            tempNotifications = [...tempNotifications, notification]
+        } 
+    })
+    
+    localStorage.setItem(NOTIFICATIONS,JSON.stringify(tempNotifications))
+}
+
+export function cleanUpNotifications(targetUserID) {
+    const notificationsStr = localStorage.getItem(NOTIFICATIONS)
+    const notifications = notificationsStr ? JSON.parse(notificationsStr) : []
+    let tempNotifications = []
+    notifications.forEach(notification => {
+        if (!(notification.owner === targetUserID)) {
+            tempNotifications = [...tempNotifications, notification]
+        }
+    })
+    localStorage.setItem(NOTIFICATIONS, JSON.stringify(tempNotifications))
 }

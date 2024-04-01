@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { checkUserLogin, saveUserSettings, changeUserPassword, userEmailExists } from "../utils/users"
+import { checkUserLogin, saveUserSettings, changeUserPassword, userEmailExistsBesidesSelf } from "../utils/users"
 import { CUR_USER,THEME } from "../config/localStorage"
 import { inviteUser } from "../utils/messages";
 import { toast } from 'react-toastify';
@@ -123,7 +123,7 @@ function UserSettings() {
                             </label>
                         </form>
                         <button type="button" className={theme.button} style={{ marginLeft: 8, marginTop: 32 }} onClick={() => {
-                            if (changeUserPassword(passwords, navigate) === true) {
+                            if (changeUserPassword(passwords) === true) {
                                 setCurrentUser((prev) => ({
                                     ...prev,
                                     password: passwords.newpassword
@@ -199,11 +199,14 @@ function UserSettings() {
                         </label>
 
                         <button type="button" className={theme.button} style={{  marginTop: 64 }} onClick={() => {
-                            if(userEmailExists(currentUser)){
+                            if(userEmailExistsBesidesSelf(currentUser)){
                                 toast("Email already in Use", { position: "bottom-right", theme: theme.toast })
                             } else{
-                                saveUserSettings(currentUser, navigate)}}
+                                saveUserSettings(currentUser)
+                                toast("Settings Saved", { position: "bottom-right", theme: theme.toast })
+                                }
                             }
+                        }
                             >Update Settings</button>
                     </div>
                 </div>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { saveUserSettings, adminPasswordChange, checkAdminLogin, userEmailExists } from "../utils/users"
+import { saveUserSettings, adminPasswordChange, checkAdminLogin, userEmailExistsBesidesSelf } from "../utils/users"
 import { CUR_USER, USER_TO_EDIT, THEME } from "../config/localStorage"
 import { toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
@@ -215,10 +215,13 @@ function UserSettings() {
                             </label>
                         </form>
                         <button type="button" className={theme.button} style={{ marginTop: 40 }} onClick={() => {
-                            if(userEmailExists(userToEdit)){
+                            if(userEmailExistsBesidesSelf(userToEdit)){
                                 toast("Email already in Use", { position: "bottom-right", theme: theme.toast })
                             } else{
-                                saveUserSettings(userToEdit, navigate)}}
+                                saveUserSettings(userToEdit)
+                                toast("Settings Saved", { position: "bottom-right", theme: theme.toast })
+                            }
+                            }
                             }>Update Settings</button>
                     </div>
                 </div>

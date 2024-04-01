@@ -1,6 +1,7 @@
 import { ALL_USERS, CUR_USER, USER_TO_EDIT, THEME } from "../config/localStorage"
-import { HOME, SIGN_IN, MANAGEUSERS, EDITUSER, USER_SETTINGS } from "../config/routes"
-import { gatherNotifications } from "./notifications"
+import { HOME, SIGN_IN, MANAGEUSERS, EDITUSER} from "../config/routes"
+import { cleanUpMessages } from "./messages";
+import { cleanUpInvites, cleanUpNotifications, gatherNotifications } from "./notifications"
 import React from 'react';
 import { toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
@@ -113,6 +114,19 @@ export function userEmailExists(userToCheck) {
   return false
 }
 
+export function userEmailExistsBesidesSelf(userToCheck) {
+  const allUserData = JSON.parse(localStorage.getItem(ALL_USERS))
+  if (allUserData === null || allUserData === "") {
+    return false
+  }
+  for (let i = 0; i < allUserData.length; i++) {
+    if (allUserData[i].email === userToCheck.email && !(allUserData[i].id === userToCheck.id)) {
+      return true
+    }
+  }
+  return false
+}
+
 //Saves user to local storage, should work without modification
 export function userSave(userToSave) {
   const allUserDataStr = localStorage.getItem(ALL_USERS)
@@ -127,23 +141,23 @@ export function userSave(userToSave) {
   localStorage.setItem(ALL_USERS, JSON.stringify(temparr))
 }
 //Save current user to all users in local storage
-export function saveUserSettings(currentUser, navigate) {
+export function saveUserSettings(currentUser) {
   const allUserDataStr = localStorage.getItem(ALL_USERS)
   const allUserData = allUserDataStr ? JSON.parse(allUserDataStr) : []
   const filteredUsers = allUserData.filter(users => !users.id.match(new RegExp('^' + currentUser.id + '$')))
   const newAllUsers = [...filteredUsers, currentUser]
   localStorage.setItem(ALL_USERS, JSON.stringify(newAllUsers))
   localStorage.setItem(CUR_USER, JSON.stringify(currentUser))
-  navigate(USER_SETTINGS)
+  
 }
 //Changes current users passwords
-export function changeUserPassword(passwords, navigate) {
+export function changeUserPassword(passwords) {
   const currentUser = JSON.parse(localStorage.getItem(CUR_USER))
   if (currentUser.password === passwords.currentpassword) {
     if (passwords.newpassword === passwords.newpasswordcheck) {
       currentUser.password = passwords.newpassword
       localStorage.setItem(CUR_USER, JSON.stringify(currentUser))
-      saveUserSettings(currentUser, navigate)
+      saveUserSettings(currentUser)
       return true
     } else {
       return false
@@ -220,6 +234,9 @@ export function displayUsers(navigate) {
 export function deleteUser(userToDelete, navigate) {
   const allUserDataStr = localStorage.getItem(ALL_USERS)
   const allUserData = allUserDataStr ? JSON.parse(allUserDataStr) : []
+  cleanUpMessages(userToDelete.username)
+  cleanUpInvites(userToDelete.id)
+  cleanUpNotifications(userToDelete.id)
   const filteredUsers = allUserData.filter(users => !users.id.match(new RegExp('^' + userToDelete.id + '$')))
   localStorage.setItem(ALL_USERS, JSON.stringify(filteredUsers))
   navigate(MANAGEUSERS)
@@ -268,10 +285,7 @@ export function addFriend(currentUser, friendToAddID) {
   const allUserDataStr = localStorage.getItem(ALL_USERS)
   const allUserData = allUserDataStr ? JSON.parse(allUserDataStr) : []
   let filteredUsers = allUserData.filter(users => !users.id.match(new RegExp('^' + currentUser.id + '$')))
-  console.log(filteredUsers)
-  console.log(currentUser.id)
   filteredUsers = filteredUsers.filter(users => !users.id.match(new RegExp('^' + friendToAddID + '$')))
-  console.log(filteredUsers)
   let friendUserEntry = allUserData.filter(users => users.id.match(new RegExp('^' + friendToAddID + '$')))
   let friendUser = friendUserEntry[0]
 

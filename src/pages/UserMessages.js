@@ -4,7 +4,7 @@ import { CUR_USER, MESSAGE_USER, THEME } from "../config/localStorage";
 import { checkUserLogin, getUserImage, getUserNameByID } from "../utils/users";
 import { displayMessages, inviteUser, newMessagesForUser, submitMessage } from "../utils/messages";
 import Avatar from 'react-avatar';
-import { displayInvitesSmall, displayPendingInvites } from "../utils/notifications";
+import {  displayInvitesSmall, displayPendingInvites } from "../utils/notifications";
 
 
 function UserMessages() {
@@ -15,7 +15,7 @@ function UserMessages() {
     const currentUser = JSON.parse(currentUserStr)
     const currentUsername = currentUser.username
     const [inviteEmail, setInviteEmail] = useState("")
-    const [userList, setUserList] = useState(currentUser.friends ? currentUser.friends : [])
+    const userList = currentUser.friends ? currentUser.friends : []
     const navigate = useNavigate();
     /*
     if (userList.length > 0) {
@@ -102,7 +102,6 @@ function UserMessages() {
                 </div>
 
             </div>
-
         </div>
     )
 }

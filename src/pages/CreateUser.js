@@ -7,7 +7,7 @@ import { checkAdminLogin } from "../utils/users";
 function CreateUser() {
     const themeStr = localStorage.getItem(THEME)
     const theme = JSON.parse(themeStr)
-    const [newUser, setNewUser] = useState({ id: "", username: "", password: "", email: "", adminlevel: 2, notify: false, itemlimit: 99, expirylimit: 99 })
+    const [newUser, setNewUser] = useState({ id: "", username: "", password: "", email: "", adminlevel: 2, notify: false, itemlimit: 99, expirylimit: 99, friends:[] })
     const navigate = useNavigate()
     //Used to update reminder text on registration page 
     const [noticeStyle, setColor] = useState('green')

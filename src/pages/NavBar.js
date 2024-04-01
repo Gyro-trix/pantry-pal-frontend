@@ -204,7 +204,9 @@ function NavBar() {
   }
 
   function messages() {
-    localStorage.setItem(MESSAGE_USER, friendsList[0] ? JSON.stringify(friendsList[0]) : "")
+    if(friendsList.length > 0){
+      localStorage.setItem(MESSAGE_USER, friendsList[0] ? JSON.stringify(friendsList[0]) : "")
+    }
     navigate(USERMESSAGES)
   }
 

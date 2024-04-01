@@ -204,6 +204,8 @@ export function deleteItem(indextodelete) {
 }
 
 export function addItem(item) {
+    const themeStr = localStorage.getItem(THEME)
+    const theme = JSON.parse(themeStr)
     let itemlist = JSON.parse(localStorage.getItem(CUR_ITEM_LIST))
     if (item.quantity && item.name && item.size && item.expiry) {
         item.id = new Date().getTime() + "-" + item.name
@@ -212,7 +214,7 @@ export function addItem(item) {
         localStorage.setItem(CALORIES, "")
         window.location.reload()
     } else {
-        toast("Missing Information", { position: "bottom-right" })
+        toast("Missing Information", { position: "bottom-right", theme: theme.toast })
     }
 
 }

@@ -14,9 +14,11 @@ function UserMessages() {
     const currentUser = JSON.parse(currentUserStr)
     const currentUsername = currentUser.username
     const [inviteEmail, setInviteEmail] = useState("")
-    const [userList, setUserList] = useState(currentUser.friends)
+    const [userList, setUserList] = useState(currentUser.friends ? currentUser.friends : [])
     const navigate = useNavigate();
-    localStorage.setItem(MESSAGE_USER, userList[0] ? JSON.stringify(userList[0]) : "")
+    if(userList.length >0){
+        localStorage.setItem(MESSAGE_USER, userList[0] ? JSON.stringify(userList[0]) : "")
+    }
     const targetUserStr = localStorage.getItem(MESSAGE_USER)
     const [targetUser, setTargetUser] = useState(targetUserStr ? JSON.parse(targetUserStr) : "")
 
@@ -65,7 +67,10 @@ function UserMessages() {
                                         placeholder="Invite by Email"
                                     ></input>
                                 </form>
-                                <button type="button" className={theme.button} style={{ marginTop: 16 }} onClick={() => { inviteUser(currentUser, inviteEmail) }}>Invite</button>
+                                <button type="button" className={theme.button} style={{ marginTop: 16 }} onClick={() => { 
+                                    inviteUser(currentUser, inviteEmail)
+                                 window.location.reload()
+                                 }}>Invite</button>
                             </div>
                         </div>
                     </div>

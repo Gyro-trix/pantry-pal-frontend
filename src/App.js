@@ -49,10 +49,10 @@ function App() {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
-
+console.log(width)
   return (
     <div>
-      <div data-bs-theme={theme.name} style={{ width: "100%", minWidth: 700 }}>
+      <div data-bs-theme={theme.name} style={{ width: width, minWidth: 700 }}>
         <div >
           <HashRouter basename='/'>
             <NavBar />

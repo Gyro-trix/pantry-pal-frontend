@@ -5,7 +5,7 @@ import { checkUserLogin, getUserImage, getUserNameByID } from "../utils/users";
 import { displayMessages, inviteUser, newMessagesForUser, submitMessage } from "../utils/messages";
 import Avatar from 'react-avatar';
 import { displayInvitesSmall, displayPendingInvites } from "../utils/notifications";
-import { USERMESSAGES } from "../config/routes";
+
 
 function UserMessages() {
     const themeStr = localStorage.getItem(THEME)

@@ -257,9 +257,14 @@ export function checkInvites(currentUser, inviteID) {
     }
 
     if (toastResponse === 1) {
-        toast("Invite Already Sent", { position: "bottom-right",theme:theme.avatar })
+        toast("Invite Already Sent", { position: "bottom-right",theme:theme.toast })
     } else if (toastResponse === 2) {
-        toast("Already a Friend", { position: "bottom-right",theme:theme.avatar })
+        toast("Already a Friend", { position: "bottom-right",theme:theme.toast })
     }
     return response
+}
+
+export function cleanUpInvites(targetUserID){
+    const notificationsStr = localStorage.getItem(NOTIFICATIONS)
+    const notifications = notificationsStr ? JSON.parse(notificationsStr) : []
 }

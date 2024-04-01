@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { userExists, userSave } from "../utils/users"
+import { userEmailExists, userExists, userSave } from "../utils/users"
 import { CUR_USER, THEME } from "../config/localStorage"
 import { checkAdminLogin } from "../utils/users";
+import { MANAGEUSERS } from "../config/routes";
+import { toast } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 
 function CreateUser() {
     const themeStr = localStorage.getItem(THEME)
     const theme = JSON.parse(themeStr)
     const [newUser, setNewUser] = useState({ id: "", username: "", password: "", email: "", adminlevel: 2, notify: false, itemlimit: 99, expirylimit: 99, friends:[] })
     const navigate = useNavigate()
-    //Used to update reminder text on registration page 
-    const [noticeStyle, setColor] = useState('green')
-    const [text, setText] = useState("Username Available")
     const currentUserStr = localStorage.getItem(CUR_USER)
 
     useEffect(() => {
@@ -27,12 +27,16 @@ function CreateUser() {
     }
 
     const handleCheck = () => {
-        if (!userExists(newUser)) {
-            setColor('green')
-            setText("Username Available")
-        } else {
-            setColor('red')
-            setText("Username Taken")
+        if (userExists(newUser)) {
+            toast("Username Taken", { position: "bottom-right", theme: theme.toast })
+        }
+    }
+
+    const handleEmailChk = () => {
+        if (!(newUser === null)) {
+            if (userEmailExists(newUser)) {
+                toast("Email Already In Use", { position: "bottom-right", theme: theme.toast })
+            }
         }
     }
 
@@ -57,10 +61,10 @@ function CreateUser() {
                                 onChange={handleChange}
                                 name="username"
                                 onBlur={handleCheck}
+                                autoComplete="username"
                             />
                         </div>
                         <div className="container" style={{ textAlign: "center" }}>
-                        <p style={{ color: noticeStyle, marginTop: 16 }}>{text}</p>
                         </div>
                         <div className="input_space" style={{ marginTop: 16 }}>
                             <input placeholder="Email"
@@ -68,6 +72,8 @@ function CreateUser() {
                                type="text"
                                 onChange={handleChange}
                                 name="email"
+                                onBlur={handleEmailChk}
+                                autoComplete="email"
                             />
                         </div>
                         <div className="form-control" style={{ marginTop: 16 }}>
@@ -88,21 +94,26 @@ function CreateUser() {
                         <div className="input_space" style={{ marginTop: 16 }}>
                             <input placeholder="Password"
                                 className="form-control"
-                                type="text"
+                                type="password"
                                 onChange={handleChange}
                                 name="password"
+                                autoComplete="new-password"
                             />
                         </div>
                         <div className="input_space" style={{ marginTop: 16 }}>
                             <input placeholder="Re-Type Password"
                                 className="form-control"
-                                type="text"
+                                type="password"
                                 onChange={handleChange}
                                 name="passwordchk"
+                                autoComplete="new-password"
                             />
                         </div>
                     </form>
-                    <button type="button" className={theme.button} style={{ marginTop: 16 }} onClick={() => userSave(newUser)}>Save User</button>
+                    <button type="button" className={theme.button} style={{ marginTop: 16 }} onClick={() => {
+                        userSave(newUser)
+                        navigate(MANAGEUSERS)
+                        }}>Save User</button>
                 
             </div>
         

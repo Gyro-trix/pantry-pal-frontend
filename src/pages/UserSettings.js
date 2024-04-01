@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { checkUserLogin, saveUserSettings, changeUserPassword } from "../utils/users"
 import { CUR_USER,THEME } from "../config/localStorage"
 import { inviteUser } from "../utils/messages";
-
+import { toast } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 
 function UserSettings() {
     const themeStr = localStorage.getItem(THEME)
@@ -14,8 +15,6 @@ function UserSettings() {
     const [passwords, setPasswords] = useState({ currentpassword: "", newpassword: "", newpasswordcheck: "" })
     const [currentUser, setCurrentUser] = useState(currentUserStr ? JSON.parse(currentUserStr) : null)
     const [notify, setNotify] = useState(currentUser ? currentUser.notify : null)
-    const [passwordNotice, setPasswordNotice] = useState("Password not Updated")
-    const [passwordNoticeColor, setPasswordNoticeColor] = useState("red")
     const [image, setImage] = useState(currentUser.image ? currentUser.image : null)
 
     useEffect(() => {
@@ -123,18 +122,15 @@ function UserSettings() {
                                 ></input>
                             </label>
                         </form>
-                        <p style={{ color: passwordNoticeColor, marginTop: 32 }}>{passwordNotice}</p>
                         <button type="button" className={theme.button} style={{ marginLeft: 8, marginTop: 32 }} onClick={() => {
                             if (changeUserPassword(passwords, navigate) === true) {
                                 setCurrentUser((prev) => ({
                                     ...prev,
                                     password: passwords.newpassword
                                 }))
-                                setPasswordNotice("Password Changed Sucessful")
-                                setPasswordNoticeColor("green")
+                                toast("Password Change Successful", { position: "bottom-right", theme: theme.toast })
                             } else {
-                                setPasswordNotice("Unable to change password")
-                                setPasswordNoticeColor("red")
+                                toast("Old Password not Correct", { position: "bottom-right", theme: theme.toast })
                             }
                         }}>Update Password</button>
                     </div>
@@ -217,7 +213,7 @@ function UserSettings() {
                             placeholder="Invite by Email"
                         ></input>
                         </form>
-                        <button type="button" className={theme.button} style={{ marginTop: 16 }} onClick={() => { inviteUser(currentUser, inviteEmail) }}>Invite</button>
+                        <button type="button" className={theme.button} style={{ marginTop: 16 }} onClick={() => { inviteUser(currentUser, inviteEmail,navigate,"settings") }}>Invite</button>
                     </div>
                 </div>
             </div>

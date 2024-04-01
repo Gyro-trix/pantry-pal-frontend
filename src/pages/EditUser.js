@@ -1,20 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { saveUserSettings, adminPasswordChange, checkAdminLogin } from "../utils/users"
-import { CUR_USER, USER_TO_EDIT,THEME } from "../config/localStorage"
-
+import { CUR_USER, USER_TO_EDIT, THEME } from "../config/localStorage"
+import { toast } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 
 function UserSettings() {
     const themeStr = localStorage.getItem(THEME)
-  const theme = JSON.parse(themeStr)
+    const theme = JSON.parse(themeStr)
     const navigate = useNavigate()
     const currentUserStr = localStorage.getItem(CUR_USER)
     const userToEditStr = localStorage.getItem(USER_TO_EDIT)
     const [passwords, setPasswords] = useState({ currentpassword: "", newpassword: "", newpasswordcheck: "" })
     const [userToEdit, setUserToEdit] = useState(userToEditStr ? JSON.parse(userToEditStr) : null)
     const [notify, setNotify] = useState(userToEdit ? userToEdit.notify : null)
-    const [passwordNotice, setPasswordNotice] = useState("Password not Updated")
-    const [passwordNoticeColor, setPasswordNoticeColor] = useState("red")
     const [image, setImage] = useState(userToEdit.image ? userToEdit.image : null)
 
     useEffect(() => {
@@ -72,20 +71,20 @@ function UserSettings() {
                     <div className="card" style={{ padding: 16 }}>
                         <h5 >Account For: {userToEdit.username}</h5>
                         <form>
-                        <label hidden={true} style={{ marginTop: 16 }} > Current Password:
+                            <label hidden={true} style={{ marginTop: 16 }} > Current Password:
                                 <input
                                     className="form-control"
-                                    style={{   }}
+                                    style={{}}
                                     type="text"
                                     onChange={handlePasswordChange}
                                     name="username"
                                     autoComplete="username"
                                 ></input>
                             </label>
-                            <label style={{ marginTop: 16 ,width:"100%" }} > Current Password:
+                            <label style={{ marginTop: 16, width: "100%" }} > Current Password:
                                 <input
                                     className="form-control"
-                                    style={{  }}
+                                    style={{}}
                                     type="password"
                                     onChange={handlePasswordChange}
                                     name="currentpassword"
@@ -93,10 +92,10 @@ function UserSettings() {
                                 ></input>
                             </label>
                             <br></br>
-                            <label style={{ marginTop: 16,width:"100%" }}> New Password:
+                            <label style={{ marginTop: 16, width: "100%" }}> New Password:
                                 <input
                                     className="form-control"
-                                    style={{   }}
+                                    style={{}}
                                     type="password"
                                     onChange={handlePasswordChange}
                                     name="newpassword"
@@ -104,10 +103,10 @@ function UserSettings() {
                                 ></input>
                             </label>
                             <br></br>
-                            <label style={{ marginTop: 16,width:"100%" }}> Re-Type New Password:
+                            <label style={{ marginTop: 16, width: "100%" }}> Re-Type New Password:
                                 <input
                                     className="form-control"
-                                    style={{   }}
+                                    style={{}}
                                     type="password"
                                     onChange={handlePasswordChange}
                                     name="newpasswordcheck"
@@ -115,27 +114,25 @@ function UserSettings() {
                                 ></input>
                             </label>
                         </form>
-                        <p style={{ color: passwordNoticeColor, marginTop: 32 }}>{passwordNotice}</p>
+                        
                         <button type="button" className={theme.button} style={{ marginTop: 30 }} onClick={() => {
                             if (adminPasswordChange(passwords) === true) {
                                 setUserToEdit((prev) => ({
                                     ...prev,
                                     password: passwords.newpassword
                                 }))
-                                setPasswordNotice("Password Changed Sucessful")
-                                setPasswordNoticeColor("green")
+                                toast("Password Change Successful", { position: "bottom-right", theme: theme.toast })
                             } else {
-                                setPasswordNotice("Unable to change password")
-                                setPasswordNoticeColor("red")
+                                toast("Old Password not Correct", { position: "bottom-right", theme: theme.toast })
                             }
                         }}>Update Password</button>
                     </div>
                 </div>
                 <div className="col" style={{ marginBottom: 32 }}>
-                    <div className="card" style={{ padding: 16, height:"100%" }}>
+                    <div className="card" style={{ padding: 16, height: "100%" }}>
                         <div className="container flex col">
-                            
-                            <div style ={{height:260,display:"flex",justifyContent:"center"}}>{image != null && <img alt="" height={260} src={`${image}`} />}</div>
+
+                            <div style={{ height: 260, display: "flex", justifyContent: "center" }}>{image != null && <img alt="" height={260} src={`${image}`} />}</div>
                             <div className="input-group mb-3" style={{ marginTop: 16 }}>
                                 <input
                                     type="file"
@@ -155,7 +152,7 @@ function UserSettings() {
                     <div className="card" style={{ padding: 16 }}>
 
                         <form>
-                            <div className="form-control" style={{  whiteSpace: "nowrap" }}>
+                            <div className="form-control" style={{ whiteSpace: "nowrap" }}>
 
                                 <div className="form-check form-check-inline" style={{ marginLeft: 16 }}>
                                     <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" checked={userToEdit.adminlevel === 3} value={3} disabled />
@@ -172,7 +169,7 @@ function UserSettings() {
                             </div>
                         </form>
                         <form style={{ marginTop: 16 }}>
-                            <label className="form-control" style={{ }}>
+                            <label className="form-control" style={{}}>
                                 <input className="form-check-input" type="checkbox" name="notify" checked={notify} onChange={(e) => {
                                     setUserToEdit((prev) => ({
                                         ...prev,
@@ -184,7 +181,7 @@ function UserSettings() {
                             </label>
                         </form>
                         <form>
-                            <label style={{ marginTop: 16,width:"100%" }}> Low Stock Threshold:
+                            <label style={{ marginTop: 16, width: "100%" }}> Low Stock Threshold:
                                 <input
                                     className="form-control"
                                     style={{}}
@@ -195,10 +192,10 @@ function UserSettings() {
                                 ></input>
                             </label>
                             <br></br>
-                            <label style={{ marginTop: 16,width:"100%" }}> Expiry Threshold (Days):
+                            <label style={{ marginTop: 16, width: "100%" }}> Expiry Threshold (Days):
                                 <input
                                     className="form-control"
-                                    style={{ }}
+                                    style={{}}
                                     type="text"
                                     onChange={handleChange}
                                     name="expirylimit"
@@ -206,10 +203,10 @@ function UserSettings() {
                                 ></input>
                             </label>
                             <br></br>
-                            <label style={{ marginTop: 16,width:"100%" }}> Email:
+                            <label style={{ marginTop: 16, width: "100%" }}> Email:
                                 <input
                                     className="form-control"
-                                    style={{ }}
+                                    style={{}}
                                     type="text"
                                     onChange={handleChange}
                                     name="email"

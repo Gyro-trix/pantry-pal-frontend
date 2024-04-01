@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { addUser, userEmailExists, userExists } from "../utils/users"
 import { CUR_USER, THEME } from "../config/localStorage"
+import { toast } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 
 //Used to register a new admin level user 
 function Register() {
@@ -9,11 +11,6 @@ function Register() {
     const theme = JSON.parse(themeStr)
     const [newUser, setNewUser] = useState(null)
     const navigate = useNavigate()
-    //Used to update reminder text on registration page 
-    const [noticeStyle, setColor] = useState('green')
-    const [text, setText] = useState("Username Available")
-    const [emailTextColor, setEmailTextColor] = useState('green')
-    const [emailText, setEmailText] = useState("Email Not Used")
     //Clears current User
     localStorage.setItem(CUR_USER, "")
     //Adds user with data from input fields
@@ -25,27 +22,19 @@ function Register() {
     }
 
     const handleCheck = () => {
-        if(!(newUser === null)){
-        if (!userExists(newUser)) {
-            setColor('green')
-            setText("Username Available")
-        } else {
-            setColor('red')
-            setText("Username Taken")
+        if (!(newUser === null)) {
+            if (userExists(newUser)) {
+                toast("Username Taken", { position: "bottom-right", theme: theme.toast })
+            }
         }
-    }
     }
 
     const handleEmailChk = () => {
-        if(!(newUser === null)){
-        if (!userEmailExists(newUser)) {
-            setEmailTextColor('green')
-            setEmailText("Email Not Used")
-        } else {
-            setEmailTextColor('red')
-            setEmailText("EMail already in use")
+        if (!(newUser === null)) {
+            if (userEmailExists(newUser)) {
+                toast("Email Already In Use", { position: "bottom-right", theme: theme.toast })
+            }
         }
-    }
     }
 
     //Register form
@@ -60,10 +49,9 @@ function Register() {
                     onChange={handleChange}
                     name="username"
                     onBlur={handleCheck}
+                    autoComplete="username"
                 />
-                <div className="container" style={{ textAlign: "center" }}>
-                    <p style={{ color: noticeStyle, whiteSpace: "nowrap", marginTop: 16 }}>{text}</p>
-                </div>
+
                 <input className="form-control"
                     style={{ marginTop: 16 }}
                     placeholder="Email"
@@ -71,25 +59,26 @@ function Register() {
                     onChange={handleChange}
                     name="email"
                     onBlur={handleEmailChk}
+                    autoComplete="new-email"
                 />
-                <div className="container" style={{ textAlign: "center" }}>
-                    <p style={{ color: emailTextColor, whiteSpace: "nowrap", marginTop: 16 }}>{emailText}</p>
-                </div>
+
                 <input className="form-control"
                     style={{ marginTop: 16 }}
                     placeholder="Password"
-                    type="text"
+                    type="password"
                     onChange={handleChange}
                     name="password"
+                    autoComplete="new-password"
                 />
 
 
                 <input className="form-control"
                     style={{ marginTop: 16 }}
                     placeholder="Re-Type Password"
-                    type="text"
+                    type="password"
                     onChange={handleChange}
                     name="passwordchk"
+                    autoComplete="new-password"
                 />
 
             </form>

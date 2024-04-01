@@ -1,32 +1,43 @@
 import { USER_MESSAGES, NOTIFICATIONS, THEME } from "../config/localStorage";
-import { USERMESSAGES } from "../config/routes";
+import { USERMESSAGES, USER_SETTINGS } from "../config/routes";
 import Avatar from 'react-avatar';
 import { getUserIDByEmail, getUserImage } from "./users";
 import { toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import { checkInvites } from "./notifications";
 
-export function inviteUser(currentUser, userToInviteEmail) {
+export function inviteUser(currentUser, userToInviteEmail,navigate,source) {
     const allNotificationsStr = localStorage.getItem(NOTIFICATIONS)
     const allNotifications = allNotificationsStr ? JSON.parse(allNotificationsStr) : []
     const userToInviteID = getUserIDByEmail(userToInviteEmail)
     const themeStr = localStorage.getItem(THEME)
     const theme = JSON.parse(themeStr)
-    if (checkInvites(currentUser, userToInviteID)) {
-        if (!(userToInviteID === "No User Found")) {
-            let modifiedNotifications
-            let inviteNotification = {
-                owner: currentUser.id,
-                target: userToInviteID,
-                type: "invite",
-                id: "" + new Date().getTime() + "-invite",
-                dismissed: false
+    if (currentUser.email !== userToInviteEmail) {
+        if (checkInvites(currentUser, userToInviteID)) {
+            if (!(userToInviteID === "No User Found")) {
+                let modifiedNotifications
+                let inviteNotification = {
+                    owner: currentUser.id,
+                    target: userToInviteID,
+                    type: "invite",
+                    id: "" + new Date().getTime() + "-invite",
+                    dismissed: false
+                }
+                modifiedNotifications = [...allNotifications, inviteNotification]
+                localStorage.setItem(NOTIFICATIONS, JSON.stringify(modifiedNotifications))
+                if(source ==="message"){
+                    navigate(USERMESSAGES)
+                } else if(source === "settings"){
+                    navigate(USER_SETTINGS)
+                }
+                
             }
-            modifiedNotifications = [...allNotifications, inviteNotification]
-            localStorage.setItem(NOTIFICATIONS, JSON.stringify(modifiedNotifications))
-        } else {
-            toast("No User matched to email", { position: "bottom-right",theme:theme.toast })
+            else {
+                toast("No User matched to email", { position: "bottom-right", theme: theme.toast })
+            }
         }
+    } else {
+        toast("That is your email", { position: "bottom-right", theme: theme.toast })
     }
 }
 
@@ -93,9 +104,9 @@ export function submitMessage(targetUser, currentUser, contents, navigate) {
         const message = { from: currentUser, to: targetUser, contents: contents, time: time, seen: false }
         let messages = [...userMessages, message]
         localStorage.setItem(USER_MESSAGES, JSON.stringify(messages))
-    } else if(targetUser !== ""){
+    } else if (targetUser !== "") {
         toast("Please enter a message.", { position: "bottom-right", theme: theme.toast })
-    } else if(contents !== ""){
+    } else if (contents !== "") {
         toast("Please select a user.", { position: "bottom-right", theme: theme.toast })
     }
     navigate(USERMESSAGES)
@@ -154,4 +165,16 @@ export function anyNewMessages(currentUser) {
         return true
     })
     return answer
+}
+
+export function cleanUpMessages(targetUsername) {
+    const userMessagesStr = localStorage.getItem(USER_MESSAGES)
+    const userMessages = userMessagesStr ? JSON.parse(userMessagesStr) : []
+    let tempMessages = []
+    userMessages.forEach(message => {
+        if (!((message.from === targetUsername) || (message.to === targetUsername))) {
+            tempMessages = [...tempMessages, message]
+        }
+    })
+    localStorage.setItem(USER_MESSAGES, JSON.stringify(tempMessages))
 }

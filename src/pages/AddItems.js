@@ -71,7 +71,7 @@ function AddItems(props) {
             //const calories = JSON.parse(caloriesStr)
             setSearchBtn("Clear Search")
             if (fetchedData.items.length === 0) {
-                toast("No results from API, please manually enter", { position: "bottom-right" })
+                toast("No results from API, please manually enter", { position: "bottom-right", theme: theme.toast })
                 addItemRef.current.hidden = false
                 itemName.current.value = itemSearch
                 setAddNutritionBtn(false)

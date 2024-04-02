@@ -24,12 +24,12 @@ import background from './images/background.jpg'
 import "react-toastify/dist/ReactToastify.css";
 import { THEME } from './config/localStorage';
 
-
-
-function App() {
-  if (localStorage.getItem(THEME) === null) {
+if (localStorage.getItem(THEME) === null) {
     localStorage.setItem(THEME, JSON.stringify(lightTheme))
   }
+
+function App() {
+  
   const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions);
   const themeStr = localStorage.getItem(THEME)
   const theme = JSON.parse(themeStr)

@@ -43,15 +43,17 @@ function Login() {
     }
 
     return (
-        <div>
+        <div className ="container" style ={{margin:"auto", marginTop:32}}>
             <div className="row">
-                <div className="col">
-                    <div className="card w-50 mb-3" style={{ padding: 32, margin: "auto", marginTop: 64,  animation: "fadeIn 3s" }}>
+                <div className="col w-75 mb-3" >
+                    
+                    <div className="card " style={{textAlign:"center",minHeight:298, padding: 16, marginTop: 64, marginLeft:32,  animation: "fadeIn 3s" }}>
+                        <h1>Pantry Pal</h1>
                         <About />
                     </div>
                 </div>
-                <div className="col">
-                    <div className="card w-50 mb-3" style={{ padding: 32, margin: "auto", marginTop: 64, minWidth: 400, maxWidth: 400, animation: "fadeIn 3s" }}>
+                <div className="col w-25 mb-3">
+                    <div className="card w-50 mb-3" style={{ padding: 32, marginTop: 64, minWidth: 400, maxWidth: 400, animation: "fadeIn 3s" }}>
                         <form>
                             <div className="input_group mb-3" style={{ animation: "fadeIn2 2s" }}>
                                 <input className="form-control"
@@ -76,7 +78,7 @@ function Login() {
                             <button type="button" className={theme.button} style={{ width: 96, whiteSpace: "nowrap" }} onClick={() => logIn(attemptingUser, navigate)}>Log In</button>
                         </div>
                     </div>
-                    <div className="card w-50 mb-3" style={{minWidth: 400,padding:16,margin:"auto",animation: "fadeIn 3s"}}>
+                    <div className="card w-50 mb-3" style={{marginTop:32,maxWidth: 400,minWidth: 400,padding:16,animation: "fadeIn 3s"}}>
                         <span style={{margin:"auto"}}><Icon.Github style ={{marginRight:32}} size ={36}/><Icon.EnvelopeAtFill style ={{marginRight:32}} size ={36}/><Icon.Linkedin size ={36}/></span>
                         
                         

@@ -17,13 +17,7 @@ function UserMessages() {
     const [inviteEmail, setInviteEmail] = useState("")
     const userList = currentUser.friends ? currentUser.friends : []
     const navigate = useNavigate();
-    /*
-    if (userList.length > 0) {
-        localStorage.setItem(MESSAGE_USER, userList[0] ? JSON.stringify(userList[0]) : "")
-    }
-    */
-    const targetUserStr = localStorage.getItem(MESSAGE_USER)
-    const [targetUser, setTargetUser] = useState(targetUserStr ? JSON.parse(targetUserStr) : "")
+    const [targetUser, setTargetUser] = useState("")
 
     useEffect(() => {
         checkUserLogin(currentUserStr, navigate)

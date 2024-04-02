@@ -47,9 +47,10 @@ function Login() {
             <div className="row">
                 <div className="col w-75 mb-3" >
                     
-                    <div className="card " style={{textAlign:"center",minHeight:298, padding: 16, marginTop: 64, marginLeft:32,  animation: "fadeIn 3s" }}>
+                    <div className="card " style={{textAlign:"center",minHeight:"100%", padding: 16, marginTop: 64, marginLeft:32,  animation: "fadeIn 3s" }}>
                         <h1>Pantry Pal</h1>
-                        <About />
+                        <div><About /></div>
+                        
                     </div>
                 </div>
                 <div className="col w-25 mb-3">

@@ -5,6 +5,7 @@ import { numberOfNotifications } from "../utils/notifications";
 import { CUR_USER, MESSAGE_USER, THEME } from "../config/localStorage";
 import { changeTheme, getWindowDimensions } from "../utils/display";
 import { anyNewMessages } from "../utils/messages";
+import Logov1 from '../images/Logov1.png'
 import Avatar from 'react-avatar';
 import * as Icon from 'react-bootstrap-icons';
 
@@ -224,7 +225,7 @@ function NavBar() {
 
     <nav className="navbar navbar-expand sticky-top bg-body-tertiary" data-bs-theme={theme.navbar}>
       <div className="container-fluid">
-      <Link className="navbar-brand" aria-current="page" to="" >Pantry Pal</Link>
+      <Link className="navbar-brand" aria-current="page" to="" ><img src={Logov1} width={48} height={48} alt="Logo" /></Link>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
         </button>

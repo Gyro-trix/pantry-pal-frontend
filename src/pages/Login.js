@@ -43,18 +43,18 @@ function Login() {
     }
 
     return (
-        <div className ="container" style ={{margin:"auto", marginTop:32}}>
+        <div className="container" style={{ margin: "auto" }}>
             <div className="row">
                 <div className="col w-75 mb-3" >
-                    
-                    <div className="card " style={{textAlign:"center",minHeight:"100%", padding: 16, marginTop: 64, marginLeft:32,  animation: "fadeIn 3s" }}>
-                        <h1>Pantry Pal</h1>
+
+                    <div className="card " style={{ minHeight: "100%", marginTop: 32, marginLeft: 32, animation: "fadeIn 3s" }}>
+                        <h1 style={{ textAlign: "center", marginTop: 16, marginBottom: 16 }} >Pantry Pal</h1>
                         <div><About /></div>
-                        
+
                     </div>
                 </div>
-                <div className="col w-25 mb-3">
-                    <div className="card w-50 mb-3" style={{ padding: 32, marginTop: 64, minWidth: 400, maxWidth: 400, animation: "fadeIn 3s" }}>
+                <div className="col ">
+                    <div className="card " style={{ padding: 32, marginTop: 32, minWidth: 400, maxWidth: 400, animation: "fadeIn 3s" }}>
                         <form>
                             <div className="input_group mb-3" style={{ animation: "fadeIn2 2s" }}>
                                 <input className="form-control"
@@ -79,10 +79,14 @@ function Login() {
                             <button type="button" className={theme.button} style={{ width: 96, whiteSpace: "nowrap" }} onClick={() => logIn(attemptingUser, navigate)}>Log In</button>
                         </div>
                     </div>
-                    <div className="card w-50 mb-3" style={{marginTop:32,maxWidth: 400,minWidth: 400,padding:16,animation: "fadeIn 3s"}}>
-                        <span style={{margin:"auto"}}><Icon.Github style ={{marginRight:32}} size ={36}/><Icon.EnvelopeAtFill style ={{marginRight:32}} size ={36}/><Icon.Linkedin size ={36}/></span>
-                        
-                        
+                    <div className="card w-50 mb-3" style={{ marginTop: 32, maxWidth: 400, minWidth: 400, padding: 16, animation: "fadeIn 3s" }}>
+                        <span style={{ margin: "auto" }}>
+                        <a href="https://github.com/Gyro-trix" target="_blank" rel="noreferrer"><Icon.Github style={{ marginRight: 32 }} size={36} /></a>
+                        <a href="mailto:matthew.d.garrett@hotmail.com" target="_blank" rel="noreferrer"><Icon.EnvelopeAtFill style={{ marginRight: 32 }} size={36} /></a>
+                        <a href="https://www.linkedin.com/in/matthew-garrett-a2987477/" target="_blank" rel="noreferrer"><Icon.Linkedin size={36} /></a>
+                        </span>
+
+
                     </div>
                 </div>
             </div>

@@ -1,6 +1,15 @@
 # The Pantry Pal App
 The main focus of this app is to provide a basic inventory system that can be assigned to containers (such as freezers,cupboards,etc). 
 
+## Steps To Use
+
+1. Go to the Login page `http://localhost:3000/pantry-pal#/login`
+
+![image](https://github.com/Gyro-trix/pantry-pal/assets/137181145/860f5413-dc18-4498-b351-0a1fa9cc9b35)
+
+2. 
+
+
 ## Frameworks used in this project
 - Bootstrap (Layout and theme control)
 

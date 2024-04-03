@@ -3,13 +3,13 @@ function About() {
     return (
         <div>
 
-            <div id="carouselExampleIndicators" className="carousel slide" style = {{minHeight:320}}>
+            <div id="carouselExampleIndicators" className="carousel carousel-dark slide" style = {{minHeight:320}}>
                 <div className="carousel-indicators">
                     <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" className="active" aria-current="true" aria-label="Slide 1"></button>
                     <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
                     <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
                 </div>
-                <div className="carousel-inner"style={{position:"absolute"}}>
+                <div className="carousel-inner">
                     <div className="carousel-item active" style={{ paddingLeft: 64, paddingRight: 64, marginBottom: 32}}>
                         <div >
                             <p>Pantry Pal is a small scale inventory web app demo that allows users to keep seperate lists of items based on user defined locations. This project was developed using React.</p>

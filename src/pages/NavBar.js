@@ -8,6 +8,7 @@ import { anyNewMessages } from "../utils/messages";
 import Logov1 from '../images/Logov1.png'
 import Avatar from 'react-avatar';
 import * as Icon from 'react-bootstrap-icons';
+import { lightTheme } from "../utils/display";
 
 function NavBar() {
   const navigate = useNavigate()
@@ -15,7 +16,7 @@ function NavBar() {
   const currentUser = JSON.parse(currentUserStr ? currentUserStr : null)
 
   const themeStr = localStorage.getItem(THEME)
-  const theme = JSON.parse(themeStr)
+  const theme = (themeStr !== null && themeStr !== "") ? JSON.parse(themeStr)  : lightTheme
   const [notificationCount, setNotificationCount] = useState(numberOfNotifications())
   const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions);
   const { width } = windowDimensions;

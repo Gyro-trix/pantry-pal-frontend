@@ -7,6 +7,7 @@ import { createDemoStorage } from "../utils/storage"
 import { createDemoRecipe } from "../utils/recipes"
 import About from "./About"
 import * as Icon from 'react-bootstrap-icons';
+import { lightTheme } from "../utils/display"
 
 
 
@@ -15,7 +16,7 @@ function Login() {
     localStorage.setItem(CUR_USER, "")
     const navigate = useNavigate()
     const themeStr = localStorage.getItem(THEME)
-    const theme = JSON.parse(themeStr)
+    const theme = (themeStr !== null && themeStr !== "") ? JSON.parse(themeStr)  : lightTheme
     const allUserDataStr = [localStorage.getItem(ALL_USERS)]
     const [attemptingUser, setAttemptingUser] = useState({ id: " ", username: " ", email: " ", password: " ", notify: " ", itemlimit: " ", expirylimit: " " })
     //Creates admin and demo users

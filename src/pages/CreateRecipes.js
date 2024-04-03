@@ -16,7 +16,7 @@ function CreateRecipes() {
     const config = useMemo(() =>
         ({ uploader: { "insertImageAsBase64URI": true },
     theme: theme.name }),
-        []
+        [theme.name]
     );
 
     const currentUserStr = localStorage.getItem(CUR_USER)

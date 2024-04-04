@@ -62,7 +62,7 @@ function App() {
 
   return (
     <div>
-      <div data-bs-theme={theme.name} style={{ width: width, height:height, minWidth: 700 }}>
+      <div data-bs-theme={theme.name} style={{ width: width, height:height }}>
         <div >
           <HashRouter basename='/'>
             <NavBar />

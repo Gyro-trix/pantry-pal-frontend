@@ -47,14 +47,14 @@ function Login() {
             <div className="row">
                 <div className="col w-75 mb-3" >
 
-                    <div className="card " style={{ minHeight: "100%", marginTop: 32, marginLeft: 32, animation: "fadeIn 3s" }}>
+                    <div className="card " style={{ minHeight: "100%", marginTop: 64,  animation: "fadeIn 3s" }}>
                         <h1 style={{ textAlign: "center", marginTop: 16, marginBottom: 16 }} >Pantry Pal</h1>
                         <div><About /></div>
 
                     </div>
                 </div>
                 <div className="col ">
-                    <div className="card " style={{ padding: 32, marginTop: 32, minWidth: 400, maxWidth: 400, animation: "fadeIn 3s" }}>
+                    <div className="card " style={{ margin:"auto",padding: 32, marginTop: 64, minWidth: 400, maxWidth: 400, animation: "fadeIn 3s" }}>
                         <form>
                             <div className="input_group mb-3" style={{ animation: "fadeIn2 2s" }}>
                                 <input className="form-control"
@@ -79,7 +79,7 @@ function Login() {
                             <button type="button" className={theme.button} style={{ width: 96, whiteSpace: "nowrap" }} onClick={() => logIn(attemptingUser, navigate)}>Log In</button>
                         </div>
                     </div>
-                    <div className="card w-50 mb-3" style={{ marginTop: 32, maxWidth: 400, minWidth: 400, padding: 16, animation: "fadeIn 3s" }}>
+                    <div className="card w-50 mb-3" style={{ margin:"auto",marginTop: 32, maxWidth: 400, minWidth: 400, padding: 16, animation: "fadeIn 3s" }}>
                         <span style={{ margin: "auto" }}>
                         <a href="https://github.com/Gyro-trix" target="_blank" rel="noreferrer"><Icon.Github style={{ marginRight: 32 }} size={36} /></a>
                         <a href="mailto:matthew.d.garrett@hotmail.com" target="_blank" rel="noreferrer"><Icon.EnvelopeAtFill style={{ marginRight: 32 }} size={36} /></a>

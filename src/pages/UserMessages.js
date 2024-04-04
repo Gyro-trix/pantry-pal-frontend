@@ -27,6 +27,15 @@ function UserMessages() {
         localStorage.setItem(MESSAGE_USER, JSON.stringify(targetUser))
     }, [targetUser])
 
+    useEffect(() => {
+        function handleMessage() {
+          setInviteEmail("")
+        }
+    
+        window.addEventListener('message', handleMessage);
+        return () => window.removeEventListener('message', handleMessage);
+      }, []);
+
     const handleContentChange = e => {
         setContent(e.target.value)
     }
@@ -66,7 +75,7 @@ function UserMessages() {
                                 </form>
                                 <button type="button" className={theme.button} style={{ marginTop: 16 }} onClick={() => {
                                     
-                                    inviteUser(currentUser, inviteEmail,navigate,"message")
+                                    inviteUser(currentUser, inviteEmail,"message")
                                     
                                 }}>Invite</button>
                             </div>
@@ -77,7 +86,7 @@ function UserMessages() {
                 <div className=" col-7 " id="messages" style={{ margin: 8 }}>
 
                     <div className="card row" style={{ minHeight: 64, padding: 8 }}>
-                        {displayMessages(targetUser, currentUserID, navigate)}
+                        {displayMessages(targetUser, currentUserID)}
                     </div>
                     <div className="card row" style={{ marginTop: 16 }}>
                         <form id="messageinput" style={{ padding: 8 }}>
@@ -90,7 +99,7 @@ function UserMessages() {
                                 style={{ width: "100%" }}
                                 onChange={handleContentChange}>
                             </textarea>
-                            <button type="button" className={theme.button} style={{ marginTop: 8, right: 8, float: "right" }} onClick={() => submitMessage(targetUser, currentUserID, content, navigate)}>Send</button>
+                            <button type="button" className={theme.button} style={{ marginTop: 8, right: 8, float: "right" }} onClick={() => submitMessage(targetUser, currentUserID, content)}>Send</button>
                         </form>
                     </div>
                 </div>

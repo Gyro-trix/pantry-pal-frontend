@@ -81,9 +81,7 @@ function NavBar() {
   useEffect(() => {
     function handleProfile() {
       setTheme(JSON.parse(localStorage.getItem(THEME)));
-      
     }
-
     window.addEventListener('navbar', handleProfile);
     return () => window.removeEventListener('navbar', handleProfile);
   }, []);

@@ -1,5 +1,5 @@
 import { ALL_USERS, CUR_USER, USER_TO_EDIT, THEME } from "../config/localStorage"
-import { HOME, SIGN_IN, MANAGEUSERS, EDITUSER} from "../config/routes"
+import { HOME, SIGN_IN, MANAGEUSERS, EDITUSER } from "../config/routes"
 import { cleanUpMessages } from "./messages";
 import { cleanUpInvites, cleanUpNotifications, gatherNotifications } from "./notifications"
 import React from 'react';
@@ -77,15 +77,15 @@ export function addUser(userToRegister, navigate) {
         friends: []
       }
       //Test newUser against current registered users, then adds to local storage All_USERS               
-      if ((userExists(newUser) === false) && (userEmailExists(newUser) === false)) {
+      if ((userExists(newUser) === false) && (userEmailExists(newUser) === false) && (checkEmailFormat(newUser)===true)) {
         userSave(newUser)
         localStorage.setItem(CUR_USER, JSON.stringify(newUser))
         navigate(HOME)
       }
     } else {
-    toast("Passwords do not match.", { position: "bottom-right", theme: theme.toast })
+      toast("Passwords do not match.", { position: "bottom-right", theme: theme.toast })
+    }
   }
-  } 
 }
 //Checks if the User already exists
 export function userExists(userToCheck) {
@@ -99,6 +99,18 @@ export function userExists(userToCheck) {
     }
   }
   return false
+}
+
+export function checkEmailFormat(userToCheck) {
+  const themeStr = localStorage.getItem(THEME)
+  const theme = JSON.parse(themeStr)
+  const emailRegex = new RegExp(/[a-z0-9]+@[a-z]+\.[a-z]{2,3}/)
+  const email = userToCheck.email
+  const response = emailRegex.test(email)
+  if (response === false) {
+    toast("Email wrong format, Example: name@place.com", { position: "bottom-right", theme: theme.toast })
+  }
+  return response
 }
 
 export function userEmailExists(userToCheck) {
@@ -149,7 +161,7 @@ export function saveUserSettings(currentUser) {
   localStorage.setItem(ALL_USERS, JSON.stringify(newAllUsers))
   localStorage.setItem(CUR_USER, JSON.stringify(currentUser))
   window.dispatchEvent(new Event("navbar"))
-  
+
 }
 //Changes current users passwords
 export function changeUserPassword(passwords) {

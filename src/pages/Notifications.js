@@ -14,24 +14,24 @@ function Notifications() {
     }, [currentUserStr, navigate])
 
     return (
-        <div className ="container" style={{margin:"auto"}}>
-        <div className="row row-cols" style={{ padding: 32 }}>
-            <div className="card" style={{ padding: 32 }}>
-                <div className="card-body">
-                    <h3 className="card-title">Low Inventory</h3>
-                    {displayNotifications("Low")}
-                </div>
-                <div className="card-body">
-                    <h3 className="card-title">About to Expire</h3>
-                    {displayNotifications("Expiring")}
-                </div>
-                <div className="card-body">
-                    <h3 className="card-title">Message Invites</h3>
-                    {displayInvites(currentUser)}
+        <div className="container" style={{ margin: "auto", minWidth:780}}>
+            <div className="row row-cols" style={{ padding: 32 }}>
+                <div className="card" style={{ padding: 32 }}>
+                    <div className="card-body">
+                        <h3 className="card-title">Low Inventory</h3>
+                        {displayNotifications("Low")}
+                    </div>
+                    <div className="card-body">
+                        <h3 className="card-title">About to Expire</h3>
+                        {displayNotifications("Expiring")}
+                    </div>
+                    <div className="card-body">
+                        <h3 className="card-title">Message Invites</h3>
+                        {displayInvites(currentUser)}
+                    </div>
                 </div>
             </div>
         </div>
-      </div>  
     )
 }
 

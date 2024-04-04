@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { addUser, userEmailExists, userExists } from "../utils/users"
+import { addUser, checkEmailFormat, userEmailExists, userExists } from "../utils/users"
 import { CUR_USER, THEME } from "../config/localStorage"
 import { toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
+
 
 //Used to register a new admin level user 
 function Register() {
@@ -11,6 +12,7 @@ function Register() {
     const theme = JSON.parse(themeStr)
     const [newUser, setNewUser] = useState(null)
     const navigate = useNavigate()
+    
     //Clears current User
     localStorage.setItem(CUR_USER, "")
     //Adds user with data from input fields
@@ -34,6 +36,7 @@ function Register() {
             if (userEmailExists(newUser)) {
                 toast("Email Already In Use", { position: "bottom-right", theme: theme.toast })
             }
+            checkEmailFormat(newUser)
         }
     }
 

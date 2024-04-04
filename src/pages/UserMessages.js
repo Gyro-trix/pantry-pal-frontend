@@ -47,7 +47,7 @@ function UserMessages() {
     return (
         <div className="container " style={{ padding: 8, minHeight: 480 }}>
             <div id="upper" className="row" style={{ padding: 8 }}>
-                <div className="card col-4" id="users" style={{ display: "grid", margin: 8, paddingBottom: 8 }}>
+                <div className="card col-4" id="users" style={{ display: "grid", margin: 8, paddingBottom: 8,minWidth:320 }}>
                     {userList.map((user, index) => {
                         let dot = ''
                         let uname = getUserNameByID(user)

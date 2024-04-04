@@ -116,14 +116,15 @@ export function displayInvites(currentUser) {
             if (notification.type === "invite" && notification.target === currentUser.id) {
                 return (
                     <div key={notification.id} className="card d-flex justify-content-evenly" style={{ marginTop: 16 }}>
-                        <div className=" d-flex justify-content-between">
-                            <label style={{ marginLeft: 16, marginTop: 8 }}>{getUserNameByID(notification.owner)} has invited you to their friends list.</label>
+                        <div style={{ display: "inline-block" }}>
+                            <label style={{ marginLeft: 16, marginTop: 8, display: "inline-block" }}>{getUserNameByID(notification.owner)} has invited you to their friends list.</label>
 
-                            <button type="button" className={theme.button} style={{ marginLeft: "auto" }} onClick={() => {
+
+                            <button type="button" className={theme.button} style={{ display: "inline-block", float: "right" }} onClick={() => dismissNotification(notification.id)}>Decline</button>
+                            <button type="button" className={theme.button} style={{ display: "inline-block", float: "right",marginRight:16 }} onClick={() => {
                                 addFriend(currentUser, notification.owner)
                                 deleteNotification(notification.id)
                             }}>Accept</button>
-                            <button type="button" className={theme.button} style={{ marginLeft: "auto" }} onClick={() => dismissNotification(notification.id)}>Decline</button>
                         </div>
                     </div>
                 )
@@ -141,15 +142,19 @@ export function displayInvitesSmall(currentUser) {
         return notifications.map((notification) => {
             if (notification.type === "invite" && notification.target === currentUser.id) {
                 return (
-                    <div key={notification.id} className="card d-flex justify-content-evenly" style={{ marginTop: 16, padding: 8, border: 0 }}>
-                        <div className=" d-flex justify-content-between">
-                            <label style={{ marginLeft: 16, marginTop: 8 }}>Invite From: {getUserNameByID(notification.owner)}</label>
-                            <div className="button" style={{ backgroundColor: "green", height: 35, width: 35, borderRadius: "50%" }} onClick={() => {
-                                addFriend(currentUser, notification.owner)
-                                deleteNotification(notification.id)
-                            }}><Icon.CheckCircle style={{}} size={35} /></div>
-                            <div className="button" style={{ backgroundColor: "red", height: 35, width: 35, borderRadius: "50%" }} onClick={() => dismissNotification(notification.id)}><Icon.XCircle style={{}} size={35} /></div>
-                        </div>
+                    <div key={notification.id} className="card" style={{ whiteSpace: "no-wrap", display: "inline-block", marginTop: 16, padding: 8, marginLeft: 16, marginRight: 16 }}>
+
+
+                        <span style={{ display: "inline-block", marginLeft: 16, marginTop: 8 }}>Invite From: {getUserNameByID(notification.owner)}</span>
+                        <div className="button" style={{ marginLeft: 16, display: "inline-block", float: "right", backgroundColor: "green", height: 35, width: 35, borderRadius: "50%" }} onClick={() => {
+                            addFriend(currentUser, notification.owner)
+                            deleteNotification(notification.id)
+                        }}><Icon.CheckCircle style={{}} size={35} /></div>
+                        <div className="button" style={{ marginLeft: 16, display: "inline-block", float: "right", backgroundColor: "red", height: 35, width: 35, borderRadius: "50%" }} onClick={() =>
+                            dismissNotification(notification.id)}>
+                            <Icon.XCircle style={{}} size={35} /></div>
+
+
                     </div>
                 )
             } else {
@@ -271,10 +276,10 @@ export function cleanUpInvites(targetUserID) {
     notifications.forEach(notification => {
         if (!(notification.owner === targetUserID || notification.target === targetUserID)) {
             tempNotifications = [...tempNotifications, notification]
-        } 
+        }
     })
-    
-    localStorage.setItem(NOTIFICATIONS,JSON.stringify(tempNotifications))
+
+    localStorage.setItem(NOTIFICATIONS, JSON.stringify(tempNotifications))
 }
 
 export function cleanUpNotifications(targetUserID) {

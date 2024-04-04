@@ -148,6 +148,7 @@ export function saveUserSettings(currentUser) {
   const newAllUsers = [...filteredUsers, currentUser]
   localStorage.setItem(ALL_USERS, JSON.stringify(newAllUsers))
   localStorage.setItem(CUR_USER, JSON.stringify(currentUser))
+  window.dispatchEvent(new Event("navbar"))
   
 }
 //Changes current users passwords
@@ -247,10 +248,11 @@ export function editUser(userToEdit, navigate) {
   navigate(EDITUSER)
 }
 
-export function getUserImage(username) {
+export function getUserImage(userID) {
   const allUserDataStr = localStorage.getItem(ALL_USERS)
   const allUserData = allUserDataStr ? JSON.parse(allUserDataStr) : []
-  const filteredUser = allUserData.filter(users => users.username.match(new RegExp('^' + username + '$')))
+  console.log(userID)
+  const filteredUser = allUserData.filter(user => user.id.match(new RegExp('^' + userID + '$')))
   return filteredUser[0].image
 }
 

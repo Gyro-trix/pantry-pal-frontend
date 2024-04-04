@@ -32,7 +32,7 @@ function App() {
   
   const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions);
   const themeStr = localStorage.getItem(THEME)
-  const theme = JSON.parse(themeStr)
+  const [theme,setTheme] = useState(JSON.parse(themeStr))
   const { width, height } = windowDimensions
 
   useLayoutEffect(() => {
@@ -48,6 +48,15 @@ function App() {
 
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  useEffect(() => {
+    function handleTheme() {
+      setTheme(JSON.parse(localStorage.getItem(THEME)));
+    }
+
+    window.addEventListener('storage', handleTheme);
+    return () => window.removeEventListener('storage', handleTheme);
   }, []);
 
 

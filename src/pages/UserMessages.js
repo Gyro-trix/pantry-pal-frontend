@@ -13,7 +13,7 @@ function UserMessages() {
     const [content, setContent] = useState("")
     const currentUserStr = localStorage.getItem(CUR_USER)
     const currentUser = JSON.parse(currentUserStr)
-    const currentUsername = currentUser.username
+    const currentUserID = currentUser.id
     const [inviteEmail, setInviteEmail] = useState("")
     const userList = currentUser.friends ? currentUser.friends : []
     const navigate = useNavigate();
@@ -42,11 +42,11 @@ function UserMessages() {
                     {userList.map((user, index) => {
                         let dot = ''
                         let uname = getUserNameByID(user)
-                        if (newMessagesForUser(uname, currentUsername)) {
+                        if (newMessagesForUser(user, currentUserID)) {
                             dot = '\u2b24'
                         }
                         return (<button type="button" disabled = {false} className={theme.button} key={index} style={{ marginTop: 16, maxHeight: 58 }} onClick={() => {setTargetUser(user)}}>
-                            <Avatar size="32" round={true} color={Avatar.getRandomColor('sitebase', theme.avatar)} src={getUserImage(uname)} name={uname} textSizeRatio={2} />
+                            <Avatar size="32" round={true} color={Avatar.getRandomColor('sitebase', theme.avatar)} src={getUserImage(user)} name={uname} textSizeRatio={2} />
                             <span style={{ marginLeft: 8 }}>{uname}</span><sup style={{ color: "red" }}>{dot}</sup></button>)
                     })}
                     <div className="card col" style={{ marginTop: "auto" }}>
@@ -77,7 +77,7 @@ function UserMessages() {
                 <div className=" col-7 " id="messages" style={{ margin: 8 }}>
 
                     <div className="card row" style={{ minHeight: 64, padding: 8 }}>
-                        {displayMessages(targetUser, currentUsername, navigate)}
+                        {displayMessages(targetUser, currentUserID, navigate)}
                     </div>
                     <div className="card row" style={{ marginTop: 16 }}>
                         <form id="messageinput" style={{ padding: 8 }}>
@@ -90,7 +90,7 @@ function UserMessages() {
                                 style={{ width: "100%" }}
                                 onChange={handleContentChange}>
                             </textarea>
-                            <button type="button" className={theme.button} style={{ marginTop: 8, right: 8, float: "right" }} onClick={() => submitMessage(targetUser, currentUsername, content, navigate)}>Send</button>
+                            <button type="button" className={theme.button} style={{ marginTop: 8, right: 8, float: "right" }} onClick={() => submitMessage(targetUser, currentUserID, content, navigate)}>Send</button>
                         </form>
                     </div>
                 </div>

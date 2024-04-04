@@ -27,7 +27,7 @@ function AddItems(props) {
         id: ""
     })
     const [nutrition, setNutrition] = useState({calories:0,serving_size_g:0,fat_total_g:0,fat_saturated_g:0,protein_g:0,sodium_mg:0,potassium_mg:0,cholesterol_mg:0,carbohydrates_total_g:0,fiber_g:0,sugar_g:0})
-    //const [nutrition, setNutrition] = useState(null)
+
     const { itemlist } = props;
     let fetchedData = ""
     useEffect(() => {
@@ -60,15 +60,14 @@ function AddItems(props) {
                     throw new Error('Response was not okay')
                 }
 
-                //const fetchedData =await response.json()
+                
                 fetchedData = await response.json()
-                //localStorage.setItem(CALORIES,JSON.stringify(await response.json()))
+                
             } catch (error) {
                 console.error('Error', error)
             }
 
-            //const caloriesStr = localStorage.getItem(CALORIES)
-            //const calories = JSON.parse(caloriesStr)
+            
             setSearchBtn("Clear Search")
             if (fetchedData.items.length === 0) {
                 toast("No results from API, please manually enter", { position: "bottom-right", theme: theme.toast })
@@ -84,7 +83,7 @@ function AddItems(props) {
                 itemName.current.value = itemSearch
                 itemName.current.disabled = true
             } else {
-                //more than one result
+                //more than one result, does not happen with this API on the free tier
             }
         } else {
             addItemRef.current.hidden = true

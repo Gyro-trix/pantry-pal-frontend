@@ -1,6 +1,7 @@
-import { ALL_USERS, CUR_USER, USER_TO_EDIT,THEME } from "../config/localStorage"
-import { HOME, SIGN_IN, MANAGEUSERS, EDITUSER, USER_SETTINGS } from "../config/routes"
-import { gatherNotifications } from "./notifications"
+import { ALL_USERS, CUR_USER, USER_TO_EDIT, THEME } from "../config/localStorage"
+import { HOME, SIGN_IN, MANAGEUSERS, EDITUSER } from "../config/routes"
+import { cleanUpMessages } from "./messages";
+import { cleanUpInvites, cleanUpNotifications, gatherNotifications } from "./notifications"
 import React from 'react';
 import { toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
@@ -29,7 +30,7 @@ export function logIn(attemptingUser, navigate) {
   if (attemptingUser.username && attemptingUser.password) {
     //Check for user in local storage
     if (validateUser(attemptingUser) === false) {
-      toast("Invalid Username or Password!", { position: "bottom-right", theme:theme.toast})
+      toast("Invalid Username or Password!", { position: "bottom-right", theme: theme.toast })
     } else {
       localStorage.setItem(CUR_USER, JSON.stringify(attemptingUser))
       navigate(HOME)
@@ -57,6 +58,8 @@ export function validateUser(attemptingUser) {
 }
 //Add a new user
 export function addUser(userToRegister, navigate) {
+  const themeStr = localStorage.getItem(THEME)
+  const theme = JSON.parse(themeStr)
   //Checks for null or empty values
   if (userToRegister.username && userToRegister.email && userToRegister.password && userToRegister.passwordchk) {
     //Checks that both passwords and passwordchk are the same 
@@ -74,11 +77,13 @@ export function addUser(userToRegister, navigate) {
         friends: []
       }
       //Test newUser against current registered users, then adds to local storage All_USERS               
-      if ((userExists(newUser) === false) && (userEmailExists(newUser) === false)) {
+      if ((userExists(newUser) === false) && (userEmailExists(newUser) === false) && (checkEmailFormat(newUser)===true)) {
         userSave(newUser)
         localStorage.setItem(CUR_USER, JSON.stringify(newUser))
         navigate(HOME)
       }
+    } else {
+      toast("Passwords do not match.", { position: "bottom-right", theme: theme.toast })
     }
   }
 }
@@ -96,6 +101,18 @@ export function userExists(userToCheck) {
   return false
 }
 
+export function checkEmailFormat(userToCheck) {
+  const themeStr = localStorage.getItem(THEME)
+  const theme = JSON.parse(themeStr)
+  const emailRegex = new RegExp(/[a-z0-9]+@[a-z]+\.[a-z]{2,3}/)
+  const email = userToCheck.email
+  const response = emailRegex.test(email)
+  if (response === false) {
+    toast("Email wrong format, Example: name@place.com", { position: "bottom-right", theme: theme.toast })
+  }
+  return response
+}
+
 export function userEmailExists(userToCheck) {
   const allUserData = JSON.parse(localStorage.getItem(ALL_USERS))
   if (allUserData === null || allUserData === "") {
@@ -103,6 +120,19 @@ export function userEmailExists(userToCheck) {
   }
   for (let i = 0; i < allUserData.length; i++) {
     if (allUserData[i].email === userToCheck.email) {
+      return true
+    }
+  }
+  return false
+}
+
+export function userEmailExistsBesidesSelf(userToCheck) {
+  const allUserData = JSON.parse(localStorage.getItem(ALL_USERS))
+  if (allUserData === null || allUserData === "") {
+    return false
+  }
+  for (let i = 0; i < allUserData.length; i++) {
+    if (allUserData[i].email === userToCheck.email && !(allUserData[i].id === userToCheck.id)) {
       return true
     }
   }
@@ -123,23 +153,24 @@ export function userSave(userToSave) {
   localStorage.setItem(ALL_USERS, JSON.stringify(temparr))
 }
 //Save current user to all users in local storage
-export function saveUserSettings(currentUser, navigate) {
+export function saveUserSettings(currentUser) {
   const allUserDataStr = localStorage.getItem(ALL_USERS)
   const allUserData = allUserDataStr ? JSON.parse(allUserDataStr) : []
   const filteredUsers = allUserData.filter(users => !users.id.match(new RegExp('^' + currentUser.id + '$')))
   const newAllUsers = [...filteredUsers, currentUser]
   localStorage.setItem(ALL_USERS, JSON.stringify(newAllUsers))
-  localStorage.setItem(CUR_USER,JSON.stringify(currentUser))
-  navigate(USER_SETTINGS)
+  localStorage.setItem(CUR_USER, JSON.stringify(currentUser))
+  window.dispatchEvent(new Event("navbar"))
+
 }
 //Changes current users passwords
-export function changeUserPassword(passwords,navigate) {
+export function changeUserPassword(passwords) {
   const currentUser = JSON.parse(localStorage.getItem(CUR_USER))
   if (currentUser.password === passwords.currentpassword) {
     if (passwords.newpassword === passwords.newpasswordcheck) {
       currentUser.password = passwords.newpassword
       localStorage.setItem(CUR_USER, JSON.stringify(currentUser))
-      saveUserSettings(currentUser,navigate)
+      saveUserSettings(currentUser)
       return true
     } else {
       return false
@@ -183,10 +214,10 @@ export function displayUsers(navigate) {
   return (
     <table className={theme.table}>
       <tbody>
-        <tr  key="header">
-          <th  scope="col">Username</th>
-          <th  scope="col">Admin Level</th>
-          <th  scope="col">Options</th>
+        <tr key="header">
+          <th scope="col">Username</th>
+          <th scope="col">Admin Level</th>
+          <th scope="col">Options</th>
         </tr>
         {allUserData.map(user => {
           if (user.adminlevel <= 2) {
@@ -216,6 +247,9 @@ export function displayUsers(navigate) {
 export function deleteUser(userToDelete, navigate) {
   const allUserDataStr = localStorage.getItem(ALL_USERS)
   const allUserData = allUserDataStr ? JSON.parse(allUserDataStr) : []
+  cleanUpMessages(userToDelete.username)
+  cleanUpInvites(userToDelete.id)
+  cleanUpNotifications(userToDelete.id)
   const filteredUsers = allUserData.filter(users => !users.id.match(new RegExp('^' + userToDelete.id + '$')))
   localStorage.setItem(ALL_USERS, JSON.stringify(filteredUsers))
   navigate(MANAGEUSERS)
@@ -226,10 +260,11 @@ export function editUser(userToEdit, navigate) {
   navigate(EDITUSER)
 }
 
-export function getUserImage(username) {
+export function getUserImage(userID) {
   const allUserDataStr = localStorage.getItem(ALL_USERS)
   const allUserData = allUserDataStr ? JSON.parse(allUserDataStr) : []
-  const filteredUser = allUserData.filter(users => users.username.match(new RegExp('^' + username + '$')))
+  console.log(userID)
+  const filteredUser = allUserData.filter(user => user.id.match(new RegExp('^' + userID + '$')))
   return filteredUser[0].image
 }
 
@@ -247,7 +282,7 @@ export function getUserIDByEmail(emailToSearch) {
 
 }
 
-export function getUserNameByID(idToSearch){
+export function getUserNameByID(idToSearch) {
   const allUserDataStr = localStorage.getItem(ALL_USERS)
   const allUserData = allUserDataStr ? JSON.parse(allUserDataStr) : []
   if (allUserData.length > 0) {
@@ -264,19 +299,16 @@ export function addFriend(currentUser, friendToAddID) {
   const allUserDataStr = localStorage.getItem(ALL_USERS)
   const allUserData = allUserDataStr ? JSON.parse(allUserDataStr) : []
   let filteredUsers = allUserData.filter(users => !users.id.match(new RegExp('^' + currentUser.id + '$')))
-  console.log(filteredUsers)
-  console.log(currentUser.id)
   filteredUsers = filteredUsers.filter(users => !users.id.match(new RegExp('^' + friendToAddID + '$')))
-  console.log(filteredUsers)
   let friendUserEntry = allUserData.filter(users => users.id.match(new RegExp('^' + friendToAddID + '$')))
   let friendUser = friendUserEntry[0]
 
   friendUser.friends.push(currentUser.id)
-  filteredUsers = [...filteredUsers,friendUser]
+  filteredUsers = [...filteredUsers, friendUser]
   currentUser.friends.push(friendToAddID)
-  filteredUsers = [...filteredUsers,currentUser]
-  
-  localStorage.setItem(CUR_USER,JSON.stringify(currentUser))
-  localStorage.setItem(ALL_USERS,JSON.stringify(filteredUsers))
-  
+  filteredUsers = [...filteredUsers, currentUser]
+
+  localStorage.setItem(CUR_USER, JSON.stringify(currentUser))
+  localStorage.setItem(ALL_USERS, JSON.stringify(filteredUsers))
+
 }

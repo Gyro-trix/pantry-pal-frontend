@@ -1,29 +1,29 @@
 import { RECIPES, RECIPETOEDIT, CUR_USER } from "../config/localStorage"
-import { CREATERECIPES, EDIT_RECIPE, DISPLAYRECIPES, RECIPE_CENTRE } from "../config/routes";
+import { EDIT_RECIPE, DISPLAYRECIPES } from "../config/routes";
 import { toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import { demoRecipe } from "./demos";
 import React from "react";
 import { renderToString } from "react-dom/server"
 
-export function saveRecipe(recipe, navigate) {
+export function saveRecipe(recipe) {
     const recipeDataStr = localStorage.getItem(RECIPES)
     const recipeData = recipeDataStr ? JSON.parse(recipeDataStr) : []
     const currentUser = JSON.parse(localStorage.getItem(CUR_USER))
     recipe.id = currentUser.username + "" + new Date().getTime()
     let temparray = [...recipeData, recipe]
     localStorage.setItem(RECIPES, JSON.stringify(temparray))
-    navigate(CREATERECIPES)
+    window.dispatchEvent(new Event("createrecipe"))
 }
 
-export function saveFetchedRecipe(recipe, navigate) {
+export function saveFetchedRecipe(recipe) {
     const recipeDataStr = localStorage.getItem(RECIPES)
     const recipeData = recipeDataStr ? JSON.parse(recipeDataStr) : []
     const currentUser = JSON.parse(localStorage.getItem(CUR_USER))
     recipe.id = currentUser.username + "" + new Date().getTime()
     let temparray = [...recipeData, recipe]
     localStorage.setItem(RECIPES, JSON.stringify(temparray))
-    navigate(RECIPE_CENTRE)
+    window.dispatchEvent(new Event("recipecentre"))
 }
 
 export function displayRecipeHeader(index) {

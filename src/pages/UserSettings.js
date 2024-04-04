@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { checkUserLogin, saveUserSettings, changeUserPassword } from "../utils/users"
-import { CUR_USER,THEME } from "../config/localStorage"
+import { checkUserLogin, saveUserSettings, changeUserPassword, userEmailExistsBesidesSelf } from "../utils/users"
+import { CUR_USER, THEME } from "../config/localStorage"
 import { inviteUser } from "../utils/messages";
-
+import { toast } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 
 function UserSettings() {
     const themeStr = localStorage.getItem(THEME)
@@ -14,8 +15,6 @@ function UserSettings() {
     const [passwords, setPasswords] = useState({ currentpassword: "", newpassword: "", newpasswordcheck: "" })
     const [currentUser, setCurrentUser] = useState(currentUserStr ? JSON.parse(currentUserStr) : null)
     const [notify, setNotify] = useState(currentUser ? currentUser.notify : null)
-    const [passwordNotice, setPasswordNotice] = useState("Password not Updated")
-    const [passwordNoticeColor, setPasswordNoticeColor] = useState("red")
     const [image, setImage] = useState(currentUser.image ? currentUser.image : null)
 
     useEffect(() => {
@@ -25,6 +24,16 @@ function UserSettings() {
     useEffect(() => {
         localStorage.setItem(CUR_USER, JSON.stringify(currentUser))
     }, [currentUser])
+
+    useEffect(() => {
+        function handleSettings() {
+          setInviteEmail("")
+        }
+    
+        window.addEventListener('settings', handleSettings);
+        return () => window.removeEventListener('settings', handleSettings);
+      }, []);
+
     //Update Current user as form changes
     const handleChange = e => {
         setCurrentUser((prev) => ({
@@ -79,43 +88,43 @@ function UserSettings() {
                     <div className="card" style={{ padding: 16 }}>
                         <h5>Welcome: {currentUser.username}</h5>
                         <form >
-                        <label hidden={true} style={{ marginTop: 16}}>  User:
+                            <label hidden={true} style={{ marginTop: 16 }}>  User:
                                 <input
                                     className="form-control"
-                                    style={{ }}
+                                    style={{}}
                                     type="text"
                                     onChange={handlePasswordChange}
                                     name="username"
                                     autoComplete="username"
                                 ></input>
                             </label>
-                            
-                            <label style={{ marginTop: 16 , width:"100%"}}>  Current Password:
+
+                            <label style={{ marginTop: 16, width: "100%" }}>  Current Password:
                                 <input
                                     className="form-control"
-                                    style={{ }}
+                                    style={{}}
                                     type="password"
                                     onChange={handlePasswordChange}
                                     name="currentpassword"
                                     autoComplete="current-password"
                                 ></input>
                             </label>
-                            
-                            <label style={{ marginTop: 16 , width:"100%"}}> New Password:
+
+                            <label style={{ marginTop: 16, width: "100%" }}> New Password:
                                 <input
                                     className="form-control"
-                                    style={{ }}
+                                    style={{}}
                                     type="password"
                                     onChange={handlePasswordChange}
                                     name="newpassword"
                                     autoComplete="new-password"
                                 ></input>
                             </label>
-                            
-                            <label style={{ marginTop: 16 , width:"100%"}}> Re-Type New Password:
+
+                            <label style={{ marginTop: 16, width: "100%" }}> Re-Type New Password:
                                 <input
                                     className="form-control"
-                                    style={{  }}
+                                    style={{}}
                                     type="password"
                                     onChange={handlePasswordChange}
                                     name="newpasswordcheck"
@@ -123,28 +132,25 @@ function UserSettings() {
                                 ></input>
                             </label>
                         </form>
-                        <p style={{ color: passwordNoticeColor, marginTop: 32 }}>{passwordNotice}</p>
                         <button type="button" className={theme.button} style={{ marginLeft: 8, marginTop: 32 }} onClick={() => {
-                            if (changeUserPassword(passwords, navigate) === true) {
+                            if (changeUserPassword(passwords) === true) {
                                 setCurrentUser((prev) => ({
                                     ...prev,
                                     password: passwords.newpassword
                                 }))
-                                setPasswordNotice("Password Changed Sucessful")
-                                setPasswordNoticeColor("green")
+                                toast("Password Change Successful", { position: "bottom-right", theme: theme.toast })
                             } else {
-                                setPasswordNotice("Unable to change password")
-                                setPasswordNoticeColor("red")
+                                toast("Old Password not Correct", { position: "bottom-right", theme: theme.toast })
                             }
                         }}>Update Password</button>
                     </div>
 
                 </div>
                 <div className="col" style={{ marginBottom: 32 }}>
-                    <div className="card" style={{ padding: 16, height:"100%" }}>
+                    <div className="card" style={{ padding: 16, height: "100%" }}>
                         <div className="container flex col">
-                            
-                            <div style ={{height:260,display:"flex",justifyContent:"center"}}>{image != null && <img alt="" height={260} src={`${image}`} />}</div>
+
+                            <div style={{ height: 200, display: "flex", justifyContent: "center" }}>{image != null && <img alt="" height={200} src={`${image}`} />}</div>
                             <div className="input-group mb-3" style={{ marginTop: 16 }}>
                                 <input
                                     type="file"
@@ -164,7 +170,7 @@ function UserSettings() {
                     <div className="card" style={{ padding: 16 }}>
 
                         <form style={{ marginTop: 32 }}>
-                            <label className="form-control" style={{ }}>
+                            <label className="form-control" style={{}}>
                                 <input className="form-check-input" type="checkbox" name="notify" checked={notify} onChange={handleCheck} />
                                 <span style={{ marginLeft: 8, whiteSpace: "nowrap" }} >Enable Notifications</span>
                             </label>
@@ -172,7 +178,7 @@ function UserSettings() {
                         <label style={{ marginTop: 16 }}> Low Stock Threshold:
                             <input
                                 className="form-control"
-                                style={{  }}
+                                style={{}}
                                 type="text"
                                 onChange={handleChange}
                                 name="itemlimit"
@@ -183,7 +189,7 @@ function UserSettings() {
                         <label style={{ marginTop: 16 }}> Expiry Threshold (Days):
                             <input
                                 className="form-control"
-                                style={{  }}
+                                style={{}}
                                 type="text"
                                 onChange={handleChange}
                                 name="expirylimit"
@@ -194,7 +200,7 @@ function UserSettings() {
                         <label style={{ marginTop: 16 }}> Email:
                             <input
                                 className="form-control"
-                                style={{ }}
+                                style={{}}
                                 type="text"
                                 onChange={handleChange}
                                 name="email"
@@ -202,22 +208,31 @@ function UserSettings() {
                             ></input>
                         </label>
 
-                        <button type="button" className={theme.button} style={{  marginTop: 64 }} onClick={() => saveUserSettings(currentUser, navigate)}>Update Settings</button>
+                        <button type="button" className={theme.button} style={{ marginTop: 64 }} onClick={() => {
+                            if (userEmailExistsBesidesSelf(currentUser)) {
+                                toast("Email already in Use", { position: "bottom-right", theme: theme.toast })
+                            } else {
+                                saveUserSettings(currentUser)
+                                toast("Settings Saved", { position: "bottom-right", theme: theme.toast })
+                            }
+                        }
+                        }
+                        >Update Settings</button>
                     </div>
                 </div>
                 <div className="col">
-                    <div className="card"style={{ padding: 16 }}>
+                    <div className="card" style={{ padding: 16 }}>
                         <form>
-                        <input
-                            className="form-control"
-                            style={{  marginRight:16 }}
-                            type="text"
-                            onChange={handleInvite}
-                            name="invite"
-                            placeholder="Invite by Email"
-                        ></input>
+                            <input
+                                className="form-control"
+                                style={{ marginRight: 16 }}
+                                type="text"
+                                onChange={handleInvite}
+                                name="invite"
+                                placeholder="Invite by Email"
+                            ></input>
                         </form>
-                        <button type="button" className={theme.button} style={{ marginTop: 16 }} onClick={() => { inviteUser(currentUser, inviteEmail) }}>Invite</button>
+                        <button type="button" className={theme.button} style={{ marginTop: 16 }} onClick={() => { inviteUser(currentUser, inviteEmail, "settings") }}>Invite</button>
                     </div>
                 </div>
             </div>

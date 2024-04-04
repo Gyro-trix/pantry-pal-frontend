@@ -1,5 +1,5 @@
 import './App.css';
-import { useState, useEffect,useLayoutEffect } from 'react';
+import { useState, useEffect, useLayoutEffect } from 'react';
 import { HashRouter, Routes, Route } from 'react-router-dom';
 import { getWindowDimensions, lightTheme } from './utils/display';
 import Login from "./pages/Login";
@@ -24,26 +24,23 @@ import background from './images/background.jpg'
 import "react-toastify/dist/ReactToastify.css";
 import { THEME } from './config/localStorage';
 
-
+if (localStorage.getItem(THEME) === null) {
+    localStorage.setItem(THEME, JSON.stringify(lightTheme))
+  }
 
 function App() {
+  
   const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions);
   const themeStr = localStorage.getItem(THEME)
-  const theme = JSON.parse(themeStr)
-  const {width, height} = windowDimensions
+  const [theme,setTheme] = useState(JSON.parse(themeStr))
+  const { width, height } = windowDimensions
 
- useLayoutEffect(() => {
-  document.body.style.backgroundImage = "linear-gradient("+theme.backgroundRGB+", "+theme.backgroundRGB+"), url(" + background + ")"
-  document.body.style.backgroundSize = "auto"
-  document.body.style.backgroundRepeat = "repeat"
-});
+  useLayoutEffect(() => {
+    document.body.style.backgroundImage = "linear-gradient(" + theme.backgroundRGB + ", " + theme.backgroundRGB + "), url(" + background + ")"
+    document.body.style.backgroundSize = "auto"
+    document.body.style.backgroundRepeat = "repeat"
+  });
 
-  if(localStorage.getItem(THEME)===null){
-    localStorage.setItem(THEME,JSON.stringify(lightTheme))
-}
-  
-  
-  
   useEffect(() => {
     function handleResize() {
       setWindowDimensions(getWindowDimensions());
@@ -53,40 +50,50 @@ function App() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  useEffect(() => {
+    function handleTheme() {
+      setTheme(JSON.parse(localStorage.getItem(THEME)));
+    }
+
+    window.addEventListener('storage', handleTheme);
+    return () => window.removeEventListener('storage', handleTheme);
+  }, []);
+
+
   return (
-<div>
-    <div data-bs-theme={theme.name} style={{width:width,minWidth:700}}>
-      <div >
-        <HashRouter basename='/'>
-          <NavBar />
-          
-          <div >
-        <ToastContainer />
-            <Routes>
-            
-              <Route exact path="/" element={<Home />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/createStorage" element={<CreateStorage />} />
-              <Route path="/editStorage" element={<EditStorage />} />
-              <Route path="/userSettings" element={<UserSettings />} />
-              <Route path="/notifications" element={<Notifications />} />
-              <Route path="/createrecipes" element={<CreateRecipes />} />
-              <Route path="/recipes" element={<Recipes />} />
-              <Route path="/manageusers" element={<ManageUsers />} />
-              <Route path="/edituser" element={<EditUser />} />
-              <Route path="/createuser" element={<CreateUser />} />
-              <Route path="/editrecipe" element={<EditRecipe />} />
-              <Route path="/usermessages" element={<UserMessages />} />
-              <Route path="/recipecentre" element={<RecipeCentre />} />
-              <Route path="/adjuststorage" element={<AdjustStorage />} />
-              
-            </Routes>
-           
-          </div>
-        </HashRouter>
+    <div>
+      <div data-bs-theme={theme.name} style={{ width: width, height:height }}>
+        <div >
+          <HashRouter basename='/'>
+            <NavBar />
+
+            <div >
+              <ToastContainer />
+              <Routes>
+
+                <Route exact path="/" element={<Home />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/createStorage" element={<CreateStorage />} />
+                <Route path="/editStorage" element={<EditStorage />} />
+                <Route path="/userSettings" element={<UserSettings />} />
+                <Route path="/notifications" element={<Notifications />} />
+                <Route path="/createrecipes" element={<CreateRecipes />} />
+                <Route path="/recipes" element={<Recipes />} />
+                <Route path="/manageusers" element={<ManageUsers />} />
+                <Route path="/edituser" element={<EditUser />} />
+                <Route path="/createuser" element={<CreateUser />} />
+                <Route path="/editrecipe" element={<EditRecipe />} />
+                <Route path="/usermessages" element={<UserMessages />} />
+                <Route path="/recipecentre" element={<RecipeCentre />} />
+                <Route path="/adjuststorage" element={<AdjustStorage />} />
+
+              </Routes>
+
+            </div>
+          </HashRouter>
+        </div>
       </div>
-    </div>
     </div>
   );
 }

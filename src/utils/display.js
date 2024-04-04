@@ -18,7 +18,8 @@ export const darkTheme ={
   dropdown:"white",
   avatar:['grey', 'lightgrey', 'silver'],
   to:"lightslategray",
-  from:"dimgray "
+  from:"dimgray ",
+  carousel:""
 }
 export const lightTheme ={
   name:"light",
@@ -30,7 +31,8 @@ export const lightTheme ={
   dropdown:"black",
   avatar:['cyan', 'lightblue', 'blue'],
   to:"white",
-  from:"lightcyan"
+  from:"lightcyan",
+  carousel:""
 }
 
 export function changeTheme(){
@@ -41,5 +43,5 @@ export function changeTheme(){
   } else if (currentTheme.name === "light"){
     localStorage.setItem(THEME,JSON.stringify(darkTheme))
   }
-  window.location.reload()
+  window.dispatchEvent(new Event("storage"))
 }

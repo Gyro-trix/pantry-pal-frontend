@@ -7,13 +7,14 @@ import Nutrition from "../pages/Nutrition";
 import React, { useState } from "react";
 import Avatar from 'react-avatar';
 import * as Icon from 'react-bootstrap-icons';
+import { lightTheme } from "./display";
 
 
 export function createStorage(storageToAdd, navigate) {
     const allStorageDataStr = localStorage.getItem(ALL_STORAGES)
     const allStorageData = JSON.parse(allStorageDataStr)
     const themeStr = localStorage.getItem(THEME)
-    const theme = JSON.parse(themeStr)
+    const theme = (themeStr !== null && themeStr !== "") ? JSON.parse(themeStr)  : lightTheme
     const newStorage = { id: storageToAdd.name.toLowerCase() + "-" + new Date().getTime(), name: storageToAdd.name, type: storageToAdd.type, location: storageToAdd.location, owner: storageToAdd.owner, items: [] }
     if (allStorageDataStr === null) {
         localStorage.setItem(ALL_STORAGES, JSON.stringify([newStorage]))
@@ -119,7 +120,7 @@ export function displayItems() {
 
 export function displayAdjustableItems(navigate) {
     const themeStr = localStorage.getItem(THEME)
-    const theme = JSON.parse(themeStr)
+    const theme = (themeStr !== null && themeStr !== "") ? JSON.parse(themeStr)  : lightTheme
     const itemlist = JSON.parse(localStorage.getItem(CUR_ITEM_LIST))
     let quantList = []
     if ((itemlist === null) === false) {
@@ -204,6 +205,8 @@ export function deleteItem(indextodelete) {
 }
 
 export function addItem(item) {
+    const themeStr = localStorage.getItem(THEME)
+    const theme = (themeStr !== null && themeStr !== "") ? JSON.parse(themeStr)  : lightTheme
     let itemlist = JSON.parse(localStorage.getItem(CUR_ITEM_LIST))
     if (item.quantity && item.name && item.size && item.expiry) {
         item.id = new Date().getTime() + "-" + item.name
@@ -212,7 +215,7 @@ export function addItem(item) {
         localStorage.setItem(CALORIES, "")
         window.location.reload()
     } else {
-        toast("Missing Information", { position: "bottom-right" })
+        toast("Missing Information", { position: "bottom-right", theme: theme.toast })
     }
 
 }
@@ -236,7 +239,7 @@ export function displayStorage(currentUser, storageDataStr, storageData, navigat
     const allStorageData = JSON.parse(allStorageDataStr)
 
     const themeStr = localStorage.getItem(THEME)
-    const theme = JSON.parse(themeStr)
+    const theme = (themeStr !== null && themeStr !== "") ? JSON.parse(themeStr)  : lightTheme
     let editButton
     let adjustButton
     let deleteButton

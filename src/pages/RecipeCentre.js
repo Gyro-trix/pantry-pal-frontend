@@ -33,6 +33,16 @@ function RecipeCentre() {
     }, [currentUserStr, navigate])
 
     useEffect(() => {
+        function handleRecipe() {
+           setObj(null)
+            
+        }
+
+        window.addEventListener('recipecentre', handleRecipe);
+        return () => window.removeEventListener('recipecentre', handleRecipe);
+    }, []);
+
+    useEffect(() => {
         if (!(obj === null)) {
             const handleFile = async () => {
 
@@ -109,6 +119,11 @@ function RecipeCentre() {
 
     }
 
+    function doAll(){
+        handleSearch()
+        createObj(fetched)
+    }
+
     return (
         <div className="container">
             <div className="card" style={{ padding: 16, marginTop: 16 }}>
@@ -128,12 +143,10 @@ function RecipeCentre() {
                 </div>
                 <div className="col d-flex justify-content-between" style={{ padding: 16 }}>
                     <button className={theme.button} style={{ marginTop: 16 }} onClick={() => {
-                        handleSearch()
-                        createObj(fetched)
-                        
+                        doAll()
                     }}>Get Random Recipe</button>
                     <button ref={saveButton} hidden={true} className={theme.button} style={{ marginTop: 16 }} onClick={() => {
-                        saveFetchedRecipe(recipe, navigate)
+                        saveFetchedRecipe(recipe)
                         saveButton.current.hidden=true
                     }}>Save Random Recipe</button>
                 </div>

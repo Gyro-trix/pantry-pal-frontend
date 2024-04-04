@@ -1,11 +1,19 @@
 # The Pantry Pal App
-The main focus of this app is to provide a basic inventory system that can be assigned to containers (such as freezers,cupboards,etc). 
+The main focus of this app is to provide a basic inventory system that can be assigned to containers (such as freezers,cupboards,etc). Users can create accounts that then can populate different "storages" that represent inventories (Freezer,Fridge<Cupboard...).
+There is also a message and notification system more geared towards a user environment where there are various levels of staff, such as Owner as Admin, Manager as a Level 2 account and Clerks as Level 1 Users.
 
-## Steps To Use
+Level 1 Users can only view recipes, see notifications, use the messenger and adjust Item amounts in storages.
+Level 2 Users can create, edit and delete storages along with their contents. Add recipes through a reich text editor or view random recipes. Plus everything else a level 1 can do.
+Level 3 User also called Admin is created by default and as of now can only have this one level 3 account. The Admin account can create and edit other users along with what level 2 users can do.
+
+## Steps To Use(Using Admin account as an example)
 
 1. Go to the Login page 
 
-
+Here you can either go to the Register page that allows you to create a Level 2 User, or sign in with one of the following accounts created by default:
+- Username & Password: Admin  Level 3 User, access to all functions
+- Username & Password: Demo2  Level 2 User, cannot create or edit users
+- Username & Password: Demo1  Level 1 User, only can adjust amounts in storages
 
 2. 
 
@@ -25,31 +33,6 @@ The following APIs are in use:
 ## Left to do
 - Readme for project
 - links to API
-- About page for site
-- Logo for site
 
-### To DO (March 21-28)
-- ~~Have nav bar update profile image as soon as set on User Setting page~~
-- ~~Hide user drop down when no user is logged in~~
-- ~~Moved User options for admin to dropdown~~
-- ~~Cleanup registration page~~
-- ~~Fix Edit Users UI~~
-- ~~Implement level 1 users ~~
-- ~~Change manage users page to have visible right left and top sides that show the background~~
-- ~~Create friend invite system for messenger, add to user settings ~~ and show example added to Message center itself
-- ~~Invites show in the notifications tab/page with accept to ~~ fix button formatting
-- ~~Pending invites~~
-- ~~Change format of message center to have users the entire length with the messages and messege input box to the right~~
-- ~~Have user selection on Message page show an avatar instead of a button~~
-- ~~Change button location on storage to bottom~~
-- ~~Implement more toastify instances~~
-- ~~Center image in places where it displays image to be added on edit storage and user settings~~
-- ~~Try and implement themes(dark and light) which changes react components based on local storage value (currently on message system, need to work on radio buttons)~~
-- ~~Formatting for the random recipe API fetch(partially done, image and youtube link left) and add save recipe~~
-- Clean up notifications page (add expired and ~~friend invites~~)
-- ~~Move Manage User and Create User to dropdown in Admin's NavBar~~
-- ~~Nutrition Symbol instead of _ in items Added bootstrap icons (react-bootstrap-icons)~~
-- ~~Message can be entered without a targeted user, need to fix~~
-- ~~Apply theme to toastify if possible~~
 
-### Known issues
+

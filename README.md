@@ -3,9 +3,9 @@ The main focus of this app is to provide a basic inventory system that can be as
 
 ## Steps To Use
 
-1. Go to the Login page `http://localhost:3000/pantry-pal#/login`
+1. Go to the Login page 
 
-![image](https://github.com/Gyro-trix/pantry-pal/assets/137181145/860f5413-dc18-4498-b351-0a1fa9cc9b35)
+
 
 2. 
 

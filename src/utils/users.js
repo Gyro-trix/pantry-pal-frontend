@@ -164,7 +164,7 @@ export function saveUserSettings(currentUser) {
   cleanUpNotifications(currentUser.id)
   gatherNotifications(currentUser)
   window.dispatchEvent(new Event("navbar"))
-
+  window.dispatchEvent(new Event("notify"))
 }
 //Changes current users passwords
 export function changeUserPassword(passwords) {
@@ -266,7 +266,6 @@ export function editUser(userToEdit, navigate) {
 export function getUserImage(userID) {
   const allUserDataStr = localStorage.getItem(ALL_USERS)
   const allUserData = allUserDataStr ? JSON.parse(allUserDataStr) : []
-  console.log(userID)
   const filteredUser = allUserData.filter(user => user.id.match(new RegExp('^' + userID + '$')))
   return filteredUser[0].image
 }

@@ -162,7 +162,7 @@ function UserSettings() {
                                 />
                             </div>
                         </div>
-                        <button type="button" className={theme.button} style={{ marginLeft: 8, marginTop: 16 }} onClick={() => saveUserSettings(currentUser, navigate)}>Save Profile Image</button>
+                        <button type="button" className={theme.button} style={{ marginLeft: 8, marginTop: 16 }} onClick={() => saveUserSettings(currentUser)}>Save Profile Image</button>
                     </div>
                 </div>
                 {/* Settings column */}

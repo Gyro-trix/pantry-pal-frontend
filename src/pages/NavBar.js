@@ -70,6 +70,15 @@ function NavBar() {
   }, [])
 
   useEffect(() => {
+    function handleRefresh() {
+      setNotificationCount(numberOfNotifications())
+
+    }
+    window.addEventListener('notify', handleRefresh);
+    return () => window.removeEventListener('notify', handleRefresh);
+  }, []);
+
+  useEffect(() => {
     function handleResize() {
       setWindowDimensions(getWindowDimensions());
 

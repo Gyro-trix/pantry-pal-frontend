@@ -136,6 +136,7 @@ export function markSeen(currentUser, time) {
         tempMessages = [...tempMessages, message]
     })
     localStorage.setItem(USER_MESSAGES, JSON.stringify(tempMessages))
+    window.dispatchEvent(new Event("navbar"))
     window.dispatchEvent(new Event("message"))
 }
 

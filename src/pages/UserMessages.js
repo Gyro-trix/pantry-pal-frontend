@@ -45,7 +45,7 @@ function UserMessages() {
     }
 
     return (
-        <div className="container " style={{ padding: 8, minHeight: 480 }}>
+        <div className="container " style={{ padding: 8, minHeight: 480,minWidth:800 }}>
             <div hidden={true}>{inviteEmail}</div>
             <div id="upper" className="row" style={{ padding: 8 }}>
                 <div className="card col-4" id="users" style={{ display: "grid", margin: 8, paddingBottom: 8,minWidth:320 }}>
@@ -84,7 +84,7 @@ function UserMessages() {
                     </div>
                 </div>
 
-                <div className=" col-7 " id="messages" style={{ margin: 8 }}>
+                <div className=" col-6 " id="messages" style={{ margin: 8 }}>
 
                     <div className="card row" style={{ minHeight: 64, padding: 8 }}>
                         {displayMessages(targetUser, currentUserID)}

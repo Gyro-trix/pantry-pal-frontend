@@ -160,10 +160,10 @@ When logged in as a Level 1 account such as the demo profile Demo1, storages no 
 Each item can now only have the number of items changed. The other information is only readable.
 
 ## Project Coaching from:
-- Get Coding, 
+- Get Coding, https://www.getcoding.ca
 
 ## Frameworks used in this project
-- Bootstrap (Layout and theme control), https://www.getcoding.ca
+- Bootstrap (Layout and theme control)
 
 ## Current APIs in use in this project
 The following APIs are in use:

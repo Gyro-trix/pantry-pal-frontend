@@ -9,7 +9,7 @@ import {  displayInvitesSmall, displayPendingInvites } from "../utils/notificati
 
 function UserMessages() {
     const themeStr = localStorage.getItem(THEME)
-    const theme = JSON.parse(themeStr)
+    const [theme,setTheme] = useState(JSON.parse(themeStr))
     const [content, setContent] = useState("")
     const currentUserStr = localStorage.getItem(CUR_USER)
     const currentUser = JSON.parse(currentUserStr)
@@ -29,7 +29,7 @@ function UserMessages() {
 
     useEffect(() => {
         function handleMessage() {
-          setInviteEmail("")
+          setTheme(JSON.parse(localStorage.getItem(THEME)))
         }
     
         window.addEventListener('message', handleMessage);
@@ -46,6 +46,7 @@ function UserMessages() {
 
     return (
         <div className="container " style={{ padding: 8, minHeight: 480 }}>
+            <div hidden={true}>{inviteEmail}</div>
             <div id="upper" className="row" style={{ padding: 8 }}>
                 <div className="card col-4" id="users" style={{ display: "grid", margin: 8, paddingBottom: 8,minWidth:320 }}>
                     {userList.map((user, index) => {

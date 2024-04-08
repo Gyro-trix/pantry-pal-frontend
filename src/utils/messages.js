@@ -103,12 +103,13 @@ export function submitMessage(targetUser, currentUser, contents) {
         const message = { from: currentUser, to: targetUser, contents: contents, time: time, seen: false }
         let messages = [...userMessages, message]
         localStorage.setItem(USER_MESSAGES, JSON.stringify(messages))
+        window.dispatchEvent(new Event("message"))
     } else if (targetUser !== "") {
         toast("Please enter a message.", { position: "bottom-right", theme: theme.toast })
     } else if (contents !== "") {
         toast("Please select a user.", { position: "bottom-right", theme: theme.toast })
     }
-    window.dispatchEvent(new Event("message"))
+    
 }
 
 export function deleteMessage(currentUser, time) {

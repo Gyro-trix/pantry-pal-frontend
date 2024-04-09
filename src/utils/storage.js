@@ -8,6 +8,7 @@ import React, { useState } from "react";
 import Avatar from 'react-avatar';
 import * as Icon from 'react-bootstrap-icons';
 import { lightTheme } from "./display";
+import Item from "../components/Item";
 
 
 export function createStorage(storageToAdd, navigate) {
@@ -94,6 +95,10 @@ export function displayItems() {
                         <th scope="col">Delete</th>
                     </tr>
                     {itemlist.map((item, index) => {
+                        return(
+                        <Item key ={index} item={item} index = {index}/>
+                    )
+                        /*
                         const [key, setKey] = useState(false)
                         const nutrition = item.nutrition ? item.nutrition : { No_Data: "avaiable" }
                         return (
@@ -124,7 +129,7 @@ export function displayItems() {
 
                             </tr>
 
-                        )
+                        )*/
                     })}
                 </tbody>
             </table>
@@ -216,7 +221,7 @@ export function deleteItem(indextodelete) {
     let itemlist = JSON.parse(localStorage.getItem(CUR_ITEM_LIST))
     itemlist = itemlist.filter((_, i) => i !== indextodelete)
     localStorage.setItem(CUR_ITEM_LIST, JSON.stringify(itemlist))
-    window.location.reload()
+    window.dispatchEvent(new Event("item"))
 
 }
 
@@ -229,7 +234,7 @@ export function addItem(item) {
         itemlist = [...itemlist, item]
         localStorage.setItem(CUR_ITEM_LIST, JSON.stringify(itemlist))
         localStorage.setItem(CALORIES, "")
-        window.location.reload()
+        window.dispatchEvent(new Event("item"))
     } else {
         toast("Missing Information", { position: "bottom-right", theme: theme.toast })
     }

@@ -1,17 +1,17 @@
 {
   "files": {
     "main.css": "/pantry-pal/static/css/main.74d2474d.css",
-    "main.js": "/pantry-pal/static/js/main.fc7e4e48.js",
+    "main.js": "/pantry-pal/static/js/main.3a234c72.js",
     "static/js/787.87161add.chunk.js": "/pantry-pal/static/js/787.87161add.chunk.js",
     "static/media/background.jpg": "/pantry-pal/static/media/background.78f4a2f104ad75707fa8.jpg",
     "static/media/Logov1.png": "/pantry-pal/static/media/Logov1.462a32dac4f1653353d9.png",
     "index.html": "/pantry-pal/index.html",
     "main.74d2474d.css.map": "/pantry-pal/static/css/main.74d2474d.css.map",
-    "main.fc7e4e48.js.map": "/pantry-pal/static/js/main.fc7e4e48.js.map",
+    "main.3a234c72.js.map": "/pantry-pal/static/js/main.3a234c72.js.map",
     "787.87161add.chunk.js.map": "/pantry-pal/static/js/787.87161add.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.74d2474d.css",
-    "static/js/main.fc7e4e48.js"
+    "static/js/main.3a234c72.js"
   ]
 }

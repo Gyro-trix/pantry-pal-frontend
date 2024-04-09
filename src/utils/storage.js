@@ -49,16 +49,32 @@ export function storageExists(allStorage, storageToAdd) {
 export function saveStorageToLocalStorage(currentStorage) {
     const allStorageDataStr = localStorage.getItem(ALL_STORAGES)
     const allStorageData = JSON.parse(allStorageDataStr)
-
+    const itemlist = JSON.parse(localStorage.getItem(CUR_ITEM_LIST))
+    let modifiedStorage = [...allStorageData]
+    modifiedStorage.forEach((storage,index)=> {
+        if (storage.id === currentStorage.id){
+            storage = {
+                ...currentStorage,
+                items:itemlist
+            }
+            console.log(storage)
+            modifiedStorage.splice(index,1,storage)
+            localStorage.setItem(CUR_STORAGE, JSON.stringify(storage))
+        }
+    })
+    console.log(modifiedStorage)
+    localStorage.setItem(ALL_STORAGES, JSON.stringify(modifiedStorage))
+/*
     let filteredStorage = allStorageData.filter(store => !store.id.match(new RegExp('^' + currentStorage.id + '$')))
     let itemList = JSON.parse(localStorage.getItem(CUR_ITEM_LIST))
     let modifiedCurrentStorage = {
         ...currentStorage,
         items: itemList,
-    };
-    let newStorageData = [...filteredStorage, modifiedCurrentStorage];
-    localStorage.setItem(CUR_STORAGE, JSON.stringify(modifiedCurrentStorage))
-    localStorage.setItem(ALL_STORAGES, JSON.stringify(newStorageData))
+    };*/
+
+    
+    //localStorage.setItem(CUR_STORAGE, JSON.stringify(modifiedCurrentStorage))
+    //localStorage.setItem(ALL_STORAGES, JSON.stringify(newStorageData))
 }
 
 export function displayItems() {

@@ -292,7 +292,7 @@ export function cleanUpNotifications(targetUserID) {
     const notifications = notificationsStr ? JSON.parse(notificationsStr) : []
     let tempNotifications = []
     notifications.forEach(notification => {
-        if (!(notification.owner === targetUserID)) {
+        if (!(notification.owner === targetUserID && notification.type !== "invite")) {
             tempNotifications = [...tempNotifications, notification]
         }
     })

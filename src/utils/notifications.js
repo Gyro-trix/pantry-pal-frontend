@@ -4,59 +4,67 @@ import { toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import * as Icon from 'react-bootstrap-icons';
 
-export function gatherNotifications() {
+export function gatherNotifications(currentUser) {
     const allStoragesStr = localStorage.getItem(ALL_STORAGES)
-    const currentUserStr = localStorage.getItem(CUR_USER)
     const allNotificationsStr = localStorage.getItem(NOTIFICATIONS)
-    if (!(currentUserStr === null || currentUserStr.trim() === "")) {
-        const currentUser = JSON.parse(currentUserStr)
-        const storages = allStoragesStr ? JSON.parse(allStoragesStr) : []
-        const allNotifications = allNotificationsStr ? JSON.parse(allNotificationsStr) : []
-        let allModifiedNotifications = [...allNotifications]
-        if (!(storages === null)) {
-            if (currentUser.notify === true) {
-                storages.forEach((storage) => {
-                    storage.items.forEach((item) => {
-                        let itemnotif = null;
-                        if (Number(item.quantity) <= Number(currentUser.itemlimit)) {
-                            itemnotif = {
-                                owner: currentUser.id,
-                                storage: storage.name,
-                                item: item.name,
-                                type: "Low",
-                                id: item.id,
-                                dismissed: false
-                            }
+    const storages = allStoragesStr ? JSON.parse(allStoragesStr) : []
+    const allNotifications = allNotificationsStr ? JSON.parse(allNotificationsStr) : []
+    let allModifiedNotifications = [...allNotifications]
+    if (!(storages === null)) {
+        if (currentUser.notify === true) {
+            storages.forEach((storage) => {
+                storage.items.forEach((item) => {
+                    let itemnotif = null;
+                    if (Number(item.quantity) <= Number(currentUser.itemlimit)) {
+                        itemnotif = {
+                            owner: currentUser.id,
+                            storage: storage.name,
+                            item: item.name,
+                            type: "Low",
+                            id: item.id,
+                            dismissed: false
                         }
-                        if (Number(expiryCompare(item.expiry)) <= Number(currentUser.expirylimit)) {
-                            itemnotif = {
-                                owner: currentUser.id,
-                                storage: storage.name,
-                                item: item.name,
-                                type: "Expiring",
-                                id: item.id,
-                                dismissed: false
-                            }
+                    }
+                    if (Number(expiryCompare(item.expiry)) <= Number(currentUser.expirylimit)) {
+                        itemnotif = {
+                            owner: currentUser.id,
+                            storage: storage.name,
+                            item: item.name,
+                            type: "Expiring",
+                            id: item.id,
+                            dismissed: false
                         }
-                        if (itemnotif) {
-                            let exists = false;
-                            if (allNotifications) {
-                                allNotifications.forEach(n => {
-                                    if (n["id"] === itemnotif["id"]) {
-                                        exists = true;
-                                    }
-                                });
-                            }
-                            if (exists === false) {
-                                allModifiedNotifications.push(itemnotif)
-                            }
+                    }
+                    if (Number(expiryCompare(item.expiry) < 0)) {
+                        itemnotif = {
+                            owner: currentUser.id,
+                            storage: storage.name,
+                            item: item.name,
+                            type: "Expired",
+                            id: item.id,
+                            dismissed: false
                         }
-                    })
+                    }
+                    if (itemnotif) {
+                        let exists = false;
+                        if (allNotifications) {
+                            allNotifications.forEach(n => {
+                                if ((n["id"] === itemnotif["id"]) && (n["owner"] === itemnotif["owner"])) {
+                                    exists = true;
+                                }
+                            });
+                        }
+                        if (exists === false) {
+                            allModifiedNotifications.push(itemnotif)
+                        }
+                    }
                 })
-                localStorage.setItem(NOTIFICATIONS, JSON.stringify(allModifiedNotifications))
-            }
+            })
+            localStorage.setItem(NOTIFICATIONS, JSON.stringify(allModifiedNotifications))
+            window.dispatchEvent(new Event("notify"))
         }
     }
+
 }
 //Compares dates to see the difference
 export function expiryCompare(date) {
@@ -64,11 +72,9 @@ export function expiryCompare(date) {
     const currentdate = new Date()
     const datediff = expirydate.getTime() - currentdate.getTime()
     const daydiff = (datediff / (1000 * 60 * 60 * 24)).toFixed(0)
-    if (daydiff < 0) {
-        console.log("expired")
-    } else {
-        return daydiff
-    }
+
+    return daydiff
+
 }
 //Sets dismiss notification to true
 export function dismissNotification(notificationID) {
@@ -78,19 +84,19 @@ export function dismissNotification(notificationID) {
         if (notificationID === notification.id) {
             notification.dismissed = true
             localStorage.setItem(NOTIFICATIONS, JSON.stringify(notifications))
-            window.location.reload()
+            window.dispatchEvent(new Event("notify"))
         }
     })
 }
 //Display notifications on page, needs formatting updated
-export function displayNotifications(type) {
+export function displayNotifications(type, currentUser) {
     const notificationsStr = localStorage.getItem(NOTIFICATIONS)
     const themeStr = localStorage.getItem(THEME)
     const theme = JSON.parse(themeStr)
     if (!(notificationsStr === null || notificationsStr.trim() === "")) {
         const notifications = JSON.parse(notificationsStr)
         return notifications.map((notification) => {
-            if (notification.type === type && notification.dismissed === false) {
+            if (notification.type === type && notification.dismissed === false && notification.owner === currentUser.id) {
                 return (
                     <div key={notification.id} className="card d-flex justify-content-evenly" style={{ marginTop: 16 }}>
                         <div className=" d-flex justify-content-between">
@@ -121,7 +127,7 @@ export function displayInvites(currentUser) {
 
 
                             <button type="button" className={theme.button} style={{ display: "inline-block", float: "right" }} onClick={() => dismissNotification(notification.id)}>Decline</button>
-                            <button type="button" className={theme.button} style={{ display: "inline-block", float: "right",marginRight:16 }} onClick={() => {
+                            <button type="button" className={theme.button} style={{ display: "inline-block", float: "right", marginRight: 16 }} onClick={() => {
                                 addFriend(currentUser, notification.owner)
                                 deleteNotification(notification.id)
                             }}>Accept</button>
@@ -193,7 +199,7 @@ export function numberOfNotifications() {
         if (!(notificationStr === null || notificationStr.trim() === "")) {
             const notifications = JSON.parse(notificationStr)
             notifications.forEach((notification) => {
-                if (notification.dismissed === false) {
+                if (notification.dismissed === false && notification.owner === currentUser.id) {
                     count++
                 }
                 if (notification.owner === currentUser.id && notification.type === "invite") {
@@ -229,7 +235,6 @@ export function notificationCleanUp() {
     })
 
     localStorage.setItem(NOTIFICATIONS, JSON.stringify(tempNotifications))
-    numberOfNotifications()
 }
 
 export function deleteNotification(notificationID) {
@@ -287,9 +292,11 @@ export function cleanUpNotifications(targetUserID) {
     const notifications = notificationsStr ? JSON.parse(notificationsStr) : []
     let tempNotifications = []
     notifications.forEach(notification => {
-        if (!(notification.owner === targetUserID)) {
+        if (!(notification.owner === targetUserID && notification.type !== "invite")) {
             tempNotifications = [...tempNotifications, notification]
         }
     })
     localStorage.setItem(NOTIFICATIONS, JSON.stringify(tempNotifications))
+
 }
+

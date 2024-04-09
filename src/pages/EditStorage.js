@@ -8,28 +8,31 @@ import { checkUserLogin } from "../utils/users"
 
 function EditStorage() {
     const themeStr = localStorage.getItem(THEME)
-    const theme = JSON.parse(themeStr)
-    
-    const allStorageData = JSON.parse(localStorage.getItem(ALL_STORAGES));
+    const [theme,setTheme] = useState(JSON.parse(themeStr))
+    const allStorageData = JSON.parse(localStorage.getItem(ALL_STORAGES))
     const currentUserStr = localStorage.getItem(CUR_USER)
-    const [currentStorage, setCurrentStorage] = useState(JSON.parse(localStorage.getItem(CUR_STORAGE)));
-    const [itemlist, setItemList] = useState(JSON.parse(localStorage.getItem(CUR_ITEM_LIST)));
+    const [currentStorage, setCurrentStorage] = useState(JSON.parse(localStorage.getItem(CUR_STORAGE)))
+    const [itemlist, setItemList] = useState(JSON.parse(localStorage.getItem(CUR_ITEM_LIST)))
     const [notifyText, setNotifyText] = useState("Edit in progress")
     const [notifyColor, setNotifyColor] = useState("black")
     const [storageImage, setStorageImage] = useState(currentStorage.image ?currentStorage.image : null)
     const navigate = useNavigate()
     //updates currentStorage as the form changes. Applies to name, type and location
 
-    const handleChange = e => {
-        setCurrentStorage((prev) => ({
-            ...prev,
-            [e.target.name]: e.target.value,
-        }))
-    }
+    
     //Check if users is logged in
     useEffect(() => {
         checkUserLogin(currentUserStr, navigate)
     }, [currentUserStr, navigate])
+
+    useEffect(() => {
+        function handleUpdate() {
+            setTheme(JSON.parse(localStorage.getItem(THEME)))
+        }
+    
+        window.addEventListener('item', handleUpdate);
+        return () => window.removeEventListener('item', handleUpdate);
+      }, []);
 
     useEffect(() => {
         setCurrentStorage((prev) => ({
@@ -51,6 +54,13 @@ function EditStorage() {
         setNotifyColor("red")
         setNotifyText("Please Save")
     }, [itemlist])
+
+    const handleChange = e => {
+        setCurrentStorage((prev) => ({
+            ...prev,
+            [e.target.name]: e.target.value,
+        }))
+    }
 
     const reader = (file) =>
         new Promise((resolve, reject) => {
@@ -133,7 +143,7 @@ function EditStorage() {
             <div className="container" style={{ textAlign: "center" }}>
                 <span style={{ color: notifyColor, marginTop: 16 }}>{notifyText}</span>
             </div>
-            <button type="button" className={theme.button} style={{ whiteSpace: "nowrap", marginTop: 16 }} onClick={() => {
+            <button type="button" className = {theme.button} style={{ whiteSpace: "nowrap", marginTop: 16 }} onClick={() => {
                 saveStorageToLocalStorage(currentStorage)
                 notificationCleanUp()
                 setNotifyColor("green")

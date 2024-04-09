@@ -8,6 +8,7 @@ import React, { useState } from "react";
 import Avatar from 'react-avatar';
 import * as Icon from 'react-bootstrap-icons';
 import { lightTheme } from "./display";
+import Item from "../components/Item";
 
 
 export function createStorage(storageToAdd, navigate) {
@@ -49,16 +50,32 @@ export function storageExists(allStorage, storageToAdd) {
 export function saveStorageToLocalStorage(currentStorage) {
     const allStorageDataStr = localStorage.getItem(ALL_STORAGES)
     const allStorageData = JSON.parse(allStorageDataStr)
-
+    const itemlist = JSON.parse(localStorage.getItem(CUR_ITEM_LIST))
+    let modifiedStorage = [...allStorageData]
+    modifiedStorage.forEach((storage,index)=> {
+        if (storage.id === currentStorage.id){
+            storage = {
+                ...currentStorage,
+                items:itemlist
+            }
+            console.log(storage)
+            modifiedStorage.splice(index,1,storage)
+            localStorage.setItem(CUR_STORAGE, JSON.stringify(storage))
+        }
+    })
+    console.log(modifiedStorage)
+    localStorage.setItem(ALL_STORAGES, JSON.stringify(modifiedStorage))
+/*
     let filteredStorage = allStorageData.filter(store => !store.id.match(new RegExp('^' + currentStorage.id + '$')))
     let itemList = JSON.parse(localStorage.getItem(CUR_ITEM_LIST))
     let modifiedCurrentStorage = {
         ...currentStorage,
         items: itemList,
-    };
-    let newStorageData = [...filteredStorage, modifiedCurrentStorage];
-    localStorage.setItem(CUR_STORAGE, JSON.stringify(modifiedCurrentStorage))
-    localStorage.setItem(ALL_STORAGES, JSON.stringify(newStorageData))
+    };*/
+
+    
+    //localStorage.setItem(CUR_STORAGE, JSON.stringify(modifiedCurrentStorage))
+    //localStorage.setItem(ALL_STORAGES, JSON.stringify(newStorageData))
 }
 
 export function displayItems() {
@@ -78,6 +95,10 @@ export function displayItems() {
                         <th scope="col">Delete</th>
                     </tr>
                     {itemlist.map((item, index) => {
+                        return(
+                        <Item key ={index} item={item} index = {index}/>
+                    )
+                        /*
                         const [key, setKey] = useState(false)
                         const nutrition = item.nutrition ? item.nutrition : { No_Data: "avaiable" }
                         return (
@@ -108,7 +129,7 @@ export function displayItems() {
 
                             </tr>
 
-                        )
+                        )*/
                     })}
                 </tbody>
             </table>
@@ -200,7 +221,7 @@ export function deleteItem(indextodelete) {
     let itemlist = JSON.parse(localStorage.getItem(CUR_ITEM_LIST))
     itemlist = itemlist.filter((_, i) => i !== indextodelete)
     localStorage.setItem(CUR_ITEM_LIST, JSON.stringify(itemlist))
-    window.location.reload()
+    window.dispatchEvent(new Event("item"))
 
 }
 
@@ -213,7 +234,7 @@ export function addItem(item) {
         itemlist = [...itemlist, item]
         localStorage.setItem(CUR_ITEM_LIST, JSON.stringify(itemlist))
         localStorage.setItem(CALORIES, "")
-        window.location.reload()
+        window.dispatchEvent(new Event("item"))
     } else {
         toast("Missing Information", { position: "bottom-right", theme: theme.toast })
     }
@@ -302,7 +323,7 @@ export function deleteStorage(allStorage, singleStorageData) {
     localStorage.setItem(CUR_STORAGE, JSON.stringify(singleStorageData))
     allStorage = allStorage.filter(storage => !storage.id.match(new RegExp('^' + singleStorageData.id + '$')))
     localStorage.setItem(ALL_STORAGES, JSON.stringify(allStorage))
-    window.location.reload()
+    window.dispatchEvent(new Event("home"))
 }
 
 export function saveItemQuantity(quantityList, navigate) {

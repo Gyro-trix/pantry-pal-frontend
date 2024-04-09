@@ -6,11 +6,12 @@ import React from 'react';
 import { toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 //Checks if a user is logged in
-export function checkUserLogin(currentUser, navigate) {
-  if (currentUser === null || currentUser.trim() === "") {
+export function checkUserLogin(currentUserStr, navigate) {
+  const currentUser = currentUserStr ? JSON.parse(currentUserStr) : null
+  if (currentUserStr === null || currentUserStr.trim() === "") {
     navigate(SIGN_IN)
   } else {
-    gatherNotifications()
+    gatherNotifications(currentUser)
   }
 }
 //Checks is a user is logged in and if it is an admin
@@ -160,8 +161,10 @@ export function saveUserSettings(currentUser) {
   const newAllUsers = [...filteredUsers, currentUser]
   localStorage.setItem(ALL_USERS, JSON.stringify(newAllUsers))
   localStorage.setItem(CUR_USER, JSON.stringify(currentUser))
+  cleanUpNotifications(currentUser.id)
+  gatherNotifications(currentUser)
   window.dispatchEvent(new Event("navbar"))
-
+  window.dispatchEvent(new Event("notify"))
 }
 //Changes current users passwords
 export function changeUserPassword(passwords) {
@@ -263,7 +266,6 @@ export function editUser(userToEdit, navigate) {
 export function getUserImage(userID) {
   const allUserDataStr = localStorage.getItem(ALL_USERS)
   const allUserData = allUserDataStr ? JSON.parse(allUserDataStr) : []
-  console.log(userID)
   const filteredUser = allUserData.filter(user => user.id.match(new RegExp('^' + userID + '$')))
   return filteredUser[0].image
 }
@@ -311,4 +313,12 @@ export function addFriend(currentUser, friendToAddID) {
   localStorage.setItem(CUR_USER, JSON.stringify(currentUser))
   localStorage.setItem(ALL_USERS, JSON.stringify(filteredUsers))
 
+}
+
+export function getUserByID(idToSearch){
+  const allUserDataStr = localStorage.getItem(ALL_USERS)
+  const allUserData = allUserDataStr ? JSON.parse(allUserDataStr) : []
+  const filteredUser = allUserData.filter(user => user.id.match(new RegExp('^' + idToSearch + '$')))
+  console.log(filteredUser)
+  return filteredUser
 }

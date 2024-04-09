@@ -10,7 +10,7 @@ import AddNutrition from "./AddNutrition";
 
 function AddItems(props) {
     const themeStr = localStorage.getItem(THEME)
-    const [theme,setTheme] = useState(JSON.parse(themeStr))
+    const theme = useState(JSON.parse(themeStr))
     const [key, setKey] = useState(false)
     const [startDate, setStartDate] = useState(new Date())
     const [itemSearch, setItemSearch] = useState(null)

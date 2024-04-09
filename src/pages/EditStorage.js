@@ -28,7 +28,6 @@ function EditStorage() {
     useEffect(() => {
         function handleUpdate() {
             setTheme(JSON.parse(localStorage.getItem(THEME)))
-            console.log("rerender")
         }
     
         window.addEventListener('item', handleUpdate);

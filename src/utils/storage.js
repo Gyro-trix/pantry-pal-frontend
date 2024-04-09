@@ -323,7 +323,7 @@ export function deleteStorage(allStorage, singleStorageData) {
     localStorage.setItem(CUR_STORAGE, JSON.stringify(singleStorageData))
     allStorage = allStorage.filter(storage => !storage.id.match(new RegExp('^' + singleStorageData.id + '$')))
     localStorage.setItem(ALL_STORAGES, JSON.stringify(allStorage))
-    window.location.reload()
+    window.dispatchEvent(new Event("home"))
 }
 
 export function saveItemQuantity(quantityList, navigate) {

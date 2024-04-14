@@ -14,7 +14,7 @@ function About() {
                         <div >
                             <p>Pantry Pal is a small scale inventory web app demo that allows users to keep seperate lists of items based on user defined locations. This project was developed using React.</p>
 
-                            <p>Please be aware that this demo uses local storage for all saved data and as such using fake usernames, passwords and emails when creating accounts is advised.</p>
+                            <p>Please be aware that this demo uses local storage for all saved data and as such using fake usernames, passwords and emails when creating accounts is advised. Also please be aware that local storage has a small limit that can cause saving issues with too many users, storages or messages.</p>
 
                         </div>
                     </div>

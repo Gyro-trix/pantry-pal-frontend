@@ -90,7 +90,8 @@ function CreateRecipes() {
                     onChange={newContent => setContent(newContent)}
                 />
             </div>
-            <button type="button" className={theme.button} onClick={() => { saveRecipe(recipe) }}>Save Recipe</button>
+            <button type="button" className={theme.button} onClick={() => { 
+                saveRecipe(recipe) }}>Save Recipe</button>
         </div>
     )
 }

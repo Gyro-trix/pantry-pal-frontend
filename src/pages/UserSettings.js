@@ -67,12 +67,17 @@ function UserSettings() {
 
 
     const handleFile = async (e) => {
-        const image = await reader(e.target.files[0])
-        setImage(image.result)
-        setCurrentUser((prev) => ({
-            ...prev,
-            image: image.result,
-        }))
+        const file = e.target.files[0]
+        if (file.size <= 512000) {
+            const image = await reader(file)
+            setStorageImage(image.result)
+            setCurrentStorage((prev) => ({
+                ...prev,
+                image: image.result,
+            }))
+        } else {
+            toast("Please choose an image that is less tham 500 KB in size", { position: "bottom-right", theme: theme.toast })
+        }
     }
 
     const handleInvite = e => {

@@ -2,7 +2,7 @@
 The main focus of this app is to provide a basic inventory system that can be assigned to containers (such as freezers,cupboards,etc). Users can create accounts that then can populate different "storages" that represent inventories (Freezer,Fridge<Cupboard...).
 There is also a message and notification system more geared towards a user environment where there are various levels of staff, such as Owner as Admin, Manager as a Level 2 account and Clerks as Level 1 Users.
 
-PLEASE NOTE: Any areas that allow an image to be selected and saved can throw an error if the image is too big for the local storage of the users browser. This is known and is currently on the list of improvements to be made.
+PLEASE NOTE: Due to the use of Local Storage and saving images within it as Base 64, the allocation a users browser supplies can be taken up quickly. This is especially true as storages and users can have intended duplicates between a complete storage off all users/storages and then another version in the current user/storage.
 
 Level 1 Users can only view recipes, see notifications, use the messenger and adjust Item amounts in storages.
 Level 2 Users can create, edit and delete storages along with their contents. Add recipes through a reich text editor or view random recipes. Plus everything else a level 1 can do.
@@ -167,6 +167,7 @@ Each item can now only have the number of items changed. The other information i
 
 ## Current APIs in use in this project
 The following APIs are in use:
+- React Avatar (display user profile picture), https://github.com/ambassify/react-avatar
 - Datepicker (used to select an items expiry date), https://github.com/Hacker0x01/react-datepicker
 - Jodit Rich Text Editor (used to create recipes to be stored), https://xdsoft.net/jodit/
 - React Jodit (React wrapper to allow use of Jodit), https://xdsoft.net/jodit/

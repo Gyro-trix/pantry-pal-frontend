@@ -33,7 +33,7 @@ function Item(props) {
                 </td>
                 <td  style={{ textAlign: "center" }}>
                     <button type="button" className={theme.button} onClick={() => { setKey(true) }}><Icon.Eye size={20} /></button>
-                    <div>
+                    <div >
                         <Nutrition name={item.name} nutrition={nutrition} trigger={key} setTrigger={setKey} />
                     </div>
                 </td>

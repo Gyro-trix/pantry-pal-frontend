@@ -15,18 +15,22 @@ export function createStorage(storageToAdd, navigate) {
     const allStorageDataStr = localStorage.getItem(ALL_STORAGES)
     const allStorageData = JSON.parse(allStorageDataStr)
     const themeStr = localStorage.getItem(THEME)
-    const theme = (themeStr !== null && themeStr !== "") ? JSON.parse(themeStr)  : lightTheme
-    const newStorage = { id: storageToAdd.name.toLowerCase() + "-" + new Date().getTime(), name: storageToAdd.name, type: storageToAdd.type, location: storageToAdd.location, owner: storageToAdd.owner, items: [] }
-    if (allStorageDataStr === null) {
-        localStorage.setItem(ALL_STORAGES, JSON.stringify([newStorage]))
-        navigate(HOME)
-    } else {
-        if (storageExists(allStorageData, newStorage) === false) {
-            saveStorage(allStorageData, newStorage)
+    const theme = (themeStr !== null && themeStr !== "") ? JSON.parse(themeStr) : lightTheme
+    if (storageToAdd.name && storageToAdd.type && storageToAdd.location) {
+        const newStorage = { id: storageToAdd.name.toLowerCase() + "-" + new Date().getTime(), name: storageToAdd.name, type: storageToAdd.type, location: storageToAdd.location, owner: storageToAdd.owner, items: [] }
+        if (allStorageDataStr === null) {
+            localStorage.setItem(ALL_STORAGES, JSON.stringify([newStorage]))
             navigate(HOME)
         } else {
-            toast("Name Already Used", { position: "bottom-right", theme: theme.toast })
+            if (storageExists(allStorageData, newStorage) === false) {
+                saveStorage(allStorageData, newStorage)
+                navigate(HOME)
+            } else {
+                toast("Name Already Used", { position: "bottom-right", theme: theme.toast })
+            }
         }
+    } else {
+        toast("Please fill in all fields.", { position: "bottom-right", theme: theme.toast })
     }
 
 }
@@ -52,28 +56,28 @@ export function saveStorageToLocalStorage(currentStorage) {
     const allStorageData = JSON.parse(allStorageDataStr)
     const itemlist = JSON.parse(localStorage.getItem(CUR_ITEM_LIST))
     let modifiedStorage = [...allStorageData]
-    modifiedStorage.forEach((storage,index)=> {
-        if (storage.id === currentStorage.id){
+    modifiedStorage.forEach((storage, index) => {
+        if (storage.id === currentStorage.id) {
             storage = {
                 ...currentStorage,
-                items:itemlist
+                items: itemlist
             }
             console.log(storage)
-            modifiedStorage.splice(index,1,storage)
+            modifiedStorage.splice(index, 1, storage)
             localStorage.setItem(CUR_STORAGE, JSON.stringify(storage))
         }
     })
     console.log(modifiedStorage)
     localStorage.setItem(ALL_STORAGES, JSON.stringify(modifiedStorage))
-/*
-    let filteredStorage = allStorageData.filter(store => !store.id.match(new RegExp('^' + currentStorage.id + '$')))
-    let itemList = JSON.parse(localStorage.getItem(CUR_ITEM_LIST))
-    let modifiedCurrentStorage = {
-        ...currentStorage,
-        items: itemList,
-    };*/
+    /*
+        let filteredStorage = allStorageData.filter(store => !store.id.match(new RegExp('^' + currentStorage.id + '$')))
+        let itemList = JSON.parse(localStorage.getItem(CUR_ITEM_LIST))
+        let modifiedCurrentStorage = {
+            ...currentStorage,
+            items: itemList,
+        };*/
 
-    
+
     //localStorage.setItem(CUR_STORAGE, JSON.stringify(modifiedCurrentStorage))
     //localStorage.setItem(ALL_STORAGES, JSON.stringify(newStorageData))
 }
@@ -95,9 +99,9 @@ export function displayItems() {
                         <th scope="col">Delete</th>
                     </tr>
                     {itemlist.map((item, index) => {
-                        return(
-                        <Item key ={index} item={item} index = {index}/>
-                    )
+                        return (
+                            <Item key={index} item={item} index={index} />
+                        )
                         /*
                         const [key, setKey] = useState(false)
                         const nutrition = item.nutrition ? item.nutrition : { No_Data: "avaiable" }
@@ -141,7 +145,7 @@ export function displayItems() {
 
 export function displayAdjustableItems(navigate) {
     const themeStr = localStorage.getItem(THEME)
-    const theme = (themeStr !== null && themeStr !== "") ? JSON.parse(themeStr)  : lightTheme
+    const theme = (themeStr !== null && themeStr !== "") ? JSON.parse(themeStr) : lightTheme
     const itemlist = JSON.parse(localStorage.getItem(CUR_ITEM_LIST))
     let quantList = []
     if ((itemlist === null) === false) {
@@ -227,7 +231,7 @@ export function deleteItem(indextodelete) {
 
 export function addItem(item) {
     const themeStr = localStorage.getItem(THEME)
-    const theme = (themeStr !== null && themeStr !== "") ? JSON.parse(themeStr)  : lightTheme
+    const theme = (themeStr !== null && themeStr !== "") ? JSON.parse(themeStr) : lightTheme
     let itemlist = JSON.parse(localStorage.getItem(CUR_ITEM_LIST))
     if (item.quantity && item.name && item.size && item.expiry) {
         item.id = new Date().getTime() + "-" + item.name
@@ -260,7 +264,7 @@ export function displayStorage(currentUser, storageDataStr, storageData, navigat
     const allStorageData = JSON.parse(allStorageDataStr)
 
     const themeStr = localStorage.getItem(THEME)
-    const theme = (themeStr !== null && themeStr !== "") ? JSON.parse(themeStr)  : lightTheme
+    const theme = (themeStr !== null && themeStr !== "") ? JSON.parse(themeStr) : lightTheme
     let editButton
     let adjustButton
     let deleteButton
@@ -345,4 +349,31 @@ export function createDemoStorage() {
     if (allStorageData.length === 0) {
         localStorage.setItem(ALL_STORAGES, JSON.stringify([demoStorage]))
     }
+}
+
+export function replaceChar(entry) {
+    let newStr = entry.replaceAll("_", " ")
+    newStr = newStr.replaceAll(" g", "")
+    newStr = newStr.replaceAll(" mg", "")
+    let words = newStr.split(" ")
+    for (let i = 0; i < words.length; i++) {
+        
+        words[i] = words[i][0].toUpperCase() + words[i].substr(1)
+    }
+    newStr = words.join(" ")
+    return newStr
+}
+
+export function findMeasure(entry) {
+    let measure = ""
+    let newStr = entry.replaceAll("_", " ")
+    let words = newStr.split(" ")
+    console.log(words)
+    if(words[words.length-1] === "g"){
+        measure = "g"
+    } else if(words[words.length-1] === "mg"){
+        measure = "mg"
+    }
+    return measure
+
 }

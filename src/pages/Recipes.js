@@ -15,6 +15,8 @@ function Recipes() {
     const indexLimit = getNumberOfRecipes() - 1
     const editButton = useRef(null)
     const deleteButton = useRef(null)
+    const nextButton = useRef(null)
+    const prevButton = useRef(null)
     const editor = useRef(null)
     const config = useMemo(() =>
     ({
@@ -35,6 +37,10 @@ function Recipes() {
         if (currentUser.adminlevel === 3) {
             editButton.current.hidden = false
             deleteButton.current.hidden = false
+        }
+        if (getNumberOfRecipes() <= 1){
+            nextButton.current.disabled = true
+            prevButton.current.disabled = true
         }
     }, [currentUserStr, navigate])
 
@@ -75,17 +81,21 @@ function Recipes() {
                         ref={editor}
                         value={displayRecipe(index)}
                         config={config}
-                        tabIndex={1} // tabIndex of textarea
+                        tabIndex={1}
                     />
                 </div>
                 <div className="col d-flex justify-content-between" style={{ marginTop: 16 }}>
-                    <button type="button" className={theme.button} onClick={() => prevRecipe()} style={{ width: 112 }}>Previous</button>
+                    <button ref={prevButton} type="button" className={theme.button} onClick={() => prevRecipe()} style={{ width: 112 }}>Previous</button>
                     <button ref={editButton} type="button" className={theme.button} onClick={() => editRecipe(index, navigate)} style={{ width: 112, marginLeft: 8 }} hidden={true}>Edit</button>
                     <button ref={deleteButton} type="button" className={theme.button} onClick={() => {
                         deleteRecipe(index,navigate)
                         nextRecipe()
+                        if (getNumberOfRecipes() <= 1){
+                            nextButton.current.disabled = true
+                            prevButton.current.disabled = true
+                        }
                     }} style={{ width: 112, marginLeft: 8 }} hidden={true} >Delete</button>
-                    <button type="button" className={theme.button} onClick={() => nextRecipe()} style={{ width: 112, marginLeft: 8 }}>Next</button>
+                    <button ref={nextButton}type="button" className={theme.button} onClick={() => nextRecipe()} style={{ width: 112, marginLeft: 8 }}>Next</button>
                 </div>
             </div>
         </div>

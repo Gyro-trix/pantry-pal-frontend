@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { SIGN_IN, CREATE_STORAGE, USER_SETTINGS, NOTIFICATION, CREATERECIPES, DISPLAYRECIPES, MANAGEUSERS, CREATE_USER, USERMESSAGES, RECIPE_CENTRE } from "../config/routes";
 import { numberOfNotifications } from "../utils/notifications";
 import { CUR_USER, MESSAGE_USER, THEME } from "../config/localStorage";
-import { changeTheme, getWindowDimensions } from "../utils/display";
+import { changeTheme, getWindowDimensions, storageTotal } from "../utils/display";
 import { anyNewMessages } from "../utils/messages";
 import Logov1 from '../images/Logov1.png'
 import Avatar from 'react-avatar';
@@ -67,6 +67,7 @@ function NavBar() {
 
   useEffect(() => {
     setNotificationCount(numberOfNotifications())
+    console.log(storageTotal())
   }, [])
 
   useEffect(() => {

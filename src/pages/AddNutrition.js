@@ -1,4 +1,5 @@
 import { THEME } from "../config/localStorage"
+import { findMeasure, replaceChar } from "../utils/storage"
 
 function AddNutrition(props) {
     const nutrData = Object.entries(props.nutrition)
@@ -13,8 +14,8 @@ function AddNutrition(props) {
     }
 
     return (props.trigger) ? (
-        <div className="card" style ={{marginTop:48,zIndex:11,position:"fixed",top:0,left:0,width:"100%",height:"100%", backgroundColor:"rgba(52, 52, 52, 0.8)", display:"flex",justifyContent:"center",alignItems:"center"}}>
-            <div className = "card"style={{position:"relative",padding:64,width:"100%",maxWidth:640}}>
+        <div data-bs-theme={theme.name} className="card" style ={{zIndex:11,position:"fixed",top:0,left:0,width:"100%",height:"100%", backgroundColor:"rgba(52, 52, 52, 0.8)", display:"flex",justifyContent:"center",alignItems:"center"}}>
+            <div className = "card"style={{marginTop:96, position: "relative", padding: 64, width: "100%", maxWidth: 640, maxHeight: 800,overflow:"scroll" }}>
             <h1 style ={{fontSize:32,position:"absolute",top:16,left:16}}>{props.name}</h1>
             <button type="button" className={theme.button} style ={{position:"absolute",top:16,right:16}} onClick = {()=> props.setTrigger(false)}>Save</button>
             
@@ -27,7 +28,7 @@ function AddNutrition(props) {
                     {nutrData.map((entry, index) =>
                         <tr key = {index}>
                             <td>
-                                {entry[0]}
+                                {replaceChar(entry[0])}  {findMeasure(entry[0])}
                             </td>
                             <td>
                             <input 

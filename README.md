@@ -167,6 +167,7 @@ Each item can now only have the number of items changed. The other information i
 
 ## Current APIs in use in this project
 The following APIs are in use:
+- React Avatar (display user profile picture), https://github.com/ambassify/react-avatar
 - Datepicker (used to select an items expiry date), https://github.com/Hacker0x01/react-datepicker
 - Jodit Rich Text Editor (used to create recipes to be stored), https://xdsoft.net/jodit/
 - React Jodit (React wrapper to allow use of Jodit), https://xdsoft.net/jodit/

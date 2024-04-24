@@ -16,7 +16,7 @@ function AddItems(props) {
     const [itemSearch, setItemSearch] = useState(null)
     const addItemRef = useRef(null)
     const itemName = useRef(null)
-    const [searchBtn, setSearchBtn] = useState("Search")
+    const [searchBtn, setSearchBtn] = useState("Add New Item")
     const [addNutritionBtn, setAddNutritionBtn] = useState(false)
     const [item, setItem] = useState({
         quantity: 0,
@@ -53,7 +53,7 @@ function AddItems(props) {
         const apiKeyType = process.env.REACT_APP_CALORIE_NINJAS_KEY_TYPE
         const search = 'https://api.calorieninjas.com/v1/nutrition?query=' + itemSearch
 
-        if (searchBtn === "Search") {
+        if (searchBtn === "Add New Item") {
             try {
                 const response = await fetch(search, {
                     method: 'GET',
@@ -94,7 +94,7 @@ function AddItems(props) {
             addItemRef.current.hidden = true
             itemName.current.value = ""
             itemName.current.disabled = false
-            setSearchBtn("Search")
+            setSearchBtn("Add New Item")
         }
 
     }
@@ -169,7 +169,7 @@ function AddItems(props) {
                         </div>
                         <div style={{ marginTop: 16, float: "right" }}>
                             <button type="button" className={theme.button} style={{ whiteSpace: "nowrap" }} hidden={addNutritionBtn} onClick={() => { setKey(true) }}>Add Nutrition Info</button>
-                            <button type="button" className={theme.button} style={{ whiteSpace: "nowrap", marginLeft: 16 }} onClick={() => addItem(item)}>Add Item</button>
+                            <button type="button" className={theme.button} style={{ whiteSpace: "nowrap", marginLeft: 16 }} onClick={() => addItem(item)}>Finish Adding Item</button>
                             <AddNutrition name={item.name} nutrition={nutrition} setNutrition={setNutrition} trigger={key} setTrigger={setKey} />
                         </div>
                     </div>

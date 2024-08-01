@@ -2,9 +2,7 @@ import React, { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { logIn } from "../utils/users"
 import { REGISTER } from "../config/routes"
-import { CUR_USER, ALL_USERS, THEME } from "../config/localStorage"
-import { createDemoStorage } from "../utils/storage"
-import { createDemoRecipe } from "../utils/recipes"
+import { CUR_USER, THEME } from "../config/localStorage"
 import About from "./About"
 import * as Icon from 'react-bootstrap-icons';
 import { lightTheme } from "../utils/display"
@@ -17,19 +15,8 @@ function Login() {
     const navigate = useNavigate()
     const themeStr = localStorage.getItem(THEME)
     const theme = (themeStr !== null && themeStr !== "") ? JSON.parse(themeStr)  : lightTheme
-    const allUserDataStr = [localStorage.getItem(ALL_USERS)]
     const [attemptingUser, setAttemptingUser] = useState({ id: " ", username: " ", email: " ", password: " ", notify: " ", itemlimit: " ", expirylimit: " " })
-    //Creates admin and demo users
-    if (allUserDataStr[0] === null) {
-        const demoUsers = [
-            { id: "TrueAdmin", username: "Admin", email: "Admin", password: "Admin", notify: true, expirylimit: 99, itemlimit: 99, adminlevel: 3, manager: null, friends: [] },
-            { id: "DemoLevel2", username: "Demo2", email: "Demo2", password: "Demo2", notify: true, expirylimit: 99, itemlimit: 99, adminlevel: 2, manager: "TrueAdmin", friends: [] },
-            { id: "DemoLevel1", username: "Demo1", email: "Demo1", password: "Demo1", notify: true, expirylimit: 99, itemlimit: 99, adminlevel: 1, manager: "DemoLevel2", friends: [] }
-        ]
-        localStorage.setItem(ALL_USERS, JSON.stringify(demoUsers))
-    }
-    createDemoStorage()
-    createDemoRecipe()
+ 
 
     const handleChange = e => {
         setAttemptingUser((prev) => ({
@@ -76,7 +63,7 @@ function Login() {
                         </form>
                         <div style={{ animation: "fadeIn2 2s" }} className="col d-flex justify-content-between">
                             <button type="button" className={theme.button} style={{ width: 96, marginRight: 32 }} onClick={goRegister}>Register</button>
-                            <button type="button" className={theme.button} style={{ width: 96, whiteSpace: "nowrap" }} onClick={() => logIn(attemptingUser, navigate)}>Log In</button>
+                            <button type="button" className={theme.button} style={{ width: 96, whiteSpace: "nowrap" }} onClick={() => logIn(attemptingUser)}>Log In</button>
                         </div>
                     </div>
                     <div className="card w-50 mb-3" style={{ margin:"auto",marginTop: 32, maxWidth: 400, minWidth: 400, padding: 16, animation: "fadeIn 3s" }}>

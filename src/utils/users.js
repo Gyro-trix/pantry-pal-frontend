@@ -23,22 +23,42 @@ export function checkAdminLogin(currentUser, navigate) {
     navigate(HOME)
   }
 }
-//Basic login function
-export function logIn(attemptingUser, navigate) {
+//Login from server
+export async function  logIn(attemptingUser) {
+
   const themeStr = localStorage.getItem(THEME)
   const theme = JSON.parse(themeStr)
-  //Checks if both fields have a value
-  if (attemptingUser.username && attemptingUser.password) {
-    //Check for user in local storage
-    if (validateUser(attemptingUser) === false) {
-      toast("Invalid Username or Password!", { position: "bottom-right", theme: theme.toast })
+  const loginPath = 'http://localhost:5001/api/auth/';
+ 
+   const username= attemptingUser.username
+    const password= attemptingUser.password
+  
+  try {
+    const response = await fetch(loginPath, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ username: username,password: password  })
+    })
+
+    const data = await response.json()
+
+    if (response.ok) {
+      window.location.href = data.redirectUrl
     } else {
-      localStorage.setItem(CUR_USER, JSON.stringify(attemptingUser))
-      navigate(HOME)
+      console.log("huh")
     }
 
+  } catch (error) {
+    console.error('Error:', error)
   }
 }
+
+
+
+
+
 //Compares all users to the attempting user 
 export function validateUser(attemptingUser) {
   const allUserData = JSON.parse(localStorage.getItem(ALL_USERS))
@@ -78,7 +98,7 @@ export function addUser(userToRegister, navigate) {
         friends: []
       }
       //Test newUser against current registered users, then adds to local storage All_USERS               
-      if ((userExists(newUser) === false) && (userEmailExists(newUser) === false) && (checkEmailFormat(newUser)===true)) {
+      if ((userExists(newUser) === false) && (userEmailExists(newUser) === false) && (checkEmailFormat(newUser) === true)) {
         userSave(newUser)
         localStorage.setItem(CUR_USER, JSON.stringify(newUser))
         navigate(HOME)
@@ -315,7 +335,7 @@ export function addFriend(currentUser, friendToAddID) {
 
 }
 
-export function getUserByID(idToSearch){
+export function getUserByID(idToSearch) {
   const allUserDataStr = localStorage.getItem(ALL_USERS)
   const allUserData = allUserDataStr ? JSON.parse(allUserDataStr) : []
   const filteredUser = allUserData.filter(user => user.id.match(new RegExp('^' + idToSearch + '$')))

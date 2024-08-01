@@ -16,12 +16,11 @@ function Home() {
   const currentUserStr = localStorage.getItem(CUR_USER)
   const currentUser = currentUserStr ?JSON.parse(currentUserStr):null
   const navigate = useNavigate();
-
+/*
 useEffect(() => {
     checkUserLogin(currentUserStr, navigate)
   }, [currentUserStr, navigate])
-
-
+*/
   const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions);
   const { width, height } = windowDimensions;
 
@@ -46,13 +45,17 @@ useEffect(() => {
 
 
   return (
+    <div>
+    <div className="container w-90" style={{ padding: 32, height: height - 70, width: width, minWidth: 700 }}>
+      <p  className={theme.button}>TESTING</p>
+    </div>
     <div className="container w-90" style={{ padding: 32, height: height - 70, width: width, minWidth: 700 }}>
       <p hidden ={true} className={theme.button}></p>
       <div className="row row-cols-auto" style={{ animation: "moveToRight 1s", margin: "auto" }}>
         {displayStorage(currentUser, allStorageDataStr, allStorageData, navigate)}
       </div>
     </div>
-
+</div>
   )
 }
 export default Home;

@@ -96,7 +96,7 @@ function NavBar() {
     return () => window.removeEventListener('navbar', handleProfile);
   }, []);
 
-  switch (currentAdminLevel) {
+  switch (3) {
     case 0:
       navBarContent = ""
 

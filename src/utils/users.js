@@ -78,10 +78,42 @@ export function validateUser(attemptingUser) {
   return false
 }
 //Add a new user
-export function addUser(userToRegister, navigate) {
+export async function addUser(userToRegister) {
   const themeStr = localStorage.getItem(THEME)
   const theme = JSON.parse(themeStr)
+  
+  const loginPath = 'http://localhost:5001/api/auth/';
+ 
+  const username= userToRegister.username
+  const password= userToRegister.password
+  const email = userToRegister.email
+  
+  try {
+    const response = await fetch(loginPath, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ username: username,password: password, name: "Temp", email: email  })
+    })
+
+    const data = await response.json()
+
+    if (response.ok) {
+      window.location.href = data.redirectUrl
+    } else {
+      console.log("huh")
+    }
+
+  } catch (error) {
+    console.error('Error:', error)
+  }
+}
+  
+  
+  
   //Checks for null or empty values
+  /*
   if (userToRegister.username && userToRegister.email && userToRegister.password && userToRegister.passwordchk) {
     //Checks that both passwords and passwordchk are the same 
     if (userToRegister.password === userToRegister.passwordchk) {
@@ -107,7 +139,8 @@ export function addUser(userToRegister, navigate) {
       toast("Passwords do not match.", { position: "bottom-right", theme: theme.toast })
     }
   }
-}
+  
+}*/
 //Checks if the User already exists
 export function userExists(userToCheck) {
   const allUserData = JSON.parse(localStorage.getItem(ALL_USERS))

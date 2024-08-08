@@ -85,7 +85,7 @@ function Register() {
                 />
 
             </form>
-            <button type="button" className={theme.button} style={{ marginTop: 16 }} onClick={() => addUser(newUser, navigate)}>Register</button>
+            <button type="button" className={theme.button} style={{ marginTop: 16 }} onClick={() => addUser(newUser)}>Register</button>
 
         </div>
     );

@@ -63,7 +63,7 @@ function Login() {
                         </form>
                         <div style={{ animation: "fadeIn2 2s" }} className="col d-flex justify-content-between">
                             <button type="button" className={theme.button} style={{ width: 96, marginRight: 32 }} onClick={goRegister}>Register</button>
-                            <button type="button" className={theme.button} style={{ width: 96, whiteSpace: "nowrap" }} onClick={() => logIn(attemptingUser)}>Log In</button>
+                            <button type="button" className={theme.button} style={{ width: 96, whiteSpace: "nowrap" }} onClick={() => logIn(attemptingUser,navigate)}>Log In</button>
                         </div>
                     </div>
                     <div className="card w-50 mb-3" style={{ margin:"auto",marginTop: 32, maxWidth: 400, minWidth: 400, padding: 16, animation: "fadeIn 3s" }}>

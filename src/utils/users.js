@@ -5,9 +5,13 @@ import { cleanUpInvites, cleanUpNotifications, gatherNotifications } from "./not
 import React from 'react';
 import { toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
+
 //Checks if a user is logged in
 export function checkUserLogin(currentUserStr, navigate) {
   const currentUser = currentUserStr ? JSON.parse(currentUserStr) : null
+  
+  console.log(currentUser.expiry)
+  console.log(currentUser.authenticated)
   if (currentUserStr === null || currentUserStr.trim() === "") {
     navigate(SIGN_IN)
   } else {
@@ -24,14 +28,14 @@ export function checkAdminLogin(currentUser, navigate) {
   }
 }
 //Login from server
-export async function  logIn(attemptingUser) {
+export async function  logIn(attemptingUser,navigate) {
 
   const themeStr = localStorage.getItem(THEME)
   const theme = JSON.parse(themeStr)
   const loginPath = 'http://localhost:5001/api/auth/';
  
-   const username= attemptingUser.username
-    const password= attemptingUser.password
+  const username= attemptingUser.username
+  const password= attemptingUser.password
   
   try {
     const response = await fetch(loginPath, {
@@ -43,9 +47,10 @@ export async function  logIn(attemptingUser) {
       body: JSON.stringify({ username: username,password: password  })
     })
     const data = await response.json()
-
+    localStorage.setItem(CUR_USER, JSON.stringify(data))
+    console.log(data)
     if (response.ok) {
-      //window.location.href = data.redirectUrl
+      navigate(HOME)
     } else {
       console.log("huh")
     }

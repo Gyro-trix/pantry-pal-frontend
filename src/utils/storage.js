@@ -259,7 +259,69 @@ export function displayDate(date) {
     return dateStr
 }
 //Working on below
-export function displayStorage(currentUser, storageDataStr, storageData, navigate) {
+export async function displayStorage() {
+    
+    const themeStr = localStorage.getItem(THEME)
+    const theme = (themeStr !== null && themeStr !== "") ? JSON.parse(themeStr) : lightTheme
+    let editButton
+    let adjustButton
+    let deleteButton
+
+    const loginPath = 'http://localhost:5001/api/storage/'
+    
+    try {
+        const response = await fetch(loginPath, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          credentials: 'include',
+        })
+        const data = await response.json()
+        const storages = data.data
+        console.log(storages)
+        
+        return storages.map((storage) => {
+            let storageImage = storage.image ? storage.image : ""
+
+            return (
+
+                <div key={storage.id} className="card mb-3" style={{ display: "grid", marginLeft: 16, marginTop: 16, maxWidth: "48%", minWidth: "48%" }}>
+                    <div className="row g-0 d-flex" >
+                        <div className="col-md-6" style={{ padding: 16, minWidth: 232 }}>
+                            <Avatar unstyle={true} size={200} color={Avatar.getRandomColor('sitebase', theme.avatar)} src={storageImage} name={storage.name} textSizeRatio={1.5} />
+                        </div>
+                        <div className="col-md-6">
+                            <div className="card-body" >
+                                <h4 className="card-title">{storage.name}</h4>
+                                <p className="card-text">{storage.type} at {storage.location}</p>
+
+                            </div>
+                        </div>
+                        <div className="col d-flex justify-content-between" style={{ padding: 16, marginTop: "auto" }}>
+                            <button hidden={editButton} className={theme.button} style={{ whiteSpace: "nowrap" }} onClick={() => openEditStoragePage(storage )}>Edit Storage</button>
+                            <button hidden={adjustButton} className={theme.button} style={{ whiteSpace: "nowrap" }} onClick={() => openAdjustStoragePage(storage)}>Adjust Storage Contents</button>
+                            <button hidden={deleteButton} className={theme.button} style={{ whiteSpace: "nowrap", marginLeft: 16 }} onClick={() => { if (window.confirm('Delete the item?')) { /*nned function*/  } }} >Delete Storage</button>
+                        </div>
+                    </div>
+                </div>
+
+            )
+        })
+    /*
+        if (response.ok) {
+          window.location.href = data.redirectUrl
+        } else {
+          console.log("huh")
+        }*/
+        
+      } catch (error) {
+        console.error('Error:', error)
+      }
+    
+      
+/*
+    
     const allStorageDataStr = localStorage.getItem(ALL_STORAGES)
     const allStorageData = JSON.parse(allStorageDataStr)
 
@@ -268,6 +330,7 @@ export function displayStorage(currentUser, storageDataStr, storageData, navigat
     let editButton
     let adjustButton
     let deleteButton
+    
     if (currentUser !== null) {
         if (currentUser.adminlevel === 1) {
             editButton = true
@@ -309,6 +372,7 @@ export function displayStorage(currentUser, storageDataStr, storageData, navigat
             )
         })
     }
+       */ 
 }
 
 export function openEditStoragePage(singleStorageData, navigate) {

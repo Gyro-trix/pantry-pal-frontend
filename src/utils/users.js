@@ -39,13 +39,13 @@ export async function  logIn(attemptingUser) {
       headers: {
         'Content-Type': 'application/json'
       },
+      credentials: 'include',
       body: JSON.stringify({ username: username,password: password  })
     })
-
     const data = await response.json()
 
     if (response.ok) {
-      window.location.href = data.redirectUrl
+      //window.location.href = data.redirectUrl
     } else {
       console.log("huh")
     }
@@ -98,7 +98,7 @@ export async function addUser(userToRegister) {
     })
 
     const data = await response.json()
-
+    
     if (response.ok) {
       window.location.href = data.redirectUrl
     } else {

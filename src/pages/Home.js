@@ -11,6 +11,7 @@ function Home() {
   const themeStr = localStorage.getItem(THEME)
   const [theme,setTheme] = useState(JSON.parse(themeStr))
   const allStorageDataStr = localStorage.getItem(ALL_STORAGES)
+  const [result, setResult] = useState(null);
   const allStorageData = JSON.parse(allStorageDataStr)
   localStorage.setItem(CUR_ITEM_LIST, JSON.stringify([]))
   const currentUserStr = localStorage.getItem(CUR_USER)
@@ -28,17 +29,14 @@ useEffect(() => {
   const { width, height } = windowDimensions;
 
 
-  const MyStorages = () => {
-    const [result, setResult] = useState(null);
+  
+    
   
     useEffect(() => {
       displayStorage().then(res => setResult(res));
     }, []);
   
-    if (!result) return <div>Loading...</div>;
-  
-    return <div>{result}</div>;
-  }
+   
 
   useEffect(() => {
     function handleUpdate() {
@@ -67,7 +65,7 @@ useEffect(() => {
     <div className="container w-90" style={{ padding: 32, height: height - 70, width: width, minWidth: 700 }}>
       <p hidden ={true} className={theme.button}></p>
       <div className="row row-cols-auto" style={{ animation: "moveToRight 1s", margin: "auto" }}>
-        <MyStorages />
+        {result}
       </div>
     </div>
 </div>

@@ -25,6 +25,7 @@ export function checkUserLogin(currentUserStr, navigate) {
     //gatherNotifications(currentUser)
   }
 }
+
 //Checks is a user is logged in and if it is an admin
 export function checkAdminLogin(currentUser, navigate) {
   const userData = JSON.parse(currentUser)
@@ -34,6 +35,7 @@ export function checkAdminLogin(currentUser, navigate) {
     navigate(HOME)
   }
 }
+
 //Login from server
 export async function logIn(attemptingUser, navigate) {
 
@@ -90,7 +92,7 @@ export function validateUser(attemptingUser) {
   return false
 }
 //Add a new user
-export async function addUser(userToRegister) {
+export async function addUser(userToRegister,navigate) {
   const themeStr = localStorage.getItem(THEME)
   const theme = JSON.parse(themeStr)
 
@@ -112,7 +114,7 @@ export async function addUser(userToRegister) {
     const data = await response.json()
 
     if (response.ok) {
-      window.location.href = data.redirectUrl
+      navigate(HOME)
     } else {
       console.log("huh")
     }

@@ -11,26 +11,37 @@ import { lightTheme } from "./display";
 import Item from "../components/Item";
 
 
-export function createStorage(storageToAdd, navigate) {
-    const allStorageDataStr = localStorage.getItem(ALL_STORAGES)
-    const allStorageData = JSON.parse(allStorageDataStr)
+export async function createStorage(storageToAdd, navigate) {
+
     const themeStr = localStorage.getItem(THEME)
     const theme = (themeStr !== null && themeStr !== "") ? JSON.parse(themeStr) : lightTheme
+    const loginPath = 'http://localhost:5001/api/storage/';
+
     if (storageToAdd.name && storageToAdd.type && storageToAdd.location) {
-        const newStorage = { id: storageToAdd.name.toLowerCase() + "-" + new Date().getTime(), name: storageToAdd.name, type: storageToAdd.type, location: storageToAdd.location, owner: storageToAdd.owner, items: [] }
-        if (allStorageDataStr === null) {
-            localStorage.setItem(ALL_STORAGES, JSON.stringify([newStorage]))
-            navigate(HOME)
-        } else {
-            if (storageExists(allStorageData, newStorage) === false) {
-                saveStorage(allStorageData, newStorage)
+
+        try {
+            const response = await fetch(loginPath, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                credentials: 'include',
+                body: JSON.stringify(storageToAdd)
+            })
+            const data = await response.json()
+
+            console.log(data)
+            if (response.ok) {
                 navigate(HOME)
             } else {
-                toast("Name Already Used", { position: "bottom-right", theme: theme.toast })
+                console.log("huh")
             }
+
+        } catch (error) {
+            console.error('Error:', error)
         }
     } else {
-        toast("Please fill in all fields.", { position: "bottom-right", theme: theme.toast })
+        console.log("Need to fill in all fields")
     }
 
 }
@@ -243,6 +254,7 @@ export function addItem(item) {
         toast("Missing Information", { position: "bottom-right", theme: theme.toast })
     }
 
+
 }
 
 export function addExpiryDate(date) {
@@ -259,8 +271,8 @@ export function displayDate(date) {
     return dateStr
 }
 //Working on below
-export async function displayStorage() {
-    
+export async function displayStorage(navigate) {
+
     const themeStr = localStorage.getItem(THEME)
     const theme = (themeStr !== null && themeStr !== "") ? JSON.parse(themeStr) : lightTheme
     let editButton
@@ -268,21 +280,22 @@ export async function displayStorage() {
     let deleteButton
 
     const loginPath = 'http://localhost:5001/api/storage/'
-    
+
     try {
         const response = await fetch(loginPath, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          credentials: 'include',
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include',
         })
         const data = await response.json()
         const storages = data.data
         console.log(storages)
-        
+
         return storages.map((storage) => {
             let storageImage = storage.image ? storage.image : ""
+            let storageID = storage.id ? storage.id : 0
 
             return (
 
@@ -299,80 +312,80 @@ export async function displayStorage() {
                             </div>
                         </div>
                         <div className="col d-flex justify-content-between" style={{ padding: 16, marginTop: "auto" }}>
-                            <button hidden={editButton} className={theme.button} style={{ whiteSpace: "nowrap" }} onClick={() => openEditStoragePage(storage )}>Edit Storage</button>
-                            <button hidden={adjustButton} className={theme.button} style={{ whiteSpace: "nowrap" }} onClick={() => openAdjustStoragePage(storage)}>Adjust Storage Contents</button>
-                            <button hidden={deleteButton} className={theme.button} style={{ whiteSpace: "nowrap", marginLeft: 16 }} onClick={() => { if (window.confirm('Delete the item?')) { /*nned function*/  } }} >Delete Storage</button>
+                            <button hidden={editButton} className={theme.button} style={{ whiteSpace: "nowrap" }} onClick={() => openEditStoragePage(storage,navigate)}>Edit Storage</button>
+                            <button hidden={adjustButton} className={theme.button} style={{ whiteSpace: "nowrap" }} onClick={() => openAdjustStoragePage(storage,navigate)}>Adjust Storage Contents</button>
+                            <button hidden={deleteButton} className={theme.button} style={{ whiteSpace: "nowrap", marginLeft: 16 }} onClick={() => { if (window.confirm('Delete the item?')) { deleteStorage(storageID, navigate) } }} >Delete Storage</button>
                         </div>
                     </div>
                 </div>
 
             )
         })
-    /*
-        if (response.ok) {
-          window.location.href = data.redirectUrl
-        } else {
-          console.log("huh")
-        }*/
-        
-      } catch (error) {
-        console.error('Error:', error)
-      }
-    
-      
-/*
-    
-    const allStorageDataStr = localStorage.getItem(ALL_STORAGES)
-    const allStorageData = JSON.parse(allStorageDataStr)
+        /*
+            if (response.ok) {
+              window.location.href = data.redirectUrl
+            } else {
+              console.log("huh")
+            }*/
 
-    const themeStr = localStorage.getItem(THEME)
-    const theme = (themeStr !== null && themeStr !== "") ? JSON.parse(themeStr) : lightTheme
-    let editButton
-    let adjustButton
-    let deleteButton
-    
-    if (currentUser !== null) {
-        if (currentUser.adminlevel === 1) {
-            editButton = true
-            adjustButton = false
-            deleteButton = true
-        } else {
-            editButton = false
-            adjustButton = true
-            deleteButton = false
-        }
+    } catch (error) {
+        console.error('Error:', error)
     }
 
-    if ((storageDataStr === null) === false) {
-        return storageData.map((singleStorageData) => {
-            let storageImage = singleStorageData.image ? singleStorageData.image : ""
 
-            return (
-
-                <div key={singleStorageData.id} className="card mb-3" style={{ display: "grid", marginLeft: 16, marginTop: 16, maxWidth: "48%", minWidth: "48%" }}>
-                    <div className="row g-0 d-flex" >
-                        <div className="col-md-6" style={{ padding: 16, minWidth: 232 }}>
-                            <Avatar unstyle={true} size={200} color={Avatar.getRandomColor('sitebase', theme.avatar)} src={storageImage} name={singleStorageData.name} textSizeRatio={1.5} />
-                        </div>
-                        <div className="col-md-6">
-                            <div className="card-body" >
-                                <h4 className="card-title">{singleStorageData.name}</h4>
-                                <p className="card-text">{singleStorageData.type} at {singleStorageData.location}</p>
-
+    /*
+        
+        const allStorageDataStr = localStorage.getItem(ALL_STORAGES)
+        const allStorageData = JSON.parse(allStorageDataStr)
+    
+        const themeStr = localStorage.getItem(THEME)
+        const theme = (themeStr !== null && themeStr !== "") ? JSON.parse(themeStr) : lightTheme
+        let editButton
+        let adjustButton
+        let deleteButton
+        
+        if (currentUser !== null) {
+            if (currentUser.adminlevel === 1) {
+                editButton = true
+                adjustButton = false
+                deleteButton = true
+            } else {
+                editButton = false
+                adjustButton = true
+                deleteButton = false
+            }
+        }
+    
+        if ((storageDataStr === null) === false) {
+            return storageData.map((singleStorageData) => {
+                let storageImage = singleStorageData.image ? singleStorageData.image : ""
+    
+                return (
+    
+                    <div key={singleStorageData.id} className="card mb-3" style={{ display: "grid", marginLeft: 16, marginTop: 16, maxWidth: "48%", minWidth: "48%" }}>
+                        <div className="row g-0 d-flex" >
+                            <div className="col-md-6" style={{ padding: 16, minWidth: 232 }}>
+                                <Avatar unstyle={true} size={200} color={Avatar.getRandomColor('sitebase', theme.avatar)} src={storageImage} name={singleStorageData.name} textSizeRatio={1.5} />
+                            </div>
+                            <div className="col-md-6">
+                                <div className="card-body" >
+                                    <h4 className="card-title">{singleStorageData.name}</h4>
+                                    <p className="card-text">{singleStorageData.type} at {singleStorageData.location}</p>
+    
+                                </div>
+                            </div>
+                            <div className="col d-flex justify-content-between" style={{ padding: 16, marginTop: "auto" }}>
+                                <button hidden={editButton} className={theme.button} style={{ whiteSpace: "nowrap" }} onClick={() => openEditStoragePage(singleStorageData, navigate)}>Edit Storage</button>
+                                <button hidden={adjustButton} className={theme.button} style={{ whiteSpace: "nowrap" }} onClick={() => openAdjustStoragePage(singleStorageData, navigate)}>Adjust Storage Contents</button>
+                                <button hidden={deleteButton} className={theme.button} style={{ whiteSpace: "nowrap", marginLeft: 16 }} onClick={() => { if (window.confirm('Delete the item?')) { deleteStorage(allStorageData, singleStorageData) } }} >Delete Storage</button>
                             </div>
                         </div>
-                        <div className="col d-flex justify-content-between" style={{ padding: 16, marginTop: "auto" }}>
-                            <button hidden={editButton} className={theme.button} style={{ whiteSpace: "nowrap" }} onClick={() => openEditStoragePage(singleStorageData, navigate)}>Edit Storage</button>
-                            <button hidden={adjustButton} className={theme.button} style={{ whiteSpace: "nowrap" }} onClick={() => openAdjustStoragePage(singleStorageData, navigate)}>Adjust Storage Contents</button>
-                            <button hidden={deleteButton} className={theme.button} style={{ whiteSpace: "nowrap", marginLeft: 16 }} onClick={() => { if (window.confirm('Delete the item?')) { deleteStorage(allStorageData, singleStorageData) } }} >Delete Storage</button>
-                        </div>
                     </div>
-                </div>
-
-            )
-        })
-    }
-       */ 
+    
+                )
+            })
+        }
+           */
 }
 
 export function openEditStoragePage(singleStorageData, navigate) {
@@ -387,12 +400,36 @@ export function openAdjustStoragePage(singleStorageData, navigate) {
     navigate(ADJUSTSTORAGE)
 }
 //Delete Storage
-export function deleteStorage(allStorage, singleStorageData) {
-    localStorage.setItem(CUR_STORAGE, JSON.stringify(singleStorageData))
-    allStorage = allStorage.filter(storage => !storage.id.match(new RegExp('^' + singleStorageData.id + '$')))
-    localStorage.setItem(ALL_STORAGES, JSON.stringify(allStorage))
-    window.dispatchEvent(new Event("home"))
+export async function deleteStorage(storageID,navigate) {
+    
+    const loginPath = 'http://localhost:5001/api/storage/';
+    try {
+        const response = await fetch(loginPath, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include',
+            body: JSON.stringify({id:storageID})
+        })
+        const data = await response.json()
+
+        console.log(data)
+        if (response.ok) {
+            
+          window.dispatchEvent(new Event("home"))  
+          navigate(HOME)
+
+        } else {
+            console.log("huh")
+        }
+
+    } catch (error) {
+        console.error('Error:', error)
+    } 
 }
+    
+
 
 export function saveItemQuantity(quantityList, navigate) {
     const currentStorage = JSON.parse(localStorage.getItem(CUR_STORAGE))
@@ -421,7 +458,7 @@ export function replaceChar(entry) {
     newStr = newStr.replaceAll(" mg", "")
     let words = newStr.split(" ")
     for (let i = 0; i < words.length; i++) {
-        
+
         words[i] = words[i][0].toUpperCase() + words[i].substr(1)
     }
     newStr = words.join(" ")
@@ -433,9 +470,9 @@ export function findMeasure(entry) {
     let newStr = entry.replaceAll("_", " ")
     let words = newStr.split(" ")
     console.log(words)
-    if(words[words.length-1] === "g"){
+    if (words[words.length - 1] === "g") {
         measure = "g"
-    } else if(words[words.length-1] === "mg"){
+    } else if (words[words.length - 1] === "mg") {
         measure = "mg"
     }
     return measure

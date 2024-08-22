@@ -9,31 +9,31 @@ import { getWindowDimensions } from "../utils/display";
 
 function Home() {
   const themeStr = localStorage.getItem(THEME)
-  const [theme,setTheme] = useState(JSON.parse(themeStr))
+  const [theme, setTheme] = useState(JSON.parse(themeStr))
   const allStorageDataStr = localStorage.getItem(ALL_STORAGES)
   const [result, setResult] = useState(null);
   const allStorageData = JSON.parse(allStorageDataStr)
   localStorage.setItem(CUR_ITEM_LIST, JSON.stringify([]))
   const currentUserStr = localStorage.getItem(CUR_USER)
-  const currentUser = currentUserStr ?JSON.parse(currentUserStr):null
+  const currentUser = currentUserStr ? JSON.parse(currentUserStr) : null
   const navigate = useNavigate();
 
-useEffect(() => {
+  useEffect(() => {
     checkUserLogin(currentUserStr, navigate)
   }, [currentUserStr, navigate])
 
   const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions);
   const { width, height } = windowDimensions;
 
-    useEffect(() => {
-      displayStorage().then(res => setResult(res));
-    }, []);
-  
-   
+  useEffect(() => {
+    displayStorage(navigate).then(res => setResult(res));
+  }, []);
+
+
 
   useEffect(() => {
     function handleUpdate() {
-        setTheme(JSON.parse(localStorage.getItem(THEME)))
+      setTheme(JSON.parse(localStorage.getItem(THEME)))
     }
 
     window.addEventListener('home', handleUpdate);
@@ -53,15 +53,15 @@ useEffect(() => {
 
   return (
     <div>
-    <div className="container w-90" style={{ padding: 32, height: height - 70, width: width, minWidth: 700 }}>
-    </div>
-    <div className="container w-90" style={{ padding: 32, height: height - 70, width: width, minWidth: 700 }}>
-      <p hidden ={true} className={theme.button}></p>
-      <div className="row row-cols-auto" style={{ animation: "moveToRight 1s", margin: "auto" }}>
-        {result}
+      <div className="container w-90" style={{ padding: 32, height: height - 70, width: width, minWidth: 700 }}>
+      </div>
+      <div className="container w-90" style={{ padding: 32, height: height - 70, width: width, minWidth: 700 }}>
+        <p hidden={true} className={theme.button}></p>
+        <div className="row row-cols-auto" style={{ animation: "moveToRight 1s", margin: "auto" }}>
+          {result}
+        </div>
       </div>
     </div>
-</div>
   )
 }
 export default Home;

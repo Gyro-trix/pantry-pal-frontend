@@ -32,7 +32,7 @@ function NavBar() {
   if (!(currentUserStr === null || currentUserStr.trim() === "")) {
     dropdownHidden = false
     currentUserImage = currentUser.image
-    currentUsername = currentUser.username
+    currentUsername = currentUser.name
     currentUserID = currentUser.id
     currentAdminLevel = currentUser.adminlevel
     friendsList = currentUser.friends
@@ -96,7 +96,7 @@ function NavBar() {
     return () => window.removeEventListener('navbar', handleProfile);
   }, []);
 
-  switch (3) {
+  switch (currentAdminLevel) {
     case 0:
       navBarContent = ""
 

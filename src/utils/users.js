@@ -9,13 +9,20 @@ import "react-toastify/dist/ReactToastify.css";
 //Checks if a user is logged in
 export function checkUserLogin(currentUserStr, navigate) {
   const currentUser = currentUserStr ? JSON.parse(currentUserStr) : null
+  const currentDate = Math.floor(Date.now()/1000)
   
-  console.log(currentUser.expiry)
-  console.log(currentUser.authenticated)
   if (currentUserStr === null || currentUserStr.trim() === "") {
     navigate(SIGN_IN)
   } else {
-    gatherNotifications(currentUser)
+    console.log("Logged In")
+    const expiryDate = currentUser.expiry
+    if (expiryDate > currentDate) {
+      console.log("Still Good")
+    } else {
+      console.log("Times Up")
+      navigate(SIGN_IN)
+    }
+    //gatherNotifications(currentUser)
   }
 }
 //Checks is a user is logged in and if it is an admin
@@ -28,15 +35,15 @@ export function checkAdminLogin(currentUser, navigate) {
   }
 }
 //Login from server
-export async function  logIn(attemptingUser,navigate) {
+export async function logIn(attemptingUser, navigate) {
 
   const themeStr = localStorage.getItem(THEME)
   const theme = JSON.parse(themeStr)
   const loginPath = 'http://localhost:5001/api/auth/';
- 
-  const username= attemptingUser.username
-  const password= attemptingUser.password
-  
+
+  const username = attemptingUser.username
+  const password = attemptingUser.password
+
   try {
     const response = await fetch(loginPath, {
       method: 'PUT',
@@ -44,7 +51,7 @@ export async function  logIn(attemptingUser,navigate) {
         'Content-Type': 'application/json'
       },
       credentials: 'include',
-      body: JSON.stringify({ username: username,password: password  })
+      body: JSON.stringify({ username: username, password: password })
     })
     const data = await response.json()
     localStorage.setItem(CUR_USER, JSON.stringify(data))
@@ -86,24 +93,24 @@ export function validateUser(attemptingUser) {
 export async function addUser(userToRegister) {
   const themeStr = localStorage.getItem(THEME)
   const theme = JSON.parse(themeStr)
-  
+
   const loginPath = 'http://localhost:5001/api/auth/';
- 
-  const username= userToRegister.username
-  const password= userToRegister.password
+
+  const username = userToRegister.username
+  const password = userToRegister.password
   const email = userToRegister.email
-  
+
   try {
     const response = await fetch(loginPath, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ username: username,password: password, name: "Temp", email: email  })
+      body: JSON.stringify({ username: username, password: password, name: "Temp", email: email })
     })
 
     const data = await response.json()
-    
+
     if (response.ok) {
       window.location.href = data.redirectUrl
     } else {
@@ -114,37 +121,37 @@ export async function addUser(userToRegister) {
     console.error('Error:', error)
   }
 }
-  
-  
-  
-  //Checks for null or empty values
-  /*
-  if (userToRegister.username && userToRegister.email && userToRegister.password && userToRegister.passwordchk) {
-    //Checks that both passwords and passwordchk are the same 
-    if (userToRegister.password === userToRegister.passwordchk) {
-      //Create ID from current date and username
-      const newUser = {
-        id: "",
-        username: userToRegister.username,
-        email: userToRegister.email,
-        password: userToRegister.password,
-        notify: false,
-        itemlimit: 10,
-        expirylimit: 7,
-        adminlevel: 2,
-        friends: []
-      }
-      //Test newUser against current registered users, then adds to local storage All_USERS               
-      if ((userExists(newUser) === false) && (userEmailExists(newUser) === false) && (checkEmailFormat(newUser) === true)) {
-        userSave(newUser)
-        localStorage.setItem(CUR_USER, JSON.stringify(newUser))
-        navigate(HOME)
-      }
-    } else {
-      toast("Passwords do not match.", { position: "bottom-right", theme: theme.toast })
+
+
+
+//Checks for null or empty values
+/*
+if (userToRegister.username && userToRegister.email && userToRegister.password && userToRegister.passwordchk) {
+  //Checks that both passwords and passwordchk are the same 
+  if (userToRegister.password === userToRegister.passwordchk) {
+    //Create ID from current date and username
+    const newUser = {
+      id: "",
+      username: userToRegister.username,
+      email: userToRegister.email,
+      password: userToRegister.password,
+      notify: false,
+      itemlimit: 10,
+      expirylimit: 7,
+      adminlevel: 2,
+      friends: []
     }
+    //Test newUser against current registered users, then adds to local storage All_USERS               
+    if ((userExists(newUser) === false) && (userEmailExists(newUser) === false) && (checkEmailFormat(newUser) === true)) {
+      userSave(newUser)
+      localStorage.setItem(CUR_USER, JSON.stringify(newUser))
+      navigate(HOME)
+    }
+  } else {
+    toast("Passwords do not match.", { position: "bottom-right", theme: theme.toast })
   }
-  
+}
+ 
 }*/
 //Checks if the User already exists
 export function userExists(userToCheck) {

@@ -17,21 +17,14 @@ function Home() {
   const currentUserStr = localStorage.getItem(CUR_USER)
   const currentUser = currentUserStr ?JSON.parse(currentUserStr):null
   const navigate = useNavigate();
-/*
+
 useEffect(() => {
     checkUserLogin(currentUserStr, navigate)
   }, [currentUserStr, navigate])
-*/
-
-
 
   const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions);
   const { width, height } = windowDimensions;
 
-
-  
-    
-  
     useEffect(() => {
       displayStorage().then(res => setResult(res));
     }, []);
